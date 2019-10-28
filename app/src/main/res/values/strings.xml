@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Sawaari</string>
+    <!--    <string name="title_activity_map">MapActivity</string>-->
+
+    <string name="from">From ?</string>
+    <string name="to">Where to ?</string>
+
+    <string name="work_progress">Work in progress</string>
+</resources>
+
