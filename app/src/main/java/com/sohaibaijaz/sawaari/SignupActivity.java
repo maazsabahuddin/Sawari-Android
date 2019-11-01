@@ -99,7 +99,7 @@ public class SignupActivity extends AppCompatActivity {
                    if(password.equals(password2))
                    {
                        try {
-                           String URL = "https://maaz.serveo.net/register/";
+                           String URL = "https://sawaari.serveo.net/register/";
                            JSONObject jsonBody = new JSONObject();
                            jsonBody.put("email", email);
                            jsonBody.put("phone_number", phone);

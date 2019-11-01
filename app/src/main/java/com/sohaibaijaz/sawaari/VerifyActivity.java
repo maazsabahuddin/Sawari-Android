@@ -68,7 +68,7 @@ public class VerifyActivity extends AppCompatActivity {
 
                 if (!otp.equals("")){
                     try {
-                        String URL = "https://maaz.serveo.net/is_verified/";
+                        String URL = "https://sawaari.serveo.net/is_verified/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("otp", otp);
                         jsonBody.put("token", token);

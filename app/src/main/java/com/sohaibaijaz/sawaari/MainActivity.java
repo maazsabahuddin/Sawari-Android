@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     try {
-                        String URL = "https://maaz.serveo.net/login/";
+                        String URL = "https://sawaari.serveo.net/login/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("email_or_phone", email_phone);
                         jsonBody.put("password", password);
@@ -99,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
 
                                         String token = json.getString("token");
 
-                                        Intent myIntent = new Intent(MainActivity.this, MapActivity.class);//Optional parameters
+                                        Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
                                         myIntent.putExtra("Token", token);
                                         finish();
                                         MainActivity.this.startActivity(myIntent);
 
-//                                        Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+//
 
                                     }
                                     else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
