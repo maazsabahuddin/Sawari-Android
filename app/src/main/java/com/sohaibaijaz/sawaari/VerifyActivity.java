@@ -3,6 +3,7 @@ package com.sohaibaijaz.sawaari;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,9 +34,10 @@ public class VerifyActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_verify);
 
-        Bundle extras = getIntent().getExtras();
-        final String token = extras.getString("Token");
+        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, MODE_PRIVATE);
 
+        final String token = sharedPreferences.getString("Token", "");
+        System.out.println("VerifyActivity: "+token);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         Button btn_verify = findViewById(R.id.btn_verify);
         TextView resend_otp = findViewById(R.id.resend_otp);
@@ -43,6 +45,70 @@ public class VerifyActivity extends AppCompatActivity {
         resend_otp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                try {
+                    String URL = MainActivity.baseurl+"/resend_otp/";
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("token", token);
+                    final String requestBody = jsonBody.toString();
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.i("VOLLEY", response.toString());
+                            try {
+                                JSONObject json = new JSONObject(response);
+                                if (json.getString("status").equals("200")) {
+
+                                    Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+//                                    else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+//                                        Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+//                                    }
+                            } catch (JSONException e) {
+                                Log.e("VOLLEY", e.toString());
+
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }){
+                        @Override
+                        protected Map<String,String> getParams(){
+                            Map<String,String> params = new HashMap<String, String>();
+                            params.put("token",token);
+                            return params;
+                        }
+                    };
+
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+
+                        }
+                    });
+
+                    requestQueue.add(stringRequest);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
 
             }
         });
@@ -68,7 +134,7 @@ public class VerifyActivity extends AppCompatActivity {
 
                 if (!otp.equals("")){
                     try {
-                        String URL = "https://sawaari.serveo.net/is_verified/";
+                        String URL = MainActivity.baseurl+"/is_verified/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("otp", otp);
                         jsonBody.put("token", token);
@@ -83,8 +149,9 @@ public class VerifyActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
                                         Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                        Intent myIntent = new Intent(VerifyActivity.this, MapActivity.class);//Optional parameters
-                                        myIntent.putExtra("Token", token);
+                                        Intent myIntent = new Intent(VerifyActivity.this, NavActivity.class);//Optional parameters
+
+                                        finish();
                                         VerifyActivity.this.startActivity(myIntent);
                                     }
                                     else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {

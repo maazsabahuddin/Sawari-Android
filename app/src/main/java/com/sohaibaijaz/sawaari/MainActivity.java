@@ -1,8 +1,11 @@
 package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.Navigation;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
@@ -36,6 +39,14 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
+    //Shared preferences code
+    public static final String AppPreferences = "AppPreferences";
+    public static final String tokenKey = "Token";
+    SharedPreferences sharedPreferences;
+    //
+
+
+    public static String baseurl= "https://cc-bumh.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -59,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         final EditText txt_email_phone = findViewById(R.id.txt_email);
         final EditText txt_password = findViewById(R.id.txt_password);
 
+        //Shared Preferences
+        sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
+
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
                 final String email_phone = txt_email_phone.getText().toString();
                 final String password = txt_password.getText().toString();
@@ -83,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else{
                     try {
-                        String URL = "https://sawaari.serveo.net/login/";
+                        String URL = baseurl+"/login/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("email_or_phone", email_phone);
                         jsonBody.put("password", password);
@@ -98,9 +112,11 @@ public class MainActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
                                         String token = json.getString("token");
-
+                                        //Shared Preferences
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("Token", token);
+                                        editor.apply();
                                         Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
-                                        myIntent.putExtra("Token", token);
                                         finish();
                                         MainActivity.this.startActivity(myIntent);
 

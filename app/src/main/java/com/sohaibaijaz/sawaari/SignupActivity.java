@@ -2,7 +2,9 @@ package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +38,7 @@ public class SignupActivity extends AppCompatActivity {
     String password2 = "";
     String is_customer = "True";
 
+    SharedPreferences sharedPreferences;
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -52,6 +55,8 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_signup);
+
+        sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
 
         TextView txt_login = findViewById(R.id.txt_login);
         txt_login.setOnClickListener(new View.OnClickListener(){
@@ -99,7 +104,7 @@ public class SignupActivity extends AppCompatActivity {
                    if(password.equals(password2))
                    {
                        try {
-                           String URL = "https://sawaari.serveo.net/register/";
+                           String URL = MainActivity.baseurl+"/register/";
                            JSONObject jsonBody = new JSONObject();
                            jsonBody.put("email", email);
                            jsonBody.put("phone_number", phone);
@@ -116,10 +121,14 @@ public class SignupActivity extends AppCompatActivity {
                                        JSONObject json = new JSONObject(response);
                                        if (json.getString("status").equals("200")) {
                                            String token = json.getString("token");
-                                           Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
 
-                                           Intent myIntent = new Intent(SignupActivity.this, VerifyActivity.class);//Optional parameters
-                                           myIntent.putExtra("Token", json.getString("token"));
+                                           //Shared Preferences
+                                           SharedPreferences.Editor editor = sharedPreferences.edit();
+                                           editor.putString("Token", token);
+                                           editor.apply();
+
+                                           Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                           Intent myIntent = new Intent(SignupActivity.this, VerifyActivity.class);//Optional parameter
                                            SignupActivity.this.startActivity(myIntent);
 
                                        }

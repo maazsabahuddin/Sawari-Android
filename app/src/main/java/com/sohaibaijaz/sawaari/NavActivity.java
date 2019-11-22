@@ -43,8 +43,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     private DrawerLayout drawer;
 
 
-    private Bundle bundle;
-
+    public Bundle bundle;
+    public String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,6 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        bundle=getIntent().getExtras();
-
         drawer = findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -72,7 +69,6 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         }
 
 
-
     }
 
     @Override
@@ -82,20 +78,28 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.nav_home:
                 HomeFragment homeFragment = new HomeFragment();
+                Bundle b = new Bundle();
+                b.putString("Token", token);
                 homeFragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
                 break;
 
             case R.id.nav_account:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AccountFragment()).commit();
+                AccountFragment accountFragment = new AccountFragment();
+                accountFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accountFragment).commit();
 
                 break;
             case R.id.nav_ride:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new RidesFragment()).commit();
+                RidesFragment ridesFragment = new RidesFragment();
+                ridesFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ridesFragment).commit();
 
                 break;
             case R.id.nav_message:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new MessageFragment()).commit();
+                MessageFragment messageFragment = new MessageFragment();
+                messageFragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, messageFragment).commit();
 
                 break;
 
@@ -111,10 +115,13 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            backpress += 1;
             Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
-            if (backpress>1) {
+            if (backpress > 1) {
                 this.finish();
             }
+
+
             super.onBackPressed();
         }
     }

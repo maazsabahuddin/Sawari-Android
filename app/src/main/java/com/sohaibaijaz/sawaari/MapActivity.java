@@ -97,7 +97,7 @@ public class MapActivity extends AppCompatActivity {
                 }
                 else{
                    try{
-                       String URL = "https://sawaari.serveo.net/display_buses/";
+                       String URL = "https://cc-v6ka.localhost.run/display_buses/";
                        JSONObject jsonBody = new JSONObject();
                        jsonBody.put("from", source);
                        jsonBody.put("to", destination);

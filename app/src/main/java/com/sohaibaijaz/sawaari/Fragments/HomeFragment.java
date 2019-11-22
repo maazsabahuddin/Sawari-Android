@@ -1,12 +1,16 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.MapActivity;
 import com.sohaibaijaz.sawaari.R;
 
@@ -29,9 +34,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -47,8 +54,11 @@ public class HomeFragment extends Fragment {
             this.seats_left = seats_left;
         }
 
-        public BusInfo() {
+        @Override
+        public String toString(){
+            return "Bus number plate: "+bus_no_plate+"\n"+"Seats left: "+seats_left;
         }
+
 
 
     }
@@ -58,26 +68,19 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
-        Bundle extras = this.getArguments();
 
-        if(extras!=null)
+        SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("Token", "");
+        System.out.println("HomeFragment: "+token);
+        if(!token.equals(""))
         {
-        final String token = extras.getString("Token");
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
-        Button dropoff_btn = fragmentView.findViewById(R.id.dropoff_btn);
-        final EditText source_txt = fragmentView.findViewById(R.id.source_txt);
-        final EditText destination_txt = fragmentView.findViewById(R.id.destination_txt);
-        final TextView textView = fragmentView.findViewById(R.id.textView);
-
-        destination_txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == destination_txt.getId()) {
-                    destination_txt.setCursorVisible(true);
-                }
-            }
-        });
+        Button dropoff_btn = (Button)fragmentView.findViewById(R.id.btn_dropoff);
+        final EditText source_txt = (EditText) fragmentView.findViewById(R.id.txt_source);
+        final EditText destination_txt = (EditText) fragmentView.findViewById(R.id.txt_destination);
+       // final TextView textView = (TextView)fragmentView.findViewById(R.id.tv_buses);
+            final ListView buses_list= (ListView) fragmentView.findViewById(R.id.list_buses);
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,13 +90,15 @@ public class HomeFragment extends Fragment {
 
                 source = source_txt.getText().toString();
                 destination = destination_txt.getText().toString();
-                final ArrayList<HomeFragment.BusInfo> list = new ArrayList<HomeFragment.BusInfo>();
+
+                final ArrayList<BusInfo> list = new ArrayList<BusInfo>();
+                final ArrayAdapter<BusInfo> list_adapter = new ArrayAdapter<BusInfo>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, list);
 
                 if (source.equals("") || destination.equals("")) {
-                    Toast.makeText(view.getContext(), "Source/Destination fields can't be empty.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Source/Destination fields can't be empty.", Toast.LENGTH_SHORT).show();
                 } else {
                     try {
-                        String URL = "https://sawaari.serveo.net/display_buses/";
+                        String URL = MainActivity.baseurl +"/display_buses/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("from", source);
                         jsonBody.put("to", destination);
@@ -104,19 +109,25 @@ public class HomeFragment extends Fragment {
                                 Log.i("VOLLEY", response.toString());
                                 try {
                                     JSONObject json = new JSONObject(response);
-                                    JSONArray array = json.getJSONArray("buses");
-
-                                    for (int i = 0; i < array.length(); i++) {
-                                        JSONObject object1 = array.getJSONObject(i);
-                                        String vehicle_no_plate = object1.getString("vehicle_id__vehicle_no_plate");
-                                        String seats_left = object1.getString("seats_left");
-                                        list.add(new HomeFragment.BusInfo(vehicle_no_plate, Integer.parseInt(seats_left)));
-                                    }
-                                    textView.setText("Bus no Plate: " + list.get(0).bus_no_plate + " \nSeats left: " + list.get(0).seats_left);
 
                                     if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
-                                        Toast.makeText(fragmentView.getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                     }
+                                    else {
+                                        JSONArray array = json.getJSONArray("buses");
+
+                                        for (int i = 0; i < array.length(); i++) {
+                                            JSONObject object1 = array.getJSONObject(i);
+                                            String vehicle_no_plate = object1.getString("vehicle_id__vehicle_no_plate");
+                                            int seats_left = Integer.parseInt(object1.getString("seats_left"));
+
+                                            list.add(new BusInfo(vehicle_no_plate, seats_left));
+                                        }
+
+                                        buses_list.setAdapter(list_adapter);
+                                    }
+
+
 
 //                                   Intent myIntent = new Intent(MapActivity.this, BusActivity.class);
 //                                   myIntent.putExtra("Token", token);
@@ -171,7 +182,7 @@ public class HomeFragment extends Fragment {
 
                         requestQueue.add(stringRequest);
                     } catch (Exception e) {
-                        Toast.makeText(fragmentView.getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
                     }
                 }
 
