@@ -45,8 +45,9 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     //
 
+    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
 
-    public static String baseurl= "https://cc-bumh.localhost.run";
+    public static String baseurl= "https://cc-jfmw.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Shared Preferences
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
+
 
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override

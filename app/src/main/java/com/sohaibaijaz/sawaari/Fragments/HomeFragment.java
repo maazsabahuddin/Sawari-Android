@@ -1,7 +1,9 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -26,8 +29,14 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.MapActivity;
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONArray;
@@ -40,10 +49,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private String source = "";
     private String destination = "";
+
+    private MapView mMapView;
+
+
 
     public class BusInfo {
         String bus_no_plate;
@@ -68,9 +81,14 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
-
+        mMapView = (MapView)fragmentView.findViewById(R.id.mapView);
         SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
+
+
+        //MapView
+        initGoogleMap(savedInstanceState);
+
         System.out.println("HomeFragment: "+token);
         if(!token.equals(""))
         {
@@ -199,8 +217,55 @@ public class HomeFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+    }
 
+    @Override
+    public void onStart(){
+        super.onStart();
+        mMapView.onStart();
+    }
 
+    @Override
+    public void onStop(){
+        super.onStop();
+        mMapView.onStop();
+    }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        mMapView.onPause();
+    }
+    @Override
+    public void onMapReady(GoogleMap map){
+        map.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("Marker"));
+        if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED)
+        {
+            return;
+        }
+        map.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory(){
+        super.onLowMemory();
+        mMapView.onLowMemory();
+    }
+
+    private void initGoogleMap(Bundle savedInstanceState){
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null){
+            mapViewBundle = savedInstanceState.getBundle(MainActivity.MAP_VIEW_BUNDLE_KEY);
+        }
+
+        mMapView.onCreate(mapViewBundle);
+        mMapView.getMapAsync(this);
     }
 }
