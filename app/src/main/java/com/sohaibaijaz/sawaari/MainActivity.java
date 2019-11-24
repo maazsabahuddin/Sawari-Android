@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,9 +47,15 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     //
 
+    private RequestQueue requestQueue;
+    private EditText txt_email_phone;
+    private EditText txt_password;
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
+
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
 
-    public static String baseurl= "https://cc-jfmw.localhost.run";
+    public static String baseurl= "https://cc-swbl.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -66,10 +74,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button btn_login = findViewById(R.id.btn_login);
-        final RequestQueue requestQueue = Volley.newRequestQueue(this);
-
-        final EditText txt_email_phone = findViewById(R.id.txt_email);
-        final EditText txt_password = findViewById(R.id.txt_password);
+        requestQueue = Volley.newRequestQueue(this);
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+        txt_email_phone = findViewById(R.id.txt_email);
+        txt_password = findViewById(R.id.txt_password);
+        spinner_frame = findViewById(R.id.spinner_frame);
+        spinner_frame.setVisibility(View.GONE);
 
         //Shared Preferences
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
@@ -85,104 +96,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-
-                final String email_phone = txt_email_phone.getText().toString();
-                final String password = txt_password.getText().toString();
-
-                txt_password.setCursorVisible(false);
-
-                if (email_phone.equals("") || password.equals("")){
-                    Toast.makeText(MainActivity.this, "Email or Password field empty", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    try {
-                        String URL = baseurl+"/login/";
-                        JSONObject jsonBody = new JSONObject();
-                        jsonBody.put("email_or_phone", email_phone);
-                        jsonBody.put("password", password);
-                        final String requestBody = jsonBody.toString();
-
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                Log.i("VOLLEY", response.toString());
-                                try {
-                                    JSONObject json = new JSONObject(response);
-                                    if (json.getString("status").equals("200")) {
-
-                                        String token = json.getString("token");
-                                        //Shared Preferences
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("Token", token);
-                                        editor.apply();
-                                        Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
-                                        finish();
-                                        MainActivity.this.startActivity(myIntent);
-
-//
-
-                                    }
-                                    else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-                                        Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                        if(json.getString("message").equals("Verify your account")){
-                                            Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
-                                            myIntent.putExtra("Token", json.getString("token"));
-                                            MainActivity.this.startActivity(myIntent);
-                                        }
-                                    }
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
-
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("VOLLEY", error.toString());
-                            }
-                        }){
-                            @Override
-                            protected Map<String,String> getParams(){
-                                Map<String,String> params = new HashMap<String, String>();
-                                params.put("email_or_phone",email_phone);
-                                params.put("password",password);
-//                                params.put(KEY_EMAIL, email);
-                                return params;
-                            }
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
-                            }
-                        });
-
-                        requestQueue.add(stringRequest);
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-
-
-
-        });
+        btn_login.setOnClickListener(btnLoginListener);
 
         TextView txt_signup = findViewById(R.id.txt_signup);
         txt_signup.setOnClickListener(new View.OnClickListener(){
@@ -195,4 +109,112 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public View.OnClickListener btnLoginListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            final String email_phone = txt_email_phone.getText().toString();
+            final String password = txt_password.getText().toString();
+
+            txt_password.setCursorVisible(false);
+
+            if (email_phone.equals("") || password.equals("")){
+                Toast.makeText(MainActivity.this, "Email or Password field empty", Toast.LENGTH_LONG).show();
+            }
+            else{
+                try {
+                    String URL = baseurl+"/login/";
+                    JSONObject jsonBody = new JSONObject();
+                    jsonBody.put("email_or_phone", email_phone);
+                    jsonBody.put("password", password);
+                    final String requestBody = jsonBody.toString();
+                    spinner.setVisibility(View.VISIBLE);
+                    spinner_frame.setVisibility(View.VISIBLE);
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+
+                            Log.i("VOLLEY", response.toString());
+                            try {
+                                JSONObject json = new JSONObject(response);
+                                if (json.getString("status").equals("200")) {
+
+                                    String token = json.getString("token");
+                                    //Shared Preferences
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("Token", token);
+                                    editor.apply();
+                                    Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                    finish();
+                                    MainActivity.this.startActivity(myIntent);
+
+//
+
+                                }
+                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    if(json.getString("message").equals("Verify your account")){
+                                        Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
+                                        myIntent.putExtra("Token", json.getString("token"));
+                                        MainActivity.this.startActivity(myIntent);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                Log.e("VOLLEY", e.toString());
+
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+                            Toast.makeText(MainActivity.this, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }){
+                        @Override
+                        protected Map<String,String> getParams(){
+                            Map<String,String> params = new HashMap<String, String>();
+                            params.put("email_or_phone",email_phone);
+                            params.put("password",password);
+//                                params.put(KEY_EMAIL, email);
+                            return params;
+                        }
+                    };
+
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+
+                        }
+                    });
+                    requestQueue.add(stringRequest);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+
+
+    };
 }

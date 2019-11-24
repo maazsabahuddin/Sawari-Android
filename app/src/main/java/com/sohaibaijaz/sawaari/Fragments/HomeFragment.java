@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
@@ -35,15 +37,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sohaibaijaz.sawaari.MainActivity;
-import com.sohaibaijaz.sawaari.MapActivity;
-import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.VerifyActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -55,7 +55,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private String destination = "";
 
     private MapView mMapView;
-
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
 
 
     public class BusInfo {
@@ -82,9 +83,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         mMapView = (MapView)fragmentView.findViewById(R.id.mapView);
+        CardView cardView = fragmentView.findViewById(R.id.card_view);
         SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
-
 
         //MapView
         initGoogleMap(savedInstanceState);
@@ -94,11 +95,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         {
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
-        Button dropoff_btn = (Button)fragmentView.findViewById(R.id.btn_dropoff);
-        final EditText source_txt = (EditText) fragmentView.findViewById(R.id.txt_source);
-        final EditText destination_txt = (EditText) fragmentView.findViewById(R.id.txt_destination);
-       // final TextView textView = (TextView)fragmentView.findViewById(R.id.tv_buses);
-            final ListView buses_list= (ListView) fragmentView.findViewById(R.id.list_buses);
+        Button dropoff_btn = (Button)cardView.findViewById(R.id.btn_dropoff);
+        final EditText source_txt = (EditText)cardView.findViewById(R.id.txt_source);
+        final EditText destination_txt = (EditText) cardView.findViewById(R.id.txt_destination);
+        final ListView buses_list= (ListView) cardView.findViewById(R.id.list_buses);
+
+            spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
+            spinner.setVisibility(View.GONE);
+            spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
+            spinner_frame.setVisibility(View.GONE);
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,10 +125,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("from", source);
                         jsonBody.put("to", destination);
-
+                        spinner.setVisibility(View.VISIBLE);
+                        spinner_frame.setVisibility(View.VISIBLE);
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
                                 Log.i("VOLLEY", response.toString());
                                 try {
                                     JSONObject json = new JSONObject(response);
@@ -147,13 +155,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-//                                   Intent myIntent = new Intent(MapActivity.this, BusActivity.class);
-//                                   myIntent.putExtra("Token", token);
-//                                   Bundle bundle = new Bundle();
-//                                   bundle.putParcelableArrayList("StudentDetails", list);
-//                                   intent.putExtras(bundle);
-//                                   startActivity(myIntent);
-//                                   finish();
 
                                 } catch (JSONException e) {
                                     Log.e("VOLLEY", e.toString());
@@ -162,6 +163,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
                             }
                         }) {

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,8 @@ import java.util.Map;
 
 public class VerifyActivity extends AppCompatActivity {
 
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,10 @@ public class VerifyActivity extends AppCompatActivity {
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         Button btn_verify = findViewById(R.id.btn_verify);
         TextView resend_otp = findViewById(R.id.resend_otp);
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+        spinner_frame = findViewById(R.id.spinner_frame);
+        spinner_frame.setVisibility(View.GONE);
 
         resend_otp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,10 +58,13 @@ public class VerifyActivity extends AppCompatActivity {
                     JSONObject jsonBody = new JSONObject();
                     jsonBody.put("token", token);
                     final String requestBody = jsonBody.toString();
-
+                    spinner.setVisibility(View.VISIBLE);
+                    spinner_frame.setVisibility(View.VISIBLE);
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
                             Log.i("VOLLEY", response.toString());
                             try {
                                 JSONObject json = new JSONObject(response);
@@ -75,6 +86,9 @@ public class VerifyActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+                            Toast.makeText(VerifyActivity.this, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                             Log.e("VOLLEY", error.toString());
                         }
                     }){
@@ -139,10 +153,13 @@ public class VerifyActivity extends AppCompatActivity {
                         jsonBody.put("otp", otp);
                         jsonBody.put("token", token);
                         final String requestBody = jsonBody.toString();
-
+                        spinner.setVisibility(View.VISIBLE);
+                        spinner_frame.setVisibility(View.VISIBLE);
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
                                 Log.i("VOLLEY", response.toString());
                                 try {
                                     JSONObject json = new JSONObject(response);
@@ -168,6 +185,9 @@ public class VerifyActivity extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
+                                Toast.makeText(VerifyActivity.this, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
                             }
                         }){

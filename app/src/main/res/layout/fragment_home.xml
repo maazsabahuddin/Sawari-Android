@@ -6,72 +6,126 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="314dp"
-        android:layout_height="308dp"
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.597"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+
+    </com.google.android.gms.maps.MapView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_view"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.962">
 
-        <EditText
-            android:id="@+id/txt_source"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/from"
-            android:inputType="textPersonName"
-            android:singleLine="true" />
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="314dp"
+            android:layout_height="308dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/txt_destination"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/to"
-            android:inputType="textPersonName"
-            android:singleLine="true" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="22dp" />
+            <EditText
+                android:id="@+id/txt_source"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/from"
+                android:inputType="textPersonName"
+                android:singleLine="true" />
 
-        <Button
-            android:id="@+id/btn_dropoff"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPink"
-            android:text="Confirm Dropoff"
-            android:textColor="@color/colorWhite"
-            android:textSize="18dp"
-            android:textStyle="bold" />
+            <EditText
+                android:id="@+id/txt_destination"
+                android:layout_width="280dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/to"
+                android:inputType="textPersonName"
+                android:singleLine="true" />
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="22dp" />
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="22dp" />
 
-        <ListView
-            android:id="@+id/list_buses"
-            android:layout_width="match_parent"
-            android:layout_height="118dp" />
+            <Button
+                android:id="@+id/btn_dropoff"
+                android:layout_width="248dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPink"
+                android:gravity="center"
+                android:text="Confirm Dropoff"
+                android:textColor="@color/colorWhite"
+                android:textSize="18dp"
+                android:textStyle="bold"
+                />
 
-    </LinearLayout>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="22dp" />
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
-        android:layout_width="415dp"
-        android:layout_height="329dp"
-        android:layout_marginBottom="412dp"
+            <ListView
+                android:id="@+id/list_buses"
+                android:layout_width="match_parent"
+                android:layout_height="118dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/spinner_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" >
+        android:foregroundGravity="center"
+        android:clickable="true"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over"
+        >
 
-        </com.google.android.gms.maps.MapView>
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -19,9 +19,12 @@
         <activity
             android:name=".NavActivity"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             ></activity>
-        <activity android:name=".BusActivity" />
-        <activity android:name=".MapActivity" />
+        <activity android:name=".BusActivity"
+            android:screenOrientation="portrait"
+            />
+
         <activity
             android:name=".VerifyActivity"
             android:screenOrientation="portrait" />

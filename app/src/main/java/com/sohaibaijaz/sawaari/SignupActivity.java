@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,6 +40,8 @@ public class SignupActivity extends AppCompatActivity {
     String password2 = "";
     String is_customer = "True";
 
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
     SharedPreferences sharedPreferences;
     private int backpress = 0;
     @Override
@@ -73,6 +77,11 @@ public class SignupActivity extends AppCompatActivity {
        final EditText txt_phone = findViewById(R.id.txt_phone);
        final EditText txt_password = findViewById(R.id.txt_password);
        final EditText txt_password2 = findViewById(R.id.txt_password2);
+
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+        spinner_frame = findViewById(R.id.spinner_frame);
+        spinner_frame.setVisibility(View.GONE);
 //       final EditText txt_login = findViewById(R.id.txt_login);
 
        txt_password2.setOnClickListener(new View.OnClickListener() {
@@ -112,12 +121,16 @@ public class SignupActivity extends AppCompatActivity {
                            jsonBody.put("confirm_password", password2);
                            jsonBody.put("is_customer", is_customer);
                            final String requestBody = jsonBody.toString();
-
+                           spinner.setVisibility(View.VISIBLE);
+                           spinner_frame.setVisibility(View.VISIBLE);
                            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                                @Override
                                public void onResponse(String response) {
+                                   spinner.setVisibility(View.GONE);
+                                   spinner_frame.setVisibility(View.GONE);
                                    Log.i("VOLLEY", response.toString());
                                    try {
+
                                        JSONObject json = new JSONObject(response);
                                        if (json.getString("status").equals("200")) {
                                            String token = json.getString("token");
@@ -141,8 +154,12 @@ public class SignupActivity extends AppCompatActivity {
                                    }
                                }
                            }, new Response.ErrorListener() {
+
                                @Override
                                public void onErrorResponse(VolleyError error) {
+                                   spinner.setVisibility(View.GONE);
+                                   spinner_frame.setVisibility(View.GONE);
+                                   Toast.makeText(SignupActivity.this, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                    Log.e("VOLLEY", error.toString());
                                }
                            }){
