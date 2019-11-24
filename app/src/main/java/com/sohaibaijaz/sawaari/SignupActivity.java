@@ -137,6 +137,7 @@ public class SignupActivity extends AppCompatActivity {
 
                                            //Shared Preferences
                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                           editor.remove("Token");
                                            editor.putString("Token", token);
                                            editor.apply();
 

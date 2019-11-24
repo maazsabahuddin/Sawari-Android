@@ -14,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -54,9 +55,9 @@ public class VerifyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    String URL = MainActivity.baseurl+"/resend_otp/";
+                    String URL = MainActivity.baseurl+"/register/resend_otp/";
                     JSONObject jsonBody = new JSONObject();
-                    jsonBody.put("token", token);
+                    jsonBody.put("authorization", token);
                     final String requestBody = jsonBody.toString();
                     spinner.setVisibility(View.VISIBLE);
                     spinner_frame.setVisibility(View.VISIBLE);
@@ -95,7 +96,14 @@ public class VerifyActivity extends AppCompatActivity {
                         @Override
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<String, String>();
-                            params.put("token",token);
+
+                            return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String>  params = new HashMap<String, String>();
+                            params.put("authorization", token);
                             return params;
                         }
                     };
@@ -151,7 +159,7 @@ public class VerifyActivity extends AppCompatActivity {
                         String URL = MainActivity.baseurl+"/is_verified/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("otp", otp);
-                        jsonBody.put("token", token);
+
                         final String requestBody = jsonBody.toString();
                         spinner.setVisibility(View.VISIBLE);
                         spinner_frame.setVisibility(View.VISIBLE);
@@ -195,10 +203,19 @@ public class VerifyActivity extends AppCompatActivity {
                             protected Map<String,String> getParams(){
                                 Map<String,String> params = new HashMap<String, String>();
                                 params.put("otp",otp);
-                                params.put("token",token);
+
 //                                params.put(KEY_EMAIL, email);
                                 return params;
                             }
+
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String>  params = new HashMap<String, String>();
+                                params.put("authorization", token);
+
+                                return params;
+                            }
+
                         };
 
                         stringRequest.setRetryPolicy(new RetryPolicy() {

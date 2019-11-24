@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
 
-    public static String baseurl= "https://cc-swbl.localhost.run";
+    public static String baseurl= "https://cc-uqry.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -96,11 +96,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         btn_login.setOnClickListener(btnLoginListener);
+
 
         TextView txt_signup = findViewById(R.id.txt_signup);
         txt_signup.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
 
@@ -147,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
                                     String token = json.getString("token");
                                     //Shared Preferences
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.remove("Token");
                                     editor.putString("Token", token);
                                     editor.apply();
                                     Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
@@ -158,9 +161,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    if(json.getString("message").equals("Verify your account")){
+                                    if(json.getString("message").equals("User not authenticated. Please verify first.")){
+                                        String token = json.getString("token");
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.remove("Token");
+                                        editor.putString("Token", token);
+                                        editor.apply();
                                         Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
-                                        myIntent.putExtra("Token", json.getString("token"));
                                         MainActivity.this.startActivity(myIntent);
                                     }
                                 }
@@ -186,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
 //                                params.put(KEY_EMAIL, email);
                             return params;
                         }
+
+
                     };
 
                     stringRequest.setRetryPolicy(new RetryPolicy() {
