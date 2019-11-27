@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Location;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,8 +22,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -31,32 +36,56 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.NavActivity;
+import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
-import com.sohaibaijaz.sawaari.VerifyActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback {
+
+
+public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
+        GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
     private String source = "";
     private String destination = "";
 
-    private MapView mMapView;
+
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+
+
+    private GoogleMap mMap;
+
+    private boolean mPermissionDenied = false;
+
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
+
+
+
 
 
     public class BusInfo {
@@ -82,13 +111,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
-        mMapView = (MapView)fragmentView.findViewById(R.id.mapView);
+
+        SupportMapFragment mapFragment =(SupportMapFragment)getChildFragmentManager()
+                .findFragmentById(R.id.mapView);
+        mapFragment.getMapAsync(this);
+
+
+
         CardView cardView = fragmentView.findViewById(R.id.card_view);
         SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
 
-        //MapView
-        initGoogleMap(savedInstanceState);
 
         System.out.println("HomeFragment: "+token);
         if(!token.equals(""))
@@ -224,52 +257,75 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onStart(){
-        super.onStart();
-        mMapView.onStart();
-    }
-
-    @Override
-    public void onStop(){
-        super.onStop();
-        mMapView.onStop();
-    }
-
-    @Override
-    public void onPause(){
-        super.onPause();
-        mMapView.onPause();
-    }
-    @Override
     public void onMapReady(GoogleMap map){
-        map.addMarker(new MarkerOptions().position(new LatLng(0,0)).title("Marker"));
-        if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED
-            && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED)
-        {
+       mMap = map;
+
+        mMap.setOnMyLocationButtonClickListener(this);
+        mMap.setOnMyLocationClickListener(this);
+        enableMyLocation();
+
+
+    }
+
+    private void enableMyLocation() {
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onMyLocationButtonClick() {
+
+
+        // Return false so that we don't consume the event and the default behavior still occurs
+        // (the camera animates to the user's current position).
+        return false;
+    }
+
+    @Override
+    public void onMyLocationClick(@NonNull Location location) {
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
             return;
         }
-        map.setMyLocationEnabled(true);
-    }
 
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory(){
-        super.onLowMemory();
-        mMapView.onLowMemory();
-    }
-
-    private void initGoogleMap(Bundle savedInstanceState){
-        Bundle mapViewBundle = null;
-        if (savedInstanceState != null){
-            mapViewBundle = savedInstanceState.getBundle(MainActivity.MAP_VIEW_BUNDLE_KEY);
+        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
+            // Enable the my location layer if the permission has been granted.
+            enableMyLocation();
+        } else {
+            // Display the missing permission error dialog when the fragments resume.
+            mPermissionDenied = true;
         }
-
-        mMapView.onCreate(mapViewBundle);
-        mMapView.getMapAsync(this);
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPermissionDenied) {
+            // Permission was not granted, display error dialog.
+            showMissingPermissionError();
+            mPermissionDenied = false;
+        }
+    }
+
+    private void showMissingPermissionError() {
+        PermissionUtils.PermissionDeniedDialog
+                .newInstance(true).show(getFragmentManager(), "dialog");
+    }
+
+
+
+
 }

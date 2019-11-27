@@ -21,7 +21,9 @@
     <string name="menu_communicate">Communicate</string>
     <string name="tv_buses">tv_buses</string>
     <string name="menu_logout">Log out</string>
-
+    <string name="location_permission_denied">\"\"</string>
+    <string name="permission_required_toast">\"\"</string>
+    <string name="permission_rationale_location">\"\"</string>
 
 
 </resources>
