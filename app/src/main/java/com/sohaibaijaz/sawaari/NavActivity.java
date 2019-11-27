@@ -86,6 +86,11 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         final String token = sharedPreferences.getString("Token", "");

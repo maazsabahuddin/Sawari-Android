@@ -1,13 +1,18 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -111,6 +117,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+
+
+        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+
+          showAlertLocationDisabled();
+
+        }
+
 
         SupportMapFragment mapFragment =(SupportMapFragment)getChildFragmentManager()
                 .findFragmentById(R.id.mapView);
@@ -250,6 +276,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         return fragmentView;
     }
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -281,8 +309,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public boolean onMyLocationButtonClick() {
-
-
+        Toast.makeText(getContext(), "Fetching Current Location", Toast.LENGTH_SHORT).show();
         // Return false so that we don't consume the event and the default behavior still occurs
         // (the camera animates to the user's current position).
         return false;
@@ -290,7 +317,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-
+        Toast.makeText(getContext(), "Current location:\n", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -318,6 +345,46 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             showMissingPermissionError();
             mPermissionDenied = false;
         }
+
+        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+
+            showAlertLocationDisabled();
+
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        try {
+            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled && !network_enabled) {
+            showAlertLocationDisabled();
+
+        }
     }
 
     private void showMissingPermissionError() {
@@ -325,6 +392,31 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .newInstance(true).show(getFragmentManager(), "dialog");
     }
 
+    private void showAlertLocationDisabled() {
+
+        new AlertDialog.Builder(this.getContext())
+                .setTitle("Enable Location")
+                .setMessage("Sawaari can't go on without the device's Location!")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(callGPSSettingIntent);
+                        dialog.cancel();
+
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        getActivity().finish();
+                        System.exit(0);
+                    }
+                })
+                .setIcon(R.mipmap.alert)
+                .show();
+
+
+    }
 
 
 
