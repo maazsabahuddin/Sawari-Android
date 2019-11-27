@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
 
-    public static String baseurl= "https://cc-uqry.localhost.run";
+    public static String baseurl= "https://cc-eqqv.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -82,9 +82,16 @@ public class MainActivity extends AppCompatActivity {
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
+
         //Shared Preferences
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
 
+
+        if(!sharedPreferences.getString("Token",  "").isEmpty()){
+            Intent intent = new Intent(MainActivity.this,NavActivity.class );
+            finish();
+            MainActivity.this.startActivity(intent);
+        }
 
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override
