@@ -53,9 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
 
-    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
+    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyAH9_nAvpy-20M79zRdOlSsjs5JIBiFvI0";
 
-    public static String baseurl= "https://cc-swbl.localhost.run";
+    public static String baseurl= "https://maaz-hdno.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
