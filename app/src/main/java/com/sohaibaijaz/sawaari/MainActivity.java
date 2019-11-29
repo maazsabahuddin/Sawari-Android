@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyAH9_nAvpy-20M79zRdOlSsjs5JIBiFvI0";
 
-    public static String baseurl= "https://maaz-hdno.localhost.run";
+    public static String baseurl= "https://maaz-rzps.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -82,9 +82,16 @@ public class MainActivity extends AppCompatActivity {
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
+
         //Shared Preferences
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
 
+
+        if(!sharedPreferences.getString("Token",  "").isEmpty()){
+            Intent intent = new Intent(MainActivity.this,NavActivity.class );
+            finish();
+            MainActivity.this.startActivity(intent);
+        }
 
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,11 +103,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         btn_login.setOnClickListener(btnLoginListener);
+
 
         TextView txt_signup = findViewById(R.id.txt_signup);
         txt_signup.setOnClickListener(new View.OnClickListener(){
-
             @Override
             public void onClick(View view) {
 
@@ -147,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
                                     String token = json.getString("token");
                                     //Shared Preferences
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.remove("Token");
                                     editor.putString("Token", token);
                                     editor.apply();
                                     Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
@@ -158,9 +168,13 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    if(json.getString("message").equals("Verify your account")){
+                                    if(json.getString("message").equals("User not authenticated. Please verify first.")){
+                                        String token = json.getString("token");
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.remove("Token");
+                                        editor.putString("Token", token);
+                                        editor.apply();
                                         Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
-                                        myIntent.putExtra("Token", json.getString("token"));
                                         MainActivity.this.startActivity(myIntent);
                                     }
                                 }
@@ -186,6 +200,8 @@ public class MainActivity extends AppCompatActivity {
 //                                params.put(KEY_EMAIL, email);
                             return params;
                         }
+
+
                     };
 
                     stringRequest.setRetryPolicy(new RetryPolicy() {
