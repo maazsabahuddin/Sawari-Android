@@ -2,11 +2,15 @@ package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -44,12 +48,31 @@ public class VerifyActivity extends AppCompatActivity {
         final String token = sharedPreferences.getString("Token", "");
         System.out.println("VerifyActivity: "+token);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
-        Button btn_verify = findViewById(R.id.btn_verify);
+        final Button btn_verify = findViewById(R.id.btn_verify);
         TextView resend_otp = findViewById(R.id.resend_otp);
+        final EditText txt_otp = findViewById(R.id.txt_otp);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+
+
+        txt_otp.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i== EditorInfo.IME_ACTION_DONE || i== KeyEvent.KEYCODE_ENTER){
+                    btn_verify.performClick();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(btn_verify.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
+                }
+
+                return false;
+            }
+        });
+
 
         resend_otp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +158,7 @@ public class VerifyActivity extends AppCompatActivity {
             }
         });
 
-        final EditText txt_otp = findViewById(R.id.txt_otp);
+
 
         txt_otp.setOnClickListener(new View.OnClickListener() {
             @Override

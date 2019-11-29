@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 
 import android.location.LocationManager;
@@ -14,15 +15,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,6 +52,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -154,15 +160,32 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         {
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
-        Button dropoff_btn = (Button)cardView.findViewById(R.id.btn_dropoff);
+        final Button dropoff_btn = (Button)cardView.findViewById(R.id.btn_dropoff);
         final EditText source_txt = (EditText)cardView.findViewById(R.id.txt_source);
         final EditText destination_txt = (EditText) cardView.findViewById(R.id.txt_destination);
         final ListView buses_list= (ListView) cardView.findViewById(R.id.list_buses);
+
 
             spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
             spinner.setVisibility(View.GONE);
             spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
             spinner_frame.setVisibility(View.GONE);
+
+            destination_txt.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+
+                @Override
+                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                    if(i== EditorInfo.IME_ACTION_DONE){
+                        dropoff_btn.performClick();
+                        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(dropoff_btn.getWindowToken(),
+                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,13 +309,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onMapReady(GoogleMap map){
-       mMap = map;
-
+        mMap = map;
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         enableMyLocation();
-
-
     }
 
     private void enableMyLocation() {
@@ -304,6 +324,18 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
+
+            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria, true);
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                LatLng coordinate = new LatLng(latitude, longitude);
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                mMap.animateCamera(yourLocation);
+            }
         }
     }
 
@@ -366,27 +398,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
-        boolean gps_enabled = false;
-        boolean network_enabled = false;
-
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
-
-        try {
-            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch(Exception ex) {}
-
-        if(!gps_enabled && !network_enabled) {
-            showAlertLocationDisabled();
-
-        }
-    }
-
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getFragmentManager(), "dialog");
@@ -399,17 +410,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .setMessage("Sawaari can't go on without the device's Location!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivity(callGPSSettingIntent);
                         dialog.cancel();
-
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         getActivity().finish();
                         System.exit(0);
+
                     }
                 })
                 .setIcon(R.mipmap.alert)

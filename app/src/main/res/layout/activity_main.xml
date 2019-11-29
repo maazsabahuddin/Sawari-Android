@@ -21,15 +21,15 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="234dp"
-            android:layout_height="204dp"
+            android:layout_width="250dp"
+            android:layout_height="220dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.674"
-            app:srcCompat="@mipmap/sawaari" />
+            app:srcCompat="@mipmap/ic_sawaari" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -70,6 +70,7 @@
                     android:id="@+id/txt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:outlineAmbientShadowColor="@color/colorJacksonPurple"
                     android:hint="Email or Phone Number"
                     android:selectAllOnFocus="true"
                     android:singleLine="true" />
@@ -78,10 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <Space
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -114,7 +112,7 @@
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPink"
+                android:background="@color/colorJacksonPurple"
                 android:text="Login"
                 android:textColor="@color/colorWhite"
                 android:textSize="18dp"

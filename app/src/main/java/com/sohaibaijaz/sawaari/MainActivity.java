@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
 
-    public static String baseurl= "https://cc-5wcy.localhost.run";
+    public static String baseurl= "https://cc-zepy.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
-        Button btn_login = findViewById(R.id.btn_login);
+        final Button btn_login = findViewById(R.id.btn_login);
         requestQueue = Volley.newRequestQueue(this);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -81,6 +84,22 @@ public class MainActivity extends AppCompatActivity {
         txt_password = findViewById(R.id.txt_password);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+
+
+        txt_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    btn_login.performClick();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(btn_login.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
+                }
+                return false;
+            }
+            });
 
 
         //Shared Preferences
