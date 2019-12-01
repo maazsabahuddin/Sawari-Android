@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme">
 
         <meta-data android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg" />
+            android:value="AIzaSyB_jc6BvRZJ-hY0aQS9PDhr3ARFFxIVjcw" />
         <activity
             android:name=".NavActivity"
             android:theme="@style/AppTheme.NoActionBar"

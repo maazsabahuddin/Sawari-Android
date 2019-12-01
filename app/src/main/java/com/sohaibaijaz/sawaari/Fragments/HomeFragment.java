@@ -68,8 +68,10 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.FetchPlaceRequest;
 import com.google.android.libraries.places.api.net.FetchPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.android.material.snackbar.Snackbar;
 import com.sohaibaijaz.sawaari.AutoCompleteAdapter;
 import com.sohaibaijaz.sawaari.MainActivity;
@@ -84,6 +86,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Dictionary;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,12 +109,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private AutoCompleteAdapter adapter;
     private PlacesClient placesClient;
     private TextView responseView;
-
-
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
+    private Map<String, String> dropoffLocation = new HashMap<String, String>();
 
     public class BusInfo {
         String bus_no_plate;
@@ -135,8 +138,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
        fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
-
-//        responseView = fragmentView.findViewById(R.id.responseView);
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
@@ -159,7 +160,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             Places.initialize(getContext(), MainActivity.MAP_VIEW_BUNDLE_KEY);
         }
 
-        placesClient = Places.createClient(getActivity().getApplicationContext());
+//        placesClient = Places.createClient(getActivity().getApplicationContext());
 
 //        initAutoCompleteTextView();
 
@@ -169,7 +170,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
 
-        CardView cardView = fragmentView.findViewById(R.id.card_view);
+
+
         SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
 
@@ -179,7 +181,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         {
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
-        final Button dropoff_btn = (Button)cardView.findViewById(R.id.btn_dropoff);
+        final Button dropoff_btn = (Button)fragmentView.findViewById(R.id.btn_dropoff);
 //        final EditText source_txt = (EditText)cardView.findViewById(R.id.txt_source);
 //        final EditText destination_txt = (EditText) cardView.findViewById(R.id.txt_destination);
         //final ListView buses_list= (ListView) cardView.findViewById(R.id.list_buses);
@@ -205,27 +207,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                    return false;
 //                }
 //            });
-
+//
                     AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
                     autocompleteFragment.setCountry("PK");
-
                     autocompleteFragment.setHint("Enter Drop off Location");
                     // Specify the types of place data to return.
                     autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
                     // Set up a PlaceSelectionListener to handle the response.
-                    autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-                        @Override
-                        public void onPlaceSelected(@NonNull Place place) {
-                           System.out.println("Place: "+ place.getName()+"\nPlace ID: "+place.getId()+"\nLatLng: "+place.getLatLng());
-
-                        }
-
-                        @Override
-                        public void onError(@NonNull Status status) {
-                            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                    autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -342,62 +331,28 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
 
-//
-//    private void initAutoCompleteTextView(){
-//
-//        autoCompleteTextView = fragmentView.findViewById(R.id.auto);
-//        autoCompleteTextView.setThreshold(1);
-//        autoCompleteTextView.setOnItemClickListener(autocompleteClickListener);
-//        adapter = new AutoCompleteAdapter(getActivity().getApplicationContext(), placesClient);
-//        autoCompleteTextView.setAdapter(adapter);
-//    }
-//
-//
-//    private AdapterView.OnItemClickListener autocompleteClickListener = new AdapterView.OnItemClickListener() {
-//        @Override
-//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-//
-//            try {
-//                final AutocompletePrediction item = adapter.getItem(i);
-//                String placeID = null;
-//                if (item != null) {
-//                    placeID = item.getPlaceId();
-//                }
-//
-////                To specify which data types to return, pass an array of Place.Fields in your FetchPlaceRequest
-////                Use only those fields which are required.
-//
-//                List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS
-//                        , Place.Field.LAT_LNG);
-//
-//                FetchPlaceRequest request = null;
-//                if (placeID != null) {
-//                    request = FetchPlaceRequest.builder(placeID, placeFields)
-//                            .build();
-//                }
-//
-//                if (request != null) {
-//                    placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
-//                        @SuppressLint("SetTextI18n")
-//                        @Override
-//                        public void onSuccess(FetchPlaceResponse task) {
-//                            responseView.setText(task.getPlace().getName() + "\n" + task.getPlace().getAddress());
-//                        }
-//                    }).addOnFailureListener(new OnFailureListener() {
-//                        @Override
-//                        public void onFailure(@NonNull Exception e) {
-//                            e.printStackTrace();
-//                            responseView.setText(e.getMessage());
-//                        }
-//                    });
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//        }
-//    };
+    PlaceSelectionListener placeSelectionListener = new PlaceSelectionListener() {
+    @Override
+    public void onPlaceSelected(@NonNull Place place) {
+        if (dropoffLocation != null){
+            dropoffLocation.remove("name");
+            dropoffLocation.remove("id");
+            dropoffLocation.remove("latitude");
+            dropoffLocation.remove("longitude");
+        }
+        dropoffLocation.put("name", place.getName());
+       dropoffLocation.put("id", place.getId());
+       LatLng latLng = place.getLatLng();
+       dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
+       dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+       Toast.makeText(getContext(), place.getId()+"\n"+place.getName(), Toast.LENGTH_LONG).show();
+    }
 
+    @Override
+    public void onError(@NonNull Status status) {
+        Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
+    }
+};
 
 
     @Override

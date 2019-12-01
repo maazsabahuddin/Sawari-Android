@@ -56,9 +56,9 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
 
-    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
+    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyB_jc6BvRZJ-hY0aQS9PDhr3ARFFxIVjcw";
 
-    public static String baseurl= "https://cc-wrfu.localhost.run";
+    public static String baseurl= "https://cc-5uof.localhost.run";
 
     private int backpress = 0;
     @Override
