@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyC_UnXGT784yAIEqeWuCrHw_mQKOEugQsg";
 
-    public static String baseurl= "https://cc-zepy.localhost.run";
+    public static String baseurl= "https://cc-wrfu.localhost.run";
 
     private int backpress = 0;
     @Override

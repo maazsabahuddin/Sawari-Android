@@ -1,6 +1,7 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +22,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -47,21 +50,28 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.AutocompletePrediction;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.net.FetchPlaceRequest;
+import com.google.android.libraries.places.api.net.FetchPlaceResponse;
+import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.sohaibaijaz.sawaari.AutoCompleteAdapter;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
@@ -73,7 +83,9 @@ import org.json.JSONObject;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -85,19 +97,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private String source = "";
     private String destination = "";
 
-
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+    private  View fragmentView;
+
+    private AutoCompleteTextView autoCompleteTextView;
+    private AutoCompleteAdapter adapter;
+    private PlacesClient placesClient;
+    private TextView responseView;
 
 
     private GoogleMap mMap;
-
     private boolean mPermissionDenied = false;
-
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
-
-
 
 
     public class BusInfo {
@@ -114,17 +126,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             return "Bus number plate: "+bus_no_plate+"\n"+"Seats left: "+seats_left;
         }
 
-
-
     }
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        final View fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+       fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
 
-
+//        responseView = fragmentView.findViewById(R.id.responseView);
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
@@ -143,6 +155,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         }
 
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext(), MainActivity.MAP_VIEW_BUNDLE_KEY);
+        }
+
+        placesClient = Places.createClient(getActivity().getApplicationContext());
+
+//        initAutoCompleteTextView();
 
         SupportMapFragment mapFragment =(SupportMapFragment)getChildFragmentManager()
                 .findFragmentById(R.id.mapView);
@@ -155,15 +174,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         final String token = sharedPreferences.getString("Token", "");
 
 
-        System.out.println("HomeFragment: "+token);
+
         if(!token.equals(""))
         {
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
         final Button dropoff_btn = (Button)cardView.findViewById(R.id.btn_dropoff);
-        final EditText source_txt = (EditText)cardView.findViewById(R.id.txt_source);
-        final EditText destination_txt = (EditText) cardView.findViewById(R.id.txt_destination);
-        final ListView buses_list= (ListView) cardView.findViewById(R.id.list_buses);
+//        final EditText source_txt = (EditText)cardView.findViewById(R.id.txt_source);
+//        final EditText destination_txt = (EditText) cardView.findViewById(R.id.txt_destination);
+        //final ListView buses_list= (ListView) cardView.findViewById(R.id.list_buses);
 
 
             spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
@@ -171,30 +190,51 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
             spinner_frame.setVisibility(View.GONE);
 
-            destination_txt.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+//            destination_txt.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+//
+//                @Override
+//                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+//
+//                    if(i== EditorInfo.IME_ACTION_DONE){
+//                        dropoff_btn.performClick();
+//                        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//                        imm.hideSoftInputFromWindow(dropoff_btn.getWindowToken(),
+//                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
+//                        return true;
+//                    }
+//                    return false;
+//                }
+//            });
 
-                @Override
-                public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                    AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+                    autocompleteFragment.setCountry("PK");
 
-                    if(i== EditorInfo.IME_ACTION_DONE){
-                        dropoff_btn.performClick();
-                        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(dropoff_btn.getWindowToken(),
-                                InputMethodManager.RESULT_UNCHANGED_SHOWN);
-                        return true;
-                    }
-                    return false;
-                }
-            });
+                    autocompleteFragment.setHint("Enter Drop off Location");
+                    // Specify the types of place data to return.
+                    autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+                    // Set up a PlaceSelectionListener to handle the response.
+                    autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+                        @Override
+                        public void onPlaceSelected(@NonNull Place place) {
+                           System.out.println("Place: "+ place.getName()+"\nPlace ID: "+place.getId()+"\nLatLng: "+place.getLatLng());
+
+                        }
+
+                        @Override
+                        public void onError(@NonNull Status status) {
+                            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                destination_txt.setCursorVisible(false);
-
-                source = source_txt.getText().toString();
-                destination = destination_txt.getText().toString();
+//                destination_txt.setCursorVisible(false);
+//
+//                source = source_txt.getText().toString();
+//                destination = destination_txt.getText().toString();
 
                 final ArrayList<BusInfo> list = new ArrayList<BusInfo>();
                 final ArrayAdapter<BusInfo> list_adapter = new ArrayAdapter<BusInfo>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, list);
@@ -232,7 +272,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                             list.add(new BusInfo(vehicle_no_plate, seats_left));
                                         }
 
-                                        buses_list.setAdapter(list_adapter);
+//                                        buses_list.setAdapter(list_adapter);
                                     }
 
 
@@ -298,6 +338,65 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         return fragmentView;
     }
+
+
+
+
+//
+//    private void initAutoCompleteTextView(){
+//
+//        autoCompleteTextView = fragmentView.findViewById(R.id.auto);
+//        autoCompleteTextView.setThreshold(1);
+//        autoCompleteTextView.setOnItemClickListener(autocompleteClickListener);
+//        adapter = new AutoCompleteAdapter(getActivity().getApplicationContext(), placesClient);
+//        autoCompleteTextView.setAdapter(adapter);
+//    }
+//
+//
+//    private AdapterView.OnItemClickListener autocompleteClickListener = new AdapterView.OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//
+//            try {
+//                final AutocompletePrediction item = adapter.getItem(i);
+//                String placeID = null;
+//                if (item != null) {
+//                    placeID = item.getPlaceId();
+//                }
+//
+////                To specify which data types to return, pass an array of Place.Fields in your FetchPlaceRequest
+////                Use only those fields which are required.
+//
+//                List<Place.Field> placeFields = Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS
+//                        , Place.Field.LAT_LNG);
+//
+//                FetchPlaceRequest request = null;
+//                if (placeID != null) {
+//                    request = FetchPlaceRequest.builder(placeID, placeFields)
+//                            .build();
+//                }
+//
+//                if (request != null) {
+//                    placesClient.fetchPlace(request).addOnSuccessListener(new OnSuccessListener<FetchPlaceResponse>() {
+//                        @SuppressLint("SetTextI18n")
+//                        @Override
+//                        public void onSuccess(FetchPlaceResponse task) {
+//                            responseView.setText(task.getPlace().getName() + "\n" + task.getPlace().getAddress());
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            e.printStackTrace();
+//                            responseView.setText(e.getMessage());
+//                        }
+//                    });
+//                }
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
+//    };
 
 
 

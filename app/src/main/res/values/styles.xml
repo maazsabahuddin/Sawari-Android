@@ -19,5 +19,19 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/colorJacksonPurple</item>
+        <item name="colorControlActivated">@color/colorJacksonPurple</item>
+        <item name="colorControlHighlight">@color/colorCascadeGrey</item>
+        <item name="android:colorControlActivated">@color/colorJacksonPurple</item>
+        <item name="android:textColorHint">@color/colorJacksonPurple</item>
+    </style>
+
+
+    <style name="PurpleAccent" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorControlActivated">#1f3a93</item>
+    </style>
+
+
 
 </resources>
