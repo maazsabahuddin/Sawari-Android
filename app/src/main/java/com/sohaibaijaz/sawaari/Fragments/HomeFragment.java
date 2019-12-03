@@ -1,8 +1,6 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,32 +10,21 @@ import android.location.Criteria;
 import android.location.Location;
 
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -56,26 +43,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
-import com.google.android.libraries.places.api.model.AutocompletePrediction;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.net.FetchPlaceRequest;
-import com.google.android.libraries.places.api.net.FetchPlaceResponse;
-import com.google.android.libraries.places.api.net.PlacesClient;
-import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-import com.google.android.material.snackbar.Snackbar;
-import com.sohaibaijaz.sawaari.AutoCompleteAdapter;
+import com.sohaibaijaz.sawaari.BusActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
-import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 
@@ -86,10 +60,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -105,10 +76,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private ProgressBar spinner;
     private  View fragmentView;
 
-    private AutoCompleteTextView autoCompleteTextView;
-    private AutoCompleteAdapter adapter;
-    private PlacesClient placesClient;
-    private TextView responseView;
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -225,103 +192,108 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                source = source_txt.getText().toString();
 //                destination = destination_txt.getText().toString();
 
-                final ArrayList<BusInfo> list = new ArrayList<BusInfo>();
-                final ArrayAdapter<BusInfo> list_adapter = new ArrayAdapter<BusInfo>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, list);
+//
+//                final ArrayList<BusInfo> list = new ArrayList<BusInfo>();
+//                final ArrayAdapter<BusInfo> list_adapter = new ArrayAdapter<BusInfo>(getActivity().getApplicationContext(), android.R.layout.simple_list_item_1, list);
+//
+//                if (source.equals("") || destination.equals("")) {
+//                    Toast.makeText(getContext(), "Source/Destination fields can't be empty.", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    try {
+//                        String URL = MainActivity.baseurl +"/display_buses/";
+//                        JSONObject jsonBody = new JSONObject();
+//                        jsonBody.put("from", source);
+//                        jsonBody.put("to", destination);
+//                        spinner.setVisibility(View.VISIBLE);
+//                        spinner_frame.setVisibility(View.VISIBLE);
+//                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+//                                Log.i("VOLLEY", response.toString());
+//                                try {
+//                                    JSONObject json = new JSONObject(response);
+//
+//                                    if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+//                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                    else {
+//                                        JSONArray array = json.getJSONArray("buses");
+//
+//                                        for (int i = 0; i < array.length(); i++) {
+//                                            JSONObject object1 = array.getJSONObject(i);
+//                                            String vehicle_no_plate = object1.getString("vehicle_id__vehicle_no_plate");
+//                                            int seats_left = Integer.parseInt(object1.getString("seats_left"));
+//
+//                                            list.add(new BusInfo(vehicle_no_plate, seats_left));
+//                                        }
+//
+////                                        buses_list.setAdapter(list_adapter);
+//                                    }
+//
+//
+//
+//
+//                                } catch (JSONException e) {
+//                                    Log.e("VOLLEY", e.toString());
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+//                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+//                                Log.e("VOLLEY", error.toString());
+//                            }
+//                        }) {
+//                            @Override
+//                            protected Map<String, String> getParams() {
+//                                Map<String, String> params = new HashMap<String, String>();
+//                                params.put("from", source);
+//                                params.put("to", destination);
+//                                return params;
+//                            }
+//
+//                            @Override
+//                            public Map<String, String> getHeaders() throws AuthFailureError {
+//                                Map<String, String> headers = new HashMap<String, String>();
+//                                headers.put("Authorization", token);
+//                                return headers;
+//                            }
+//                        };
+//
+//                        stringRequest.setRetryPolicy(new RetryPolicy() {
+//                            @Override
+//                            public int getCurrentTimeout() {
+//                                return 50000;
+//                            }
+//
+//                            @Override
+//                            public int getCurrentRetryCount() {
+//                                return 50000;
+//                            }
+//
+//                            @Override
+//                            public void retry(VolleyError error) throws VolleyError {
+//
+//                            }
+//                        });
+//
+//                        requestQueue.add(stringRequest);
+//                    } catch (Exception e) {
+//                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
 
-                if (source.equals("") || destination.equals("")) {
-                    Toast.makeText(getContext(), "Source/Destination fields can't be empty.", Toast.LENGTH_SHORT).show();
-                } else {
-                    try {
-                        String URL = MainActivity.baseurl +"/display_buses/";
-                        JSONObject jsonBody = new JSONObject();
-                        jsonBody.put("from", source);
-                        jsonBody.put("to", destination);
-                        spinner.setVisibility(View.VISIBLE);
-                        spinner_frame.setVisibility(View.VISIBLE);
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                spinner.setVisibility(View.GONE);
-                                spinner_frame.setVisibility(View.GONE);
-                                Log.i("VOLLEY", response.toString());
-                                try {
-                                    JSONObject json = new JSONObject(response);
 
-                                    if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
-                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    }
-                                    else {
-                                        JSONArray array = json.getJSONArray("buses");
-
-                                        for (int i = 0; i < array.length(); i++) {
-                                            JSONObject object1 = array.getJSONObject(i);
-                                            String vehicle_no_plate = object1.getString("vehicle_id__vehicle_no_plate");
-                                            int seats_left = Integer.parseInt(object1.getString("seats_left"));
-
-                                            list.add(new BusInfo(vehicle_no_plate, seats_left));
-                                        }
-
-//                                        buses_list.setAdapter(list_adapter);
-                                    }
-
-
-
-
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                spinner.setVisibility(View.GONE);
-                                spinner_frame.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                                Log.e("VOLLEY", error.toString());
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("from", source);
-                                params.put("to", destination);
-                                return params;
-                            }
-
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String> headers = new HashMap<String, String>();
-                                headers.put("Authorization", token);
-                                return headers;
-                            }
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
-                            }
-                        });
-
-                        requestQueue.add(stringRequest);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
+                Intent i = new Intent(getActivity().getApplicationContext(), BusActivity.class);
+                getActivity().startActivity(i);
             }
 
         });
+
 
         }
 

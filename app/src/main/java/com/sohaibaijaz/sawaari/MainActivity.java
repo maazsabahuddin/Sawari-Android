@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
     //Shared preferences code
     public static final String AppPreferences = "AppPreferences";
-    public static final String tokenKey = "Token";
     SharedPreferences sharedPreferences;
     //
 
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCkAZwJXUju-xPLFvpeF4OluXFcxBWYtAI";
 
-    public static String baseurl= "https://cc-y4me.localhost.run";
+    public static String baseurl= "https://cc-vx2q.localhost.run";
 
     private int backpress = 0;
     @Override
@@ -183,31 +182,32 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-
                                     String token = json.getString("token");
-                                    //Shared Preferences
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.remove("Token");
-                                    editor.putString("Token", token);
-                                    editor.apply();
-                                    Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
-                                    finish();
-                                    MainActivity.this.startActivity(myIntent);
-
-//
-
-                                }
-                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-                                    Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                     if(json.getString("message").equals("User not authenticated. Please verify first.")){
-                                        String token = json.getString("token");
+                                        Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
+                                        Bundle b = new Bundle();
+                                        b.putString("Token", token);
+                                        myIntent.putExtras(b);
+                                        MainActivity.this.startActivity(myIntent);
+                                    }
+
+                                    else {
+                                        //Shared Preferences
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.remove("Token");
                                         editor.putString("Token", token);
                                         editor.apply();
-                                        Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
+                                        Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                        finish();
                                         MainActivity.this.startActivity(myIntent);
                                     }
+//
+
+
+                                }
+                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 Log.e("VOLLEY", e.toString());

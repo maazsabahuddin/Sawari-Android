@@ -154,13 +154,11 @@ public class SignupActivity extends AppCompatActivity {
                                            String token = json.getString("token");
 
                                            //Shared Preferences
-                                           SharedPreferences.Editor editor = sharedPreferences.edit();
-                                           editor.remove("Token");
-                                           editor.putString("Token", token);
-                                           editor.apply();
-
                                            Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                            Intent myIntent = new Intent(SignupActivity.this, VerifyActivity.class);//Optional parameter
+                                           Bundle b = new Bundle();
+                                           b.putString("Token", token);
+                                           myIntent.putExtras(b);
                                            SignupActivity.this.startActivity(myIntent);
 
                                        }
