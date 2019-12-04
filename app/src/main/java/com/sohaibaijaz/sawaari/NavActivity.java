@@ -128,9 +128,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 finish();
                 startActivity(intent);
-//
+
 //                try {
-//                    String URL = MainActivity.baseurl+"/logout/";
+//                    String URL = MainActivity.baseurl + "/logged-out/";
 //                    spinner.setVisibility(View.VISIBLE);
 //                    spinner_frame.setVisibility(View.VISIBLE);
 //                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -203,14 +203,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 //                    });
 //                    requestQueue.add(stringRequest);
 //
-//
 //                } catch (Exception e) {
 //                    e.printStackTrace();
 //                }
-
-
-
-
         }
 
         drawer.closeDrawer(GravityCompat.START);

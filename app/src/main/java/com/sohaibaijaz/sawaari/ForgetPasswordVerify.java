@@ -52,7 +52,7 @@ public class ForgetPasswordVerify extends AppCompatActivity {
         email_or_phone = extras.getString("email_or_phone");
         token_uuid = extras.getString("token_uuid");
 
-        Toast.makeText(getApplicationContext(), email_or_phone + token_uuid, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), email_or_phone + token_uuid, Toast.LENGTH_SHORT).show();
 
         Button next_btn_fp = findViewById(R.id.next_btn_fp);
         final EditText otp_fp_txt = findViewById(R.id.otp_fp_txt);

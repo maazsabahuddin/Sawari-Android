@@ -75,7 +75,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
                                         String token_uuid = json.getString("token_uuid");
-//                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
 
                                         Intent myIntent = new Intent(getApplicationContext(), ForgetPasswordVerify.class);
                                         myIntent.putExtra("token_uuid", token_uuid);
