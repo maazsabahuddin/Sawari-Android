@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class VerifyActivity extends AppCompatActivity {
 
@@ -46,6 +47,7 @@ public class VerifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verify);
         Bundle b = getIntent().getExtras();
         final String token  = b.getString("Token");
+        final String email_phone = b.getString("email_phone");
         System.out.println("VerifyActivity: "+token);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         final Button btn_verify = findViewById(R.id.btn_verify);
@@ -93,14 +95,11 @@ public class VerifyActivity extends AppCompatActivity {
                             try {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-
+                                    System.out.println(json.getString("status"));
                                     Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    SharedPreferences.Editor edit = sharedPreferences.edit();
-                                    edit.putString("Token", token);
-                                    edit.apply();
-
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    System.out.println(json.getString("status"));
                                     Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
 //                                    else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
@@ -123,7 +122,6 @@ public class VerifyActivity extends AppCompatActivity {
                         @Override
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<String, String>();
-
                             return params;
                         }
 
@@ -201,8 +199,10 @@ public class VerifyActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
                                         Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                                        edit.putString("Token", token);
+                                        edit.apply();
                                         Intent myIntent = new Intent(VerifyActivity.this, NavActivity.class);//Optional parameters
-
                                         finish();
                                         VerifyActivity.this.startActivity(myIntent);
                                     }
@@ -270,5 +270,19 @@ public class VerifyActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    public static boolean isValidEmail(String email)
+    {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
+                "[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
+                "A-Z]{2,7}$";
+
+        Pattern pat = Pattern.compile(emailRegex);
+        if (email == null)
+            return false;
+        return pat.matcher(email).matches();
     }
 }

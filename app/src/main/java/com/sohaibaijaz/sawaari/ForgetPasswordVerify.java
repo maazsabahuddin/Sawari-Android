@@ -2,10 +2,14 @@ package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -54,10 +58,27 @@ public class ForgetPasswordVerify extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), email_or_phone + token_uuid, Toast.LENGTH_SHORT).show();
 
-        Button next_btn_fp = findViewById(R.id.next_btn_fp);
+        final Button next_btn_fp = findViewById(R.id.next_btn_fp);
         final EditText otp_fp_txt = findViewById(R.id.otp_fp_txt);
         TextView resend_otp_txt = findViewById(R.id.resend_otp_txt);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+
+
+        otp_fp_txt.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    next_btn_fp.performClick();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(next_btn_fp.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
+                }
+                return false;
+            }
+        });
 
         next_btn_fp.setOnClickListener(new View.OnClickListener() {
 
@@ -84,8 +105,6 @@ public class ForgetPasswordVerify extends AppCompatActivity {
 
                                     JSONObject json = new JSONObject(response);
                                     final String status = json.getString("status");
-                                    Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
-
                                     if(json.getString("status").equals("200")){
 
                                         Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
@@ -148,6 +167,86 @@ public class ForgetPasswordVerify extends AppCompatActivity {
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "Enter OTP first", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+
+
+        resend_otp_txt.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                try{
+                    String URL = MainActivity.baseurl+"/password/reset/resend_otp/?password_uuid="+ URLEncoder.encode(token_uuid, "UTF-8");
+                    JSONObject jsonBody = new JSONObject();
+                    spinner.setVisibility(View.VISIBLE);
+                    spinner_frame.setVisibility(View.VISIBLE);
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+                            try{
+
+                                JSONObject json = new JSONObject(response);
+                                final String status = json.getString("status");
+                                Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
+
+                                if(json.getString("status").equals("200")){
+
+                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            catch (Exception e){
+                                e.getStackTrace();
+                                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.i("VOLLEY", error.toString());
+                            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    {
+                        @Override
+                        protected Map<String,String> getParams(){
+                            Map<String,String> params = new HashMap<String, String>();
+                            params.put("email_or_phone",email_or_phone);
+                            return params;
+                        }
+                    };
+
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+
+                        }
+                    });
+                    requestQueue.add(stringRequest);
+                }
+                catch (Exception e) {
+                    spinner.setVisibility(View.GONE);
+                    spinner_frame.setVisibility(View.GONE);
+                    e.printStackTrace();
                 }
             }
         });

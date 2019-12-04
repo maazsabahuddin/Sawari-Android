@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCkAZwJXUju-xPLFvpeF4OluXFcxBWYtAI";
 
-    public static String baseurl= "https://cc-vx2q.localhost.run";
+    public static String baseurl= "https://cc-l4e3.localhost.run";
 
     private int backpress = 0;
     @Override
@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity {
                                         Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
                                         Bundle b = new Bundle();
                                         b.putString("Token", token);
+                                        b.putString("email_phone", email_phone);
                                         myIntent.putExtras(b);
                                         MainActivity.this.startActivity(myIntent);
                                     }
