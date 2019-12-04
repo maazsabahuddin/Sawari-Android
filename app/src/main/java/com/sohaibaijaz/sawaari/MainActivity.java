@@ -55,10 +55,12 @@ public class MainActivity extends AppCompatActivity {
     private EditText txt_password;
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+    private TextView tv_forget_password;
 
-    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyB_jc6BvRZJ-hY0aQS9PDhr3ARFFxIVjcw";
+    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCkAZwJXUju-xPLFvpeF4OluXFcxBWYtAI";
 
-    public static String baseurl= "https://maaz-goix.localhost.run";
+    public static String baseurl= "https://maaz-tj5i.localhost.run";
+
 
     private int backpress = 0;
     @Override
@@ -83,10 +85,20 @@ public class MainActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         txt_email_phone = findViewById(R.id.txt_email);
         txt_password = findViewById(R.id.txt_password);
+        tv_forget_password = findViewById(R.id.tv_forget_password);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
 
+
+        tv_forget_password.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ForgetPasswordActivity.class);
+                MainActivity.this.startActivity(i);
+            }
+        });
         txt_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
 
             @Override
