@@ -112,6 +112,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
 
                                             Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                             Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                                            finish();
                                             startActivity(myIntent);
                                         }
                                         else{

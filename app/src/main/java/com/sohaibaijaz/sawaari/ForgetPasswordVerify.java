@@ -111,7 +111,7 @@ public class ForgetPasswordVerify extends AppCompatActivity {
                                         Intent myIntent = new Intent(getApplicationContext(), ResetPasswordActivity.class);
                                         myIntent.putExtra("token_uuid", token_uuid);
                                         myIntent.putExtra("email_or_phone", email_or_phone);
-
+                                        finish();
                                         startActivity(myIntent);
                                     }
                                     else{
