@@ -35,6 +35,8 @@ import java.util.Map;
 
 public class VerifyActivity extends AppCompatActivity {
 
+    public static final String AppPreferences = "AppPreferences";
+    SharedPreferences sharedPreferences;
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     @Override
@@ -42,10 +44,8 @@ public class VerifyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_verify);
-
-        SharedPreferences sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, MODE_PRIVATE);
-
-        final String token = sharedPreferences.getString("Token", "");
+        Bundle b = getIntent().getExtras();
+        final String token  = b.getString("Token");
         System.out.println("VerifyActivity: "+token);
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
         final Button btn_verify = findViewById(R.id.btn_verify);
@@ -56,7 +56,7 @@ public class VerifyActivity extends AppCompatActivity {
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
-
+        sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         txt_otp.setOnEditorActionListener(new EditText.OnEditorActionListener(){
 
             @Override
@@ -95,6 +95,10 @@ public class VerifyActivity extends AppCompatActivity {
                                 if (json.getString("status").equals("200")) {
 
                                     Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                                    edit.putString("Token", token);
+                                    edit.apply();
+
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
