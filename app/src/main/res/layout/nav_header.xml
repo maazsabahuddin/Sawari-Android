@@ -6,21 +6,12 @@
     android:gravity="bottom"
     android:theme="@style/ThemeOverlay.AppCompat.Dark"
     android:padding="16dp"
+    android:id="@+id/nav_header"
     >
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/ic_sawaari"/>
-
-    <TextView
-        android:layout_width="101dp"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:text="@string/app_name"
-        android:textAlignment="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Button"
-        android:textColor="@color/colorWhite"
-        android:textStyle="normal" />
+        android:layout_width="110dp"
+        android:layout_height="103dp"
+        android:src="@mipmap/ic_user" />
 
 </LinearLayout>

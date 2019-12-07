@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     //
 
+
+    private  String token;
     private RequestQueue requestQueue;
     private EditText txt_email_phone;
     private EditText txt_password;
@@ -56,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private TextView tv_forget_password;
 
-    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCkAZwJXUju-xPLFvpeF4OluXFcxBWYtAI";
+    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
 
-    public static String baseurl= "https://cc-l4e3.localhost.run";
+    public static String baseurl= "https://cc-mqsi.localhost.run";
 
 
     private int backpress = 0;
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-                                    String token = json.getString("token");
+                                    token = json.getString("token");
                                     if(json.getString("message").equals("User not authenticated. Please verify first.")){
                                         Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                         Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
@@ -259,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
 
         }

@@ -15,20 +15,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".VerifyPhoneNumberActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".UpdatePhoneNumberActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UpdateNameActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyCkAZwJXUju-xPLFvpeF4OluXFcxBWYtAI" />
+            android:value="AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".ResetPasswordActivity"
+        <activity
+            android:name=".ResetPasswordActivity"
             android:screenOrientation="portrait" />
-
-        <activity android:name=".ForgetPasswordVerify"
-                android:screenOrientation="portrait" />
+        <activity
+            android:name=".ForgetPasswordVerify"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ForgetPasswordActivity"
             android:screenOrientation="portrait" />

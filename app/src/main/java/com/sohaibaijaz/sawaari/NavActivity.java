@@ -39,6 +39,7 @@ import com.sohaibaijaz.sawaari.Fragments.RidesFragment;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,15 +64,22 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         spinner.setVisibility(View.GONE);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
-        navView = findViewById(R.id.nav_view);
+
+
 
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
 
+
+
+
+
+
+
+        sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -82,6 +90,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+
+
 
 
     }
@@ -122,90 +132,93 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.nav_logout:
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("Token");
-                editor.apply();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                finish();
-                startActivity(intent);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.remove("Token");
+//                editor.apply();
+//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                finish();
+//                startActivity(intent);
+                requestQueue = Volley.newRequestQueue(getApplicationContext());
+                try {
+                    String URL = MainActivity.baseurl + "/logout/";
+                    spinner.setVisibility(View.VISIBLE);
+                    spinner_frame.setVisibility(View.VISIBLE);
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+                            Log.i("VOLLEY", response.toString());
+                            try {
+                                JSONObject json = new JSONObject(response);
+                                if (json.getString("status").equals("200")) {
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.remove("Token");
+                                    editor.remove("first_name");
+                                    editor.remove("last_name");
+                                    editor.remove("email");
+                                    editor.remove("phone_number");
+                                    editor.apply();
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                    startActivity(intent);
+                                }
+                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (JSONException e) {
+                                Log.e("VOLLEY", e.toString());
 
-//                try {
-//                    String URL = MainActivity.baseurl + "/logged-out/";
-//                    spinner.setVisibility(View.VISIBLE);
-//                    spinner_frame.setVisibility(View.VISIBLE);
-//                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response) {
-//                            spinner.setVisibility(View.GONE);
-//                            spinner_frame.setVisibility(View.GONE);
-//                            Log.i("VOLLEY", response.toString());
-//                            try {
-//                                JSONObject json = new JSONObject(response);
-//                                if (json.getString("status").equals("200")) {
-//                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                    editor.remove("Token");
-//                                    editor.apply();
-//                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    finish();
-//                                    startActivity(intent);
-//                                }
-//                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-//                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                }
-//                            } catch (JSONException e) {
-//                                Log.e("VOLLEY", e.toString());
-//
-//                            }
-//                        }
-//                    }, new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            spinner.setVisibility(View.GONE);
-//                            spinner_frame.setVisibility(View.GONE);
-//                            Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-//                            Log.e("VOLLEY", error.toString());
-//                        }
-//                    }){
-//                        @Override
-//                        protected Map<String,String> getParams(){
-//                            Map<String,String> params = new HashMap<String, String>();
-////                               params.put(KEY_EMAIL, email);
-//                            params.put("authorization", token);
-//                            return params;
-//                        }
-//
-//                        @Override
-//                        public Map<String, String> getHeaders() throws AuthFailureError {
-//                            Map<String, String>  params = new HashMap<String, String>();
-//                            params.put("authorization", token);
-//                            return params;
-//                        }
-//
-//
-//                    };
-//
-//                    stringRequest.setRetryPolicy(new RetryPolicy() {
-//                        @Override
-//                        public int getCurrentTimeout() {
-//                            return 50000;
-//                        }
-//
-//                        @Override
-//                        public int getCurrentRetryCount() {
-//                            return 50000;
-//                        }
-//
-//                        @Override
-//                        public void retry(VolleyError error) throws VolleyError {
-//
-//                        }
-//                    });
-//                    requestQueue.add(stringRequest);
-//
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }){
+                        @Override
+                        protected Map<String,String> getParams(){
+                            Map<String,String> params = new HashMap<String, String>();
+
+                            return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String>  params = new HashMap<String, String>();
+                            params.put("Authorization", token);
+                            return params;
+                        }
+
+
+                    };
+
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+
+                        }
+                    });
+                    requestQueue.add(stringRequest);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
         }
 
         drawer.closeDrawer(GravityCompat.START);
