@@ -91,7 +91,6 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                             try {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
@@ -181,6 +180,8 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                                 if (json.getString("status").equals("200")) {
                                     System.out.println(json.getString("status"));
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    UserDetails.getUserDetails(getApplicationContext());
+                                    finish();
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     System.out.println(json.getString("status"));

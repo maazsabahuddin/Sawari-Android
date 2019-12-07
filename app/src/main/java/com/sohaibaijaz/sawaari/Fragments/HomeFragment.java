@@ -52,6 +52,7 @@ import com.sohaibaijaz.sawaari.BusActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.UserDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,99 +127,25 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         final String token = sharedPreferences.getString("Token", "");
 
 
-        System.out.print("Token :"+ token);
         if(!token.equals(""))
         {
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
         final Button dropoff_btn = (Button)fragmentView.findViewById(R.id.btn_dropoff);
-            spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
-            spinner.setVisibility(View.GONE);
-            spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
-            spinner_frame.setVisibility(View.GONE);
-
-                    AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-                    autocompleteFragment.setCountry("PK");
-                    autocompleteFragment.setHint("Enter Drop off Location");
+        spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+        spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
+        spinner_frame.setVisibility(View.GONE);
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+        autocompleteFragment.setCountry("PK");
+        autocompleteFragment.setHint("Enter Drop off Location");
                     // Specify the types of place data to return.
-                    autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
                     // Set up a PlaceSelectionListener to handle the response.
-                    autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
+            autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
 
-            try {
-                String URL = MainActivity.baseurl + "/my_details/";
-                JSONObject jsonBody = new JSONObject();
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Log.i("VOLLEY", response.toString());
-                        try {
-                            JSONObject json = new JSONObject(response);
-
-                            if(json.getString("status").equals("200")){
-                                SharedPreferences.Editor edit=sharedPreferences.edit();
-                                edit.putString("first_name", json.getString("first_name"));
-                                edit.putString("last_name", json.getString("last_name"));
-                                edit.putString("email", json.getString("email"));
-                                edit.putString("phone_number", json.getString("phone_number"));
-                                edit.apply();
-                            }
-
-                            else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
-                                Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                            }
-
-                        } catch (JSONException e) {
-                            Log.e("VOLLEY", e.toString());
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                        Log.e("VOLLEY", error.toString());
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<String, String>();
-
-
-                        return params;
-                    }
-
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> headers = new HashMap<String, String>();
-                        headers.put("Authorization", token);
-                        return headers;
-                    }
-                };
-
-                stringRequest.setRetryPolicy(new RetryPolicy() {
-                    @Override
-                    public int getCurrentTimeout() {
-                        return 50000;
-                    }
-
-                    @Override
-                    public int getCurrentRetryCount() {
-                        return 50000;
-                    }
-
-                    @Override
-                    public void retry(VolleyError error) throws VolleyError {
-
-                    }
-                });
-
-                requestQueue.add(stringRequest);
-            } catch (Exception e) {
-                Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-            }
-
+            UserDetails.getUserDetails(this.getContext());
 
 
 
@@ -248,7 +175,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     JSONObject json = new JSONObject(response);
 
                                     if(json.getString("status").equals("200")){
-                                        Toast.makeText(getContext(), json.get("rides").toString(), Toast.LENGTH_LONG).show();
+//                                        Toast.makeText(getContext(), json.get("rides").toString(), Toast.LENGTH_LONG).show();
+//
+                                       if(json.get("rides").toString().equals("[]"))
+                                       {
+                                           Toast.makeText(getContext(), "No rides available", Toast.LENGTH_SHORT).show();
+                                       }
+                                       else {
+                                           Intent i = new Intent(getContext(), BusActivity.class);
+                                           i.putExtra("rides", json.get("rides").toString());
+                                           startActivity(i);
+                                       }
                                     }
 
                                     else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
@@ -334,7 +271,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
        LatLng latLng = place.getLatLng();
        dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
        dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
-       Toast.makeText(getContext(), place.getId()+"\n"+place.getName()+"\n"+place.getLatLng(), Toast.LENGTH_LONG).show();
+
     }
 
     @Override
@@ -461,6 +398,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
+
+
     private void showMissingPermissionError() {
         PermissionUtils.PermissionDeniedDialog
                 .newInstance(true).show(getFragmentManager(), "dialog");
@@ -490,6 +429,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
     }
+
+
 
 
 
