@@ -1,7 +1,9 @@
 package com.sohaibaijaz.sawaari;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +14,30 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class CustomAdapterActivity extends BaseAdapter {
 
-    String [] bus_no;
+
     Context context;
-    String [] seats_left;
+    ArrayList<HashMap> rides;
+
     private static LayoutInflater inflater=null;
-    public CustomAdapterActivity(Activity mainActivity, String[] array_bus_no, String[] array_seats_left) {
+    public CustomAdapterActivity(Activity mainActivity, ArrayList<HashMap> array_rides) {
         // TODO Auto-generated constructor stub
-        bus_no =array_bus_no;
+
+        rides = array_rides;
         context=mainActivity;
-        seats_left=array_seats_left;
+
         inflater = ( LayoutInflater )context.
                 getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {
         // TODO Auto-generated method stub
-        return bus_no.length;
+        return rides.size();
     }
 
     @Override
@@ -46,25 +54,43 @@ public class CustomAdapterActivity extends BaseAdapter {
 
     public class Holder
     {
-        TextView tv_bus_no;
+        TextView tv_pickup_location;
+        TextView tv_dropoff_location;
         TextView tv_seats_left;
+        TextView tv_pickup_location_time;
+        TextView tv_dropoff_location_time;
 
     }
+    @SuppressLint("ResourceAsColor")
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         Holder holder=new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.bus_card_view, null);
-        holder.tv_bus_no=(TextView) rowView.findViewById(R.id.tv_bus_no);
+        holder.tv_pickup_location=(TextView) rowView.findViewById(R.id.tv_pickup_location);
+        holder.tv_dropoff_location_time = (TextView) rowView.findViewById(R.id.tv_dropoff_location_time);
+        holder.tv_pickup_location_time = (TextView) rowView.findViewById(R.id.tv_pickup_location_time);
+        holder.tv_dropoff_location=(TextView) rowView.findViewById(R.id.tv_dropoff_location);
         holder.tv_seats_left = (TextView) rowView.findViewById(R.id.tv_seats_left);
-        holder.tv_bus_no.setText("Bus no: "+bus_no[position]);
-        holder.tv_seats_left.setText("Seats left: "+seats_left[position]);
+        int seats_left = Integer.parseInt(rides.get(position).get("seats_left").toString());
+//        int seats_left = 0;
+        if ( seats_left == 0){
+            holder.tv_seats_left.setTextColor(Color.parseColor("#96281b"));
+            holder.tv_seats_left.setText("Fully Booked!");
+        }
+        else {
+            holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left").toString());
+        }
+        holder.tv_pickup_location.setText("Pickup: "+rides.get(position).get("pickup_location").toString());
+        holder.tv_dropoff_location.setText("Drop off: "+rides.get(position).get("dropoff_location").toString());
+        holder.tv_pickup_location_time.setText(rides.get(position).get("pickup_location_time").toString()+" from your location");
+        holder.tv_dropoff_location_time.setText(rides.get(position).get("dropoff_location_time").toString()+" to "+rides.get(position).get("dropoff_location").toString());
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, "You Clicked "+bus_no[position], Toast.LENGTH_LONG).show();
+                Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
             }
         });
         return rowView;

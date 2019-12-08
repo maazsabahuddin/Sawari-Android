@@ -6,10 +6,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,12 +45,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.BusActivity;
+import com.sohaibaijaz.sawaari.DirectionsJSONParser;
+import com.sohaibaijaz.sawaari.GetDirectionsData;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
@@ -59,9 +67,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -83,16 +98,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private Map<String, String> dropoffLocation = new HashMap<String, String>();
     private Map<String, String> currentLocation = new HashMap<String, String>();
 
+    private ArrayList<LatLng> markerPoints;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-       fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
 
+
+        markerPoints = new ArrayList<LatLng>();
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch(Exception ex) {}
@@ -111,9 +130,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             Places.initialize(getContext(), MainActivity.MAP_VIEW_BUNDLE_KEY);
         }
 
-//        placesClient = Places.createClient(getActivity().getApplicationContext());
-
-//        initAutoCompleteTextView();
 
         SupportMapFragment mapFragment =(SupportMapFragment)getChildFragmentManager()
                 .findFragmentById(R.id.mapView);
@@ -139,9 +155,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
         autocompleteFragment.setCountry("PK");
         autocompleteFragment.setHint("Enter Drop off Location");
-                    // Specify the types of place data to return.
+
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-                    // Set up a PlaceSelectionListener to handle the response.
+
             autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
 
@@ -158,6 +174,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
                 }
                 else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+
                     try {
 
 
@@ -183,7 +200,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                        }
                                        else {
                                            Intent i = new Intent(getContext(), BusActivity.class);
-                                           i.putExtra("rides", json.get("rides").toString());
+                                           i.putExtra("rides", json.getJSONArray("rides").toString());
                                            startActivity(i);
                                        }
                                     }
@@ -227,12 +244,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         stringRequest.setRetryPolicy(new RetryPolicy() {
                             @Override
                             public int getCurrentTimeout() {
-                                return 50000;
+                                return 500000;
                             }
 
                             @Override
                             public int getCurrentRetryCount() {
-                                return 50000;
+                                return 500000;
                             }
 
                             @Override
@@ -272,6 +289,51 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
        dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
        dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
+
+        if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+            Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+        }
+        else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+
+
+            markerPoints.clear();
+            mMap.clear();
+
+            LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
+            LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
+
+
+            markerPoints.add(start);
+            markerPoints.add(stop);
+            MarkerOptions options = new MarkerOptions();
+
+            options.position(start);
+            options.position(stop);
+
+
+            if(markerPoints.size() >=2 ){
+                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+
+                mMap.addMarker(options);
+
+                LatLng origin = markerPoints.get(0);
+                LatLng dest = markerPoints.get(1);
+
+                // Getting URL to the Google Directions API
+                String url = getDirectionsUrl(origin, dest);
+
+                DownloadTask downloadTask = new DownloadTask();
+
+                // Start downloading json data from Google Directions API
+                downloadTask.execute(url);
+            }
+
+
+
+
+
+        }
+
     }
 
     @Override
@@ -304,7 +366,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
-
             LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
@@ -430,8 +491,173 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     }
 
+    private String getDirectionsUrl(LatLng origin, LatLng dest) {
+
+        // Origin of route
+        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        String api_key = "key="+MainActivity.MAP_VIEW_BUNDLE_KEY;
+
+        // Building the parameters to the web service
+        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + api_key;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
+
+        return url;
+    }
 
 
+    private String downloadUrl(String strUrl) throws IOException {
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try {
+            URL url = new URL(strUrl);
+
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            // Connecting to url
+            urlConnection.connect();
+
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuffer sb = new StringBuffer();
+
+            String line = "";
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            data = sb.toString();
+
+            br.close();
+
+        } catch (Exception e) {
+            Log.d("Exception", e.toString());
+        } finally {
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
 
 
+    public class DownloadTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service
+            String data = "";
+
+            try {
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            } catch (Exception e) {
+                Log.d("Background Task", e.toString());
+            }
+            return data;
+        }
+
+        // Executes in UI thread, after the execution of
+        // doInBackground()
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+        }
+    }
+
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try {
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points = null;
+            PolylineOptions lineOptions = null;
+            MarkerOptions markerOptions = new MarkerOptions();
+            String distance = "";
+            String duration = "";
+
+            if (result.size() < 1) {
+                Toast.makeText(getActivity().getBaseContext(), "No Points", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Traversing through all the routes
+            for (int i = 0; i < result.size(); i++) {
+                points = new ArrayList<LatLng>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for (int j = 0; j < path.size(); j++) {
+                    HashMap<String, String> point = path.get(j);
+
+                    if (j == 0) {    // Get distance from the list
+                        distance = (String) point.get("distance");
+                        continue;
+                    } else if (j == 1) { // Get duration from the list
+                        duration = (String) point.get("duration");
+                        continue;
+                    }
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(10);
+                lineOptions.color(Color.BLUE);
+            }
+
+
+            // Drawing polyline in the Google Map for the i-th route
+            mMap.addPolyline(lineOptions);
+        }
+
+
+    }
 }
