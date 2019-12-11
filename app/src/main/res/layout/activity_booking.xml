@@ -78,6 +78,239 @@
     </LinearLayout>
 
     <FrameLayout
+        android:id="@+id/confirm_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        android:clickable="true"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="10dp"
+                android:id="@+id/confirmCard"
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Confirm Booking?"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp" />
+
+                    <Button
+                        android:id="@+id/btn_confirm_booking"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/button_background"
+                        android:text="ok"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/confirmation_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        android:clickable="true"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="380dp"
+                android:layout_height="400dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="10dp"
+                android:id="@+id/confirmationCard"
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="18dp"
+
+                    >
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp" />
+
+                    <TextView
+                        android:id="@+id/tv_reservation_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Reservation no: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_pickup_point"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Pickup point: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_dropoff_point"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Drop off point: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+
+
+
+                    <TextView
+                        android:id="@+id/tv_price_per_km"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Price per km: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+
+                    <TextView
+                        android:id="@+id/tv_fare"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Total fare: "
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:textColor="@color/quantum_black_100"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Your seats are booked!"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorOldBrickRed"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+
+                    <Button
+                        android:id="@+id/btn_ok_confirmation"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/button_background"
+                        android:text="ok"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
         android:id="@+id/spinner_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -106,5 +339,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
     </FrameLayout>
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

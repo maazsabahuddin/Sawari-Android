@@ -1,6 +1,7 @@
 package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,6 +37,8 @@ public class BookingActivity extends AppCompatActivity {
 
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+    private FrameLayout confirm_frame;
+    private FrameLayout confirmation_frame;
     private String[] list = {"Cash", "Card"};
     private EditText txt_no_of_seats;
     private Spinner spinner_payment_tpye;
@@ -42,6 +46,17 @@ public class BookingActivity extends AppCompatActivity {
     private  SharedPreferences sharedPreferences;
     private  Bundle b;
     private RequestQueue requestQueue;
+    private CardView cardConfirm;
+    private CardView confirmationCard;
+    private Button btn_confirm_booking;
+    private TextView tv_reservation_number;
+    private TextView tv_pickup_point;
+    private TextView tv_dropoff_point;
+    private TextView tv_price_per_km;
+    private TextView tv_total_fare;
+    private Button btn_confirmation_ok;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,8 +71,22 @@ public class BookingActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+        confirm_frame = findViewById(R.id.confirm_frame);
+        confirm_frame.setVisibility(View.GONE);
+        cardConfirm = confirm_frame.findViewById(R.id.confirmCard);
+        btn_confirm_booking = cardConfirm.findViewById(R.id.btn_confirm_booking);
 
-         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
+        confirmation_frame = (FrameLayout) findViewById(R.id.confirmation_frame);
+        confirmationCard = (CardView) findViewById(R.id.confirmationCard);
+        confirmation_frame.setVisibility(View.GONE);
+        tv_dropoff_point = (TextView) confirmationCard.findViewById(R.id.tv_dropoff_point);
+        tv_pickup_point = (TextView) confirmationCard.findViewById(R.id.tv_pickup_point);
+        tv_reservation_number = (TextView) confirmationCard.findViewById(R.id.tv_reservation_number);
+        tv_price_per_km = (TextView) confirmationCard.findViewById(R.id.tv_price_per_km);
+        tv_total_fare = (TextView ) confirmationCard.findViewById(R.id.tv_fare);
+        btn_confirmation_ok = (Button) confirmationCard.findViewById(R.id.btn_ok_confirmation);
+
+        sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         txt_no_of_seats = (EditText) findViewById(R.id.txt_no_of_seats);
         spinner_payment_tpye = (Spinner) findViewById(R.id.spinner_payment_type);
         btn_book_seats = (Button) findViewById(R.id.btn_book_seats);
@@ -105,10 +134,109 @@ public class BookingActivity extends AppCompatActivity {
 
                                 Log.i("VOLLEY", response.toString());
                                 try {
-                                    JSONObject json = new JSONObject(response);
+                                    final JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
 
-                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                        confirm_frame.setVisibility(View.VISIBLE);
+                                        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+
+                                                try {
+                                                    String URL = MainActivity.baseurl+"/confirm_ride/";
+                                                    final String reservation_number = json.getString("reservation_number");
+                                                    JSONObject jsonBody = new JSONObject();
+                                                    jsonBody.put("authorization", token);
+                                                    final String requestBody = jsonBody.toString();
+                                                    spinner.setVisibility(View.VISIBLE);
+                                                    spinner_frame.setVisibility(View.VISIBLE);
+                                                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                                                        @Override
+                                                        public void onResponse(String response) {
+                                                            spinner.setVisibility(View.GONE);
+                                                            spinner_frame.setVisibility(View.GONE);
+                                                            confirm_frame.setVisibility(View.GONE);
+                                                            Log.i("VOLLEY", response.toString());
+                                                            try {
+                                                                JSONObject json = new JSONObject(response);
+                                                                if (json.getString("status").equals("200")) {
+                                                                    System.out.println(json.getString("status"));
+                                                                    //Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                                                    confirmation_frame.setVisibility(View.VISIBLE);
+                                                                    tv_reservation_number.setText("Reservation no: "+json.getString("Reservation Number"));
+                                                                    tv_pickup_point.setText("Pickup point: "+json.getString("Pick-up point"));
+                                                                    tv_dropoff_point.setText("Drop off point: "+json.getString("Drop-up point"));
+                                                                    tv_price_per_km.setText("Price per km: "+ json.getString("price_per_km")+" rupees");
+                                                                    tv_total_fare.setText("Total fare: "+json.getString("Fare")+" rupees");
+                                                                    btn_confirmation_ok.setOnClickListener(new View.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(View v) {
+                                                                            confirmation_frame.setVisibility(View.GONE);
+                                                                            finish();
+                                                                            finish();
+                                                                        }
+                                                                    });
+                                                                }
+                                                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                                                    System.out.println(json.getString("status"));
+                                                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                                                }
+
+                                                            } catch (JSONException e) {
+                                                                Log.e("VOLLEY", e.toString());
+
+                                                            }
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(VolleyError error) {
+                                                            spinner.setVisibility(View.GONE);
+                                                            spinner_frame.setVisibility(View.GONE);
+                                                            Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                                                            Log.e("VOLLEY", error.toString());
+                                                        }
+                                                    }){
+                                                        @Override
+                                                        protected Map<String,String> getParams(){
+                                                            Map<String,String> params = new HashMap<String, String>();
+                                                            params.put("reservation_number", reservation_number);
+                                                            return params;
+                                                        }
+
+                                                        @Override
+                                                        public Map<String, String> getHeaders() throws AuthFailureError {
+                                                            Map<String, String>  params = new HashMap<String, String>();
+                                                            params.put("authorization", token);
+                                                            return params;
+                                                        }
+                                                    };
+
+                                                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                                                        @Override
+                                                        public int getCurrentTimeout() {
+                                                            return 50000;
+                                                        }
+
+                                                        @Override
+                                                        public int getCurrentRetryCount() {
+                                                            return 50000;
+                                                        }
+
+                                                        @Override
+                                                        public void retry(VolleyError error) throws VolleyError {
+
+                                                        }
+                                                    });
+
+                                                    requestQueue.add(stringRequest);
+
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            }
+                                        });
 
                                     }
                                     else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
@@ -177,5 +305,9 @@ public class BookingActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
     }
+
 }
