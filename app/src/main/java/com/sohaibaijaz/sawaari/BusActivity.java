@@ -56,16 +56,16 @@ public class BusActivity extends AppCompatActivity {
 
 
                             bus.put("vehicle_no_plate", ride.getString("vehicle_no_plate"));
-
                             bus.put("seats_left", ride.getString("seats_left"));
-
-
-                            bus.put("dropoff_location",ride_dropoff_object.getString("name"));
-                            bus.put("dropoff_location_time", ride_dropoff_object.getString("time"));
-                            bus.put("pickup_location", ride_pickup_object.getString("name"));
-                            bus.put("pickup_location_time", ride_pickup_object.getString("time"));
-//                          bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
-//                          bus.put("estimated_time", ride_pickup_object.getString("estimated_time"));
+                            bus.put("dropoff_location_id", ride_dropoff_object.getString("stop_id"));
+                            bus.put("dropoff_location",ride_dropoff_object.getString("stop_name"));
+                            bus.put("dropoff_location_time", ride_dropoff_object.getString("duration"));
+                            bus.put("pickup_location_id", ride_pickup_object.getString("stop_id"));
+                            bus.put("pickup_location", ride_pickup_object.getString("stop_name"));
+                            bus.put("pickup_location_time", ride_pickup_object.getString("duration"));
+                            bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
+                            bus.put("pickup_distance", ride_pickup_object.getString("distance"));
+                            bus.put("dropoff_distance", ride_dropoff_object.getString("distance"));
 
                             buses.add(bus);
                         }
@@ -87,16 +87,16 @@ public class BusActivity extends AppCompatActivity {
 
 
                             bus.put("vehicle_no_plate", ride.getString("vehicle_no_plate"));
-
                             bus.put("seats_left", ride.getString("seats_left"));
-
-
-                            bus.put("dropoff_location",ride_dropoff_object.getString("name"));
-                            bus.put("dropoff_location_time", ride_dropoff_object.getString("time"));
-                            bus.put("pickup_location", ride_pickup_object.getString("name"));
-                            bus.put("pickup_location_time", ride_pickup_object.getString("time"));
-//                          bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
-//                          bus.put("estimated_time", ride_pickup_object.getString("estimated_time"));
+                            bus.put("dropoff_location_id", ride_dropoff_object.getString("stop_id"));
+                            bus.put("dropoff_location",ride_dropoff_object.getString("stop_name"));
+                            bus.put("dropoff_location_time", ride_dropoff_object.getString("duration"));
+                            bus.put("pickup_location_id", ride_pickup_object.getString("stop_id"));
+                            bus.put("pickup_location", ride_pickup_object.getString("stop_name"));
+                            bus.put("pickup_location_time", ride_pickup_object.getString("duration"));
+                            bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
+                            bus.put("pickup_distance", ride_pickup_object.getString("pickup_distance"));
+                            bus.put("dropoff_distance", ride_dropoff_object.getString("dropoff_distance"));
 
                            buses.add(bus);
                         }
@@ -116,16 +116,16 @@ public class BusActivity extends AppCompatActivity {
                             JSONObject ride_dropoff_object = ride_dropoff.getJSONObject(j);
 
                             bus.put("vehicle_no_plate", ride.getString("vehicle_no_plate"));
-
                             bus.put("seats_left", ride.getString("seats_left"));
-
-
-                            bus.put("dropoff_location",ride_dropoff_object.getString("name"));
-                            bus.put("dropoff_location_time", ride_dropoff_object.getString("time"));
-                            bus.put("pickup_location", ride_pickup_object.getString("name"));
-                            bus.put("pickup_location_time", ride_pickup_object.getString("time"));
-//                          bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
-//                          bus.put("estimated_time", ride_pickup_object.getString("estimated_time"));
+                            bus.put("dropoff_location_id", ride_dropoff_object.getString("stop_id"));
+                            bus.put("dropoff_location",ride_dropoff_object.getString("stop_name"));
+                            bus.put("dropoff_location_time", ride_dropoff_object.getString("duration"));
+                            bus.put("pickup_location_id", ride_pickup_object.getString("stop_id"));
+                            bus.put("pickup_location", ride_pickup_object.getString("stop_name"));
+                            bus.put("pickup_location_time", ride_pickup_object.getString("duration"));
+                            bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
+                            bus.put("pickup_distance", ride_pickup_object.getString("pickup_distance"));
+                            bus.put("dropoff_distance", ride_dropoff_object.getString("dropoff_distance"));
 
                           buses.add(bus);
                         }
@@ -152,3 +152,4 @@ public class BusActivity extends AppCompatActivity {
     }
 
 }
+

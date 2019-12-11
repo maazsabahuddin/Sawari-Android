@@ -3,7 +3,9 @@ package com.sohaibaijaz.sawaari;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,10 @@ import android.widget.Toast;
 import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class CustomAdapterActivity extends BaseAdapter {
@@ -59,6 +64,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         TextView tv_seats_left;
         TextView tv_pickup_location_time;
         TextView tv_dropoff_location_time;
+        TextView tv_pickup_time;
 
     }
     @SuppressLint("ResourceAsColor")
@@ -73,6 +79,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         holder.tv_pickup_location_time = (TextView) rowView.findViewById(R.id.tv_pickup_location_time);
         holder.tv_dropoff_location=(TextView) rowView.findViewById(R.id.tv_dropoff_location);
         holder.tv_seats_left = (TextView) rowView.findViewById(R.id.tv_seats_left);
+        holder.tv_pickup_time = (TextView) rowView.findViewById(R.id.tv_pickup_time);
         int seats_left = Integer.parseInt(rides.get(position).get("seats_left").toString());
 //        int seats_left = 0;
         if ( seats_left == 0){
@@ -82,6 +89,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         else {
             holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left").toString());
         }
+        holder.tv_pickup_time.setText(convertTime(rides.get(position).get("arrival_time").toString()));
         holder.tv_pickup_location.setText("Pickup: "+rides.get(position).get("pickup_location").toString());
         holder.tv_dropoff_location.setText("Drop off: "+rides.get(position).get("dropoff_location").toString());
         holder.tv_pickup_location_time.setText(rides.get(position).get("pickup_location_time").toString()+" from your location");
@@ -90,11 +98,41 @@ public class CustomAdapterActivity extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
+//              Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
+                Intent i = new Intent(context, BookingActivity.class);
+
+                Bundle b = new Bundle();
+                b.putString("vehicle_no_plate", rides.get(position).get("vehicle_no_plate").toString());
+                b.putString("pickup_location_id", rides.get(position).get("pickup_location_id").toString());
+                b.putString("pickup_location", rides.get(position).get("pickup_location").toString());
+                b.putString("dropoff_location_id", rides.get(position).get("dropoff_location_id").toString());
+                b.putString("dropoff_location", rides.get(position).get("dropoff_location").toString());
+                b.putString("dropoff_distance", rides.get(position).get("dropoff_distance").toString());
+                b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
+                i.putExtras(b);
+                context.startActivity(i);
             }
         });
         return rowView;
     }
 
+public String convertTime(String time_24_hour) {
+        String time_formatted = "";
+    try {
+        final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
+        final Date dateObj = sdf.parse(time_24_hour);
+        System.out.println(dateObj);
+        time_formatted = new SimpleDateFormat("hh:mm a").format(dateObj);
+    } catch (final ParseException e) {
+        e.printStackTrace();
+
+    }
+
+    return time_formatted;
 
 }
+
+}
+
+
+

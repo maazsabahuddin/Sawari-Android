@@ -40,6 +40,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -50,6 +52,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
@@ -99,7 +102,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private Map<String, String> currentLocation = new HashMap<String, String>();
 
     private ArrayList<LatLng> markerPoints;
-
+    private FusedLocationProviderClient fusedLocationClient;
 
     @Nullable
     @Override
@@ -111,6 +114,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         boolean network_enabled = false;
 
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         markerPoints = new ArrayList<LatLng>();
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -141,7 +145,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
-
+        System.out.print("Token: "+ token);
 
         if(!token.equals(""))
         {
@@ -283,6 +287,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     PlaceSelectionListener placeSelectionListener = new PlaceSelectionListener() {
     @Override
     public void onPlaceSelected(@NonNull Place place) {
+        dropoffLocation.clear();
         dropoffLocation.put("name", place.getName());
        dropoffLocation.put("id", place.getId());
        LatLng latLng = place.getLatLng();
@@ -354,6 +359,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mMap = map;
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
+        mMap.clear();
         enableMyLocation();
     }
 
@@ -366,19 +372,29 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
-            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, true);
-            Location location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                currentLocation.put("latitude", String.valueOf(latitude));
-                currentLocation.put("longitude", String.valueOf(longitude));
-                LatLng coordinate = new LatLng(latitude, longitude);
-                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
-                mMap.animateCamera(yourLocation);
-            }
+
+//            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+//            Criteria criteria = new Criteria();
+//            String provider = locationManager.getBestProvider(criteria, true);
+//            Location location = locationManager.getLastKnownLocation(provider);
+//
+
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+                                currentLocation.clear();
+                                currentLocation.put("latitude", String.valueOf(latitude));
+                                currentLocation.put("longitude", String.valueOf(longitude));
+                                LatLng coordinate = new LatLng(latitude, longitude);
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                                mMap.animateCamera(yourLocation);
+                            }
+                        }
+                    });
         }
     }
 
@@ -392,25 +408,50 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, true);
         } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+//
+//            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+//            Criteria criteria = new Criteria();
+//            String provider = locationManager.getBestProvider(criteria, true);
+//            Location location = locationManager.getLastKnownLocation(provider);
+//            if (location != null) {
+//                double latitude = location.getLatitude();
+//                double longitude = location.getLongitude();
+//                currentLocation.clear();
+//                currentLocation.put("latitude", String.valueOf(latitude));
+//                currentLocation.put("longitude", String.valueOf(longitude));
+//                LatLng coordinate = new LatLng(latitude, longitude);
+//                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+//                mMap.animateCamera(yourLocation);
+//            }
 
-            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, true);
-            Location location = locationManager.getLastKnownLocation(provider);
-            if (location != null) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                currentLocation.put("latitude", String.valueOf(latitude));
-                currentLocation.put("longitude", String.valueOf(longitude));
-
-            }
+            fusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location location) {
+                            if (location != null) {
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+                                currentLocation.clear();
+                                currentLocation.put("latitude", String.valueOf(latitude));
+                                currentLocation.put("longitude", String.valueOf(longitude));
+                                LatLng coordinate = new LatLng(latitude, longitude);
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                                mMap.animateCamera(yourLocation);
+                            }
+                        }
+                    });
         }
+
+
         return false;
     }
 
+
+
     @Override
     public void onMyLocationClick(@NonNull Location location) {
-        Toast.makeText(getContext(), "Current location:\n", Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), "Current location", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -429,6 +470,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             mPermissionDenied = true;
         }
     }
+
+
+
+
+
 
     @Override
     public void onResume() {
@@ -455,6 +501,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
             showAlertLocationDisabled();
 
+        }
+        else{
+            enableMyLocation();
         }
     }
 
