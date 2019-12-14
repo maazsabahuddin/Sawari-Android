@@ -28,10 +28,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <activity
-            android:name=".ConfirmBookingActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".VerifyPhoneNumberActivity"
             android:screenOrientation="portrait" />

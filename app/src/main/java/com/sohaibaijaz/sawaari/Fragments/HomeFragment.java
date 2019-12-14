@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +114,31 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         boolean gps_enabled = false;
         boolean network_enabled = false;
 
+
+        //on Back Pressed
+        fragmentView.setFocusableInTouchMode(true);
+        fragmentView.requestFocus();
+        fragmentView.setOnKeyListener( new View.OnKeyListener()
+        {
+            int backpress = 0;
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+                    backpress = (backpress + 1);
+                    Toast.makeText(getContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+
+                    if (backpress > 2) {
+                        getActivity().finish();
+                        System.exit(0);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
         markerPoints = new ArrayList<LatLng>();
@@ -233,6 +259,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 params.put("start_lon", currentLocation.get("longitude"));
                                 params.put("stop_lat", dropoffLocation.get("latitude"));
                                 params.put("stop_lon", dropoffLocation.get("longitude"));
+                                System.out.println(currentLocation.get("latitude")+"\n"+currentLocation.get("longitude")+"\n"+dropoffLocation.get("latitude")+"\n"+dropoffLocation.get("longitude"));
 
                                 return params;
                             }
@@ -709,4 +736,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
     }
+
+
+
 }

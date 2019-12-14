@@ -55,6 +55,7 @@ public class BookingActivity extends AppCompatActivity {
     private TextView tv_price_per_km;
     private TextView tv_total_fare;
     private Button btn_confirmation_ok;
+    private Button btn_cancel_confirm;
 
 
 
@@ -85,7 +86,7 @@ public class BookingActivity extends AppCompatActivity {
         tv_price_per_km = (TextView) confirmationCard.findViewById(R.id.tv_price_per_km);
         tv_total_fare = (TextView ) confirmationCard.findViewById(R.id.tv_fare);
         btn_confirmation_ok = (Button) confirmationCard.findViewById(R.id.btn_ok_confirmation);
-
+        btn_cancel_confirm = (Button) confirmationCard.findViewById(R.id.btn_cancel_confirmation);
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         txt_no_of_seats = (EditText) findViewById(R.id.txt_no_of_seats);
         spinner_payment_tpye = (Spinner) findViewById(R.id.spinner_payment_type);
@@ -95,10 +96,10 @@ public class BookingActivity extends AppCompatActivity {
          b = getIntent().getExtras();
         final String vehicle_no_plate = b.getString("vehicle_no_plate");
         final String pickup_location = b.getString("pickup_location");
-        String picup_location_id = b.getString("pickup_location_id");
+        final String pickup_location_id = b.getString("pickup_location_id");
 
         final String dropoff_location = b.getString("dropoff_location");
-        String dropoff_location_id = b.getString("dropoff_location_id");
+        final String dropoff_location_id = b.getString("dropoff_location_id");
 
         final String token = sharedPreferences.getString("Token","");
 
@@ -138,8 +139,15 @@ public class BookingActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
                                         //Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
-                                        confirm_frame.setVisibility(View.VISIBLE);
-                                        btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
+                                        //confirm_frame.setVisibility(View.VISIBLE);
+                                        confirmation_frame.setVisibility(View.VISIBLE);
+                                        tv_reservation_number.setText("Reservation no: "+json.getString("reservation_number"));
+                                        tv_pickup_point.setText("Pickup point: "+json.getString("pick-up-point"));
+                                        tv_dropoff_point.setText("Drop off point: "+json.getString("drop-off-point"));
+                                        tv_price_per_km.setText("Price per km: "+ json.getString("price_per_km")+" rupees");
+                                        tv_total_fare.setText("Total fare: "+json.getString("fare")+" rupees");
+
+                                        btn_confirmation_ok.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
 
@@ -156,27 +164,22 @@ public class BookingActivity extends AppCompatActivity {
                                                         public void onResponse(String response) {
                                                             spinner.setVisibility(View.GONE);
                                                             spinner_frame.setVisibility(View.GONE);
-                                                            confirm_frame.setVisibility(View.GONE);
+                                                            confirmation_frame.setVisibility(View.GONE);
                                                             Log.i("VOLLEY", response.toString());
                                                             try {
                                                                 JSONObject json = new JSONObject(response);
                                                                 if (json.getString("status").equals("200")) {
                                                                     System.out.println(json.getString("status"));
                                                                     //Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                                                    confirmation_frame.setVisibility(View.VISIBLE);
-                                                                    tv_reservation_number.setText("Reservation no: "+json.getString("Reservation Number"));
-                                                                    tv_pickup_point.setText("Pickup point: "+json.getString("Pick-up point"));
-                                                                    tv_dropoff_point.setText("Drop off point: "+json.getString("Drop-up point"));
-                                                                    tv_price_per_km.setText("Price per km: "+ json.getString("price_per_km")+" rupees");
-                                                                    tv_total_fare.setText("Total fare: "+json.getString("Fare")+" rupees");
-                                                                    btn_confirmation_ok.setOnClickListener(new View.OnClickListener() {
+                                                                    confirm_frame.setVisibility(View.VISIBLE);
+                                                                    btn_confirm_booking.setOnClickListener(new View.OnClickListener() {
                                                                         @Override
                                                                         public void onClick(View v) {
-                                                                            confirmation_frame.setVisibility(View.GONE);
-                                                                            finish();
+                                                                            confirm_frame.setVisibility(View.GONE);
                                                                             finish();
                                                                         }
                                                                     });
+
                                                                 }
                                                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                                                     System.out.println(json.getString("status"));
@@ -238,6 +241,16 @@ public class BookingActivity extends AppCompatActivity {
                                             }
                                         });
 
+
+
+                                        btn_cancel_confirm.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                confirmation_frame.setVisibility(View.GONE);
+
+                                            }
+                                        });
+
                                     }
                                     else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                         Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
@@ -262,8 +275,8 @@ public class BookingActivity extends AppCompatActivity {
                                 Map<String,String> params = new HashMap<String, String>();
                                 params.put("vehicle_no_plate",vehicle_no_plate);
                                 params.put("req_seats",no_of_seats);
-                                params.put("pick_up_point", pickup_location);
-                                params.put("drop_up_point", dropoff_location);
+                                params.put("pick_up_point_stop_id", pickup_location_id);
+                                params.put("drop_up_point_stop_id", dropoff_location_id);
                                 params.put("kilometer", kilometer);
                                 params.put("payment_method", payment_type);
 

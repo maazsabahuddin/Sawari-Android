@@ -95,8 +95,8 @@ public class BusActivity extends AppCompatActivity {
                             bus.put("pickup_location", ride_pickup_object.getString("stop_name"));
                             bus.put("pickup_location_time", ride_pickup_object.getString("duration"));
                             bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
-                            bus.put("pickup_distance", ride_pickup_object.getString("pickup_distance"));
-                            bus.put("dropoff_distance", ride_dropoff_object.getString("dropoff_distance"));
+                            bus.put("pickup_distance", ride_pickup_object.getString("distance"));
+                            bus.put("dropoff_distance", ride_dropoff_object.getString("distance"));
 
                            buses.add(bus);
                         }
@@ -124,8 +124,8 @@ public class BusActivity extends AppCompatActivity {
                             bus.put("pickup_location", ride_pickup_object.getString("stop_name"));
                             bus.put("pickup_location_time", ride_pickup_object.getString("duration"));
                             bus.put("arrival_time", ride_pickup_object.getString("arrival_time"));
-                            bus.put("pickup_distance", ride_pickup_object.getString("pickup_distance"));
-                            bus.put("dropoff_distance", ride_dropoff_object.getString("dropoff_distance"));
+                            bus.put("pickup_distance", ride_pickup_object.getString("distance"));
+                            bus.put("dropoff_distance", ride_dropoff_object.getString("distance"));
 
                           buses.add(bus);
                         }

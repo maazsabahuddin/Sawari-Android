@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +57,30 @@ public class AccountFragment extends Fragment {
         Button btn_update_name = fragmentView.findViewById(R.id.btn_update_name);
         Button btn_change_phone = fragmentView.findViewById(R.id.btn_change_phone);
 
+
+        fragmentView.setFocusableInTouchMode(true);
+        fragmentView.requestFocus();
+        fragmentView.setOnKeyListener( new View.OnKeyListener()
+        {
+            int backpress = 0;
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+                    backpress = (backpress + 1);
+                    Toast.makeText(getContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+
+                    if (backpress > 2) {
+                        getActivity().finish();
+                        System.exit(0);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        } );
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
