@@ -18,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -40,23 +41,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import static java.util.logging.Logger.global;
+
 public class AccountFragment extends Fragment {
 
-    private FrameLayout spinner_frame;
-    private ProgressBar spinner;
     private View fragmentView;
+    private SharedPreferences sharedPreferences;
+    private TextView tv_name;
+    private TextView tv_phone;
+    private TextView tv_email;
+    private Button btn_update_name;
+    private Button btn_change_phone;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_account, container, false);
-        SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
-        TextView tv_name = fragmentView.findViewById(R.id.tv_name);
-        TextView tv_phone = fragmentView.findViewById(R.id.tv_phone);
-        TextView tv_email = fragmentView.findViewById(R.id.tv_email);
-        Button btn_update_name = fragmentView.findViewById(R.id.btn_update_name);
-        Button btn_change_phone = fragmentView.findViewById(R.id.btn_change_phone);
+        sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        tv_name = fragmentView.findViewById(R.id.tv_name);
+        tv_phone = fragmentView.findViewById(R.id.tv_phone);
+        tv_email = fragmentView.findViewById(R.id.tv_email);
+        btn_update_name = fragmentView.findViewById(R.id.btn_update_name);
+        btn_change_phone = fragmentView.findViewById(R.id.btn_change_phone);
 
+        refreshUserDetails();
 
         fragmentView.setFocusableInTouchMode(true);
         fragmentView.requestFocus();
@@ -81,12 +89,34 @@ public class AccountFragment extends Fragment {
                 return false;
             }
         } );
-        spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.GONE);
-        spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
-        spinner_frame.setVisibility(View.GONE);
 
 
+        btn_update_name.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Intent i = new Intent(getActivity().getApplicationContext(), UpdateNameActivity.class);
+                startActivity(i);
+                getActivity().finish();
+
+            }
+        });
+
+        btn_change_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getActivity().getApplicationContext(), UpdatePhoneNumberActivity.class);
+                startActivity(i);
+                getActivity().finish();
+            }
+        });
+
+        return fragmentView;
+    }
+
+
+    private void refreshUserDetails(){
         String token = sharedPreferences.getString("Token", "");
         String first_name= sharedPreferences.getString("first_name", "");
         String last_name = sharedPreferences.getString("last_name", "");
@@ -102,46 +132,22 @@ public class AccountFragment extends Fragment {
                 String name = first_name + " " + last_name;
                 tv_name.setText(name);
             }
-           if(email.equals(""))
-           {
-               tv_email.setText("No email account registered");
-           }
-           else{
-               tv_email.setText(email);
-           }
+            if(email.equals(""))
+            {
+                tv_email.setText("No email account registered");
+            }
+            else{
+                tv_email.setText(email);
+            }
 
-           if(phone_number.equals(""))
-           {
-               tv_phone.setText("No phone number registered");
-           }
-           else{
-               tv_phone.setText(phone_number);
-           }
+            if(phone_number.equals(""))
+            {
+                tv_phone.setText("No phone number registered");
+            }
+            else{
+                tv_phone.setText(phone_number);
+            }
 
         }
-
-
-
-        btn_update_name.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-
-                Intent i = new Intent(getActivity().getApplicationContext(), UpdateNameActivity.class);
-                startActivity(i);
-            }
-        });
-
-        btn_change_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getActivity().getApplicationContext(), UpdatePhoneNumberActivity.class);
-                startActivity(i);
-            }
-        });
-
-
-
-        return fragmentView;
     }
 }

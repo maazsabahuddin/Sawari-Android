@@ -26,6 +26,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Fragments.AccountFragment;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 
 import org.json.JSONException;
@@ -52,8 +53,6 @@ public class UpdateNameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_name);
         getSupportActionBar().hide();
-
-
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         final String token = sharedPreferences.getString("Token", "");
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
@@ -92,6 +91,12 @@ public class UpdateNameActivity extends AppCompatActivity {
 
                 final String first_name = txt_first_name.getText().toString();
                 final String last_name = txt_last_name.getText().toString();
+
+
+                if (first_name.equals("") || last_name.equals("")) {
+                    Toast.makeText(getApplicationContext(), "You must enter First name and Last name!", Toast.LENGTH_SHORT).show();
+                }
+                else{
                 requestQueue = Volley.newRequestQueue(getApplicationContext());
                 try {
                     String URL = MainActivity.baseurl + "/update/name/";
@@ -107,10 +112,11 @@ public class UpdateNameActivity extends AppCompatActivity {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    UserDetails.getUserDetails(getApplicationContext());
+                                    UserDetails.getUserDetails(UpdateNameActivity.this);
+                                    Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                    startActivity(i);
                                     finish();
-                                }
-                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
@@ -126,10 +132,10 @@ public class UpdateNameActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                             Log.e("VOLLEY", error.toString());
                         }
-                    }){
+                    }) {
                         @Override
-                        protected Map<String,String> getParams(){
-                            Map<String,String> params = new HashMap<String, String>();
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
                             params.put("first_name", first_name);
                             params.put("last_name", last_name);
                             return params;
@@ -137,7 +143,7 @@ public class UpdateNameActivity extends AppCompatActivity {
 
                         @Override
                         public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String, String>  params = new HashMap<String, String>();
+                            Map<String, String> params = new HashMap<String, String>();
                             params.put("Authorization", token);
                             return params;
                         }
@@ -166,7 +172,17 @@ public class UpdateNameActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+
+            }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
     }
 }

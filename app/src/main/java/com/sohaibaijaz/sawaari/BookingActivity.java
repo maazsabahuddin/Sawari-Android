@@ -100,6 +100,7 @@ public class BookingActivity extends AppCompatActivity {
 
         final String dropoff_location = b.getString("dropoff_location");
         final String dropoff_location_id = b.getString("dropoff_location_id");
+        final String ride_date = b.getString("ride_date");
 
         final String token = sharedPreferences.getString("Token","");
 
@@ -279,7 +280,7 @@ public class BookingActivity extends AppCompatActivity {
                                 params.put("drop_up_point_stop_id", dropoff_location_id);
                                 params.put("kilometer", kilometer);
                                 params.put("payment_method", payment_type);
-
+                                params.put("ride_date", ride_date);
 //                                params.put(KEY_EMAIL, email);
                                 return params;
                             }

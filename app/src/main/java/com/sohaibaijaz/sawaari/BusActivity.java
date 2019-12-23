@@ -32,7 +32,6 @@ public class BusActivity extends AppCompatActivity {
         String rides_data = b.getString("rides");
 
 
-
         try {
 
             JSONArray rides = new JSONArray(rides_data);
@@ -54,7 +53,7 @@ public class BusActivity extends AppCompatActivity {
                             JSONObject ride_pickup_object = ride_pickup.getJSONObject(j);
                             JSONObject ride_dropoff_object = ride_dropoff.getJSONObject(k);
 
-
+                            bus.put("ride_date", ride_pickup_object.getString("date"));
                             bus.put("vehicle_no_plate", ride.getString("vehicle_no_plate"));
                             bus.put("seats_left", ride.getString("seats_left"));
                             bus.put("dropoff_location_id", ride_dropoff_object.getString("stop_id"));
@@ -86,6 +85,7 @@ public class BusActivity extends AppCompatActivity {
                             JSONObject ride_dropoff_object = ride_dropoff.getJSONObject(j);
 
 
+                            bus.put("ride_date", ride_pickup_object.getString("date"));
                             bus.put("vehicle_no_plate", ride.getString("vehicle_no_plate"));
                             bus.put("seats_left", ride.getString("seats_left"));
                             bus.put("dropoff_location_id", ride_dropoff_object.getString("stop_id"));
@@ -115,6 +115,7 @@ public class BusActivity extends AppCompatActivity {
                             JSONObject ride_pickup_object = ride_pickup.getJSONObject(k);
                             JSONObject ride_dropoff_object = ride_dropoff.getJSONObject(j);
 
+                            bus.put("ride_date", ride_pickup_object.getString("date"));
                             bus.put("vehicle_no_plate", ride.getString("vehicle_no_plate"));
                             bus.put("seats_left", ride.getString("seats_left"));
                             bus.put("dropoff_location_id", ride_dropoff_object.getString("stop_id"));

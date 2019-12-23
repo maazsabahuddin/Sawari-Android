@@ -51,7 +51,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
@@ -60,7 +59,6 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
-import com.sohaibaijaz.sawaari.GetDirectionsData;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
@@ -189,11 +187,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
 
             autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
-
-
-            UserDetails.getUserDetails(this.getContext());
-
-
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -435,22 +428,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, true);
         } else if (mMap != null) {
-            // Access to the location has been granted to the app.
-//
-//            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-//            Criteria criteria = new Criteria();
-//            String provider = locationManager.getBestProvider(criteria, true);
-//            Location location = locationManager.getLastKnownLocation(provider);
-//            if (location != null) {
-//                double latitude = location.getLatitude();
-//                double longitude = location.getLongitude();
-//                currentLocation.clear();
-//                currentLocation.put("latitude", String.valueOf(latitude));
-//                currentLocation.put("longitude", String.valueOf(longitude));
-//                LatLng coordinate = new LatLng(latitude, longitude);
-//                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
-//                mMap.animateCamera(yourLocation);
-//            }
 
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {

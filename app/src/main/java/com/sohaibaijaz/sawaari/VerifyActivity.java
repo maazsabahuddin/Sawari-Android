@@ -202,6 +202,7 @@ public class VerifyActivity extends AppCompatActivity {
                                         SharedPreferences.Editor edit = sharedPreferences.edit();
                                         edit.putString("Token", token);
                                         edit.apply();
+                                        UserDetails.getUserDetails(VerifyActivity.this);
                                         Intent myIntent = new Intent(VerifyActivity.this, NavActivity.class);//Optional parameters
                                         finish();
                                         VerifyActivity.this.startActivity(myIntent);

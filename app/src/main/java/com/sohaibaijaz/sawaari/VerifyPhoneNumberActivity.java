@@ -138,58 +138,58 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public int getCurrentRetryCount() {
-                            return 50000;
-                        }
+                            public int getCurrentRetryCount() {
+                                return 50000;
+                            }
 
-                        @Override
-                        public void retry(VolleyError error) throws VolleyError {
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
 
-                        }
-                    });
+                            }
+                        });
 
-                    requestQueue.add(stringRequest);
+                        requestQueue.add(stringRequest);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
 
-            }
-        });
+                }
+            });
 
 
 
 
-        resend_otp_phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    String URL = MainActivity.baseurl+"/register/resend_otp/";
-                    spinner.setVisibility(View.VISIBLE);
-                    spinner_frame.setVisibility(View.VISIBLE);
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            spinner.setVisibility(View.GONE);
-                            spinner_frame.setVisibility(View.GONE);
-                            Log.i("VOLLEY", response.toString());
-                            try {
-                                JSONObject json = new JSONObject(response);
-                                if (json.getString("status").equals("200")) {
-                                    System.out.println(json.getString("status"));
-                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    UserDetails.getUserDetails(getApplicationContext());
+            resend_otp_phone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        String URL = MainActivity.baseurl+"/register/resend_otp/";
+                        spinner.setVisibility(View.VISIBLE);
+                        spinner_frame.setVisibility(View.VISIBLE);
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
+                                Log.i("VOLLEY", response.toString());
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    if (json.getString("status").equals("200")) {
+                                        System.out.println(json.getString("status"));
+                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        UserDetails.getUserDetails(VerifyPhoneNumberActivity.this);
+                                        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                                        startActivity(i);
                                     finish();
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     System.out.println(json.getString("status"));
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
-//                                    else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-//                                        Toast.makeText(VerifyActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    }
+//
                             } catch (JSONException e) {
                                 Log.e("VOLLEY", e.toString());
 
@@ -242,5 +242,12 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
     }
 }

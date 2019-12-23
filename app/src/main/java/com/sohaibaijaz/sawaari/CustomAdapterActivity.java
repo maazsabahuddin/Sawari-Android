@@ -65,6 +65,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         TextView tv_pickup_location_time;
         TextView tv_dropoff_location_time;
         TextView tv_pickup_time;
+        TextView tv_ride_date;
 
     }
     @SuppressLint("ResourceAsColor")
@@ -80,15 +81,17 @@ public class CustomAdapterActivity extends BaseAdapter {
         holder.tv_dropoff_location=(TextView) rowView.findViewById(R.id.tv_dropoff_location);
         holder.tv_seats_left = (TextView) rowView.findViewById(R.id.tv_seats_left);
         holder.tv_pickup_time = (TextView) rowView.findViewById(R.id.tv_pickup_time);
+        holder.tv_ride_date = (TextView) rowView.findViewById(R.id.tv_ride_date);
         int seats_left = Integer.parseInt(rides.get(position).get("seats_left").toString());
 //        int seats_left = 0;
-        if ( seats_left == 0){
+        if (seats_left == 0){
             holder.tv_seats_left.setTextColor(Color.parseColor("#96281b"));
             holder.tv_seats_left.setText("Fully Booked!");
         }
         else {
             holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left").toString());
         }
+        holder.tv_ride_date.setText(rides.get(position).get("ride_date").toString());
         holder.tv_pickup_time.setText(convertTime(rides.get(position).get("arrival_time").toString()));
         holder.tv_pickup_location.setText("Pickup: "+rides.get(position).get("pickup_location").toString());
         holder.tv_dropoff_location.setText("Drop off: "+rides.get(position).get("dropoff_location").toString());
@@ -109,6 +112,7 @@ public class CustomAdapterActivity extends BaseAdapter {
                 b.putString("dropoff_location", rides.get(position).get("dropoff_location").toString());
                 b.putString("dropoff_distance", rides.get(position).get("dropoff_distance").toString());
                 b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
+                b.putString("ride_date", rides.get(position).get("ride_date").toString());
                 i.putExtras(b);
                 context.startActivity(i);
             }
