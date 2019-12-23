@@ -170,6 +170,7 @@ public class BookingActivity extends AppCompatActivity {
                                                             try {
                                                                 JSONObject json = new JSONObject(response);
                                                                 if (json.getString("status").equals("200")) {
+                                                                    UserDetails.getUserRides(BookingActivity.this);
                                                                     System.out.println(json.getString("status"));
                                                                     //Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                                                     confirm_frame.setVisibility(View.VISIBLE);
@@ -177,6 +178,7 @@ public class BookingActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onClick(View v) {
                                                                             confirm_frame.setVisibility(View.GONE);
+
                                                                             finish();
                                                                         }
                                                                     });

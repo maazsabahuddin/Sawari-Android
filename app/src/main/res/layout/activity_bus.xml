@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".BusActivity"
     android:layout_gravity="center"
-    android:background="@color/colorWhiteSmoke"
+    android:background="@color/colorWhite"
     >
 
 
@@ -14,8 +14,8 @@
         android:id="@+id/list_buses"
         android:layout_width="395dp"
         android:layout_height="638dp"
-        android:background="@color/colorWhiteSmoke"
-        android:divider="@color/colorWhiteSmoke"
+        android:background="@color/colorWhite"
+        android:divider="@color/colorWhite"
         android:dividerHeight="10.0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

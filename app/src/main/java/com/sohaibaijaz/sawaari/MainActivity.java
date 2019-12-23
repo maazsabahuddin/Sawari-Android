@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
 
-    public static String baseurl= "https://cc-y5hw.localhost.run";
+    public static String baseurl= "https://cc-hivm.localhost.run";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -196,13 +196,13 @@ public class MainActivity extends AppCompatActivity {
                                     }
 
                                     else {
-
                                         //Shared Preferences
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.remove("Token");
                                         editor.putString("Token", token);
                                         editor.apply();
                                         UserDetails.getUserDetails(MainActivity.this);
+                                        UserDetails.getUserRides(MainActivity.this);
                                         Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
                                         finish();
                                         MainActivity.this.startActivity(myIntent);
