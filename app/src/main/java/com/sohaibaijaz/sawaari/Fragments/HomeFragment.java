@@ -50,6 +50,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -351,7 +353,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                 // Start downloading json data from Google Directions API
                 downloadTask.execute(url);
+
+
             }
+
+
 
 
 
@@ -381,6 +387,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mMap.setOnMyLocationClickListener(this);
         mMap.clear();
         enableMyLocation();
+
     }
 
     private void enableMyLocation() {
@@ -418,6 +425,28 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+    public void setBoundsLocation(){
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission to access the location is missing.
+            PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_FINE_LOCATION, true);
+        } else if (mMap != null) {
+            // Access to the location has been granted to the app.
+            mMap.setMyLocationEnabled(true);
+
+            LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
+            LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
+
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            builder.include(start).include(stop);
+            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 10));
+
+
+        }
+    }
+
+
     @Override
     public boolean onMyLocationButtonClick() {
 
@@ -440,7 +469,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 currentLocation.put("latitude", String.valueOf(latitude));
                                 currentLocation.put("longitude", String.valueOf(longitude));
                                 LatLng coordinate = new LatLng(latitude, longitude);
-                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
                                 mMap.animateCamera(yourLocation);
                             }
                         }
@@ -507,7 +536,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         }
         else{
+//            enableMyLocation();
+                    if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
             enableMyLocation();
+        }
+        else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null) {
+
+            setBoundsLocation();
+        }
         }
     }
 

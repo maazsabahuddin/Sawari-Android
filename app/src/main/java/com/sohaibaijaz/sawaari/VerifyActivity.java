@@ -40,6 +40,17 @@ public class VerifyActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+
+    int backpress = 0;
+    @Override
+    public void onBackPressed(){
+        backpress = (backpress + 1);
+        Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+
+        if (backpress>1) {
+            this.finish();
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +68,8 @@ public class VerifyActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+
+
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         txt_otp.setOnEditorActionListener(new EditText.OnEditorActionListener(){
@@ -159,6 +172,7 @@ public class VerifyActivity extends AppCompatActivity {
 
             }
         });
+
 
 
 
@@ -274,16 +288,4 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
 
-    public static boolean isValidEmail(String email)
-    {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
-
-        Pattern pat = Pattern.compile(emailRegex);
-        if (email == null)
-            return false;
-        return pat.matcher(email).matches();
-    }
 }

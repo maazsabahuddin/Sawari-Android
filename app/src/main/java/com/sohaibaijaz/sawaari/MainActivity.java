@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
 
-    public static String baseurl= "https://cc-hivm.localhost.run";
+    public static String baseurl= "http://sohaibaijaz9.pythonanywhere.com";
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -146,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, SignupActivity.class);//Optional parameters
+                finish();
                 MainActivity.this.startActivity(myIntent);
             }
         });
@@ -192,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
                                         b.putString("Token", token);
                                         b.putString("email_phone", email_phone);
                                         myIntent.putExtras(b);
+                                        finish();
                                         MainActivity.this.startActivity(myIntent);
                                     }
 

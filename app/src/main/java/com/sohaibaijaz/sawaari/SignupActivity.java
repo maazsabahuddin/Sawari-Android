@@ -70,8 +70,10 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 finish();
-                return;
+                startActivity(i);
+
             }
         });
 
@@ -159,6 +161,7 @@ public class SignupActivity extends AppCompatActivity {
                                            Bundle b = new Bundle();
                                            b.putString("Token", token);
                                            myIntent.putExtras(b);
+                                           finish();
                                            SignupActivity.this.startActivity(myIntent);
 
                                        }
