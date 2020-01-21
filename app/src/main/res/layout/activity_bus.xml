@@ -4,15 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BusActivity">
+    tools:context=".BusActivity"
+    android:layout_gravity="center"
+    android:background="@color/colorWhite"
+    >
+
+
+    <ListView
+        android:id="@+id/list_buses"
+        android:layout_width="395dp"
+        android:layout_height="638dp"
+        android:background="@color/colorWhite"
+        android:divider="@color/colorWhite"
+        android:dividerHeight="10.0sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.862" />
+
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="27dp"
+        android:layout_height="37dp"
+
+        android:background="@drawable/ic_action_name"
+        app:layout_constraintBottom_toBottomOf="@+id/list_buses"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.021"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023"
+
+        />
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="285dp"
-        android:layout_height="197dp"
-        android:layout_marginEnd="60dp"
-        android:text="TextView"
+        android:layout_width="287dp"
+        android:layout_height="37dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Select a ride"
+        android:textColor="@color/colorJacksonPurple"
+        android:textSize="22dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.023" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

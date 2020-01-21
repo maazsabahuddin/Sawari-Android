@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookingActivity">
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.533"
+        app:layout_constraintWidth_percent="0.8">
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/EditTextTheme">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_no_of_seats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter number of seats"
+                android:selectAllOnFocus="true"
+                android:inputType="number"
+                android:singleLine="true"
+                android:theme="@style/EditTextTheme"
+                android:textSize="20dp"
+                />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="27dp" />
+
+        <Spinner
+            android:id="@+id/spinner_payment_type"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:prompt="@string/SelectPaymentType"
+            android:entries="@array/payment_types"
+            />
+
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <Button
+            android:id="@+id/btn_book_seats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:text="Book Seats"
+            android:textColor="@color/colorWhite"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/confirm_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        android:clickable="true"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="250dp"
+                android:layout_height="150dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="10dp"
+                android:id="@+id/confirmCard"
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    >
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Booking Confirmed"
+                        android:textAlignment="center"
+                        android:textSize="20dp"
+                        android:textStyle="bold"
+                        />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp" />
+
+                    <Button
+                        android:id="@+id/btn_confirm_booking"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/button_background"
+                        android:text="ok"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+
+    <FrameLayout
+        android:id="@+id/confirmation_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        android:clickable="true"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="380dp"
+                android:layout_height="420dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="10dp"
+                android:id="@+id/confirmationCard"
+                >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="18dp"
+
+                    >
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="37dp" />
+
+                    <TextView
+                        android:id="@+id/tv_reservation_number"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Reservation no: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_pickup_point"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Pickup point: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+                    <TextView
+                        android:id="@+id/tv_dropoff_point"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Drop off point: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+
+
+
+                    <TextView
+                        android:id="@+id/tv_price_per_km"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Price per km: "
+
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+
+                    <TextView
+                        android:id="@+id/tv_fare"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Total fare: "
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:textColor="@color/quantum_black_100"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Confirm Booking?"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorOldBrickRed"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp" />
+
+
+
+                    <Button
+                        android:id="@+id/btn_ok_confirmation"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/button_background"
+                        android:text="ok"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:layout_gravity="center"
+                        />
+
+
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="15dp" />
+
+                    <Button
+                        android:id="@+id/btn_cancel_confirmation"
+                        style="@style/Widget.AppCompat.Button"
+                        android:layout_width="150dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/button_background"
+                        android:text="Cancel"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        android:layout_gravity="center"
+                        />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/spinner_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:foregroundGravity="center"
+        android:clickable="true"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="?android:attr/progressBarStyleLarge"
+            android:theme="@style/PurpleAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.51"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </FrameLayout>
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

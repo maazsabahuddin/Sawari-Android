@@ -9,7 +9,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -43,19 +46,23 @@ public class MainActivity extends AppCompatActivity {
 
     //Shared preferences code
     public static final String AppPreferences = "AppPreferences";
-    public static final String tokenKey = "Token";
     SharedPreferences sharedPreferences;
     //
 
+
+    private  String token;
     private RequestQueue requestQueue;
     private EditText txt_email_phone;
     private EditText txt_password;
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+    private TextView tv_forget_password;
 
-    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyAH9_nAvpy-20M79zRdOlSsjs5JIBiFvI0";
 
-    public static String baseurl= "https://maaz-rzps.localhost.run";
+    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
+
+    public static String baseurl= "http://sohaibaijaz9.pythonanywhere.com";
+
     private int backpress = 0;
     @Override
     public void onBackPressed(){
@@ -73,14 +80,40 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_main);
 
-        Button btn_login = findViewById(R.id.btn_login);
+        final Button btn_login = findViewById(R.id.btn_login);
         requestQueue = Volley.newRequestQueue(this);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         txt_email_phone = findViewById(R.id.txt_email);
         txt_password = findViewById(R.id.txt_password);
+        tv_forget_password = findViewById(R.id.tv_forget_password);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+
+
+
+        tv_forget_password.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ForgetPasswordActivity.class);
+                MainActivity.this.startActivity(i);
+            }
+        });
+        txt_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    btn_login.performClick();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(btn_login.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
+                }
+                return false;
+            }
+            });
 
 
         //Shared Preferences
@@ -114,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent myIntent = new Intent(MainActivity.this, SignupActivity.class);//Optional parameters
+                finish();
                 MainActivity.this.startActivity(myIntent);
             }
         });
@@ -152,31 +186,36 @@ public class MainActivity extends AppCompatActivity {
                             try {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-
-                                    String token = json.getString("token");
-                                    //Shared Preferences
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.remove("Token");
-                                    editor.putString("Token", token);
-                                    editor.apply();
-                                    Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
-                                    finish();
-                                    MainActivity.this.startActivity(myIntent);
-
-//
-
-                                }
-                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-                                    Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    token = json.getString("token");
                                     if(json.getString("message").equals("User not authenticated. Please verify first.")){
-                                        String token = json.getString("token");
+                                        Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
+                                        Bundle b = new Bundle();
+                                        b.putString("Token", token);
+                                        b.putString("email_phone", email_phone);
+                                        myIntent.putExtras(b);
+                                        finish();
+                                        MainActivity.this.startActivity(myIntent);
+                                    }
+
+                                    else {
+                                        //Shared Preferences
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.remove("Token");
                                         editor.putString("Token", token);
                                         editor.apply();
-                                        Intent myIntent = new Intent(MainActivity.this, VerifyActivity.class);//Optional parameters
+                                        UserDetails.getUserDetails(MainActivity.this);
+                                        UserDetails.getUserRides(MainActivity.this);
+                                        Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                        finish();
                                         MainActivity.this.startActivity(myIntent);
                                     }
+//
+
+
+                                }
+                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
                             } catch (JSONException e) {
                                 Log.e("VOLLEY", e.toString());
@@ -226,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
             }
 
         }

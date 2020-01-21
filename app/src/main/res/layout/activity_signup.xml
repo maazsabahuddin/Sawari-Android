@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.64"
-            app:srcCompat="@mipmap/sawaari" />
+            app:srcCompat="@mipmap/ic_sawaari" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,19 +57,25 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextTheme"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:theme="@style/EditTextTheme"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextTheme"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_phone"
@@ -77,12 +83,16 @@
                     android:layout_height="wrap_content"
                     android:hint="Phone Number"
                     android:phoneNumber="true"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:theme="@style/EditTextTheme"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextTheme"
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_password"
@@ -91,12 +101,17 @@
                     android:hint="Pin"
                     android:inputType="numberPassword"
                     android:password="true"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:theme="@style/EditTextTheme"
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:theme="@style/EditTextTheme"
+
+                >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txt_password2"
@@ -105,7 +120,9 @@
                     android:hint="Confirm Pin"
                     android:inputType="numberPassword"
                     android:password="true"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:theme="@style/EditTextTheme"
+                    />
 
                 <Space
                     android:layout_width="match_parent"
@@ -118,7 +135,7 @@
                 android:id="@+id/btn_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPink"
+                android:background="@drawable/button_background"
                 android:text="Sign up"
                 android:textColor="@color/colorWhite"
                 android:textSize="18dp"
@@ -164,6 +181,7 @@
             style="?android:attr/progressBarStyleLarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:theme="@style/PurpleAccent"
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"

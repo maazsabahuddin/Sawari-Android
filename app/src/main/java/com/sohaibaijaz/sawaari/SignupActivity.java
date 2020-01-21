@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -67,12 +70,14 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 finish();
-                return;
+                startActivity(i);
+
             }
         });
 
-       Button btn_signup = findViewById(R.id.btn_signup);
+       final Button btn_signup = findViewById(R.id.btn_signup);
        final EditText txt_email = findViewById(R.id.txt_email);
        final EditText txt_phone = findViewById(R.id.txt_phone);
        final EditText txt_password = findViewById(R.id.txt_password);
@@ -83,7 +88,21 @@ public class SignupActivity extends AppCompatActivity {
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 //       final EditText txt_login = findViewById(R.id.txt_login);
+        txt_password2.setOnEditorActionListener(new EditText.OnEditorActionListener(){
 
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                if(i== EditorInfo.IME_ACTION_DONE){
+                    btn_signup.performClick();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(btn_signup.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
+                }
+                return false;
+            }
+        });
        txt_password2.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -102,6 +121,7 @@ public class SignupActivity extends AppCompatActivity {
                email = txt_email.getText().toString();
                password = txt_password.getText().toString();
                password2 = txt_password2.getText().toString();
+
 
                txt_password2.setCursorVisible(false);
 
@@ -136,13 +156,12 @@ public class SignupActivity extends AppCompatActivity {
                                            String token = json.getString("token");
 
                                            //Shared Preferences
-                                           SharedPreferences.Editor editor = sharedPreferences.edit();
-                                           editor.remove("Token");
-                                           editor.putString("Token", token);
-                                           editor.apply();
-
                                            Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                            Intent myIntent = new Intent(SignupActivity.this, VerifyActivity.class);//Optional parameter
+                                           Bundle b = new Bundle();
+                                           b.putString("Token", token);
+                                           myIntent.putExtras(b);
+                                           finish();
                                            SignupActivity.this.startActivity(myIntent);
 
                                        }
