@@ -146,7 +146,15 @@ public class BookingActivity extends AppCompatActivity {
                                         tv_pickup_point.setText("Pickup point: "+json.getString("pick-up-point"));
                                         tv_dropoff_point.setText("Drop off point: "+json.getString("drop-off-point"));
                                         tv_price_per_km.setText("Price per km: "+ json.getString("price_per_km")+" rupees");
+                                        tv_price_per_km.setText("Fare "+ json.getString("fare_per_person"));
                                         tv_total_fare.setText("Total fare: "+json.getString("fare")+" rupees");
+
+                                        System.out.println(json.getString("reservation_number"));
+                                        System.out.println(json.getString("pick-up-point"));
+                                        System.out.println(json.getString("drop-off-point"));
+                                        System.out.println(json.getString("price_per_km"));
+                                        System.out.println(json.getString("fare_per_person"));
+                                        System.out.println(json.getString("fare"));
 
                                         btn_confirmation_ok.setOnClickListener(new View.OnClickListener() {
                                             @Override

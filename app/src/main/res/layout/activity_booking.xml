@@ -168,28 +168,27 @@
         >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="382dp"
             android:layout_height="match_parent"
             android:layout_gravity="center">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="380dp"
-                android:layout_height="420dp"
+                android:id="@+id/confirmationCard"
+                android:layout_width="395dp"
+                android:layout_height="464dp"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:cardCornerRadius="10dp"
-                android:id="@+id/confirmationCard"
-                >
+                app:layout_constraintTop_toTopOf="parent">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_gravity="left"
                     android:layout_marginLeft="18dp"
+                    android:orientation="vertical"
 
                     >
 
@@ -205,8 +204,7 @@
                         android:text="Reservation no: "
 
                         android:textSize="18dp"
-                        android:textStyle="normal"
-                        />
+                        android:textStyle="normal" />
 
 
                     <Space
@@ -216,13 +214,11 @@
                     <TextView
                         android:id="@+id/tv_pickup_point"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="59dp"
                         android:text="Pickup point: "
 
                         android:textSize="18dp"
-                        android:textStyle="normal"
-                        />
-
+                        android:textStyle="normal" />
 
 
                     <Space
@@ -232,19 +228,15 @@
                     <TextView
                         android:id="@+id/tv_dropoff_point"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="57dp"
                         android:text="Drop off point: "
 
                         android:textSize="18dp"
-                        android:textStyle="normal"
-                        />
+                        android:textStyle="normal" />
 
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
-
-
-
 
 
                     <TextView
@@ -254,12 +246,11 @@
                         android:text="Price per km: "
 
                         android:textSize="18dp"
-                        android:textStyle="normal"
-                        />
+                        android:textStyle="normal" />
+
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
-
 
 
                     <TextView
@@ -267,10 +258,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="Total fare: "
-                        android:textSize="18dp"
-                        android:textStyle="normal"
                         android:textColor="@color/quantum_black_100"
-                        />
+                        android:textSize="18dp"
+                        android:textStyle="normal" />
+
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
@@ -281,15 +272,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="Confirm Booking?"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
                         android:textAlignment="center"
                         android:textColor="@color/colorOldBrickRed"
-                        />
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
-
 
 
                     <Button
@@ -297,13 +287,12 @@
                         style="@style/Widget.AppCompat.Button"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/button_background"
                         android:text="ok"
                         android:textColor="@color/colorWhite"
                         android:textSize="18dp"
-                        android:textStyle="normal"
-                        android:layout_gravity="center"
-                        />
+                        android:textStyle="normal" />
 
 
                     <Space
@@ -315,13 +304,12 @@
                         style="@style/Widget.AppCompat.Button"
                         android:layout_width="150dp"
                         android:layout_height="30dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/button_background"
                         android:text="Cancel"
                         android:textColor="@color/colorWhite"
                         android:textSize="18dp"
-                        android:textStyle="normal"
-                        android:layout_gravity="center"
-                        />
+                        android:textStyle="normal" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
