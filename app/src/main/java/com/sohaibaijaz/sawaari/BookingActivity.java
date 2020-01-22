@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,9 +52,12 @@ public class BookingActivity extends AppCompatActivity {
     private Button btn_confirm_booking;
     private TextView tv_reservation_number;
     private TextView tv_pickup_point;
+    private TextView tv_fare_per_person;
     private TextView tv_dropoff_point;
     private TextView tv_price_per_km;
     private TextView tv_total_fare;
+    private TextView tv_no_of_seats;
+    private Space space_price_per_km;
     private Button btn_confirmation_ok;
     private Button btn_cancel_confirm;
 
@@ -85,6 +89,9 @@ public class BookingActivity extends AppCompatActivity {
         tv_reservation_number = (TextView) confirmationCard.findViewById(R.id.tv_reservation_number);
         tv_price_per_km = (TextView) confirmationCard.findViewById(R.id.tv_price_per_km);
         tv_total_fare = (TextView ) confirmationCard.findViewById(R.id.tv_fare);
+        tv_fare_per_person = (TextView) confirmationCard.findViewById(R.id.tv_fare_per_person);
+        tv_no_of_seats = (TextView) confirmationCard.findViewById(R.id.tv_seats);
+        space_price_per_km = (Space) confirmationCard.findViewById(R.id.space_price_per_km);
         btn_confirmation_ok = (Button) confirmationCard.findViewById(R.id.btn_ok_confirmation);
         btn_cancel_confirm = (Button) confirmationCard.findViewById(R.id.btn_cancel_confirmation);
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
@@ -138,15 +145,24 @@ public class BookingActivity extends AppCompatActivity {
                                 try {
                                     final JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
-
+                                        System.out.println(json.toString());
                                         //Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
                                         //confirm_frame.setVisibility(View.VISIBLE);
                                         confirmation_frame.setVisibility(View.VISIBLE);
                                         tv_reservation_number.setText("Reservation no: "+json.getString("reservation_number"));
                                         tv_pickup_point.setText("Pickup point: "+json.getString("pick-up-point"));
                                         tv_dropoff_point.setText("Drop off point: "+json.getString("drop-off-point"));
-                                        tv_price_per_km.setText("Price per km: "+ json.getString("price_per_km")+" rupees");
+                                        tv_no_of_seats.setText("No. of seats: "+json.getString("seats"));
+                                       if (json.getString("price_per_km").equals(""))
+                                       {
+                                            tv_price_per_km.setVisibility(View.GONE);
+                                            space_price_per_km.setVisibility(View.GONE);
+                                           }
+                                        else {
+                                           tv_price_per_km.setText("Price per km: " + json.getString("price_per_km") + " rupees");
+                                       }
                                         tv_total_fare.setText("Total fare: "+json.getString("fare")+" rupees");
+                                        tv_fare_per_person.setText("Fare per person: "+json.getString("fare_per_person")+" rupees");
 
                                         btn_confirmation_ok.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -178,7 +194,6 @@ public class BookingActivity extends AppCompatActivity {
                                                                         @Override
                                                                         public void onClick(View v) {
                                                                             confirm_frame.setVisibility(View.GONE);
-
                                                                             finish();
                                                                         }
                                                                     });
@@ -246,13 +261,7 @@ public class BookingActivity extends AppCompatActivity {
 
 
 
-                                        btn_cancel_confirm.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View v) {
-                                                confirmation_frame.setVisibility(View.GONE);
 
-                                            }
-                                        });
 
                                     }
                                     else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
@@ -318,6 +327,13 @@ public class BookingActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
+                    btn_cancel_confirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            confirmation_frame.setVisibility(View.GONE);
+
+                        }
+                    });
                 }
             }
         });

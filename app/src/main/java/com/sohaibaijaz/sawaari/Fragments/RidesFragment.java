@@ -55,15 +55,16 @@ public class RidesFragment extends Fragment {
                 JSONArray jsonArray = new JSONArray(user_rides);
                 for(int i=0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    if (!jsonObject.toString().equals("{}")) {
+                        HashMap<String, String> ride = new HashMap<>();
+                        ride.put("res_no", jsonObject.getString("reservation_no"));
+                        ride.put("pickup_point", jsonObject.getString("pick_up_point"));
+                        ride.put("dropoff_point", jsonObject.getString("drop_off_point"));
+                        ride.put("ride_date", jsonObject.getString("ride_date"));
+                        ride.put("status", jsonObject.getString("ride_status"));
 
-                    HashMap<String, String> ride = new HashMap<>();
-                    ride.put("res_no", jsonObject.getString("reservation_no"));
-                    ride.put("pickup_point", jsonObject.getString("pick_up_point"));
-                    ride.put("dropoff_point", jsonObject.getString("drop_off_point"));
-                    ride.put("ride_date", jsonObject.getString("ride_date"));
-                    ride.put("status", jsonObject.getString("ride_status"));
-
-                    rides.add(ride);
+                        rides.add(ride);
+                    }
                 }
 
             }
@@ -73,6 +74,8 @@ public class RidesFragment extends Fragment {
         }
         CustomAdapterUserRides adapterUserRides = new CustomAdapterUserRides(getActivity(), rides);
         lv_rides.setAdapter(adapterUserRides);
+
+
         //On Back pressed
         fragmentView.setFocusableInTouchMode(true);
         fragmentView.requestFocus();

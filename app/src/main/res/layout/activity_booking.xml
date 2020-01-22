@@ -174,7 +174,7 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="380dp"
-                android:layout_height="420dp"
+                android:layout_height="480dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +211,7 @@
 
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
+                        android:layout_height="3dp" />
 
                     <TextView
                         android:id="@+id/tv_pickup_point"
@@ -224,10 +224,9 @@
                         />
 
 
-
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
+                        android:layout_height="3dp" />
 
                     <TextView
                         android:id="@+id/tv_dropoff_point"
@@ -239,13 +238,11 @@
                         android:textStyle="normal"
                         />
 
+
                     <Space
+                        android:id="@+id/space_price_per_km"
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
-
-
-
-
+                        android:layout_height="3dp" />
 
                     <TextView
                         android:id="@+id/tv_price_per_km"
@@ -258,10 +255,31 @@
                         />
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
+                        android:layout_height="3dp" />
 
+                    <TextView
+                        android:id="@+id/tv_seats"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="No. of seats: "
+                        android:textSize="18dp"
+                        android:textStyle="normal"
+                        />
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp" />
+                    <TextView
+                        android:id="@+id/tv_fare_per_person"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Fare per person: "
 
+                        android:textSize="18dp"
+                        android:textStyle="normal" />
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp" />
                     <TextView
                         android:id="@+id/tv_fare"
                         android:layout_width="match_parent"
@@ -273,7 +291,7 @@
                         />
                     <Space
                         android:layout_width="match_parent"
-                        android:layout_height="10dp" />
+                        android:layout_height="3dp" />
 
 
                     <TextView
@@ -281,7 +299,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:text="Confirm Booking?"
-                        android:textSize="18dp"
+                        android:textSize="22dp"
                         android:textStyle="bold"
                         android:textAlignment="center"
                         android:textColor="@color/colorOldBrickRed"
@@ -289,8 +307,6 @@
                     <Space
                         android:layout_width="match_parent"
                         android:layout_height="10dp" />
-
-
 
                     <Button
                         android:id="@+id/btn_ok_confirmation"
