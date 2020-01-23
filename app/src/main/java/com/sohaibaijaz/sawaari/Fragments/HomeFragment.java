@@ -469,7 +469,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 currentLocation.put("latitude", String.valueOf(latitude));
                                 currentLocation.put("longitude", String.valueOf(longitude));
                                 LatLng coordinate = new LatLng(latitude, longitude);
-                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 10);
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
                                 mMap.animateCamera(yourLocation);
                             }
                         }
