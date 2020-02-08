@@ -1,5 +1,6 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -74,8 +75,6 @@ public class RidesFragment extends Fragment {
         }
         CustomAdapterUserRides adapterUserRides = new CustomAdapterUserRides(getActivity(), rides);
         lv_rides.setAdapter(adapterUserRides);
-
-
         //On Back pressed
         fragmentView.setFocusableInTouchMode(true);
         fragmentView.requestFocus();
@@ -110,4 +109,6 @@ public class RidesFragment extends Fragment {
 
         return fragmentView;
     }
+
+
 }

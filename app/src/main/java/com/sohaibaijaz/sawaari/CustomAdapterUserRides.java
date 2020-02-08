@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -25,6 +27,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Fragments.RidesFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,89 +102,91 @@ public class CustomAdapterUserRides extends BaseAdapter {
         holder.tv_dropoff_point = rowView.findViewById(R.id.tv_dropoff_point);
         holder.tv_pickup_point = rowView.findViewById(R.id.tv_pickup_point);
         holder.tv_status = rowView.findViewById(R.id.tv_status);
-//        holder.btn_cancel_reservation = rowView.findViewById(R.id.btn_cancel_reservation);
+        holder.btn_cancel_reservation = rowView.findViewById(R.id.btn_cancel_reservation);
 
         holder.tv_date.setText(rides.get(position).get("ride_date").toString());
         holder.tv_dropoff_point.setText("Drop off: "+rides.get(position).get("dropoff_point").toString());
         holder.tv_pickup_point.setText("Pick up: "+rides.get(position).get("pickup_point").toString());
         holder.tv_status.setText(rides.get(position).get("status").toString().toUpperCase());
         holder.tv_res_no.setText("Res. no: "+rides.get(position).get("res_no").toString());
-//
-//        if(rides.get(position).get("status").toString().equals("complete") || rides.get(position).get("status").toString().equals("cancelled")){
-//            holder.btn_cancel_reservation.setEnabled(false);
-//        }
-//
-//        holder.btn_cancel_reservation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                try {
-//                    String URL = MainActivity.baseurl + "/cancel_ride/";
-//                    JSONObject jsonBody = new JSONObject();
-//                    StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
-//                        @Override
-//                        public void onResponse(String response){
-//
-//                            Log.i("VOLLEY", response.toString());
-//                            try {
-//                                JSONObject json = new JSONObject(response);
-//
-//                                if (json.getString("status").equals("200")) {
-//                                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    UserDetails.getUserRides(context);
-//                                } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
-//                                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                }
-//
-//                            } catch (JSONException e) {
-//                                Log.e("VOLLEY", e.toString());
-//                            }
-//                        }
-//                    }, new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-//                            Log.e("VOLLEY", error.toString());
-//                        }
-//                    }) {
-//                        @Override
-//                        protected Map<String, String> getParams() {
-//                            Map<String, String> params = new HashMap<String, String>();
-//                            params.put("reservation_number", rides.get(position).get("res_no").toString());
-//                            return params;
-//                        }
-//
-//                        @Override
-//                        public Map<String, String> getHeaders() throws AuthFailureError {
-//                            Map<String, String> headers = new HashMap<String, String>();
-//                            headers.put("Authorization", token);
-//                            return headers;
-//                        }
-//                    };
-//
-//                    stringRequest.setRetryPolicy(new RetryPolicy() {
-//                        @Override
-//                        public int getCurrentTimeout() {
-//                            return 50000;
-//                        }
-//
-//                        @Override
-//                        public int getCurrentRetryCount() {
-//                            return 50000;
-//                        }
-//
-//                        @Override
-//                        public void retry(VolleyError error) throws VolleyError {
-//
-//                        }
-//                    });
-//
-//                    requestQueue.add(stringRequest);
-//                } catch (Exception e) {
-//                    Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//        });
+
+        if(rides.get(position).get("status").toString().equals("complete") || rides.get(position).get("status").toString().equals("cancelled") || rides.get(position).get("status").toString().equals("active")){
+            holder.btn_cancel_reservation.setEnabled(false);
+        }
+
+        holder.btn_cancel_reservation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    String URL = MainActivity.baseurl + "/cancel_ride/";
+                    JSONObject jsonBody = new JSONObject();
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response){
+
+                            Log.i("VOLLEY", response.toString());
+                            try {
+                                JSONObject json = new JSONObject(response);
+
+                                if (json.getString("status").equals("200")) {
+                                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    UserDetails.getUserRides(context);
+                                    RidesFragment ridesFragment = new RidesFragment();
+                                    ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().remove(ridesFragment).commit();
+                                } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
+                                    Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+                            } catch (JSONException e) {
+                                Log.e("VOLLEY", e.toString());
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() {
+                            Map<String, String> params = new HashMap<String, String>();
+                            params.put("reservation_number", rides.get(position).get("res_no").toString());
+                            return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> headers = new HashMap<String, String>();
+                            headers.put("Authorization", token);
+                            return headers;
+                        }
+                    };
+
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+
+                        }
+                    });
+
+                    requestQueue.add(stringRequest);
+                } catch (Exception e) {
+                    Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
