@@ -43,7 +43,7 @@
 
             <Space
                 android:layout_width="match_parent"
-                android:layout_height="24dp" />
+                android:layout_height="10dp" />
 
             <TextView
                 android:id="@+id/tv_res_no"
@@ -65,7 +65,9 @@
                 android:fontFamily="@font/montserrat"
                 android:text="Pick up:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLength="50"
+                />
 
             <Space
                 android:layout_width="match_parent"
@@ -78,7 +80,9 @@
                 android:fontFamily="@font/montserrat"
                 android:text="Drop off:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                android:maxLength="50"
+                />
 
             <Space
                 android:layout_width="match_parent"

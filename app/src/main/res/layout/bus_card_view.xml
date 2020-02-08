@@ -45,7 +45,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="20dp" />
+                    android:layout_height="11dp" />
 
                 <TextView
                     android:id="@+id/tv_pickup_location"
@@ -54,7 +54,8 @@
                     android:fontFamily="@font/montserrat"
                     android:text="Pick up: "
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:maxLength="50" />
 
                 <TextView
                     android:id="@+id/tv_pickup_location_time"
@@ -77,7 +78,9 @@
                     android:fontFamily="@font/montserrat"
                     android:text="Drop off:"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="13sp" />
+                    android:textSize="13sp"
+                    android:maxLength="50"
+                    />
 
                 <TextView
                     android:id="@+id/tv_dropoff_location_time"
@@ -126,7 +129,7 @@
                 android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.096"
+                app:layout_constraintHorizontal_bias="0.118"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.503" />
