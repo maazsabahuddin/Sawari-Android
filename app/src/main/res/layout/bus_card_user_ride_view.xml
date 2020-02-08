@@ -63,11 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
+                android:maxLength="55"
                 android:text="Pick up:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="13sp"
-                android:maxLength="50"
-                />
+                android:textSize="13sp" />
 
             <Space
                 android:layout_width="match_parent"
@@ -78,11 +77,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
+                android:maxLength="55"
                 android:text="Drop off:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="13sp"
-                android:maxLength="50"
-                />
+                android:textSize="13sp" />
 
             <Space
                 android:layout_width="match_parent"
