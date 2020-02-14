@@ -201,12 +201,12 @@ public class MainActivity extends AppCompatActivity {
                                     else {
                                         //Shared Preferences
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.remove("Token");
-                                        editor.remove("first_name");
-                                        editor.remove("last_name");
-                                        editor.remove("email");
-                                        editor.remove("phone_number");
-                                        editor.remove("user_rides");
+//                                        editor.remove("Token");
+//                                        editor.remove("first_name");
+//                                        editor.remove("last_name");
+//                                        editor.remove("email");
+//                                        editor.remove("phone_number");
+//                                        editor.remove("user_rides");
                                         editor.putString("Token", token);
                                         editor.apply();
                                         UserDetails.getUserDetails(MainActivity.this);

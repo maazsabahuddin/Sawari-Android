@@ -147,6 +147,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                                     editor.remove("last_name");
                                     editor.remove("email");
                                     editor.remove("phone_number");
+                                    editor.remove("user_rides");
                                     editor.apply();
                                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();

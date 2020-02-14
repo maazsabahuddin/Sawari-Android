@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="380dp"
-    android:layout_height="150dp"
-    app:cardCornerRadius="10dp"
+    android:layout_height="180dp"
     android:hapticFeedbackEnabled="true"
+    app:cardCornerRadius="10dp"
     app:cardElevation="6dp"
-    app:cardMaxElevation="12dp"
-    >
+    app:cardMaxElevation="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -28,7 +26,7 @@
             app:layout_constraintHorizontal_bias="0.058"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.032" />
+            app:layout_constraintVertical_bias="0.175" />
 
         <TextView
             android:id="@+id/tv_date"
@@ -42,14 +40,14 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.111"
+            app:layout_constraintHorizontal_bias="0.108"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.229" />
+            app:layout_constraintVertical_bias="0.248" />
 
         <LinearLayout
-            android:layout_width="233dp"
-            android:layout_height="146dp"
+            android:layout_width="242dp"
+            android:layout_height="169dp"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -147,7 +145,7 @@
             android:id="@+id/btn_share_ride"
             android:layout_width="75dp"
             android:layout_height="20dp"
-            android:background="@drawable/cancel_button_background"
+            android:background="#8F3F3F"
             android:text="Share"
             android:textAppearance="@style/Theme.AppCompat.Light"
             android:textColor="@color/colorWhite"
