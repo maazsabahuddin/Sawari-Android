@@ -134,6 +134,7 @@ public class UserDetails {
 
                             if (json.getString("status").equals("200")) {
                                 SharedPreferences.Editor edit = sharedPreferences.edit();
+                                edit.remove("user_rides");
                                 edit.putString("user_rides", json.getJSONArray("reservations").toString());
                                 edit.apply();
                             } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {

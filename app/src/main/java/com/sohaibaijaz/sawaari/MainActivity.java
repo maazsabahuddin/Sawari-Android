@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
 
-    public static String baseurl= "http://52.15.104.184:8000";
+    public static String baseurl= "http://ec2-52-15-104-184.us-east-2.compute.amazonaws.com";
 
     private int backpress = 0;
     @Override
@@ -202,6 +202,11 @@ public class MainActivity extends AppCompatActivity {
                                         //Shared Preferences
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.remove("Token");
+                                        editor.remove("first_name");
+                                        editor.remove("last_name");
+                                        editor.remove("email");
+                                        editor.remove("phone_number");
+                                        editor.remove("user_rides");
                                         editor.putString("Token", token);
                                         editor.apply();
                                         UserDetails.getUserDetails(MainActivity.this);
