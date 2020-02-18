@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     private TextView tv_forget_password;
+//    private Button user_ride;
 
 
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
@@ -79,13 +80,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    public ArrayList<String> getArrayList(String key){
-//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-//        Gson gson = new Gson();
-//        String json = prefs.getString(key, null);
-//        Type type = new TypeToken<ArrayList<String>>() {}.getType();
-//        return gson.fromJson(json, type);
-//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button btn_login = findViewById(R.id.btn_login);
+        final Button user_rides = findViewById(R.id.active_ride_btn);
         requestQueue = Volley.newRequestQueue(this);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -134,6 +129,15 @@ public class MainActivity extends AppCompatActivity {
             finish();
             MainActivity.this.startActivity(intent);
         }
+
+        // Do here
+//        String rides = sharedPreferences.getString("user_rides", "");
+//        user_rides.setVisibility(View.GONE);
+//        System.out.print(rides);
+//        if (rides.equals("") || rides.equals("[]"))
+//        {
+//            user_rides.setVisibility(View.VISIBLE);
+//        }
 
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override

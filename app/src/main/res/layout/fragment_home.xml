@@ -25,7 +25,7 @@
             tools:context="example.com.mapexample.MapsActivity" />
 
         <Button
-            android:id="@+id/active_ride_txt"
+            android:id="@+id/active_ride_btn"
             android:layout_width="209dp"
             android:layout_height="55dp"
             android:background="@drawable/button_background"

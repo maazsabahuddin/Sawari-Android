@@ -44,8 +44,8 @@ public class BookingActivity extends AppCompatActivity {
     private EditText txt_no_of_seats;
     private Spinner spinner_payment_tpye;
     private Button btn_book_seats;
-    private  SharedPreferences sharedPreferences;
-    private  Bundle b;
+    private SharedPreferences sharedPreferences;
+    private Bundle b;
     private RequestQueue requestQueue;
     private CardView cardConfirm;
     private CardView confirmationCard;

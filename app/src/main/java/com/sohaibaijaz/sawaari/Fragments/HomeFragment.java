@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
 
 import android.location.LocationManager;
@@ -18,7 +17,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -52,7 +50,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -62,11 +59,9 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
-import com.sohaibaijaz.sawaari.ForgetPasswordActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
-import com.sohaibaijaz.sawaari.UserDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -96,7 +91,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     private View fragmentView;
-    private Button active_rides;
 
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
@@ -154,9 +148,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } catch(Exception ex) {}
 
         if(!gps_enabled && !network_enabled) {
-
           showAlertLocationDisabled();
-
         }
 
         if (!Places.isInitialized()) {
@@ -182,7 +174,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
-        final Button active_rides = fragmentView.findViewById(R.id.active_ride_txt);
+        final Button user_rides = fragmentView.findViewById(R.id.active_ride_btn);
 
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -194,6 +186,43 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
+
+//        user_rides.setVisibility(View.GONE);
+        String rides_data = sharedPreferences.getString("user_rides", "");
+        boolean active_rides_flag = false;
+
+        try{
+            JSONArray rides = new JSONArray(rides_data);
+            if(rides.length() == 0){
+                active_rides_flag = false;
+            }
+            for(int i=0; i< rides.length(); i++){
+                JSONObject ride = rides.getJSONObject(i);
+                String ride_status = ride.getString("ride_status");
+
+                if(ride_status.equals("ACTIVE") || ride_status.equals("active")){
+                    active_rides_flag = true;
+                    break;
+                }
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        if(!active_rides_flag){
+            user_rides.setVisibility(View.GONE);
+        }
+        else{
+            user_rides.setVisibility(View.VISIBLE);
+            user_rides.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Intent i = new Intent(getActivity(), RidesFragment.class);
+                    Toast.makeText(getContext(), "You have an active ride.", Toast.LENGTH_LONG).show();
+                }
+            });
+        }
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,17 +334,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
 
-
-
     PlaceSelectionListener placeSelectionListener = new PlaceSelectionListener() {
     @Override
     public void onPlaceSelected(@NonNull Place place) {
         dropoffLocation.clear();
         dropoffLocation.put("name", place.getName());
-       dropoffLocation.put("id", place.getId());
-       LatLng latLng = place.getLatLng();
-       dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
-       dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+        dropoffLocation.put("id", place.getId());
+        LatLng latLng = place.getLatLng();
+        dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
+        dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
 
         if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
@@ -329,7 +356,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
             LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
             LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-
 
             markerPoints.add(start);
             markerPoints.add(stop);
@@ -357,12 +383,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
             }
-
-
-
-
-
-
 
         }
 
@@ -504,10 +524,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             mPermissionDenied = true;
         }
     }
-
-
-
-
 
 
     @Override

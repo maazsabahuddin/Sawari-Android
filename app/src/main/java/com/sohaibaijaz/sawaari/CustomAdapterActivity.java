@@ -36,8 +36,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         rides = array_rides;
         context=mainActivity;
 
-        inflater = ( LayoutInflater )context.
-                getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
     @Override
     public int getCount() {
