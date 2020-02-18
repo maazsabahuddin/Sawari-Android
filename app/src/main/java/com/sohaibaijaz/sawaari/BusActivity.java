@@ -31,10 +31,13 @@ public class BusActivity extends AppCompatActivity {
         Bundle b = getIntent().getExtras();
         String rides_data = b.getString("rides");
 
-
         try {
 
             JSONArray rides = new JSONArray(rides_data);
+            if(rides.length() == 0){
+                Toast.makeText(getApplicationContext(), "No Rides Available.", Toast.LENGTH_LONG).show();
+            }
+
             for(int i=0 ; i< rides.length(); i++){
                 JSONObject ride = rides.getJSONObject(i);
                 JSONArray ride_pickup = ride.getJSONArray("pick-up-location");

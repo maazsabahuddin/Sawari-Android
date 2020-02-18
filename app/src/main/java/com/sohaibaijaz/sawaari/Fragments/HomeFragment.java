@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -61,6 +62,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
+import com.sohaibaijaz.sawaari.ForgetPasswordActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
@@ -93,7 +95,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
-    private  View fragmentView;
+    private View fragmentView;
+    private Button active_rides;
 
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
@@ -166,18 +169,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mapFragment.getMapAsync(this);
 
 
-
-
-
         final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
         System.out.print("Token: "+ token);
 
-        if(!token.equals(""))
+        if(token.equals(""))
         {
-        final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
+            Intent i = new Intent(getActivity(), MainActivity.class);
+            HomeFragment.this.startActivity(i);
+//            Toast.makeText(getContext(), "Invalid token", Toast.LENGTH_LONG).show();
+        }
 
-        final Button dropoff_btn = (Button)fragmentView.findViewById(R.id.btn_dropoff);
+        final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
+        final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
+        final Button active_rides = fragmentView.findViewById(R.id.active_ride_txt);
+
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
@@ -187,8 +193,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         autocompleteFragment.setHint("Enter Drop off Location");
 
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-
-            autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
+        autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -201,7 +206,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
 
                     try {
-
 
                         String URL = MainActivity.baseurl + "/bus/route/";
                         JSONObject jsonBody = new JSONObject();
@@ -219,15 +223,18 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     if(json.getString("status").equals("200")){
 //                                        Toast.makeText(getContext(), json.get("rides").toString(), Toast.LENGTH_LONG).show();
 //
-                                       if(json.get("rides").toString().equals("[]"))
-                                       {
-                                           Toast.makeText(getContext(), "No rides available", Toast.LENGTH_SHORT).show();
-                                       }
-                                       else {
-                                           Intent i = new Intent(getContext(), BusActivity.class);
-                                           i.putExtra("rides", json.getJSONArray("rides").toString());
-                                           startActivity(i);
-                                       }
+                                        if(json.get("rides").toString().equals("[]"))
+                                        {
+//                                            Toast.makeText(getContext(), "No rides available", Toast.LENGTH_SHORT).show();
+                                            Intent i = new Intent(getContext(), BusActivity.class);
+                                            i.putExtra("rides", json.getJSONArray("rides").toString());
+                                            startActivity(i);
+                                        }
+                                        else {
+                                            Intent i = new Intent(getContext(), BusActivity.class);
+                                            i.putExtra("rides", json.getJSONArray("rides").toString());
+                                            startActivity(i);
+                                        }
                                     }
 
                                     else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
@@ -290,16 +297,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     }
 
 
-            }
+                }
             }
 
         });
-
-
-
-
-        }
-
         return fragmentView;
     }
 

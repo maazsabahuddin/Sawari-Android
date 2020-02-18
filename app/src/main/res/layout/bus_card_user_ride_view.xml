@@ -145,7 +145,7 @@
             android:id="@+id/btn_share_ride"
             android:layout_width="75dp"
             android:layout_height="20dp"
-            android:background="#8F3F3F"
+            android:background="@drawable/cancel_button_background"
             android:text="Share"
             android:textAppearance="@style/Theme.AppCompat.Light"
             android:textColor="@color/colorWhite"

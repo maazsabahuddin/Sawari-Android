@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,13 +32,17 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.ConnectException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,11 +51,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Shared preferences code
     public static final String AppPreferences = "AppPreferences";
+//    SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferences;
-    //
 
 
-    private  String token;
+    private String token;
     private RequestQueue requestQueue;
     private EditText txt_email_phone;
     private EditText txt_password;
@@ -74,6 +79,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+//    public ArrayList<String> getArrayList(String key){
+//        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+//        Gson gson = new Gson();
+//        String json = prefs.getString(key, null);
+//        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+//        return gson.fromJson(json, type);
+//    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         spinner_frame.setVisibility(View.GONE);
 
 
-
         tv_forget_password.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -100,6 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.startActivity(i);
             }
         });
+
         txt_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
 
             @Override
@@ -115,13 +128,9 @@ public class MainActivity extends AppCompatActivity {
             }
             });
 
-
-        //Shared Preferences
-        sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
-
-
-        if(!sharedPreferences.getString("Token",  "").isEmpty()){
-            Intent intent = new Intent(MainActivity.this,NavActivity.class );
+        sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        if(!sharedPreferences.getString("Token",  "").isEmpty()) {
+            Intent intent = new Intent(MainActivity.this, NavActivity.class);
             finish();
             MainActivity.this.startActivity(intent);
         }
@@ -136,10 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
-
         btn_login.setOnClickListener(btnLoginListener);
-
 
         TextView txt_signup = findViewById(R.id.txt_signup);
         txt_signup.setOnClickListener(new View.OnClickListener(){
@@ -201,22 +207,15 @@ public class MainActivity extends AppCompatActivity {
                                     else {
                                         //Shared Preferences
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
-//                                        editor.remove("Token");
-//                                        editor.remove("first_name");
-//                                        editor.remove("last_name");
-//                                        editor.remove("email");
-//                                        editor.remove("phone_number");
-//                                        editor.remove("user_rides");
                                         editor.putString("Token", token);
                                         editor.apply();
+
                                         UserDetails.getUserDetails(MainActivity.this);
                                         UserDetails.getUserRides(MainActivity.this);
                                         Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
                                         finish();
                                         MainActivity.this.startActivity(myIntent);
                                     }
-//
-
 
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
