@@ -22,28 +22,51 @@
         app:layout_constraintWidth_percent="0.8">
 
 
-
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/EditTextTheme">
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:gravity="center"
+            >
+
+
+            <Button
+                android:id="@+id/btn_subtract_seat"
+                android:layout_width="69dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:text="-"
+                android:textColor="@color/colorWhite"
+                android:textSize="35dp"
+                android:textStyle="bold" />
 
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txt_no_of_seats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Enter number of seats"
-                android:selectAllOnFocus="true"
+                android:layout_width="181dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="00"
                 android:inputType="number"
-                android:singleLine="true"
-                android:theme="@style/EditTextTheme"
-                android:textSize="20dp"
-                />
 
+                android:text="00"
+                android:textAlignment="center"
+                android:textSize="22dp"
+                android:textStyle="bold"
+                android:theme="@style/EditTextTheme" />
 
-        </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/btn_add_seat"
+                android:layout_width="73dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
+                android:text="+"
+                android:textColor="@color/colorWhite"
+                android:textSize="35dp"
+                android:textStyle="bold" />
 
+        </LinearLayout>
         <Space
             android:layout_width="match_parent"
             android:layout_height="27dp" />

@@ -1,10 +1,6 @@
 package com.sohaibaijaz.sawaari;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +14,9 @@ import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -60,12 +59,15 @@ public class BookingActivity extends AppCompatActivity {
     private Space space_price_per_km;
     private Button btn_confirmation_ok;
     private Button btn_cancel_confirm;
+    private Button btn_add_seats;
+    private Button btn_subtract_seats;
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        final int[] numOfSeats = {0};
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
         getSupportActionBar().hide();
@@ -96,11 +98,16 @@ public class BookingActivity extends AppCompatActivity {
         btn_cancel_confirm = (Button) confirmationCard.findViewById(R.id.btn_cancel_confirmation);
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         txt_no_of_seats = (EditText) findViewById(R.id.txt_no_of_seats);
+        txt_no_of_seats.setKeyListener(null);
+        btn_add_seats = (Button) findViewById(R.id.btn_add_seat);
+        btn_subtract_seats = (Button) findViewById(R.id.btn_subtract_seat);
+
+
         spinner_payment_tpye = (Spinner) findViewById(R.id.spinner_payment_type);
         btn_book_seats = (Button) findViewById(R.id.btn_book_seats);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.spinner_item,list);
         spinner_payment_tpye.setAdapter(adapter);
-         b = getIntent().getExtras();
+        b = getIntent().getExtras();
         final String vehicle_no_plate = b.getString("vehicle_no_plate");
         final String pickup_location = b.getString("pickup_location");
         final String pickup_location_id = b.getString("pickup_location_id");
@@ -110,6 +117,33 @@ public class BookingActivity extends AppCompatActivity {
         final String ride_date = b.getString("ride_date");
 
         final String token = sharedPreferences.getString("Token","");
+
+
+        btn_add_seats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(numOfSeats[0] > 0)
+                    btn_subtract_seats.setEnabled(true);
+                numOfSeats[0] +=1;
+                txt_no_of_seats.setText(String.valueOf(numOfSeats[0]));
+            }
+        });
+
+
+        btn_subtract_seats.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(numOfSeats[0] <= 0)
+                    btn_subtract_seats.setEnabled(false);
+
+                else{
+                    numOfSeats[0] -=1;
+                    txt_no_of_seats.setText(String.valueOf(numOfSeats[0]));
+                }
+
+            }
+        });
+
 
        // Toast.makeText(getApplicationContext(), vehicle_no_plate+"\n"+pickup_location+"\n"+picup_location_id+"\n"+pickup_distance+"\n"+dropoff_location+"\n"+dropoff_location_id+"\n"+dropoff_distance, Toast.LENGTH_LONG).show();
 
@@ -126,7 +160,7 @@ public class BookingActivity extends AppCompatActivity {
                 String dropoff_distance = b.getString("dropoff_distance");
                 dropoff_distance = dropoff_distance.substring(0, dropoff_distance.indexOf(" "));
 
-                if (no_of_seats.equals("") || (payment_type.equals(""))){
+                if (Integer.parseInt(no_of_seats) == 0 || (payment_type.equals(""))){
                     Toast.makeText(getApplicationContext(), "Enter number of seats and select a payment method!", Toast.LENGTH_LONG).show();
                 }
                 else {
