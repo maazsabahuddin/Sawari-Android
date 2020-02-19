@@ -1,14 +1,9 @@
 package com.sohaibaijaz.sawaari;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,37 +16,31 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.net.ConnectException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
 
+
+
     //Shared preferences code
     public static final String AppPreferences = "AppPreferences";
-//    SharedPreferences sharedPreferences;
     SharedPreferences sharedPreferences;
 
 
@@ -122,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
             });
+
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         if(!sharedPreferences.getString("Token",  "").isEmpty()) {
@@ -216,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         UserDetails.getUserDetails(MainActivity.this);
                                         UserDetails.getUserRides(MainActivity.this);
-                                        Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                        Intent myIntent = new Intent(MainActivity.this, SplashActivity.class);//Optional parameters
                                         finish();
                                         MainActivity.this.startActivity(myIntent);
                                     }
