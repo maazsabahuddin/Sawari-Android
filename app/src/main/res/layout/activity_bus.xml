@@ -12,8 +12,8 @@
 
     <ListView
         android:id="@+id/list_buses"
-        android:layout_width="395dp"
-        android:layout_height="638dp"
+        android:layout_width="380dp"
+        android:layout_height="644dp"
         android:background="@color/colorWhite"
         android:divider="@color/colorWhite"
         android:dividerHeight="10.0sp"
@@ -52,5 +52,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
+
+    <TextView
+        android:id="@+id/ride_txt"
+        style="@android:style/Widget.DeviceDefault.Light.TextView.SpinnerItem"
+        android:layout_width="314dp"
+        android:layout_height="51dp"
+        android:layout_marginTop="252dp"
+        android:text="No Ride Available"
+        android:textAlignment="center"
+        android:textSize="26sp"
+        android:visibility="invisible"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
