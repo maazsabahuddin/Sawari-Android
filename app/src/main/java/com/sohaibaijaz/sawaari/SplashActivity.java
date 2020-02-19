@@ -11,17 +11,16 @@ import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIMEOUT = 2500;
+    private static int SPLASH_TIMEOUT = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Objects.requireNonNull(getSupportActionBar()).hide();
         ImageView i = (ImageView)findViewById(R.id.splash_image);
         i.setImageResource(R.mipmap.ic_sawaari);
-
         i.isShown();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         if(!sharedPreferences.getString("Token",  "").isEmpty()) {
-            Intent intent = new Intent(MainActivity.this, NavActivity.class);
+            Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             finish();
             MainActivity.this.startActivity(intent);
         }
