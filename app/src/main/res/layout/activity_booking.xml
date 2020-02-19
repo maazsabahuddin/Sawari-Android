@@ -47,13 +47,15 @@
                 android:layout_width="181dp"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="00"
+                android:hint="--"
                 android:inputType="number"
 
-                android:text="00"
+                android:text="--"
                 android:textAlignment="center"
-                android:textSize="22dp"
-                android:textStyle="bold"
+                android:textAllCaps="false"
+                android:textColor="@color/colorJacksonPurple"
+                android:textSize="24dp"
+                android:textStyle="normal|bold"
                 android:theme="@style/EditTextTheme" />
 
             <Button
@@ -67,6 +69,7 @@
                 android:textStyle="bold" />
 
         </LinearLayout>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="27dp" />
