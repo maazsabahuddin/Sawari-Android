@@ -30,6 +30,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.sohaibaijaz.sawaari.Fragments.AccountFragment;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.MessageFragment;
+import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Fragments.RidesFragment;
 
 import org.json.JSONException;
@@ -101,10 +102,10 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
                 break;
             case R.id.nav_ride:
-                RidesFragment ridesFragment = new RidesFragment();
+                RideFragmentN ridesFragment = new RideFragmentN();
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ridesFragment).commit();
-
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, ridesFragment).commit();
+                startActivity(new Intent(getApplicationContext(), RideFragmentN.class));
                 break;
             case R.id.nav_message:
                 MessageFragment messageFragment = new MessageFragment();

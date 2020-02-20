@@ -49,6 +49,9 @@
             android:name=".ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Fragments.RideFragmentN"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".NavActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />

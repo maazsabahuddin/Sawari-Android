@@ -83,8 +83,6 @@ import java.util.Objects;
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
-
-
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     private View fragmentView;
