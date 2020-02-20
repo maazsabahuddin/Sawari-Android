@@ -28,6 +28,11 @@
     <string name="gps_network_not_enabled">\"\"</string>
     <string name="Cancel">Cancel</string>
     <string name="SelectPaymentType">Select Payment Type</string>
+    <string name="BusActivityRides">We do not have any routes running for your selected time and day. Please select another day to see available routes.</string>
+    <string name="BusActivityRidesClassic">If you don\'t see a suitable route, you can also use our Classic Search from the main menu.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 

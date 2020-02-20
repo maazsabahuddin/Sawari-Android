@@ -12,21 +12,24 @@
 
     <ListView
         android:id="@+id/list_buses"
-        android:layout_width="380dp"
-        android:layout_height="644dp"
+        android:layout_width="376dp"
+        android:layout_height="626dp"
         android:background="@color/colorWhite"
         android:divider="@color/colorWhite"
         android:dividerHeight="10.0sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.862" />
+        app:layout_constraintVertical_bias="0.619">
+
+    </ListView>
 
     <Button
         android:id="@+id/btn_back"
-        android:layout_width="27dp"
-        android:layout_height="37dp"
+        android:layout_width="32dp"
+        android:layout_height="39dp"
 
         android:background="@drawable/ic_action_name"
         app:layout_constraintBottom_toBottomOf="@+id/list_buses"
@@ -40,8 +43,8 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="287dp"
-        android:layout_height="37dp"
+        android:layout_width="256dp"
+        android:layout_height="44dp"
         android:fontFamily="@font/montserrat"
         android:text="Select a ride"
         android:textColor="@color/colorJacksonPurple"
@@ -49,24 +52,43 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.023" />
 
     <TextView
         android:id="@+id/ride_txt"
-        style="@android:style/Widget.DeviceDefault.Light.TextView.SpinnerItem"
-        android:layout_width="314dp"
-        android:layout_height="51dp"
-        android:layout_marginTop="252dp"
-        android:text="No Ride Available"
+        style="@android:style/Widget.Holo.TextView"
+        android:layout_width="348dp"
+        android:layout_height="58dp"
+        android:text="@string/BusActivityRides"
         android:textAlignment="center"
-        android:textSize="26sp"
-        android:visibility="invisible"
+        android:textSize="12.5sp"
         android:textStyle="bold"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/suggestionTextView"
+        style="@android:style/Widget.Holo.Light.TextView"
+        android:layout_width="339dp"
+        android:layout_height="34dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/BusActivityRidesClassic"
+        android:textAlignment="center"
+        android:textSize="12.5sp"
+
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.63"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
