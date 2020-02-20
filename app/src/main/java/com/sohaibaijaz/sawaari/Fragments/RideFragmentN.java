@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 
 
