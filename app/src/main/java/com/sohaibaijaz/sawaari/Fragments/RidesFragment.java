@@ -66,7 +66,6 @@ public class RidesFragment extends Fragment {
                         rides.add(ride);
                     }
                 }
-
             }
             catch (Exception e){
                 e.printStackTrace();

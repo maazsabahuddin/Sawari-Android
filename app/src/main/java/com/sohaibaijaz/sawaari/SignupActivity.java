@@ -39,6 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     String password = "";
     String password2 = "";
     String is_customer = "True";
+    String email_or_phone = "";
 
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
@@ -118,7 +119,17 @@ public class SignupActivity extends AppCompatActivity {
                email = txt_email.getText().toString();
                password = txt_password.getText().toString();
                password2 = txt_password2.getText().toString();
+//               String email_or_phone;
 
+               if(!(email.equals("") && phone.equals(""))){
+                   email_or_phone = phone;
+               }
+               else if(email.equals("")){
+                   email_or_phone = phone;
+               }
+               else if(phone.equals("")){
+                   email_or_phone = email;
+               }
 
                txt_password2.setCursorVisible(false);
 
@@ -157,6 +168,7 @@ public class SignupActivity extends AppCompatActivity {
                                            Intent myIntent = new Intent(SignupActivity.this, VerifyActivity.class);//Optional parameter
                                            Bundle b = new Bundle();
                                            b.putString("Token", token);
+                                           b.putString("email_phone", email_or_phone);
                                            myIntent.putExtras(b);
                                            finish();
                                            SignupActivity.this.startActivity(myIntent);

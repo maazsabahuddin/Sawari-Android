@@ -197,6 +197,7 @@ public class VerifyActivity extends AppCompatActivity {
                         String URL = MainActivity.baseurl+"/is_verified/";
                         JSONObject jsonBody = new JSONObject();
                         jsonBody.put("otp", otp);
+                        jsonBody.put("email_or_phone", email_phone);
 
                         final String requestBody = jsonBody.toString();
                         spinner.setVisibility(View.VISIBLE);
@@ -228,7 +229,6 @@ public class VerifyActivity extends AppCompatActivity {
 //                                    }
                                 } catch (JSONException e) {
                                     Log.e("VOLLEY", e.toString());
-
                                 }
                             }
                         }, new Response.ErrorListener() {
@@ -238,12 +238,14 @@ public class VerifyActivity extends AppCompatActivity {
                                 spinner_frame.setVisibility(View.GONE);
                                 Toast.makeText(VerifyActivity.this, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
+                                System.out.println(error.toString());
                             }
                         }){
                             @Override
                             protected Map<String,String> getParams(){
                                 Map<String,String> params = new HashMap<String, String>();
-                                params.put("otp",otp);
+                                params.put("otp", otp);
+                                params.put("email_or_phone", email_phone);
 
 //                                params.put(KEY_EMAIL, email);
                                 return params;
