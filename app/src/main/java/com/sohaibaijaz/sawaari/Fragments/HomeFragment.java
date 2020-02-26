@@ -246,8 +246,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                                     if(json.getString("status").equals("200")){
 //                                        Toast.makeText(getContext(), json.get("rides").toString(), Toast.LENGTH_LONG).show();
-//
-                                        if(json.get("rides").toString().equals("[]"))
+
+                                        if(json.get("rides").toString().isEmpty()){
+                                            Intent i = new Intent(getContext(), BusActivity.class);
+                                            i.putExtra("rides", json.getJSONArray("rides").toString());
+                                            startActivity(i);
+                                        }
+                                        else if(json.get("rides").toString().equals("[]"))
                                         {
 //                                            Toast.makeText(getContext(), "No rides available", Toast.LENGTH_SHORT).show();
                                             Intent i = new Intent(getContext(), BusActivity.class);
