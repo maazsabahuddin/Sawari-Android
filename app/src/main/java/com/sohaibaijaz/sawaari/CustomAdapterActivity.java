@@ -60,7 +60,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         TextView tv_dropoff_location_time;
         TextView tv_pickup_time;
         TextView tv_ride_date;
-
+        TextView tv_route_id;
     }
     @SuppressLint("ResourceAsColor")
     @Override
@@ -76,6 +76,8 @@ public class CustomAdapterActivity extends BaseAdapter {
         holder.tv_seats_left = (TextView) rowView.findViewById(R.id.tv_seats_left);
         holder.tv_pickup_time = (TextView) rowView.findViewById(R.id.tv_pickup_time);
         holder.tv_ride_date = (TextView) rowView.findViewById(R.id.tv_ride_date);
+        holder.tv_route_id = rowView.findViewById(R.id.tv_route_id);
+
         int seats_left = Integer.parseInt(rides.get(position).get("seats_left").toString());
 //        int seats_left = 0;
         if (seats_left == 0){
@@ -85,6 +87,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         else {
             holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left").toString());
         }
+        holder.tv_route_id.setText(rides.get(position).get("route_name").toString());
         holder.tv_ride_date.setText(rides.get(position).get("ride_date").toString());
         holder.tv_pickup_time.setText(convertTime(rides.get(position).get("arrival_time").toString()));
         holder.tv_pickup_location.setText("Pickup: "+rides.get(position).get("pickup_location").toString());
@@ -107,6 +110,7 @@ public class CustomAdapterActivity extends BaseAdapter {
                 b.putString("dropoff_distance", rides.get(position).get("dropoff_distance").toString());
                 b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
                 b.putString("ride_date", rides.get(position).get("ride_date").toString());
+                b.putString("route_name", rides.get(position).get("route_name").toString());
                 i.putExtras(b);
                 context.startActivity(i);
             }

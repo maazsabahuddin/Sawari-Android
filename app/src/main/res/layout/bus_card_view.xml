@@ -26,10 +26,51 @@
             app:layout_constraintBottom_toBottomOf="parent"
 
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.086"
+            app:layout_constraintHorizontal_bias="0.085"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.507" />
+            app:layout_constraintVertical_bias="0.673" />
+
+        <TextView
+            android:id="@+id/tv_ride_date"
+            android:layout_width="60dp"
+            android:layout_height="13dp"
+            android:text="2019-12-25"
+            android:textAlignment="center"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.148"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.576" />
+
+        <TextView
+            android:id="@+id/tv_pickup_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="11:30 AM"
+            android:textColor="@color/colorOldBrickRed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.453" />
+
+        <TextView
+            android:id="@+id/tv_route_id"
+            android:layout_width="54dp"
+            android:layout_height="21dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="12dp"
+            android:text="JC-121"
+            android:textAlignment="center"
+            android:textColor="#96281B"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:layout_width="238dp"
@@ -105,35 +146,6 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                 android:textSize="13sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/tv_pickup_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="11:30 AM"
-            android:textColor="@color/colorOldBrickRed"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.388" />
-
-        <TextView
-            android:id="@+id/tv_ride_date"
-            android:layout_width="60dp"
-            android:layout_height="13dp"
-            android:text="2019-12-25"
-            android:textAlignment="center"
-            android:textSize="10sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.148"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.516" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

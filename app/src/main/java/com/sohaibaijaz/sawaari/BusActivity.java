@@ -50,6 +50,7 @@ public class BusActivity extends AppCompatActivity {
 
                     String vehicle_no_plate = ride.getString("vehicle_no_plate");
                     String seats_left = ride.getString("seats_left");
+                    String route_id = ride.getString("route_name");
                     String ride_date = ride.getString("ride_date");
 
                     String pick_up_stop_id = ride.getJSONObject("pick-up-location").getString("stop_id");
@@ -68,6 +69,7 @@ public class BusActivity extends AppCompatActivity {
                     bus.put("ride_date", ride_date);
                     bus.put("vehicle_no_plate", vehicle_no_plate);
                     bus.put("seats_left", seats_left);
+                    bus.put("route_name", route_id);
 
                     bus.put("dropoff_location_id", drop_off_stop_id);
                     bus.put("dropoff_location", drop_off_stop_name);

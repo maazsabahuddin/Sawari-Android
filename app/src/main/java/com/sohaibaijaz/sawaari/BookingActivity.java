@@ -111,6 +111,7 @@ public class BookingActivity extends AppCompatActivity {
         final String vehicle_no_plate = b.getString("vehicle_no_plate");
         final String pickup_location = b.getString("pickup_location");
         final String pickup_location_id = b.getString("pickup_location_id");
+        final String route_name = b.getString("route_name");
 
         final String dropoff_location = b.getString("dropoff_location");
         final String dropoff_location_id = b.getString("dropoff_location_id");
@@ -336,6 +337,7 @@ public class BookingActivity extends AppCompatActivity {
                                 params.put("kilometer", kilometer);
                                 params.put("payment_method", payment_type);
                                 params.put("ride_date", ride_date);
+                                params.put("route_id", route_name);
 //                                params.put(KEY_EMAIL, email);
                                 return params;
                             }
