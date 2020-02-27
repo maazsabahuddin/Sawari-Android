@@ -76,12 +76,17 @@ public class ride_history extends Fragment {
                 for(int i=0; i<jsonArray.length(); i++){
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     if (!jsonObject.toString().equals("{}")) {
+
                         HashMap<String, String> ride = new HashMap<>();
-                        ride.put("res_no", jsonObject.getString("reservation_no"));
-                        ride.put("pickup_point", jsonObject.getString("pick_up_point"));
-                        ride.put("dropoff_point", jsonObject.getString("drop_off_point"));
+                        ride.put("booking_id", jsonObject.getString("booking_id"));
+                        ride.put("pick-up-point", jsonObject.getString("pick_up_point"));
+                        ride.put("pick-up-time", jsonObject.getString("pick_up_time"));
+                        ride.put("drop-off-point", jsonObject.getString("drop_off_point"));
+                        ride.put("drop-off-time", jsonObject.getString("drop_off_time"));
+                        ride.put("seats", jsonObject.getString("seats"));
                         ride.put("ride_date", jsonObject.getString("ride_date"));
-                        ride.put("status", jsonObject.getString("ride_status"));
+                        ride.put("ride_status", jsonObject.getString("ride_status"));
+                        ride.put("fare", jsonObject.getString("fare"));
 
                         rides.add(ride);
                     }

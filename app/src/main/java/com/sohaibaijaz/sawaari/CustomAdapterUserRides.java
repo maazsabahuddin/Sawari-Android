@@ -111,13 +111,13 @@ public class CustomAdapterUserRides extends BaseAdapter {
         holder.btn_share_ride = rowView.findViewById(R.id.btn_share_ride);
 
         holder.tv_date.setText(rides.get(position).get("ride_date").toString());
-        holder.tv_dropoff_point.setText("Drop off: "+rides.get(position).get("dropoff_point").toString());
-        holder.tv_pickup_point.setText("Pick up: "+rides.get(position).get("pickup_point").toString());
-        holder.tv_status.setText(rides.get(position).get("status").toString().toUpperCase());
-        holder.tv_res_no.setText("Res. no: "+rides.get(position).get("res_no").toString());
+        holder.tv_dropoff_point.setText("Drop off: "+rides.get(position).get("drop-off-point").toString());
+        holder.tv_pickup_point.setText("Pick up: "+rides.get(position).get("pick-up-point").toString());
+        holder.tv_status.setText(rides.get(position).get("ride_status").toString().toUpperCase());
+        holder.tv_res_no.setText("Booking Id: "+rides.get(position).get("booking_id").toString());
 
-        if(rides.get(position).get("status").toString().equals("COMPLETED")
-                || rides.get(position).get("status").toString().equals("RIDE CANCELLED")){
+        if(rides.get(position).get("ride_status").toString().equals("COMPLETED")
+                || rides.get(position).get("ride_status").toString().equals("RIDE CANCELLED")){
             holder.btn_cancel_reservation.setVisibility(View.GONE);
             holder.btn_share_ride.setVisibility(View.GONE);
 //            holder.btn_cancel_reservation.setEnabled(false);
@@ -134,10 +134,10 @@ public class CustomAdapterUserRides extends BaseAdapter {
 
                     sendIntent.setAction(Intent.ACTION_SEND);
                     String ride_details = "RIDE WITH SAWARI:" +
-                            "\nReservation No: " + rides.get(position).get("res_no").toString() +
+                            "\nBooking Id: " + rides.get(position).get("booking_id").toString() +
                             "\nRide date: " + rides.get(position).get("ride_date").toString() +
-                            "\nPick up: " + rides.get(position).get("pickup_point").toString() +
-                            "\nDrop off: " + rides.get(position).get("dropoff_point").toString();
+                            "\nPick up: " + rides.get(position).get("pick-up-point").toString() +
+                            "\nDrop off: " + rides.get(position).get("drop-off-point").toString();
 
                     sendIntent.putExtra(Intent.EXTRA_TEXT, ride_details);
                     sendIntent.setType("text/plain");
