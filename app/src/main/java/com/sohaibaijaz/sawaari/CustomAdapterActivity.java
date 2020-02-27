@@ -111,6 +111,8 @@ public class CustomAdapterActivity extends BaseAdapter {
                 b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
                 b.putString("ride_date", rides.get(position).get("ride_date").toString());
                 b.putString("route_name", rides.get(position).get("route_name").toString());
+                b.putString("arrival_time", rides.get(position).get("arrival_time").toString());
+                b.putString("departure_time", rides.get(position).get("departure_time").toString());
                 i.putExtras(b);
                 context.startActivity(i);
             }

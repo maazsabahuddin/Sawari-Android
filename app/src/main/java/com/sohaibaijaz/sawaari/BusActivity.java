@@ -74,7 +74,7 @@ public class BusActivity extends AppCompatActivity {
                     bus.put("dropoff_location_id", drop_off_stop_id);
                     bus.put("dropoff_location", drop_off_stop_name);
                     bus.put("dropoff_location_time", drop_off_duration);
-                    bus.put("dropoff_departure_time", drop_off_departure_time);
+                    bus.put("departure_time", drop_off_departure_time);
                     bus.put("dropoff_distance", drop_off_distance);
 
                     bus.put("pickup_location_id", pick_up_stop_id);

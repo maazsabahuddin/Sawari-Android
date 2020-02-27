@@ -117,6 +117,9 @@ public class BookingActivity extends AppCompatActivity {
         final String dropoff_location_id = b.getString("dropoff_location_id");
         final String ride_date = b.getString("ride_date");
 
+        final String arrival_time = b.getString("arrival_time");
+        final String departure_time = b.getString("departure_time");
+
         final String token = sharedPreferences.getString("Token","");
 
 
@@ -334,10 +337,12 @@ public class BookingActivity extends AppCompatActivity {
                                 params.put("req_seats",no_of_seats);
                                 params.put("pick_up_point_stop_id", pickup_location_id);
                                 params.put("drop_up_point_stop_id", dropoff_location_id);
-                                params.put("kilometer", kilometer);
+//                                params.put("kilometer", kilometer);
                                 params.put("payment_method", payment_type);
                                 params.put("ride_date", ride_date);
                                 params.put("route_id", route_name);
+                                params.put("arrival_time", arrival_time);
+                                params.put("departure_time", departure_time);
 //                                params.put(KEY_EMAIL, email);
                                 return params;
                             }
