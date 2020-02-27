@@ -3,10 +3,10 @@ package com.sohaibaijaz.sawaari.Fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -51,6 +51,7 @@ public class ride_history extends Fragment {
     private ListView lv_rides;
     private SharedPreferences sharedPreferences;
     private TextView tv_no_reservations;
+    private Button book_ride_btn;
     private ArrayList<HashMap> rides = new ArrayList<HashMap>();
     // Inflate the view for the fragment based on layout XML
     @Override
@@ -61,13 +62,18 @@ public class ride_history extends Fragment {
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         String user_rides = sharedPreferences.getString("user_rides", "");
 
-        lv_rides = view.findViewById(R.id.list_rides);
-        tv_no_reservations = view.findViewById(R.id.tv_no_reservations);
+        lv_rides = view.findViewById(R.id.scheduled_rides_listview);
+        tv_no_reservations = view.findViewById(R.id.past_trips_textview);
+        book_ride_btn = view.findViewById(R.id.book_trip_button);
+
         tv_no_reservations.setVisibility(View.GONE);
+        book_ride_btn.setVisibility(View.GONE);
+
         System.out.print(user_rides);
         if (user_rides.equals("") || user_rides.equals("[]"))
         {
             tv_no_reservations.setVisibility(View.VISIBLE);
+            book_ride_btn.setVisibility(View.VISIBLE);
         }
         else{
 

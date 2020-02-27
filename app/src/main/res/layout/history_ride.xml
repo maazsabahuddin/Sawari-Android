@@ -6,10 +6,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <Button
+        android:id="@+id/book_trip_button"
+        android:layout_width="213dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="96dp"
+        android:background="@drawable/button_background"
+        android:text="BOOK YOUR NEXT TRIP"
+        android:textAppearance="@style/Theme.AppCompat.Light"
+        android:textColor="@color/colorWhite"
+
+        android:textSize="14dp"
+        android:textStyle="normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.852"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.476" />
+
+    <TextView
+        android:id="@+id/past_trips_textview"
+        android:layout_width="238dp"
+        android:layout_height="47dp"
+        android:text="No Past Trips"
+        android:textAlignment="center"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.427"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.406" />
+
     <ListView
-        android:id="@+id/list_rides"
-        android:layout_width="391dp"
-        android:layout_height="573dp"
+        android:id="@+id/scheduled_rides_listview"
+        android:layout_width="380dp"
+        android:layout_height="591dp"
         android:divider="@color/colorWhite"
         android:dividerHeight="10.0sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -21,17 +55,6 @@
 
 
     </ListView>
-
-    <TextView
-        android:id="@+id/tv_no_reservations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="No reservations yet"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:id="@+id/divider"

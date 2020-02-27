@@ -41,8 +41,8 @@ public class RidesFragment extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         String user_rides = sharedPreferences.getString("user_rides", "");
 
-        lv_rides = fragmentView.findViewById(R.id.list_rides);
-        tv_no_reservations = fragmentView.findViewById(R.id.tv_no_reservations);
+        lv_rides = fragmentView.findViewById(R.id.scheduled_rides_listview);
+        tv_no_reservations = fragmentView.findViewById(R.id.tv_past_trips);
         tv_no_reservations.setVisibility(View.GONE);
         System.out.print(user_rides);
         if (user_rides.equals("") || user_rides.equals("[]"))

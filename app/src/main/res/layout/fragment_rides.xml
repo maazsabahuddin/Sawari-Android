@@ -6,7 +6,7 @@
 
 
     <ListView
-        android:id="@+id/list_rides"
+        android:id="@+id/scheduled_rides_listview"
         android:layout_width="389dp"
         android:layout_height="587dp"
         android:divider="@color/colorWhite"
@@ -35,7 +35,7 @@
         app:layout_constraintVertical_bias="0.022" />
 
     <TextView
-        android:id="@+id/tv_no_reservations"
+        android:id="@+id/tv_past_trips"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No reservations yet"
