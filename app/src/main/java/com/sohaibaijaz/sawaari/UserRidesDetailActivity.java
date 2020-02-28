@@ -2,6 +2,7 @@ package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class UserRidesDetailActivity extends AppCompatActivity {
     Context context;
     private Button back_btn_ride_details;
     private TextView my_ride_details_tv;
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +29,7 @@ public class UserRidesDetailActivity extends AppCompatActivity {
 
         b = getIntent().getExtras();
         back_btn_ride_details = findViewById(R.id.back_btn_ride_details);
+        my_ride_details_tv = findViewById(R.id.my_ride_details_tv);
 
         final String ride_status = b.getString("ride_status");
         final String ride_fare = b.getString("ride_fare");
@@ -39,10 +42,13 @@ public class UserRidesDetailActivity extends AppCompatActivity {
         final String ride_seats = b.getString("ride_seats");
         final String ride_vehicle_no_plate = b.getString("ride_vehicle_no_plate");
 
+        my_ride_details_tv.setText("Boarding Pass");
+
         back_btn_ride_details.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), RideFragmentN.class));
+                onBackPressed();
+//                startActivity(new Intent(getApplicationContext(), RideFragmentN.class));
 //                Intent i = new Intent(getApplicationContext(), RideFragmentN.class);
 //                context.startActivity(i);
             }

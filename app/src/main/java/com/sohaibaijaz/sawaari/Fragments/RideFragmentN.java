@@ -83,6 +83,7 @@ public class RideFragmentN extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+//                startActivity(new Intent(getApplicationContext(), HomeFragment.class));
             }
         });
     }
