@@ -3,7 +3,9 @@ package com.sohaibaijaz.sawaari;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,15 +109,16 @@ public class CustomPreviewUserRidesHistory extends BaseAdapter {
 //        holder.book_ride_btn = rowView.findViewById(R.id.book_trip_button);
 
         try{
-            String ride_status = Objects.requireNonNull(rides.get(position).get("ride_status")).toString();
-            String ride_fare = Objects.requireNonNull(rides.get(position).get("fare")).toString();
-            String ride_date = Objects.requireNonNull(rides.get(position).get("ride_date")).toString();
-            String ride_start_time = Objects.requireNonNull(rides.get(position).get("pick_up_time")).toString();
-            String ride_end_time = Objects.requireNonNull(rides.get(position).get("drop_off_time")).toString();
-            String ride_pick_up_location = Objects.requireNonNull(rides.get(position).get("pick_up_point")).toString();
-            String ride_drop_off_location = Objects.requireNonNull(rides.get(position).get("drop_off_point")).toString();
-            String ride_booking_id = Objects.requireNonNull(rides.get(position).get("booking_id")).toString();
-            String ride_seats = Objects.requireNonNull(rides.get(position).get("seats")).toString();
+            final String ride_status = Objects.requireNonNull(rides.get(position).get("ride_status")).toString();
+            final String ride_fare = Objects.requireNonNull(rides.get(position).get("fare")).toString();
+            final String ride_date = Objects.requireNonNull(rides.get(position).get("ride_date")).toString();
+            final String ride_start_time = Objects.requireNonNull(rides.get(position).get("pick_up_time")).toString();
+            final String ride_end_time = Objects.requireNonNull(rides.get(position).get("drop_off_time")).toString();
+            final String ride_pick_up_location = Objects.requireNonNull(rides.get(position).get("pick_up_point")).toString();
+            final String ride_drop_off_location = Objects.requireNonNull(rides.get(position).get("drop_off_point")).toString();
+            final String ride_booking_id = Objects.requireNonNull(rides.get(position).get("booking_id")).toString();
+            final String ride_seats = Objects.requireNonNull(rides.get(position).get("seats")).toString();
+            final String ride_vehicle_no_plate = Objects.requireNonNull(rides.get(position).get("vehicle_no_plate")).toString();
 
             holder.ride_status_btn.setText(ride_status);
             holder.tv_ride_fare.setText("Fare " + ride_fare);
@@ -131,6 +134,29 @@ public class CustomPreviewUserRidesHistory extends BaseAdapter {
             holder.pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
             holder.drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
             holder.rebook_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.businblue, 0, 0, 0);
+
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, UserRidesDetailActivity.class);
+
+                    Bundle b = new Bundle();
+                    b.putString("ride_status", ride_status);
+                    b.putString("ride_fare", ride_fare);
+                    b.putString("ride_date", ride_date);
+                    b.putString("ride_start_time", ride_start_time);
+                    b.putString("ride_end_time", ride_end_time);
+                    b.putString("ride_pick_up_location", ride_pick_up_location);
+                    b.putString("ride_drop_off_location", ride_drop_off_location);
+                    b.putString("ride_date", ride_date);
+                    b.putString("ride_booking_id", ride_booking_id);
+                    b.putString("ride_seats", ride_seats);
+                    b.putString("ride_vehicle_no_plate", ride_vehicle_no_plate);
+
+                    i.putExtras(b);
+                    context.startActivity(i);
+                }
+            });
 
         }
         catch (java.lang.NullPointerException e){
