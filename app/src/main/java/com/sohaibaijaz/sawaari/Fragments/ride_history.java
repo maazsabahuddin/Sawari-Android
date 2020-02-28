@@ -95,6 +95,7 @@ public class ride_history extends Fragment {
                             ride.put("ride_date", jsonObject.getString("ride_date"));
                             ride.put("ride_status", jsonObject.getString("ride_status"));
                             ride.put("fare", jsonObject.getString("fare"));
+                            ride.put("vehicle_no_plate", jsonObject.getString("vehicle_no_plate"));
 
                             flag = true;
                             rides.add(ride);
