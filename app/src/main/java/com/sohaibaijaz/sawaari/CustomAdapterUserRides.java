@@ -81,6 +81,16 @@ public class CustomAdapterUserRides extends BaseAdapter {
         TextView tv_status;
         Button btn_cancel_reservation;
         Button btn_share_ride;
+
+//        TextView tv_ride_fare;
+//        TextView tv_booking_id
+//        TextView tv_ride_date;
+//        Button ride_status_btn;
+//        TextView tv_ride_seats;
+//        TextView tv_ride_start_time;
+//        TextView tv_ride_end_time;
+//        TextView tv_pick_up_location;
+//        TextView tv_drop_off_location;
     }
 
     private void openWhatsapp(String ride_share){

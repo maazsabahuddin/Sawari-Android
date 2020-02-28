@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.sohaibaijaz.sawaari.CustomAdapterUserRides;
+import com.sohaibaijaz.sawaari.CustomPreviewUserRidesHistory;
 import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONArray;
@@ -50,8 +51,11 @@ public class ride_history extends Fragment {
 
     private ListView lv_rides;
     private SharedPreferences sharedPreferences;
-    private TextView tv_no_reservations;
-    private Button book_ride_btn;
+    private TextView history_no_trips_tv;
+    private Button history_book_ride_btn;
+    private TextView scheduled_no_trips_tv;
+    private Button scheduled_book_ride_btn;
+
     private ArrayList<HashMap> rides = new ArrayList<HashMap>();
     // Inflate the view for the fragment based on layout XML
     @Override
@@ -62,18 +66,20 @@ public class ride_history extends Fragment {
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         String user_rides = sharedPreferences.getString("user_rides", "");
 
-        lv_rides = view.findViewById(R.id.scheduled_rides_listview);
-        tv_no_reservations = view.findViewById(R.id.past_trips_textview);
-        book_ride_btn = view.findViewById(R.id.book_trip_button);
+        lv_rides = view.findViewById(R.id.history_rides_listView);
+        history_no_trips_tv = view.findViewById(R.id.past_trips_textview);
+        history_book_ride_btn = view.findViewById(R.id.book_trip_button);
+        scheduled_no_trips_tv = view.findViewById(R.id.schedule_trips_tv);
+        scheduled_book_ride_btn = view.findViewById(R.id.schedule_book_btn);
 
-        tv_no_reservations.setVisibility(View.GONE);
-        book_ride_btn.setVisibility(View.GONE);
+        history_no_trips_tv.setVisibility(View.GONE);
+        history_book_ride_btn.setVisibility(View.GONE);
 
         System.out.print(user_rides);
         if (user_rides.equals("") || user_rides.equals("[]"))
         {
-            tv_no_reservations.setVisibility(View.VISIBLE);
-            book_ride_btn.setVisibility(View.VISIBLE);
+            history_no_trips_tv.setVisibility(View.VISIBLE);
+            history_book_ride_btn.setVisibility(View.VISIBLE);
         }
         else{
 
@@ -83,28 +89,30 @@ public class ride_history extends Fragment {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     if (!jsonObject.toString().equals("{}")) {
 
-                        HashMap<String, String> ride = new HashMap<>();
-                        ride.put("booking_id", jsonObject.getString("booking_id"));
-                        ride.put("pick-up-point", jsonObject.getString("pick_up_point"));
-                        ride.put("pick-up-time", jsonObject.getString("pick_up_time"));
-                        ride.put("drop-off-point", jsonObject.getString("drop_off_point"));
-                        ride.put("drop-off-time", jsonObject.getString("drop_off_time"));
-                        ride.put("seats", jsonObject.getString("seats"));
-                        ride.put("ride_date", jsonObject.getString("ride_date"));
-                        ride.put("ride_status", jsonObject.getString("ride_status"));
-                        ride.put("fare", jsonObject.getString("fare"));
+                        if(!(jsonObject.getString("ride_status").equals("ACTIVE"))){
+                            HashMap<String, String> ride = new HashMap<>();
+                            ride.put("booking_id", jsonObject.getString("booking_id"));
+                            ride.put("pick_up_point", jsonObject.getString("pick_up_point"));
+                            ride.put("pick_up_time", jsonObject.getString("pick_up_time"));
+                            ride.put("drop_off_point", jsonObject.getString("drop_off_point"));
+                            ride.put("drop_off_time", jsonObject.getString("drop_off_time"));
+                            ride.put("seats", jsonObject.getString("seats"));
+                            ride.put("ride_date", jsonObject.getString("ride_date"));
+                            ride.put("ride_status", jsonObject.getString("ride_status"));
+                            ride.put("fare", jsonObject.getString("fare"));
 
-                        rides.add(ride);
+                            rides.add(ride);
+                        }
                     }
                 }
 
+                CustomPreviewUserRidesHistory adapterUserRides = new CustomPreviewUserRidesHistory(getActivity(), rides);
+                lv_rides.setAdapter(adapterUserRides);
             }
             catch (Exception e){
                 e.printStackTrace();
             }
         }
-        CustomAdapterUserRides adapterUserRides = new CustomAdapterUserRides(getActivity(), rides);
-        lv_rides.setAdapter(adapterUserRides);
 
         return view;
     }
