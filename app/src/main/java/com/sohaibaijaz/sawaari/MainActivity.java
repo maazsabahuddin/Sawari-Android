@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button btn_login = findViewById(R.id.btn_login);
-        final Button user_rides = findViewById(R.id.active_ride_btn);
         requestQueue = Volley.newRequestQueue(this);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);

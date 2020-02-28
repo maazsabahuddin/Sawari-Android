@@ -10,7 +10,6 @@
         android:id="@+id/schedule_book_btn"
         android:layout_width="213dp"
         android:layout_height="49dp"
-        android:layout_marginEnd="96dp"
         android:background="@drawable/button_background"
         android:text="BOOK YOUR NEXT TRIP"
         android:textAppearance="@style/Theme.AppCompat.Light"
@@ -20,10 +19,9 @@
         android:textStyle="normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.852"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.476" />
+        app:layout_constraintVertical_bias="0.48" />
 
     <TextView
         android:id="@+id/schedule_trips_tv"
@@ -35,10 +33,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.427"
+        app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.406" />
+        app:layout_constraintVertical_bias="0.4" />
 
     <View
         android:id="@+id/divider"
@@ -56,6 +54,7 @@
         android:id="@+id/scheduled_rides_listview"
         android:layout_width="380dp"
         android:layout_height="590dp"
+        android:dividerHeight="1dip"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -103,52 +103,39 @@ public class CustomPreviewUserRidesHistory extends BaseAdapter {
         holder.rebook_ride_icon = rowView.findViewById(R.id.rebook_ride_icon);
         holder.pick_up_icon = rowView.findViewById(R.id.pick_up_icon);
 
-        holder.tv_notrips = rowView.findViewById(R.id.past_trips_textview);
-        holder.book_ride_btn = rowView.findViewById(R.id.book_trip_button);
+//        holder.tv_notrips = rowView.findViewById(R.id.past_trips_textview);
+//        holder.book_ride_btn = rowView.findViewById(R.id.book_trip_button);
 
-        JSONArray ride = new JSONArray(rides);
-        if(ride.length() == 0 || ride.isNull(0)){
-            holder.tv_notrips.setVisibility(View.VISIBLE);
-            holder.book_ride_btn.setVisibility(View.VISIBLE);
+        try{
+            String ride_status = Objects.requireNonNull(rides.get(position).get("ride_status")).toString();
+            String ride_fare = Objects.requireNonNull(rides.get(position).get("fare")).toString();
+            String ride_date = Objects.requireNonNull(rides.get(position).get("ride_date")).toString();
+            String ride_start_time = Objects.requireNonNull(rides.get(position).get("pick_up_time")).toString();
+            String ride_end_time = Objects.requireNonNull(rides.get(position).get("drop_off_time")).toString();
+            String ride_pick_up_location = Objects.requireNonNull(rides.get(position).get("pick_up_point")).toString();
+            String ride_drop_off_location = Objects.requireNonNull(rides.get(position).get("drop_off_point")).toString();
+            String ride_booking_id = Objects.requireNonNull(rides.get(position).get("booking_id")).toString();
+            String ride_seats = Objects.requireNonNull(rides.get(position).get("seats")).toString();
+
+            holder.ride_status_btn.setText(ride_status);
+            holder.tv_ride_fare.setText("Fare " + ride_fare);
+            holder.tv_ride_date.setText(ride_date);
+            holder.tv_booking_id.setText("Booking ID: " + ride_booking_id);
+            holder.tv_ride_seats.setText(ride_seats);
+            holder.tv_ride_start_time.setText(ride_start_time);
+            holder.tv_ride_end_time.setText(ride_end_time);
+            holder.tv_pick_up_location.setText(ride_pick_up_location);
+            holder.tv_drop_off_location.setText(ride_drop_off_location);
+
+            holder.seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seatinblue, 0, 0, 0);
+            holder.pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
+            holder.drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
+            holder.rebook_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.businblue, 0, 0, 0);
+
         }
-
-        else{
-            try{
-                String ride_status = Objects.requireNonNull(rides.get(position).get("ride_status")).toString();
-                String ride_fare = Objects.requireNonNull(rides.get(position).get("fare")).toString();
-                String ride_date = Objects.requireNonNull(rides.get(position).get("ride_date")).toString();
-                String ride_start_time = Objects.requireNonNull(rides.get(position).get("pick_up_time")).toString();
-                String ride_end_time = Objects.requireNonNull(rides.get(position).get("drop_off_time")).toString();
-                String ride_pick_up_location = Objects.requireNonNull(rides.get(position).get("pick_up_point")).toString();
-                String ride_drop_off_location = Objects.requireNonNull(rides.get(position).get("drop_off_point")).toString();
-                String ride_booking_id = Objects.requireNonNull(rides.get(position).get("booking_id")).toString();
-                String ride_seats = Objects.requireNonNull(rides.get(position).get("seats")).toString();
-
-                if(Objects.requireNonNull(rides.get(position).get("ride_status")).toString().equals("COMPLETED")
-                        || Objects.requireNonNull(rides.get(position).get("ride_status")).toString().equals("RIDE CANCELLED")){
-
-                    holder.ride_status_btn.setText(ride_status);
-                    holder.tv_ride_fare.setText("Fare " + ride_fare);
-                    holder.tv_ride_date.setText(ride_date);
-                    holder.tv_booking_id.setText("Booking ID: " + ride_booking_id);
-                    holder.tv_ride_seats.setText(ride_seats);
-                    holder.tv_ride_start_time.setText(ride_start_time);
-                    holder.tv_ride_end_time.setText(ride_end_time);
-                    holder.tv_pick_up_location.setText(ride_pick_up_location);
-                    holder.tv_drop_off_location.setText(ride_drop_off_location);
-
-                    holder.seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seatinblue, 0, 0, 0);
-                    holder.pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
-                    holder.drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
-                    holder.rebook_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.businblue, 0, 0, 0);
-
-                }
-            }
-            catch (java.lang.NullPointerException e){
-                Log.d("onActivityResult()", "Something went wrong, some data is null");
-            }
+        catch (java.lang.NullPointerException e){
+            Log.d("onActivityResult()", "Something went wrong, some data is null");
         }
-
 
         return rowView;
     }

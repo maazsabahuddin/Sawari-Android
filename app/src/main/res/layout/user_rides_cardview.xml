@@ -4,81 +4,61 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:cardUseCompatPadding="true"
     android:background="@color/colorAccent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="219dp"
+        android:layout_height="220dp"
         android:background="@color/ShadeBlack"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="37dp">
 
         <TextView
-            android:id="@+id/tv_pick_up_location"
-            android:layout_width="245dp"
-            android:layout_height="35dp"
-            android:layout_marginStart="116dp"
-            android:layout_marginTop="88dp"
-            android:fontFamily="serif"
-            android:text="Opposite Ocean Mall Bus Stop."
+            android:id="@+id/tv_rebook"
+            android:layout_width="182dp"
+            android:layout_height="29dp"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="184dp"
+            android:text="Rebook"
             android:textAlignment="viewStart"
-            android:textSize="14sp"
-            android:typeface="monospace"
+            android:textSize="17sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/pick_up_icon"
-            android:layout_width="31dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginTop="84dp"
+            android:id="@+id/tv_booking_id"
+            android:layout_width="184dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="44dp"
+            android:text="Booking ID: "
+            android:textAlignment="viewStart"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_seats"
+            android:layout_width="39dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="12dp"
+            android:fontFamily="serif"
+            android:text="2"
+            android:textAlignment="center"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_drop_off_location"
             android:layout_width="245dp"
             android:layout_height="35dp"
-            android:layout_marginStart="116dp"
+            android:layout_marginStart="132dp"
             android:layout_marginTop="128dp"
             android:fontFamily="serif"
             android:text="Khalid Bakery, Jauhar Road."
-            android:textAlignment="viewStart"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/drop_off_icon"
-            android:layout_width="31dp"
-            android:layout_height="28dp"
-            android:layout_marginStart="92dp"
-            android:layout_marginTop="124dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_ride_start_time"
-            android:layout_width="102dp"
-            android:layout_height="29dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="88dp"
-            android:fontFamily="serif"
-            android:text="08:10 AM"
-            android:textAlignment="viewStart"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_ride_end_time"
-            android:layout_width="102dp"
-            android:layout_height="26dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="128dp"
-            android:fontFamily="serif"
-            android:text="08:55 AM"
             android:textAlignment="viewStart"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -88,21 +68,41 @@
             android:id="@+id/divider2"
             android:layout_width="409dp"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
             android:background="?android:attr/listDivider"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.792" />
+            app:layout_constraintVertical_bias="0.789" />
 
         <TextView
-            android:id="@+id/tv_rebook"
-            android:layout_width="182dp"
+            android:id="@+id/tv_seaticon"
+            android:layout_width="31dp"
+            android:layout_height="28dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="28dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/drop_off_icon"
+            android:layout_width="31dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="108dp"
+            android:layout_marginTop="124dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_ride_start_time"
+            android:layout_width="102dp"
             android:layout_height="29dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="184dp"
-            android:text="Rebook"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="88dp"
+            android:fontFamily="serif"
+            android:text="08:10 AM"
             android:textAlignment="viewStart"
-            android:textSize="17sp"
+            android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -110,7 +110,7 @@
             android:id="@+id/rebook_ride_icon"
             android:layout_width="31dp"
             android:layout_height="28dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="184dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -120,12 +120,25 @@
             android:layout_width="70dp"
             android:layout_height="29dp"
             android:layout_marginTop="184dp"
-            android:layout_marginEnd="36dp"
+            android:layout_marginEnd="12dp"
             android:fontFamily="serif"
             android:text="Fare 50 "
             android:textAlignment="center"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_ride_end_time"
+            android:layout_width="102dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="128dp"
+            android:fontFamily="serif"
+            android:text="08:55 AM"
+            android:textAlignment="viewStart"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
@@ -143,42 +156,31 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
 
-            app:layout_constraintHorizontal_bias="0.541"
+            app:layout_constraintHorizontal_bias="0.607"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.101" />
 
         <TextView
-            android:id="@+id/tv_seaticon"
+            android:id="@+id/pick_up_icon"
             android:layout_width="31dp"
             android:layout_height="28dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="52dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="108dp"
+            android:layout_marginTop="84dp"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_seats"
-            android:layout_width="39dp"
-            android:layout_height="28dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="36dp"
+            android:id="@+id/tv_pick_up_location"
+            android:layout_width="245dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="132dp"
+            android:layout_marginTop="88dp"
             android:fontFamily="serif"
-            android:text="2"
-            android:textAlignment="center"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_booking_id"
-            android:layout_width="184dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="44dp"
-            android:text="Booking ID: "
+            android:text="Opposite Ocean Mall Bus Stop."
             android:textAlignment="viewStart"
+            android:textSize="14sp"
+            android:typeface="monospace"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -186,7 +188,7 @@
             android:id="@+id/tv_date"
             android:layout_width="201dp"
             android:layout_height="48dp"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="12dp"
             android:fontFamily="serif"
             android:text="Mar 23, 2020"

@@ -53,9 +53,6 @@ public class ride_history extends Fragment {
     private SharedPreferences sharedPreferences;
     private TextView history_no_trips_tv;
     private Button history_book_ride_btn;
-    private TextView scheduled_no_trips_tv;
-    private Button scheduled_book_ride_btn;
-
     private ArrayList<HashMap> rides = new ArrayList<HashMap>();
     // Inflate the view for the fragment based on layout XML
     @Override
@@ -69,12 +66,11 @@ public class ride_history extends Fragment {
         lv_rides = view.findViewById(R.id.history_rides_listView);
         history_no_trips_tv = view.findViewById(R.id.past_trips_textview);
         history_book_ride_btn = view.findViewById(R.id.book_trip_button);
-        scheduled_no_trips_tv = view.findViewById(R.id.schedule_trips_tv);
-        scheduled_book_ride_btn = view.findViewById(R.id.schedule_book_btn);
 
         history_no_trips_tv.setVisibility(View.GONE);
         history_book_ride_btn.setVisibility(View.GONE);
 
+        boolean flag = false;
         System.out.print(user_rides);
         if (user_rides.equals("") || user_rides.equals("[]"))
         {
@@ -82,7 +78,6 @@ public class ride_history extends Fragment {
             history_book_ride_btn.setVisibility(View.VISIBLE);
         }
         else{
-
             try {
                 JSONArray jsonArray = new JSONArray(user_rides);
                 for(int i=0; i<jsonArray.length(); i++){
@@ -101,13 +96,21 @@ public class ride_history extends Fragment {
                             ride.put("ride_status", jsonObject.getString("ride_status"));
                             ride.put("fare", jsonObject.getString("fare"));
 
+                            flag = true;
                             rides.add(ride);
                         }
                     }
                 }
 
-                CustomPreviewUserRidesHistory adapterUserRides = new CustomPreviewUserRidesHistory(getActivity(), rides);
-                lv_rides.setAdapter(adapterUserRides);
+                if(flag) {
+                    CustomPreviewUserRidesHistory adapterUserRides = new CustomPreviewUserRidesHistory(getActivity(), rides);
+                    lv_rides.setAdapter(adapterUserRides);
+                }
+                else{
+                    history_no_trips_tv.setVisibility(View.VISIBLE);
+                    history_book_ride_btn.setVisibility(View.VISIBLE);
+                }
+
             }
             catch (Exception e){
                 e.printStackTrace();

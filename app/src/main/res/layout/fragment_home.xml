@@ -24,24 +24,6 @@
             app:layout_constraintVertical_bias="0.0"
             tools:context="example.com.mapexample.MapsActivity" />
 
-        <Button
-            android:id="@+id/active_ride_btn"
-            android:layout_width="209dp"
-            android:layout_height="55dp"
-            android:background="@drawable/button_background"
-            android:text="Active Ride"
-            android:textAppearance="@style/Theme.AppCompat.Light"
-            android:textColor="@color/colorWhite"
-            android:textSize="18sp"
-            android:textStyle="normal|bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.463"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            app:layout_constraintVertical_bias="0.848" />
-
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view1"
             android:layout_width="320dp"

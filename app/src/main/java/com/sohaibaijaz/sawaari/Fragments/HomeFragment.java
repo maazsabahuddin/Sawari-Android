@@ -169,7 +169,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
-        final Button user_rides = fragmentView.findViewById(R.id.active_ride_btn);
 
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -203,20 +202,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
         catch (Exception e){
             System.out.println(e.getMessage());
-        }
-
-        if(!active_rides_flag){
-            user_rides.setVisibility(View.GONE);
-        }
-        else{
-            user_rides.setVisibility(View.VISIBLE);
-            user_rides.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    Intent i = new Intent(getActivity(), RidesFragment.class);
-                    Toast.makeText(getContext(), "You have an active ride.", Toast.LENGTH_LONG).show();
-                }
-            });
         }
 
         dropoff_btn.setOnClickListener(new View.OnClickListener() {
