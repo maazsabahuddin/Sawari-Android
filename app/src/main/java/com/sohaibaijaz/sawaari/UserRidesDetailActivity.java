@@ -20,6 +20,9 @@ public class UserRidesDetailActivity extends AppCompatActivity {
     Context context;
     private Button back_btn_ride_details;
     private TextView my_ride_details_tv;
+    private TextView tv_ride_seats;
+    private TextView tv_ride_seat_icon;
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,8 @@ public class UserRidesDetailActivity extends AppCompatActivity {
         b = getIntent().getExtras();
         back_btn_ride_details = findViewById(R.id.back_btn_ride_details);
         my_ride_details_tv = findViewById(R.id.my_ride_details_tv);
+        tv_ride_seat_icon = findViewById(R.id.tv_ride_seat_icon);
+        tv_ride_seats = findViewById(R.id.tv_ride_seats);
 
         final String ride_status = b.getString("ride_status");
         final String ride_fare = b.getString("ride_fare");
@@ -43,6 +48,8 @@ public class UserRidesDetailActivity extends AppCompatActivity {
         final String ride_vehicle_no_plate = b.getString("ride_vehicle_no_plate");
 
         my_ride_details_tv.setText("Boarding Pass");
+        tv_ride_seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seatinblue, 0, 0, 0);
+        tv_ride_seats.setText(ride_seats);
 
         back_btn_ride_details.setOnClickListener(new View.OnClickListener() {
             @Override

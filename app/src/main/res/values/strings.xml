@@ -35,6 +35,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_2">2</string>
+    <string name="mar_23_2020">Mar 23, 2020</string>
 
 </resources>
 
