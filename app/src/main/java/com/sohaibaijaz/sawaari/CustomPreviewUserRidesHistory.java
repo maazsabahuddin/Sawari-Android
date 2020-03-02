@@ -77,6 +77,7 @@ public class CustomPreviewUserRidesHistory extends BaseAdapter {
         TextView rebook_ride_icon;
         TextView tv_notrips;
         Button book_ride_btn;
+        TextView vertical_line;
     }
 
     @SuppressLint("SetTextI18n")

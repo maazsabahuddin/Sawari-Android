@@ -52,7 +52,7 @@
 
     <ListView
         android:id="@+id/scheduled_rides_listview"
-        android:layout_width="380dp"
+        android:layout_width="0dp"
         android:layout_height="590dp"
         android:dividerHeight="1dip"
         app:layout_constraintBottom_toBottomOf="parent"

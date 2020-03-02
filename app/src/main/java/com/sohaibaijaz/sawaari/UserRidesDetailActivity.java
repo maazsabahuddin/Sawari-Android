@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class UserRidesDetailActivity extends AppCompatActivity {
 
@@ -21,8 +22,20 @@ public class UserRidesDetailActivity extends AppCompatActivity {
     private TextView red_icon;
     private TextView return_trip_icon;
     private TextView invoice_icon;
-    private TextView share_btn_icon;
-    private TextView cancel_btn_icon;
+    private TextView vertical_line;
+    private Button share_btn;
+    private Button cancel_btn;
+
+    private TextView tv_ride_date;
+    private TextView arrival_time_tv;
+    private TextView departure_time_tv;
+    private TextView pick_up_location_tv;
+    private TextView drop_off_location_tv;
+    private TextView booking_id_tv;
+    private TextView bus_details_tv;
+    private TextView return_trip_tv;
+    private TextView invoice_tv;
+
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -34,14 +47,26 @@ public class UserRidesDetailActivity extends AppCompatActivity {
         b = getIntent().getExtras();
         back_btn_ride_details = findViewById(R.id.back_btn_ride_details);
         my_ride_details_tv = findViewById(R.id.boarding_pass_details_tv);
-        tv_ride_seat_icon = findViewById(R.id.tv_ride_seat_icon);
-        tv_ride_seats = findViewById(R.id.tv_ride_seats);
+        tv_ride_seat_icon = findViewById(R.id.tv_ride_seat_icon);;
         green_icon = findViewById(R.id.green_icon);
         red_icon = findViewById(R.id.red_icon);
         return_trip_icon = findViewById(R.id.return_trip_icon);
         invoice_icon = findViewById(R.id.invoice_icon);
-        share_btn_icon = findViewById(R.id.share_btn_icon);
-        cancel_btn_icon = findViewById(R.id.cancel_btn_icon);
+        vertical_line = findViewById(R.id.vertical_line);
+
+        tv_ride_seats = findViewById(R.id.tv_ride_seats);
+        share_btn = findViewById(R.id.share_ride_btn);
+        cancel_btn = findViewById(R.id.cancel_ride_btn);
+        tv_ride_date = findViewById(R.id.tv_ride_date);
+        arrival_time_tv = findViewById(R.id.arrival_time_tv);
+        departure_time_tv = findViewById(R.id.departure_time_tv);
+        pick_up_location_tv = findViewById(R.id.pick_up_location_tv);
+        drop_off_location_tv = findViewById(R.id.drop_off_location_tv);
+        booking_id_tv = findViewById(R.id.booking_id_tv);
+        bus_details_tv = findViewById(R.id.bus_details_tv);
+        return_trip_tv = findViewById(R.id.return_trip_tv);
+        invoice_tv = findViewById(R.id.invoice_tv);
+
 
         final String ride_status = b.getString("ride_status");
         final String ride_fare = b.getString("ride_fare");
@@ -60,9 +85,17 @@ public class UserRidesDetailActivity extends AppCompatActivity {
         red_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
         return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shareicon, 0, 0, 0);
         invoice_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.invoiceicon, 0, 0, 0);
-        share_btn_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shareicon, 0, 0, 0);
-        cancel_btn_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.cancelbtnicon, 0, 0, 0);
+        vertical_line.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vertical_line, 0, 0, 0);
+
         tv_ride_seats.setText(ride_seats);
+        tv_ride_date.setText(ride_date);
+        arrival_time_tv.setText(ride_start_time);
+        departure_time_tv.setText(ride_end_time);
+        pick_up_location_tv.setText(ride_pick_up_location);
+        drop_off_location_tv.setText(ride_drop_off_location);
+        booking_id_tv.setText(ride_booking_id + "    ");
+        bus_details_tv.setText(ride_vehicle_no_plate + " Silver Color   ");
+
 
         back_btn_ride_details.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,5 +107,32 @@ public class UserRidesDetailActivity extends AppCompatActivity {
             }
         });
 
+        share_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return_trip_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        invoice_tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
