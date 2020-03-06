@@ -19,6 +19,10 @@
         <activity android:name=".UserRidesDetailActivity">
 
         </activity>
+
+        <activity android:name=".Rides.show_rides"></activity>
+        <activity android:name=".Rides.BusActivity"></activity>
+
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait" />

@@ -1,50 +1,75 @@
-package com.sohaibaijaz.sawaari;
+package com.sohaibaijaz.sawaari.Rides;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
-import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
+import com.sohaibaijaz.sawaari.CustomAdapterActivity;
+import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
-public class BusActivity extends AppCompatActivity {
+import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
+public class today_rides extends Fragment {
 
+    private String title;
+    private static String rides_data;
+    private int page;
+
+    // newInstance constructor for creating fragment with arguments
+    public static today_rides newInstance(int page, String title, String rides_data) {
+
+        today_rides.rides_data = rides_data;
+
+        today_rides today = new today_rides();
+        Bundle args = new Bundle();
+        args.putInt("someInt", page);
+        args.putString("someTitle", title);
+        today.setArguments(args);
+        return today;
+    }
+
+    // Store instance variables based on arguments passed
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        page = getArguments().getInt("someInt", 0);
+        title = getArguments().getString("someTitle");
+    }
+
+    Context context;
     ArrayList<HashMap> buses = new ArrayList<HashMap>();
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bus);
-        getSupportActionBar().hide();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.today_rides, container, false);
 
-        Button btn_back = findViewById(R.id.btn_back);
-        ListView list_buses = (findViewById(R.id.list_buses));
-        TextView ride_txt = findViewById(R.id.ride_txt);
-        TextView suggestionTextView = findViewById(R.id.suggestionTextView);
-        Bundle b = getIntent().getExtras();
-        String rides_data = b.getString("rides");
+        ListView list_buses = view.findViewById(R.id.today_rides_ListView);
+        TextView today_ride_suggestion_tv = view.findViewById(R.id.today_ride_suggestion_tv);
+        TextView today_no_ride_tv = view.findViewById(R.id.today_no_ride_tv);
 
         try {
-
             JSONArray rides = new JSONArray(rides_data);
-            if(rides.length() == 0 || rides.isNull(0)){
-                ride_txt.setVisibility(TextView.VISIBLE);
-                suggestionTextView.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(getApplicationContext(), "No Rides Available.", Toast.LENGTH_LONG).show();
-            }
+            if(rides.length() != 0 || !rides.isNull(0)){
 
-            else{
+                today_no_ride_tv.setVisibility(TextView.INVISIBLE);
+                today_ride_suggestion_tv.setVisibility(TextView.INVISIBLE);
+
                 for(int i=0 ; i< rides.length(); i++){
                     JSONObject ride = rides.getJSONObject(i);
 
@@ -87,24 +112,18 @@ public class BusActivity extends AppCompatActivity {
 
                 }
             }
+            else{
+                today_no_ride_tv.setVisibility(TextView.VISIBLE);
+                today_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
+//                Toast.makeText(getApplicationContext(), "No Rides Available.", Toast.LENGTH_LONG).show();
+            }
 
-            list_buses.setAdapter(new CustomAdapterActivity(this, buses));
+            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), buses));
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        btn_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-//                Intent i = new Intent(BusActivity.this, HomeFragment.class);
-//                finish();
-//                BusActivity.this.startActivity(i);
-            }
-        });
-
+        return view;
     }
-
 }
-

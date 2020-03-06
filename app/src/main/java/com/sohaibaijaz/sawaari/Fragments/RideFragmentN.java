@@ -55,23 +55,12 @@ public class RideFragmentN extends AppCompatActivity {
 
     }
 
-
     FragmentPagerAdapter adapterViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_ride_history);
         getSupportActionBar().hide();
-
-//        TextView textView = (TextView) findViewById(R.id.tv_seaticon);
-//        TextView textView1 = (TextView) findViewById(R.id.pick_up_icon);
-//        TextView textView2 = (TextView) findViewById(R.id.drop_off_icon);
-//        TextView rebook_ride_icon = findViewById(R.id.rebook_ride_icon);
-//        textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bus_seat, 0, 0, 0);
-//        textView1.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pin_location, 0, 0, 0);
-//        textView2.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pin_location, 0, 0, 0);
-//        rebook_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.bus, 0, 0, 0);
-//        textView.setText("     5");
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
         Button back_btn_my_ride = findViewById(R.id.back_btn_my_ride);

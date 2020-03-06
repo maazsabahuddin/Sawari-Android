@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
 
     public static String baseurl= "http://ec2-52-15-104-184.us-east-2.compute.amazonaws.com";
+//    public static String baseurl= "http://maaz-h2t6.localhost.run";
 
     private int backpress = 0;
     @Override

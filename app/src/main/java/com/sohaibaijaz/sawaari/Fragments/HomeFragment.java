@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -55,11 +56,12 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.sohaibaijaz.sawaari.BusActivity;
+import com.sohaibaijaz.sawaari.Rides.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Rides.show_rides;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,7 +79,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
 
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -230,27 +231,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     JSONObject json = new JSONObject(response);
 
                                     if(json.getString("status").equals("200")){
-//                                        Toast.makeText(getContext(), json.get("rides").toString(), Toast.LENGTH_LONG).show();
 
-                                        if(json.get("rides").toString().isEmpty()){
-                                            Intent i = new Intent(getContext(), BusActivity.class);
-                                            i.putExtra("rides", json.getJSONArray("rides").toString());
-                                            startActivity(i);
-                                        }
-                                        else if(json.get("rides").toString().equals("[]"))
-                                        {
-//                                            Toast.makeText(getContext(), "No rides available", Toast.LENGTH_SHORT).show();
-                                            Intent i = new Intent(getContext(), BusActivity.class);
-                                            i.putExtra("rides", json.getJSONArray("rides").toString());
-                                            startActivity(i);
-                                        }
-                                        else {
-                                            Intent i = new Intent(getContext(), BusActivity.class);
-                                            i.putExtra("rides", json.getJSONArray("rides").toString());
-                                            startActivity(i);
-                                        }
+                                        Intent i = new Intent(getContext(), show_rides.class);
+                                        i.putExtra("rides", json.getJSONArray("rides").toString());
+                                        startActivity(i);
+
                                     }
-
                                     else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
                                         Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                     }
@@ -271,6 +257,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                             @Override
                             protected Map<String, String> getParams() {
                                 Map<String, String> params = new HashMap<String, String>();
+
+                                System.out.println("Starting latitude" + currentLocation.get("latitude"));
+                                System.out.println("Starting longitude" + currentLocation.get("longitude"));
+                                System.out.println("Drop off latitude" + dropoffLocation.get("latitude"));
+                                System.out.println("Drop off longitude" + dropoffLocation.get("longitude"));
+
                                 params.put("start_lat", currentLocation.get("latitude"));
                                 params.put("start_lon", currentLocation.get("longitude"));
                                 params.put("stop_lat", dropoffLocation.get("latitude"));

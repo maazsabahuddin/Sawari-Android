@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,16 +22,16 @@ import java.util.HashMap;
 
 public class CustomAdapterActivity extends BaseAdapter {
 
-
+//    Fragment fragment;
     Context context;
     ArrayList<HashMap> rides;
 
     private static LayoutInflater inflater=null;
-    public CustomAdapterActivity(Activity mainActivity, ArrayList<HashMap> array_rides) {
+    public CustomAdapterActivity(Context activity, ArrayList<HashMap> array_rides) {
         // TODO Auto-generated constructor stub
 
         rides = array_rides;
-        context=mainActivity;
+        context = activity;
 
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
