@@ -324,17 +324,27 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.93" />
+            app:layout_constraintVertical_bias="0.8" />
 
         <LinearLayout
-            android:layout_width="156dp"
-            android:layout_height="53dp"
-            android:layout_marginStart="40dp"
+            android:layout_width="343dp"
+            android:layout_height="84dp"
+            android:layout_gravity="center"
             android:orientation="vertical"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.68">
+            app:layout_constraintTop_toTopOf="parent">
+
+            <!--            <Button-->
+            <!--                android:id="@+id/button_simple_bottomsheet_dialog"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center"-->
+            <!--                android:text="Simple Bottomsheet Material Dialog" />-->
 
             <TextView
                 android:id="@+id/return_trip_tv"
@@ -363,7 +373,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/invoice_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.45" />
+            app:layout_constraintVertical_bias="0.35" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
