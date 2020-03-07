@@ -6,37 +6,38 @@
     android:layout_height="match_parent">
 
 
-    <Button
-        android:id="@+id/schedule_book_btn"
-        android:layout_width="213dp"
-        android:layout_height="49dp"
-        android:background="@drawable/button_background"
-        android:text="BOOK YOUR NEXT TRIP"
-        android:textAppearance="@style/Theme.AppCompat.Light"
-        android:textColor="@color/colorWhite"
+    <!--    <Button-->
+    <!--        android:id="@+id/schedule_book_btn"-->
+    <!--        android:layout_width="213dp"-->
+    <!--        android:layout_height="49dp"-->
+    <!--        android:background="@drawable/button_background"-->
+    <!--        android:text="BOOK YOUR NEXT TRIP"-->
+    <!--        android:textAppearance="@style/Theme.AppCompat.Light"-->
+    <!--        android:textColor="@color/colorWhite"-->
+    <!--        android:visibility="invisible"-->
+    <!--        android:textSize="14dp"-->
+    <!--        android:textStyle="normal"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.48" />-->
 
-        android:textSize="14dp"
-        android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.48" />
-
-    <TextView
-        android:id="@+id/schedule_trips_tv"
-        android:layout_width="238dp"
-        android:layout_height="47dp"
-        android:text="No Upcoming Trips"
-        android:textAlignment="center"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.45"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/schedule_trips_tv"-->
+    <!--        android:layout_width="238dp"-->
+    <!--        android:layout_height="47dp"-->
+    <!--        android:text="No Upcoming Trips"-->
+    <!--        android:textAlignment="center"-->
+    <!--        android:textSize="18dp"-->
+    <!--        android:visibility="invisible"-->
+    <!--        android:textStyle="bold"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintHorizontal_bias="0.45"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent"-->
+    <!--        app:layout_constraintVertical_bias="0.4" />-->
 
     <View
         android:id="@+id/divider"
@@ -50,6 +51,34 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.082" />
 
+    <TextView
+        android:id="@+id/tomorrow_no_ride_tv"
+        style="@android:style/Widget.Holo.TextView"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:text="@string/BusActivityRides"
+        android:textAlignment="center"
+        android:textSize="14.5sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tomorrow_ride_suggestion_tv"
+        style="@android:style/Widget.Holo.Light.TextView"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:text="@string/BusActivityRidesClassic"
+        android:textAlignment="center"
+        android:textSize="13.5sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.966"
+        tools:layout_editor_absoluteX="6dp" />
+
     <ListView
         android:id="@+id/tomorrow_rides_ListView"
         android:layout_width="0dp"
@@ -59,6 +88,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.886" />
+        app:layout_constraintVertical_bias="0.886" >
+
+    </ListView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

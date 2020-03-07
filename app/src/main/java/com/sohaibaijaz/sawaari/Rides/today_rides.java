@@ -19,7 +19,9 @@ import com.sohaibaijaz.sawaari.R;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -52,6 +54,12 @@ public class today_rides extends Fragment {
         title = getArguments().getString("someTitle");
     }
 
+    public String getDate(){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String local_date = formatter.format(date);
+        return local_date;
+    }
     Context context;
     ArrayList<HashMap> buses = new ArrayList<HashMap>();
     @Override
@@ -62,6 +70,8 @@ public class today_rides extends Fragment {
         ListView list_buses = view.findViewById(R.id.today_rides_ListView);
         TextView today_ride_suggestion_tv = view.findViewById(R.id.today_ride_suggestion_tv);
         TextView today_no_ride_tv = view.findViewById(R.id.today_no_ride_tv);
+
+        String local_date = getDate();
 
         try {
             JSONArray rides = new JSONArray(rides_data);
@@ -90,32 +100,36 @@ public class today_rides extends Fragment {
                     String drop_off_distance = ride.getJSONObject("drop-off-location").getString("distance");
                     String drop_off_departure_time = ride.getJSONObject("drop-off-location").getString("departure_time");
 
-                    HashMap<String, String> bus = new HashMap<>();
-                    bus.put("ride_date", ride_date);
-                    bus.put("vehicle_no_plate", vehicle_no_plate);
-                    bus.put("seats_left", seats_left);
-                    bus.put("route_name", route_id);
+                    if(ride_date.equals(local_date)){
 
-                    bus.put("dropoff_location_id", drop_off_stop_id);
-                    bus.put("dropoff_location", drop_off_stop_name);
-                    bus.put("dropoff_location_time", drop_off_duration);
-                    bus.put("departure_time", drop_off_departure_time);
-                    bus.put("dropoff_distance", drop_off_distance);
+                        HashMap<String, String> bus = new HashMap<>();
 
-                    bus.put("pickup_location_id", pick_up_stop_id);
-                    bus.put("pickup_location", pick_up_stop_name);
-                    bus.put("pickup_location_time", pick_up_duration);
-                    bus.put("arrival_time", pick_up_arrival_time);
-                    bus.put("pickup_distance", pick_up_distance);
+                        bus.put("ride_date", ride_date);
+                        bus.put("vehicle_no_plate", vehicle_no_plate);
+                        bus.put("seats_left", seats_left);
+                        bus.put("route_name", route_id);
 
-                    buses.add(bus);
+                        bus.put("dropoff_location_id", drop_off_stop_id);
+                        bus.put("dropoff_location", drop_off_stop_name);
+                        bus.put("dropoff_location_time", drop_off_duration);
+                        bus.put("departure_time", drop_off_departure_time);
+                        bus.put("dropoff_distance", drop_off_distance);
+
+                        bus.put("pickup_location_id", pick_up_stop_id);
+                        bus.put("pickup_location", pick_up_stop_name);
+                        bus.put("pickup_location_time", pick_up_duration);
+                        bus.put("arrival_time", pick_up_arrival_time);
+                        bus.put("pickup_distance", pick_up_distance);
+
+                        buses.add(bus);
+
+                    }
 
                 }
             }
             else{
                 today_no_ride_tv.setVisibility(TextView.VISIBLE);
                 today_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
-//                Toast.makeText(getApplicationContext(), "No Rides Available.", Toast.LENGTH_LONG).show();
             }
 
             list_buses.setAdapter(new CustomAdapterActivity(getActivity(), buses));
