@@ -23,6 +23,7 @@
         <activity android:name=".Rides.show_rides"></activity>
         <activity android:name=".Rides.BusActivity"></activity>
         <activity android:name=".Rides.SelectedRideActivity"></activity>
+        <activity android:name=".Rides.ConfirmRideBooking"></activity>
 
         <activity
             android:name=".SplashActivity"
