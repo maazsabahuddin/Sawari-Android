@@ -2,6 +2,7 @@ package com.sohaibaijaz.sawaari.Rides;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -249,7 +250,29 @@ public class SelectedRideActivity extends AppCompatActivity {
                             try {
                                 final JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-                                    Toast.makeText(getApplicationContext(), json.getString("status"), Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(SelectedRideActivity.this, ConfirmRideBooking.class);
+
+                                    Bundle b = new Bundle();
+
+                                    b.putString("reservation_number", json.get("reservation_number").toString());
+                                    b.putString("vehicle_no_plate", json.get("vehicle").toString());
+                                    b.putString("ride_date", ride_date);
+                                    b.putString("route_name", route_name);
+                                    b.putString("seats_left", json.get("seats").toString());
+
+                                    b.putString("fare_per_person", json.get("fare_per_person").toString());
+                                    b.putString("fare", json.get("fare").toString());
+                                    b.putString("price_per_km", json.get("price_per_km").toString());
+                                    b.putString("kilometer", json.get("kilometer").toString());
+
+                                    b.putString("pickup_location", json.get("pick-up-point").toString());
+                                    b.putString("arrival_time", json.get("pick_up_time").toString());
+
+                                    b.putString("dropoff_location", json.get("drop-off-point").toString());
+                                    b.putString("departure_time", json.get("drop_off_time").toString());
+
+                                    i.putExtras(b);
+                                    SelectedRideActivity.this.startActivity(i);
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();

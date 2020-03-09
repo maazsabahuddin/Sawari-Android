@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <Button
-        android:id="@+id/book_button2"
+        android:id="@+id/confirm_ride_button"
         android:layout_width="321dp"
         android:layout_height="43dp"
         android:background="@drawable/button_background"

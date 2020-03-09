@@ -23,7 +23,7 @@
             android:layout_height="match_parent" />
 
         <Button
-            android:id="@+id/back_button_final_ride_details_activity"
+            android:id="@+id/back_btn_ride"
             android:layout_width="50dp"
             android:layout_height="match_parent"
 
@@ -377,7 +377,7 @@
 
                     <TextView
                         android:id="@+id/seats_icon3"
-                        android:layout_width="90dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center|center_horizontal|center_vertical"
@@ -385,14 +385,14 @@
 
                     <TextView
                         android:id="@+id/seats_icon"
-                        android:layout_width="25dp"
+                        android:layout_width="55dp"
                         android:layout_height="wrap_content"
                         android:gravity="center|center_horizontal|center_vertical"
                         android:typeface="serif" />
 
                     <TextView
                         android:id="@+id/seats_icon2"
-                        android:layout_width="90dp"
+                        android:layout_width="80dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center|center_horizontal|center_vertical"
