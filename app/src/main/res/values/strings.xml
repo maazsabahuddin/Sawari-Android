@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">Sawari</string>
 
+    <string-array name="payment_array">
+        <item>Cash</item>
+        <item>Foree</item>
+    </string-array>
 
     <string name="from">From ?</string>
     <string name="to">Where to ?</string>

@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.sohaibaijaz.sawaari.Rides.SelectedRideActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,20 +103,26 @@ public class CustomAdapterActivity extends BaseAdapter {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
 //              Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
-                Intent i = new Intent(context, BookingActivity.class);
+                Intent i = new Intent(context, SelectedRideActivity.class);
 
                 Bundle b = new Bundle();
                 b.putString("vehicle_no_plate", rides.get(position).get("vehicle_no_plate").toString());
+                b.putString("ride_date", rides.get(position).get("ride_date").toString());
+                b.putString("route_name", rides.get(position).get("route_name").toString());
+                b.putString("seats_left", rides.get(position).get("seats_left").toString());
+
                 b.putString("pickup_location_id", rides.get(position).get("pickup_location_id").toString());
                 b.putString("pickup_location", rides.get(position).get("pickup_location").toString());
+                b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
+                b.putString("arrival_time", rides.get(position).get("arrival_time").toString());
+                b.putString("pickup_location_time", rides.get(position).get("pickup_location_time").toString());
+
                 b.putString("dropoff_location_id", rides.get(position).get("dropoff_location_id").toString());
                 b.putString("dropoff_location", rides.get(position).get("dropoff_location").toString());
                 b.putString("dropoff_distance", rides.get(position).get("dropoff_distance").toString());
-                b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
-                b.putString("ride_date", rides.get(position).get("ride_date").toString());
-                b.putString("route_name", rides.get(position).get("route_name").toString());
-                b.putString("arrival_time", rides.get(position).get("arrival_time").toString());
                 b.putString("departure_time", rides.get(position).get("departure_time").toString());
+                b.putString("dropoff_location_time", rides.get(position).get("dropoff_location_time").toString());
+
                 i.putExtras(b);
                 context.startActivity(i);
             }
