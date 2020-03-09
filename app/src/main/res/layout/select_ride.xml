@@ -46,6 +46,46 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.283">
 
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10sp" />
+
+        <TextView
+            android:id="@+id/day_and_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|center_vertical"
+            android:text="10-03-20"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="14sp"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/ride_route_name"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:fontFamily="serif"
+            android:gravity="center|center_vertical"
+            android:text="Route JC-212"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/ride_seats_left"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:fontFamily="serif"
+            android:gravity="center|center_vertical"
+            android:text="Remaining Seats 4"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="14sp"
+            android:typeface="monospace" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10sp" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,15 +96,6 @@
                 android:layout_width="20dp"
                 android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/day_and_date"
-                android:layout_width="390dp"
-                android:layout_height="wrap_content"
-                android:gravity="start|center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:text="Sat 10/03"
-                android:textSize="13sp"
-                android:typeface="serif" />
         </LinearLayout>
 
         <LinearLayout
@@ -231,10 +262,9 @@
 
         </LinearLayout>
 
-
         <Space
             android:layout_width="match_parent"
-            android:layout_height="20dp" />
+            android:layout_height="20sp" />
 
         <LinearLayout
             android:layout_width="wrap_content"

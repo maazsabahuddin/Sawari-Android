@@ -36,6 +36,9 @@ public class SelectedRideActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         final TextView day_and_date = findViewById(R.id.day_and_date);
+        final TextView ride_route_name = findViewById(R.id.ride_route_name);
+        final TextView ride_seats_left = findViewById(R.id.ride_seats_left);
+
         final TextView pick_up_time = findViewById(R.id.pick_up_time);
         final TextView pick_up_location_tv = findViewById(R.id.pick_up_location_tv);
         final TextView pick_up_walking_mints = findViewById(R.id.pick_up_walking_mints);
@@ -81,6 +84,8 @@ public class SelectedRideActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         final String token = sharedPreferences.getString("Token","");
 
+        ride_route_name.setText(route_name);
+        ride_seats_left.setText("Remaining Seats " + seats_left);
         day_and_date.setText(ride_date);
         pick_up_location_tv.setText(pickup_location);
         pick_up_time.setText(arrival_time);
