@@ -120,6 +120,7 @@ public class today_rides extends Fragment {
                         bus.put("pickup_location_time", pick_up_duration);
                         bus.put("arrival_time", pick_up_arrival_time);
                         bus.put("pickup_distance", pick_up_distance);
+//                        bus.put("rides", rides_data);
 
                         buses.add(bus);
 

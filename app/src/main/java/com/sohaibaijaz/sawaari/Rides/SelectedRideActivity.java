@@ -35,6 +35,7 @@ import com.sohaibaijaz.sawaari.UserDetails;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,14 +48,18 @@ public class SelectedRideActivity extends AppCompatActivity {
     private String FARE_PER_PERSON = (FARE_PER_SEAT + " x 1");
     Context context;
 
+
+    @SuppressWarnings("unchecked")
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.select_ride);
+        requestQueue = Volley.newRequestQueue(this);
         getSupportActionBar().hide();
 
-        requestQueue = Volley.newRequestQueue(this);
+        final ArrayList<HashMap> rides;
 
         final TextView day_and_date = findViewById(R.id.day_and_date);
         final TextView ride_route_name = findViewById(R.id.ride_route_name);
@@ -67,10 +72,8 @@ public class SelectedRideActivity extends AppCompatActivity {
         final TextView drop_off_time = findViewById(R.id.drop_off_time);
         final TextView drop_off_location_tv = findViewById(R.id.drop_off_location_tv);
         final TextView drop_off_walking_mints = findViewById(R.id.drop_off_walking_mints);
-//        final TextView fare_per_person = findViewById(R.id.fare_per_person);
         final TextView seats_icon = findViewById(R.id.seats_icon);
 
-//        final TextView total_fare = findViewById(R.id.total_fare);
         final TextView subtract_seat = findViewById(R.id.subtract_seat);
         final TextView total_seats = findViewById(R.id.total_seats);
         final TextView add_seats = findViewById(R.id.add_seats);
@@ -84,6 +87,10 @@ public class SelectedRideActivity extends AppCompatActivity {
         final TextView price_method_icon = findViewById(R.id.price_method_icon);
         final Button book_button = findViewById(R.id.book_button);
         final Button back_button = findViewById(R.id.back_btn_ride);
+
+        sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
+        final String token = sharedPreferences.getString("Token","");
+        rides = (ArrayList<HashMap>)  getIntent().getSerializableExtra("rides");
 
         b = getIntent().getExtras();
         final String vehicle_no_plate = b.getString("vehicle_no_plate");
@@ -102,9 +109,6 @@ public class SelectedRideActivity extends AppCompatActivity {
         final String dropoff_distance = b.getString("dropoff_distance");
         final String departure_time = b.getString("departure_time");
         final String dropoff_location_time = b.getString("dropoff_location_time");
-
-        sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
-        final String token = sharedPreferences.getString("Token","");
 
         ride_route_name.setText(route_name);
         ride_seats_left.setText("Remaining Seats " + seats_left);
@@ -235,6 +239,8 @@ public class SelectedRideActivity extends AppCompatActivity {
                 final String no_of_seats = total_seats.getText().toString();
                 final String payment_type = spinner.getSelectedItem().toString();
 
+//                Toast.makeText(getApplicationContext(), "Hello I\'m in", Toast.LENGTH_LONG).show();
+
                 try {
                     String URL = MainActivity.baseurl+"/book_ride/";
 //                    spinner.setVisibility(View.VISIBLE);
@@ -245,13 +251,13 @@ public class SelectedRideActivity extends AppCompatActivity {
                         public void onResponse(String response) {
 //                            spinner.setVisibility(View.GONE);
 //                            spinner_frame.setVisibility(View.GONE);
-
+                            Toast.makeText(getApplicationContext(), "Getting response", Toast.LENGTH_LONG).show();
                             Log.i("VOLLEY", response.toString());
                             try {
                                 final JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
-                                    Intent i = new Intent(SelectedRideActivity.this, ConfirmRideBooking.class);
 
+                                    Intent i = new Intent(SelectedRideActivity.this, ConfirmRideBooking.class);
                                     Bundle b = new Bundle();
 
                                     b.putString("reservation_number", json.get("reservation_number").toString());
@@ -272,6 +278,7 @@ public class SelectedRideActivity extends AppCompatActivity {
                                     b.putString("departure_time", json.get("drop_off_time").toString());
 
                                     i.putExtras(b);
+                                    i.putExtra("rides", rides);
                                     SelectedRideActivity.this.startActivity(i);
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
@@ -344,8 +351,14 @@ public class SelectedRideActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+//                Intent intent = new Intent(SelectedRideActivity.this, );
             }
         });
     }
+
+    public void RideBook(View view)
+    {
+        Toast.makeText(getApplicationContext(), "Helllo", Toast.LENGTH_LONG).show();
+    }
+
 }

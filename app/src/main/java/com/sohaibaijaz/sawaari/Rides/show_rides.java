@@ -13,10 +13,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.sohaibaijaz.sawaari.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class show_rides extends AppCompatActivity {
 
+//    ArrayList<HashMap> rides_data = new ArrayList<HashMap>();
     String rides_data;
 
     public static String[] titles = {
@@ -67,6 +69,8 @@ public class show_rides extends AppCompatActivity {
     }
 
     FragmentPagerAdapter adapterViewPager;
+    ArrayList<HashMap> rides;
+    @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +79,7 @@ public class show_rides extends AppCompatActivity {
 
         rides_data = getIntent().getStringExtra("rides");
         System.out.println(rides_data);
+        rides = (ArrayList<HashMap>) getIntent().getSerializableExtra("rides");
 
         ViewPager vpPager = findViewById(R.id.vpPager_show_rides);
         Button back_btn_my_ride = findViewById(R.id.back_btn_select_ride);
@@ -102,14 +107,6 @@ public class show_rides extends AppCompatActivity {
 
         adapterViewPager.addFragment(today, rides_data);
         adapterViewPager.addFragment(tomorrow, rides_data);
-
-//        adapter = new ViewPagerUnitDetailsAdapter(this.getSupportFragmentManager());
-//        tr1 = new today_rides();
-//        tr2 = new tomorrow_rides();
-
-//        adapterViewPager.(tr1, rides_data);
-//        adapterViewPager.(tr2, rides_data);
-
         vpPager.setAdapter(adapterViewPager);
 
         back_btn_my_ride.setOnClickListener(new View.OnClickListener() {

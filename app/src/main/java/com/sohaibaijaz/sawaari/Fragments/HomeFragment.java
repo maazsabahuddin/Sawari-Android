@@ -56,12 +56,15 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sohaibaijaz.sawaari.Rides.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.Rides.show_rides;
+import com.sohaibaijaz.sawaari.model.RidesModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -230,10 +233,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 try {
                                     JSONObject json = new JSONObject(response);
 
+//                                    GsonBuilder builder = new GsonBuilder();
+//                                    Gson gson = builder.create();
+//                                    RidesModel model = gson.fromJson(json.toString(), RidesModel.class);
+
                                     if(json.getString("status").equals("200")){
 
                                         Intent i = new Intent(getContext(), show_rides.class);
-                                        i.putExtra("rides", json.getJSONArray("rides").toString());
+                                        i.putExtra("rides", json.toString());
                                         startActivity(i);
 
                                     }

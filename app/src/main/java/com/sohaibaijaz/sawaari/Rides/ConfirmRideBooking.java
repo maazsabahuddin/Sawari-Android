@@ -2,6 +2,7 @@ package com.sohaibaijaz.sawaari.Rides;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class ConfirmRideBooking extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
@@ -23,6 +27,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
     private Bundle b;
     Context context;
 
+    @SuppressWarnings("unchecked")
     @SuppressLint("SetTextI18n")
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +61,10 @@ public class ConfirmRideBooking extends AppCompatActivity {
         drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
 
         b = getIntent().getExtras();
+
+        final ArrayList<HashMap> rides;
+        rides = (ArrayList<HashMap>) getIntent().getSerializableExtra("rides");
+
         final String reservation_number = b.getString("reservation_number");
         final String vehicle_no_plate = b.getString("vehicle_no_plate");
         final String route_name = b.getString("route_name");
@@ -89,7 +98,10 @@ public class ConfirmRideBooking extends AppCompatActivity {
         back_button_final_ride_details_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+//                onBackPressed();
+                Intent i = new Intent(ConfirmRideBooking.this, show_rides.class);
+                i.putExtra("rides", rides);
+                ConfirmRideBooking.this.startActivity(i);
             }
         });
 
