@@ -58,7 +58,7 @@
         android:layout_height="58dp"
         android:text="@string/BusActivityRides"
         android:textAlignment="center"
-        android:textSize="14.5sp"
+        android:textSize="13.5sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

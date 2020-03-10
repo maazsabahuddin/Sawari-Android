@@ -240,7 +240,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     if(json.getString("status").equals("200")){
 
                                         Intent i = new Intent(getContext(), show_rides.class);
-                                        i.putExtra("rides", json.toString());
+                                        i.putExtra("rides", json.getJSONArray("rides").toString());
                                         startActivity(i);
 
                                     }

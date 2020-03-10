@@ -79,7 +79,7 @@ public class show_rides extends AppCompatActivity {
 
         rides_data = getIntent().getStringExtra("rides");
         System.out.println(rides_data);
-        rides = (ArrayList<HashMap>) getIntent().getSerializableExtra("rides");
+//        rides = (ArrayList<HashMap>) getIntent().getSerializableExtra("rides");
 
         ViewPager vpPager = findViewById(R.id.vpPager_show_rides);
         Button back_btn_my_ride = findViewById(R.id.back_btn_select_ride);
