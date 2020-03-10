@@ -51,5 +51,6 @@ dependencies {
     // Lottie Animation Library
     implementation 'com.airbnb.android:lottie:3.3.0'
 
+//    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
 }

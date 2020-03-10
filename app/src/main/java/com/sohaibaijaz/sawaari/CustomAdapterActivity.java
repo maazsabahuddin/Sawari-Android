@@ -26,15 +26,11 @@ import static androidx.core.app.ActivityCompat.startActivityForResult;
 
 public class CustomAdapterActivity extends BaseAdapter {
 
-//    Fragment fragment;
     Context context;
-    ArrayList<HashMap> rides;
-//    ArrayList<HashMap<String, String>> rides;
-//    ArrayList<HashMap> buses = new ArrayList<HashMap>();
-//    ArrayList<String> myList = new ArrayList<String>();
+    ArrayList<HashMap<String, String>> rides;
 
     private static LayoutInflater inflater=null;
-    public CustomAdapterActivity(Context activity, ArrayList<HashMap> array_rides) {
+    public CustomAdapterActivity(Context activity, ArrayList<HashMap<String, String>> array_rides) {
         // TODO Auto-generated constructor stub
 
         rides = array_rides;
@@ -88,7 +84,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         holder.tv_route_id = rowView.findViewById(R.id.tv_route_id);
 
         int seats_left = Integer.parseInt(rides.get(position).get("seats_left").toString());
-//        int seats_left = 0;
+
         if (seats_left == 0){
             holder.tv_seats_left.setTextColor(Color.parseColor("#96281b"));
             holder.tv_seats_left.setText("Fully Booked!");
@@ -103,6 +99,7 @@ public class CustomAdapterActivity extends BaseAdapter {
         holder.tv_dropoff_location.setText("Drop off: "+rides.get(position).get("dropoff_location").toString());
         holder.tv_pickup_location_time.setText(rides.get(position).get("pickup_location_time").toString()+" from your location");
         holder.tv_dropoff_location_time.setText(rides.get(position).get("dropoff_location_time").toString()+" to "+rides.get(position).get("dropoff_location").toString());
+
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
