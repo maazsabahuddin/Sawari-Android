@@ -84,36 +84,42 @@ public class today_rides extends Fragment {
             ArrayList<HashMap<String, String>> rideArrayList = new ArrayList<HashMap<String, String>>();
             HashMap<String, String> ride_hashMap = new HashMap<String, String>();
 
-            for(int i=0; i<ride.getRides().size(); i++){
+            if(ride.getRides().size()!=0){
 
-                if(ride.getRides().get(i).getRideDate().equals(local_date)) {
+                today_no_ride_tv.setVisibility(View.GONE);
+                today_ride_suggestion_tv.setVisibility(View.GONE);
 
-                    ride_hashMap.put("vehicle_no_plate", ride.getRides().get(i).getVehicleNoPlate());
-                    ride_hashMap.put("ride_date", ride.getRides().get(i).getRideDate());
-                    ride_hashMap.put("route_name", ride.getRides().get(i).getRouteName());
-                    ride_hashMap.put("seats_left", ride.getRides().get(i).getSeatsLeft().toString());
+                for(int i=0; i<ride.getRides().size(); i++){
 
-                    ride_hashMap.put("pick_up_location", ride.getRides().get(i).getPickUpLocation().getDistance());
-                    ride_hashMap.put("arrival_time", ride.getRides().get(i).getPickUpLocation().getArrivalTime());
-                    ride_hashMap.put("pick_up_stop_name", ride.getRides().get(i).getPickUpLocation().getStopName());
-                    ride_hashMap.put("pick_up_stop_id", ride.getRides().get(i).getPickUpLocation().getStopId().toString());
+                    if(ride.getRides().get(i).getRideDate().equals(local_date)) {
 
-                    ride_hashMap.put("drop_off_location", ride.getRides().get(i).getDropOffLocation().getDistance());
-                    ride_hashMap.put("departure_time", ride.getRides().get(i).getDropOffLocation().getDepartureTime());
-                    ride_hashMap.put("drop_off_stop_name", ride.getRides().get(i).getDropOffLocation().getStopName());
-                    ride_hashMap.put("drop_off_stop_id", ride.getRides().get(i).getDropOffLocation().getStopId().toString());
+                        ride_hashMap.put("vehicle_no_plate", ride.getRides().get(i).getVehicleNoPlate());
+                        ride_hashMap.put("ride_date", ride.getRides().get(i).getRideDate());
+                        ride_hashMap.put("route_name", ride.getRides().get(i).getRouteName());
+                        ride_hashMap.put("seats_left", ride.getRides().get(i).getSeatsLeft().toString());
 
-                    rideArrayList.add(ride_hashMap);
+                        ride_hashMap.put("pick_up_stop_name", ride.getRides().get(i).getPickUpLocation().getStopName());
+                        ride_hashMap.put("pick_up_location_distance", ride.getRides().get(i).getPickUpLocation().getDistance());
+                        ride_hashMap.put("pick_up_location_duration", ride.getRides().get(i).getPickUpLocation().getDuration());
+                        ride_hashMap.put("arrival_time", ride.getRides().get(i).getPickUpLocation().getArrivalTime());
+                        ride_hashMap.put("pick_up_stop_id", ride.getRides().get(i).getPickUpLocation().getStopId().toString());
+
+                        ride_hashMap.put("drop_off_stop_name", ride.getRides().get(i).getDropOffLocation().getStopName());
+                        ride_hashMap.put("drop_off_location_distance", ride.getRides().get(i).getDropOffLocation().getDistance());
+                        ride_hashMap.put("drop_off_location_duration", ride.getRides().get(i).getDropOffLocation().getDuration());
+                        ride_hashMap.put("departure_time", ride.getRides().get(i).getDropOffLocation().getDepartureTime());
+                        ride_hashMap.put("drop_off_stop_id", ride.getRides().get(i).getDropOffLocation().getStopId().toString());
+
+                        rideArrayList.add(ride_hashMap);
+                    }
                 }
-
-                else{
-                    today_no_ride_tv.setVisibility(TextView.VISIBLE);
-                    today_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
-                }
-
+            }
+            else{
+                today_no_ride_tv.setVisibility(View.VISIBLE);
+                today_ride_suggestion_tv.setVisibility(View.VISIBLE);
             }
 
-            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList));
+            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, json));
 
         }
 //            JSONArray rides = new JSONArray(json);

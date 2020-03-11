@@ -135,7 +135,7 @@ public class tomorrow_rides extends Fragment {
                 tomorrow_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
             }
 
-            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), tomorrow_buses));
+//            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), tomorrow_buses));
         }
         catch (Exception e){
             e.printStackTrace();

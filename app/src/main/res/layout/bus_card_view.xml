@@ -47,7 +47,7 @@
             app:layout_constraintVertical_bias="0.576" />
 
         <TextView
-            android:id="@+id/tv_pickup_time"
+            android:id="@+id/arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
@@ -89,7 +89,7 @@
                 android:layout_height="11dp" />
 
             <TextView
-                android:id="@+id/tv_pickup_location"
+                android:id="@+id/pick_up_stop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -99,7 +99,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tv_pickup_location_time"
+                android:id="@+id/pick_up_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -114,7 +114,7 @@
                 android:layout_height="11dp" />
 
             <TextView
-                android:id="@+id/tv_dropoff_location"
+                android:id="@+id/drop_off_stop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -124,7 +124,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tv_dropoff_location_time"
+                android:id="@+id/drop_off_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"

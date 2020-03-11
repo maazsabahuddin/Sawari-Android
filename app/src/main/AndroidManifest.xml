@@ -64,10 +64,10 @@
             android:name=".NavActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".BusActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
+<!--        <activity-->
+<!--            android:name="Rides.BusActivity"-->
+<!--            android:noHistory="true"-->
+<!--            android:screenOrientation="portrait" />-->
         <activity
             android:name=".VerifyActivity"
             android:screenOrientation="portrait" />

@@ -1,5 +1,6 @@
 package com.sohaibaijaz.sawaari.Rides;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,10 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.Ride;
 import com.sohaibaijaz.sawaari.model.RidesModel;
@@ -146,8 +150,16 @@ public class show_rides extends AppCompatActivity {
         back_btn_my_ride.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
-//                startActivity(new Intent(getApplicationContext(), HomeFragment.class));
+//                onBackPressed();
+//                Fragment mFragment = null;
+//                mFragment = new HomeFragment();
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction()
+//                        .replace(R.id.nav_home, mFragment).commit();
+                Intent intent = new Intent(show_rides.this, NavActivity.class);
+                startActivity(intent);
+//                HomeFragment homeFragment = new HomeFragment();
+//                getSupportFragmentManager().beginTransaction().replace(R.id., homeFragment).commit();
             }
         });
     }

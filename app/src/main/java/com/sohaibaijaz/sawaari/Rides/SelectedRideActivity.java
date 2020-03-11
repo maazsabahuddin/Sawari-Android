@@ -31,6 +31,7 @@ import com.sohaibaijaz.sawaari.BookingActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.UserDetails;
+import com.sohaibaijaz.sawaari.model.Ride;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,10 +45,11 @@ public class SelectedRideActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private RequestQueue requestQueue;
     private Bundle b;
+    ArrayList<HashMap<String, String>> ride;
     private int FARE_PER_SEAT = 50;
     private String FARE_PER_PERSON = (FARE_PER_SEAT + " x 1");
     Context context;
-
+    private String user_json_response;
 
     @SuppressWarnings("unchecked")
     @SuppressLint("SetTextI18n")
@@ -59,13 +61,13 @@ public class SelectedRideActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         getSupportActionBar().hide();
 
-        final ArrayList<HashMap> rides;
+//        final ArrayList<HashMap> rides;
 
         final TextView day_and_date = findViewById(R.id.day_and_date);
         final TextView ride_route_name = findViewById(R.id.ride_route_name);
         final TextView ride_seats_left = findViewById(R.id.ride_seats_left);
 
-        final TextView pick_up_time = findViewById(R.id.pick_up_time);
+        final TextView arrival_time_tv = findViewById(R.id.pick_up_time);
         final TextView pick_up_location_tv = findViewById(R.id.pick_up_location_tv);
         final TextView pick_up_walking_mints = findViewById(R.id.pick_up_walking_mints);
 
@@ -90,35 +92,37 @@ public class SelectedRideActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         final String token = sharedPreferences.getString("Token","");
-        rides = (ArrayList<HashMap>)  getIntent().getSerializableExtra("rides");
 
-        b = getIntent().getExtras();
-        final String vehicle_no_plate = b.getString("vehicle_no_plate");
-        final String route_name = b.getString("route_name");
-        final String ride_date = b.getString("ride_date");
-        final String seats_left = b.getString("seats_left");
+//        Ride ride = (Ride) getIntent().getSerializableExtra("rides");
 
-        final String pickup_location = b.getString("pickup_location");
-        final String pickup_location_id = b.getString("pickup_location_id");
-        final String arrival_time = b.getString("arrival_time");
-        final String pickup_distance = b.getString("pickup_distance");
-        final String pickup_location_time = b.getString("pickup_location_time");
+        ride = (ArrayList<HashMap<String, String>>) getIntent().getSerializableExtra("selected_ride");
+        user_json_response = getIntent().getStringExtra("json");
+//        final String vehicle_no_plate = ride.get(0).get("vehicle_no_plate");
+//        final String ride_date = ride.get(0).get("ride_date");
+//        final String route_name = ride.get(0).get("route_name");
+//        final String seats_left = ride.get(0).get("seats_left");
+//
+//        final String pick_up_stop_name = ride.get(0).get("pick_up_stop_name");
+//        final String pick_up_location_distance = ride.get(0).get("pick_up_location_distance");
+//        final String pick_up_location_duration = ride.get(0).get("pick_up_location_duration");
+//        final String arrival_time = ride.get(0).get("arrival_time");
+//        final String pick_up_stop_id = ride.get(0).get("pick_up_stop_id");
+//
+//        final String drop_off_stop_name = ride.get(0).get("drop_off_stop_name");
+//        final String drop_off_location_distance = ride.get(0).get("drop_off_location_distance");
+//        final String drop_off_location_duration = ride.get(0).get("drop_off_location_duration");
+//        final String departure_time = ride.get(0).get("departure_time");
+//        final String drop_off_stop_id = ride.get(0).get("drop_off_stop_id");
 
-        final String dropoff_location = b.getString("dropoff_location");
-        final String dropoff_location_id = b.getString("dropoff_location_id");
-        final String dropoff_distance = b.getString("dropoff_distance");
-        final String departure_time = b.getString("departure_time");
-        final String dropoff_location_time = b.getString("dropoff_location_time");
-
-        ride_route_name.setText(route_name);
-        ride_seats_left.setText("Remaining Seats " + seats_left);
-        day_and_date.setText(ride_date);
-        pick_up_location_tv.setText(pickup_location);
-        pick_up_time.setText(arrival_time);
-        pick_up_walking_mints.setText(pickup_location_time + " walking");
-        drop_off_location_tv.setText(dropoff_location);
-        drop_off_walking_mints.setText(dropoff_location_time + " walking");
-        drop_off_time.setText(departure_time);
+        ride_route_name.setText(ride.get(0).get("route_name"));
+        ride_seats_left.setText("Remaining Seats " + ride.get(0).get("seats_left"));
+        day_and_date.setText(ride.get(0).get("ride_date"));
+        pick_up_location_tv.setText(ride.get(0).get("pick_up_stop_name"));
+        arrival_time_tv.setText(ride.get(0).get("arrival_time"));
+        pick_up_walking_mints.setText(ride.get(0).get("pick_up_location_duration") + " walking");
+        drop_off_location_tv.setText(ride.get(0).get("drop_off_stop_name"));
+        drop_off_walking_mints.setText(ride.get(0).get("drop_off_location_duration") + " walking");
+        drop_off_time.setText(ride.get(0).get("departure_time"));
 
         walking_icon_pick_up.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
         walking_icon_drop_off.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
@@ -257,29 +261,34 @@ public class SelectedRideActivity extends AppCompatActivity {
                                 final JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
 
-                                    Intent i = new Intent(SelectedRideActivity.this, ConfirmRideBooking.class);
-                                    Bundle b = new Bundle();
+                                    Intent intent = new Intent(SelectedRideActivity.this, ConfirmRideBooking.class);
 
-                                    b.putString("reservation_number", json.get("reservation_number").toString());
-                                    b.putString("vehicle_no_plate", json.get("vehicle").toString());
-                                    b.putString("ride_date", ride_date);
-                                    b.putString("route_name", route_name);
-                                    b.putString("seats_left", json.get("seats").toString());
+                                    ArrayList<HashMap<String, String>> ride_booking_details = new ArrayList<HashMap<String, String>>();
+                                    HashMap<String, String> ride_booking_details_hashmap = new HashMap<String, String>();
 
-                                    b.putString("fare_per_person", json.get("fare_per_person").toString());
-                                    b.putString("fare", json.get("fare").toString());
-                                    b.putString("price_per_km", json.get("price_per_km").toString());
-                                    b.putString("kilometer", json.get("kilometer").toString());
+                                    ride_booking_details_hashmap.put("reservation_number", json.get("reservation_number").toString());
+                                    ride_booking_details_hashmap.put("vehicle_no_plate", json.get("vehicle").toString());
+                                    ride_booking_details_hashmap.put("ride_date", ride.get(0).get("ride_date"));
+                                    ride_booking_details_hashmap.put("route_name", ride.get(0).get("route_name"));
+                                    ride_booking_details_hashmap.put("seats_left", json.get("seats").toString());
 
-                                    b.putString("pickup_location", json.get("pick-up-point").toString());
-                                    b.putString("arrival_time", json.get("pick_up_time").toString());
+                                    ride_booking_details_hashmap.put("fare_per_person", json.get("fare_per_person").toString());
+                                    ride_booking_details_hashmap.put("fare", json.get("fare").toString());
+                                    ride_booking_details_hashmap.put("price_per_km", json.get("price_per_km").toString());
+                                    ride_booking_details_hashmap.put("kilometer", json.get("kilometer").toString());
 
-                                    b.putString("dropoff_location", json.get("drop-off-point").toString());
-                                    b.putString("departure_time", json.get("drop_off_time").toString());
+                                    ride_booking_details_hashmap.put("pick_up_stop_name", json.get("pick-up-point").toString());
+                                    ride_booking_details_hashmap.put("arrival_time", json.get("pick_up_time").toString());
 
-                                    i.putExtras(b);
-                                    i.putExtra("rides", rides);
-                                    SelectedRideActivity.this.startActivity(i);
+                                    ride_booking_details_hashmap.put("drop_off_stop_name", json.get("drop-off-point").toString());
+                                    ride_booking_details_hashmap.put("departure_time", json.get("drop_off_time").toString());
+
+                                    ride_booking_details.add(ride_booking_details_hashmap);
+
+                                    intent.putExtra("json", user_json_response);
+                                    intent.putExtra("ride_booking_details", ride_booking_details);
+
+                                    SelectedRideActivity.this.startActivity(intent);
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
@@ -301,15 +310,15 @@ public class SelectedRideActivity extends AppCompatActivity {
                         @Override
                         protected Map<String,String> getParams(){
                             Map<String,String> params = new HashMap<String, String>();
-                            params.put("vehicle_no_plate",vehicle_no_plate);
+                            params.put("vehicle_no_plate", ride.get(0).get("vehicle_no_plate"));
                             params.put("req_seats",no_of_seats);
-                            params.put("pick_up_point_stop_id", pickup_location_id);
-                            params.put("drop_up_point_stop_id", dropoff_location_id);
+                            params.put("pick_up_point_stop_id", ride.get(0).get("pick_up_stop_id"));
+                            params.put("drop_up_point_stop_id", ride.get(0).get("drop_off_stop_id"));
                             params.put("payment_method", payment_type);
-                            params.put("ride_date", ride_date);
-                            params.put("route_id", route_name);
-                            params.put("arrival_time", arrival_time);
-                            params.put("departure_time", departure_time);
+                            params.put("ride_date", ride.get(0).get("ride_date"));
+                            params.put("route_id", ride.get(0).get("route_name"));
+                            params.put("arrival_time", ride.get(0).get("arrival_time"));
+                            params.put("departure_time", ride.get(0).get("departure_time"));
 //                                params.put(KEY_EMAIL, email);
                             return params;
                         }
@@ -351,7 +360,7 @@ public class SelectedRideActivity extends AppCompatActivity {
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(SelectedRideActivity.this, );
+                onBackPressed();
             }
         });
     }

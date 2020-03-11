@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import static androidx.core.app.ActivityCompat.startActivityForResult;
 
@@ -28,13 +29,15 @@ public class CustomAdapterActivity extends BaseAdapter {
 
     Context context;
     ArrayList<HashMap<String, String>> rides;
+    String json;
 
     private static LayoutInflater inflater=null;
-    public CustomAdapterActivity(Context activity, ArrayList<HashMap<String, String>> array_rides) {
+    public CustomAdapterActivity(Context activity, ArrayList<HashMap<String, String>> array_rides, String json_response) {
         // TODO Auto-generated constructor stub
 
         rides = array_rides;
         context = activity;
+        json = json_response;
 
         inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -58,47 +61,55 @@ public class CustomAdapterActivity extends BaseAdapter {
 
     public class Holder
     {
-        TextView tv_pickup_location;
-        TextView tv_dropoff_location;
+        TextView pick_up_stop_name;
+        TextView pick_up_duration_from_home_to_stop;
+        TextView arrival_time;
+
+        TextView drop_off_stop_name;
+        TextView drop_off_duration_from_home_stop;
+
         TextView tv_seats_left;
-        TextView tv_pickup_location_time;
-        TextView tv_dropoff_location_time;
-        TextView tv_pickup_time;
         TextView tv_ride_date;
         TextView tv_route_id;
     }
-    @SuppressLint("ResourceAsColor")
+    @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
         Holder holder=new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.bus_card_view, null);
-        holder.tv_pickup_location=(TextView) rowView.findViewById(R.id.tv_pickup_location);
-        holder.tv_dropoff_location_time = (TextView) rowView.findViewById(R.id.tv_dropoff_location_time);
-        holder.tv_pickup_location_time = (TextView) rowView.findViewById(R.id.tv_pickup_location_time);
-        holder.tv_dropoff_location=(TextView) rowView.findViewById(R.id.tv_dropoff_location);
-        holder.tv_seats_left = (TextView) rowView.findViewById(R.id.tv_seats_left);
-        holder.tv_pickup_time = (TextView) rowView.findViewById(R.id.tv_pickup_time);
-        holder.tv_ride_date = (TextView) rowView.findViewById(R.id.tv_ride_date);
+
+        holder.pick_up_stop_name=rowView.findViewById(R.id.pick_up_stop_name);
+        holder.pick_up_duration_from_home_to_stop = rowView.findViewById(R.id.pick_up_duration);
+
+        holder.drop_off_stop_name = rowView.findViewById(R.id.drop_off_stop_name);
+        holder.drop_off_duration_from_home_stop = rowView.findViewById(R.id.drop_off_duration);
+
+        holder.tv_seats_left = rowView.findViewById(R.id.tv_seats_left);
+        holder.arrival_time = rowView.findViewById(R.id.arrival_time);
+        holder.tv_ride_date = rowView.findViewById(R.id.tv_ride_date);
         holder.tv_route_id = rowView.findViewById(R.id.tv_route_id);
 
-        int seats_left = Integer.parseInt(rides.get(position).get("seats_left").toString());
+        int seats_left = Integer.parseInt(rides.get(position).get("seats_left"));
 
         if (seats_left == 0){
             holder.tv_seats_left.setTextColor(Color.parseColor("#96281b"));
             holder.tv_seats_left.setText("Fully Booked!");
         }
         else {
-            holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left").toString());
+            holder.tv_ride_date.setText(rides.get(position).get("ride_date"));
+            holder.tv_route_id.setText(rides.get(position).get("route_name"));
+            holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left"));
+
+            holder.arrival_time.setText(convertTime(rides.get(position).get("arrival_time")));
+
+            holder.pick_up_stop_name.setText("Pickup: "+rides.get(position).get("pick_up_stop_name"));
+            holder.pick_up_duration_from_home_to_stop.setText(rides.get(position).get("pick_up_location_duration") + " from your location");
+
+            holder.drop_off_stop_name.setText("Drop off: "+rides.get(position).get("drop_off_stop_name"));
+            holder.drop_off_duration_from_home_stop.setText(rides.get(position).get("drop_off_location_duration") + " to "+ rides.get(position).get("drop_off_stop_name"));
         }
-        holder.tv_route_id.setText(rides.get(position).get("route_name").toString());
-        holder.tv_ride_date.setText(rides.get(position).get("ride_date").toString());
-        holder.tv_pickup_time.setText(convertTime(rides.get(position).get("arrival_time").toString()));
-        holder.tv_pickup_location.setText("Pickup: "+rides.get(position).get("pickup_location").toString());
-        holder.tv_dropoff_location.setText("Drop off: "+rides.get(position).get("dropoff_location").toString());
-        holder.tv_pickup_location_time.setText(rides.get(position).get("pickup_location_time").toString()+" from your location");
-        holder.tv_dropoff_location_time.setText(rides.get(position).get("dropoff_location_time").toString()+" to "+rides.get(position).get("dropoff_location").toString());
 
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,27 +119,30 @@ public class CustomAdapterActivity extends BaseAdapter {
                     //              Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(context, SelectedRideActivity.class);
 
-                    Bundle b = new Bundle();
+                    ArrayList<HashMap<String, String>> selected_ride = new ArrayList<HashMap<String, String>>();
+                    HashMap<String, String> selected_ride_hashmap = new HashMap<String, String>();
 
-                    b.putString("vehicle_no_plate", rides.get(position).get("vehicle_no_plate").toString());
-                    b.putString("ride_date", rides.get(position).get("ride_date").toString());
-                    b.putString("route_name", rides.get(position).get("route_name").toString());
-                    b.putString("seats_left", rides.get(position).get("seats_left").toString());
+                    selected_ride_hashmap.put("vehicle_no_plate", rides.get(position).get("vehicle_no_plate"));
+                    selected_ride_hashmap.put("ride_date", rides.get(position).get("ride_date"));
+                    selected_ride_hashmap.put("route_name", rides.get(position).get("route_name"));
+                    selected_ride_hashmap.put("seats_left", rides.get(position).get("seats_left"));
 
-                    b.putString("pickup_location_id", rides.get(position).get("pickup_location_id").toString());
-                    b.putString("pickup_location", rides.get(position).get("pickup_location").toString());
-                    b.putString("pickup_distance", rides.get(position).get("pickup_distance").toString());
-                    b.putString("arrival_time", rides.get(position).get("arrival_time").toString());
-                    b.putString("pickup_location_time", rides.get(position).get("pickup_location_time").toString());
+                    selected_ride_hashmap.put("pick_up_stop_name", rides.get(position).get("pick_up_stop_name"));
+                    selected_ride_hashmap.put("pick_up_location_distance", rides.get(position).get("pick_up_location_distance"));
+                    selected_ride_hashmap.put("pick_up_location_duration", rides.get(position).get("pick_up_location_duration"));
+                    selected_ride_hashmap.put("arrival_time", rides.get(position).get("arrival_time"));
+                    selected_ride_hashmap.put("pick_up_stop_id", rides.get(position).get("pick_up_stop_id"));
 
-                    b.putString("dropoff_location_id", rides.get(position).get("dropoff_location_id").toString());
-                    b.putString("dropoff_location", rides.get(position).get("dropoff_location").toString());
-                    b.putString("dropoff_distance", rides.get(position).get("dropoff_distance").toString());
-                    b.putString("departure_time", rides.get(position).get("departure_time").toString());
-                    b.putString("dropoff_location_time", rides.get(position).get("dropoff_location_time").toString());
+                    selected_ride_hashmap.put("drop_off_stop_name", rides.get(position).get("drop_off_stop_name"));
+                    selected_ride_hashmap.put("drop_off_location_distance", rides.get(position).get("drop_off_location_distance"));
+                    selected_ride_hashmap.put("drop_off_location_duration", rides.get(position).get("drop_off_location_duration"));
+                    selected_ride_hashmap.put("departure_time", rides.get(position).get("departure_time"));
+                    selected_ride_hashmap.put("drop_off_stop_id", rides.get(position).get("drop_off_stop_id"));
 
-                    intent.putExtra("rides", rides);
-                    intent.putExtras(b);
+                    selected_ride.add(selected_ride_hashmap);
+                    intent.putExtra("selected_ride", selected_ride);
+                    intent.putExtra("json", json);
+
                     context.startActivity(intent);
                 }
                 catch (Exception e){
@@ -140,15 +154,16 @@ public class CustomAdapterActivity extends BaseAdapter {
     }
 
 public String convertTime(String time_24_hour) {
-        String time_formatted = "";
+    String time_formatted = "";
+
     try {
         final SimpleDateFormat sdf = new SimpleDateFormat("H:mm");
         final Date dateObj = sdf.parse(time_24_hour);
         System.out.println(dateObj);
         time_formatted = new SimpleDateFormat("hh:mm a").format(dateObj);
-    } catch (final ParseException e) {
+    }
+    catch (final ParseException e) {
         e.printStackTrace();
-
     }
 
     return time_formatted;

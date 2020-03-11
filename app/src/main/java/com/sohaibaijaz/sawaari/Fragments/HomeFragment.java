@@ -213,10 +213,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             public void onClick(View view) {
 
                 //Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
-                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-                }
-                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+//                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+//                }
+//                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
 
                     try {
 
@@ -266,16 +266,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                             protected Map<String, String> getParams() {
                                 Map<String, String> params = new HashMap<String, String>();
 
-                                System.out.println("Starting latitude" + currentLocation.get("latitude"));
-                                System.out.println("Starting longitude" + currentLocation.get("longitude"));
-                                System.out.println("Drop off latitude" + dropoffLocation.get("latitude"));
-                                System.out.println("Drop off longitude" + dropoffLocation.get("longitude"));
+//                                params.put("start_lat", currentLocation.get("latitude"));
+//                                params.put("start_lon", currentLocation.get("longitude"));
+//                                params.put("stop_lat", dropoffLocation.get("latitude"));
+//                                params.put("stop_lon", dropoffLocation.get("longitude"));
 
-                                params.put("start_lat", currentLocation.get("latitude"));
-                                params.put("start_lon", currentLocation.get("longitude"));
-                                params.put("stop_lat", dropoffLocation.get("latitude"));
-                                params.put("stop_lon", dropoffLocation.get("longitude"));
-                                System.out.println(currentLocation.get("latitude")+"\n"+currentLocation.get("longitude")+"\n"+dropoffLocation.get("latitude")+"\n"+dropoffLocation.get("longitude"));
+                                params.put("start_lat", "24.913363");
+                                params.put("start_lon", "67.124208");
+                                params.put("stop_lat", "24.823343");
+                                params.put("stop_lon", "67.029656");
 
                                 return params;
                             }
@@ -310,8 +309,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
                     }
 
-
-                }
             }
 
         });

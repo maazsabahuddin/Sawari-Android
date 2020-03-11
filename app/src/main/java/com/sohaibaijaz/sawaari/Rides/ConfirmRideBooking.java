@@ -26,6 +26,8 @@ public class ConfirmRideBooking extends AppCompatActivity {
     private RequestQueue requestQueue;
     private Bundle b;
     Context context;
+    private String user_json_response;
+    ArrayList<HashMap<String, String>> ride_booking_details = new ArrayList<HashMap<String, String>>();
 
     @SuppressWarnings("unchecked")
     @SuppressLint("SetTextI18n")
@@ -60,48 +62,32 @@ public class ConfirmRideBooking extends AppCompatActivity {
         pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
         drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
 
-        b = getIntent().getExtras();
+        ride_booking_details = (ArrayList<HashMap<String, String>>) getIntent().getSerializableExtra("ride_booking_details");
+        user_json_response = getIntent().getStringExtra("json");
 
-        final ArrayList<HashMap> rides;
-        rides = (ArrayList<HashMap>) getIntent().getSerializableExtra("rides");
-
-        final String reservation_number = b.getString("reservation_number");
-        final String vehicle_no_plate = b.getString("vehicle_no_plate");
-        final String route_name = b.getString("route_name");
-        final String ride_date = b.getString("ride_date");
-        final String seats_left = b.getString("seats_left");
-
-        final String fare_per_person = b.getString("fare_per_person");
-        final String fare = b.getString("fare");
-        final String kilometer = b.getString("kilometer");
-        final String price_per_km = b.getString("price_per_km");
-
-        final String pickup_location = b.getString("pickup_location");
-        final String arrival_time = b.getString("arrival_time");
-
-        final String dropoff_location = b.getString("dropoff_location");
-        final String departure_time = b.getString("departure_time");
+        final String reservation_number = ride_booking_details.get(0).get("reservation_number");
 
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         final String token = sharedPreferences.getString("Token","");
 
-        ride_date_tv.setText(ride_date);
-        vehicle_details.setText(vehicle_no_plate + " Silver");
-        seat_value.setText(" " + seats_left);
-        pick_up_point.setText(pickup_location);
-        pick_up_time.setText(arrival_time);
-        drop_off_point.setText(dropoff_location);
-        total_fare_value.setText(fare);
-        fare_per_person_tv.setText(fare_per_person);
-        drop_off_time.setText(departure_time);
+        ride_date_tv.setText(ride_booking_details.get(0).get("ride_date"));
+        vehicle_details.setText(ride_booking_details.get(0).get("vehicle_no_plate") + " Silver");
+        seat_value.setText(" " + ride_booking_details.get(0).get("seats_left"));
+        pick_up_point.setText(ride_booking_details.get(0).get("pick_up_stop_name"));
+        pick_up_time.setText(ride_booking_details.get(0).get("arrival_time"));
+        drop_off_point.setText(ride_booking_details.get(0).get("drop_off_stop_name"));
+        total_fare_value.setText(ride_booking_details.get(0).get("fare"));
+        fare_per_person_tv.setText(ride_booking_details.get(0).get("fare_per_person"));
+        drop_off_time.setText(ride_booking_details.get(0).get("departure_time"));
 
         back_button_final_ride_details_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                onBackPressed();
+
                 Intent i = new Intent(ConfirmRideBooking.this, show_rides.class);
-                i.putExtra("rides", rides);
+                i.putExtra("json", user_json_response);
                 ConfirmRideBooking.this.startActivity(i);
+
             }
         });
 
