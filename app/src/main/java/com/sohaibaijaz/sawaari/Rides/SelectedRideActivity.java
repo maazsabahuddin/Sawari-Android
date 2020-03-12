@@ -128,7 +128,7 @@ public class SelectedRideActivity extends AppCompatActivity {
         walking_icon_drop_off.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
         pick_up_circle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
         drop_off_circle.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
-        seats_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_seat_icon_40px, 0, 0, 0);
+//        seats_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_seat_icon_40px, 0, 0, 0);
         price_method_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.money, 0, 0, 0);
 
         final Spinner spinner = findViewById(R.id.payment_spinner);

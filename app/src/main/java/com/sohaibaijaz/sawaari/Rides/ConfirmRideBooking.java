@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,13 +13,26 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.UserDetails;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ConfirmRideBooking extends AppCompatActivity {
 
@@ -94,7 +108,83 @@ public class ConfirmRideBooking extends AppCompatActivity {
         confirm_ride_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Working", Toast.LENGTH_LONG).show();
+
+                try {
+                    String URL = MainActivity.baseurl+"/confirm_ride/";
+
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+                        @Override
+                        public void onResponse(String response) {
+
+//                            Toast.makeText(getApplicationContext(), "Getting response", Toast.LENGTH_LONG).show();
+                            Log.i("VOLLEY", response.toString());
+                            try {
+                                final JSONObject json = new JSONObject(response);
+                                if (json.getString("status").equals("200")) {
+                                        
+                                    UserDetails.getUserRides(ConfirmRideBooking.this);
+                                    Intent intent = new Intent(ConfirmRideBooking.this, NavActivity.class);
+                                    startActivity(intent);
+//                                    RideFragmentN ridesFragment = new RideFragmentN();
+//                                    startActivity(new Intent(getApplicationContext(), RideFragmentN.class));
+
+                                }
+                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                }
+                            } catch (JSONException e) {
+                                Log.e("VOLLEY", e.toString());
+                                Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+//                            spinner.setVisibility(View.GONE);
+//                            spinner_frame.setVisibility(View.GONE);
+                            Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                            Log.e("VOLLEY", error.toString());
+                        }
+                    }){
+                        @Override
+                        protected Map<String,String> getParams(){
+                            Map<String,String> params = new HashMap<String, String>();
+                            params.put("reservation_number", reservation_number);
+//                                params.put(KEY_EMAIL, email);
+                            return params;
+                        }
+
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String, String> headers = new HashMap<String, String>();
+                            headers.put("Authorization", token);
+                            return headers;
+                        }
+                    };
+
+                    stringRequest.setRetryPolicy(new RetryPolicy() {
+                        @Override
+                        public int getCurrentTimeout() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public int getCurrentRetryCount() {
+                            return 50000;
+                        }
+
+                        @Override
+                        public void retry(VolleyError error) throws VolleyError {
+
+                        }
+                    });
+                    requestQueue.add(stringRequest);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }

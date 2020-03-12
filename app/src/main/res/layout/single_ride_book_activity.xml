@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/book_button2"
+        android:layout_width="321dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_background"
+        android:text="Confirm Booking"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.97" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.005">
+
+        <TextView
+            android:id="@+id/space_heading2"
+            android:layout_width="10dp"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/back_button_final_ride_details_activity"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+
+            android:background="@drawable/ic_action_name"
+            android:gravity="center_vertical" />
+
+        <TextView
+            android:id="@+id/space_heading"
+            android:layout_width="20dp"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/boarding_pass_details_tv"
+            android:layout_width="345dp"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/montserrat"
+            android:gravity="center_vertical"
+            android:text="Ride"
+            android:textColor="@color/colorJacksonPurple"
+            android:textSize="22dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.38">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space27"
+                android:layout_width="155dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/seat_icon"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/seat_value"
+                android:layout_width="195dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="21"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="30sp"
+                android:typeface="serif" />
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="2dp" />
+
+        <TextView
+            android:id="@+id/ride_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Mar 23, 2020 "
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textSize="24sp"
+            android:typeface="serif" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space2"
+                android:layout_width="55dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/pick_up_time"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="08:10 AM" />
+
+            <TextView
+                android:id="@+id/walk_icon_pickup"
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/pick_up_stop_duration"
+                android:layout_width="265dp"
+                android:layout_height="match_parent"
+                android:fontFamily="serif"
+                android:gravity="clip_horizontal|center_vertical"
+                android:maxLength="65"
+                android:text="10 mins from your location"
+                android:textSize="11sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space4"
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/pick_up_icon"
+                android:layout_width="35dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/pick_up_point"
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:fontFamily="serif"
+                android:gravity="clip_horizontal|center_vertical"
+                android:maxLength="65"
+                android:text="Outside Khalid Bakers, Block-18, Gulistan e Jauhar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space6"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/space3"
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space8"
+                android:layout_width="55dp"
+                android:layout_height="match_parent"/>
+
+            <TextView
+                android:id="@+id/drop_off_time"
+                android:layout_width="70dp"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="08:50 AM" />
+
+            <TextView
+                android:id="@+id/walk_icon_drop_off"
+                android:layout_width="15dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/drop_off_stop_duration"
+                android:layout_width="265dp"
+                android:layout_height="match_parent"
+                android:fontFamily="serif"
+                android:gravity="clip_horizontal|center_vertical"
+                android:maxLength="65"
+                android:text="10 mins to your location"
+                android:textSize="11sp"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space1"
+                android:layout_width="20dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/drop_off_icon"
+                android:layout_width="35dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/drop_off_point"
+                android:layout_width="320dp"
+                android:layout_height="match_parent"
+                android:fontFamily="serif"
+                android:gravity="clip_horizontal|center_vertical"
+                android:maxLength="65"
+                android:text="Outside Khalid Bakers, Block-18, Gulistan e Jauhar"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space7"
+                android:layout_width="30dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/space9"
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <View
+            android:id="@+id/divider4"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/space26"
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space13"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/vehicle"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Vehicle Details" />
+
+            <TextView
+                android:id="@+id/vehicle_details"
+                android:layout_width="225dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:text="ABC-123 Silver"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space25"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space24"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/route"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Route" />
+
+            <TextView
+                android:id="@+id/route_id"
+                android:layout_width="225dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:text="JC-121"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space12"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space30"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/kilometer"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Kilometer" />
+
+            <TextView
+                android:id="@+id/kilometer_tv"
+                android:layout_width="225dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:text="18.3 km"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space29"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space11"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/seats"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Fare x Seats" />
+
+            <TextView
+                android:id="@+id/fare_per_person"
+                android:layout_width="225dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:text="50 x 2"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space10"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/promo"
+                android:layout_width="170dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="start|left|center_vertical"
+                android:text="SEAT"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/space31"
+                android:layout_width="90dp"
+                android:layout_height="match_parent"
+                android:gravity="center|right|center_vertical"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="28sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/subtract_seat"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:gravity="center|right|center_vertical"
+                android:text="-"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="28sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/total_seats"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|center_vertical"
+                android:text="1"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/add_seats"
+                android:layout_width="20dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|center_vertical"
+                android:text="+"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="28sp"
+                android:typeface="serif" />
+
+            <TextView
+                android:id="@+id/space28"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp"
+                android:typeface="serif" />
+
+        </LinearLayout>
+
+
+        <!--        <Space-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="10dp" />-->
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space15"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/total_fare"
+                android:layout_width="120dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="Total Fare"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/total_fare_value"
+                android:layout_width="225dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:text="Rs 100.0"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textSize="20sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space14"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/space17"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/space_promo"
+                android:layout_width="285dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:textColor="@color/colorJacksonPurple"
+                android:textSize="9sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/add_promo_code"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="serif"
+                android:gravity="end|center_vertical"
+                android:maxLength="65"
+                android:text="Add Promo"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/colorJacksonPurple"
+                android:textSize="9sp"
+                android:typeface="monospace" />
+
+            <TextView
+                android:id="@+id/space16"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="5dp" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="?android:attr/listDivider" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

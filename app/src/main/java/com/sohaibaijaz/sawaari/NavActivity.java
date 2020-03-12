@@ -178,8 +178,6 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                             params.put("Authorization", token);
                             return params;
                         }
-
-
                     };
 
                     stringRequest.setRetryPolicy(new RetryPolicy() {
