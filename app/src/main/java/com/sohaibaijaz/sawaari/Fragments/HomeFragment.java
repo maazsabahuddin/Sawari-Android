@@ -271,10 +271,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                                params.put("stop_lat", dropoffLocation.get("latitude"));
 //                                params.put("stop_lon", dropoffLocation.get("longitude"));
 
-                                params.put("start_lat", "24.913363");
-                                params.put("start_lon", "67.124208");
-                                params.put("stop_lat", "24.823343");
-                                params.put("stop_lon", "67.029656");
+                                params.put("stop_lat", "24.913363");
+                                params.put("stop_lon", "67.124208");
+                                params.put("start_lat", "24.823343");
+                                params.put("start_lon", "67.029656");
 
                                 return params;
                             }

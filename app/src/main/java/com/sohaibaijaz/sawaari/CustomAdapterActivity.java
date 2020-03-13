@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.sohaibaijaz.sawaari.Rides.ConfirmRideBooking;
 import com.sohaibaijaz.sawaari.Rides.SelectedRideActivity;
 
 import java.text.ParseException;
@@ -117,7 +118,7 @@ public class CustomAdapterActivity extends BaseAdapter {
                 // TODO Auto-generated method stub
                 try{
                     //              Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(context, SelectedRideActivity.class);
+                    Intent intent = new Intent(context, ConfirmRideBooking.class);
 
                     ArrayList<HashMap<String, String>> selected_ride = new ArrayList<HashMap<String, String>>();
                     HashMap<String, String> selected_ride_hashmap = new HashMap<String, String>();
@@ -126,6 +127,9 @@ public class CustomAdapterActivity extends BaseAdapter {
                     selected_ride_hashmap.put("ride_date", rides.get(position).get("ride_date"));
                     selected_ride_hashmap.put("route_name", rides.get(position).get("route_name"));
                     selected_ride_hashmap.put("seats_left", rides.get(position).get("seats_left"));
+                    selected_ride_hashmap.put("kilometer", rides.get(position).get("kilometer"));
+                    selected_ride_hashmap.put("fare_per_km", rides.get(position).get("fare_per_km"));
+                    selected_ride_hashmap.put("fare_per_person", rides.get(position).get("fare_per_person"));
 
                     selected_ride_hashmap.put("pick_up_stop_name", rides.get(position).get("pick_up_stop_name"));
                     selected_ride_hashmap.put("pick_up_location_distance", rides.get(position).get("pick_up_location_distance"));
