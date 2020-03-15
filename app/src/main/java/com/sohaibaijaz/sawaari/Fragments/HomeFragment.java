@@ -233,10 +233,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 try {
                                     JSONObject json = new JSONObject(response);
 
-//                                    GsonBuilder builder = new GsonBuilder();
-//                                    Gson gson = builder.create();
-//                                    RidesModel model = gson.fromJson(json.toString(), RidesModel.class);
-
                                     if(json.getString("status").equals("200")){
 
                                         Intent i = new Intent(getContext(), show_rides.class);

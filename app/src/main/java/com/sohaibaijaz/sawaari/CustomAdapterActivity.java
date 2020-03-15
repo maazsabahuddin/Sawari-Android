@@ -130,6 +130,7 @@ public class CustomAdapterActivity extends BaseAdapter {
                     selected_ride_hashmap.put("kilometer", rides.get(position).get("kilometer"));
                     selected_ride_hashmap.put("fare_per_km", rides.get(position).get("fare_per_km"));
                     selected_ride_hashmap.put("fare_per_person", rides.get(position).get("fare_per_person"));
+                    selected_ride_hashmap.put("ride_start_time", rides.get(position).get("ride_start_time"));
 
                     selected_ride_hashmap.put("pick_up_stop_name", rides.get(position).get("pick_up_stop_name"));
                     selected_ride_hashmap.put("pick_up_location_distance", rides.get(position).get("pick_up_location_distance"));

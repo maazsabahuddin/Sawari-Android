@@ -14,18 +14,26 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Fragments.AccountFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
+import com.sohaibaijaz.sawaari.Fragments.ride_scheduled;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.UserDetails;
+import com.sohaibaijaz.sawaari.VolleyRequestSingletonClass.MySingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,7 +45,7 @@ import java.util.Map;
 public class ConfirmRideBooking extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
-    private RequestQueue requestQueue;
+//    private RequestQueue requestQueue;
     private Bundle b;
     Context context;
     private String user_json_response;
@@ -51,7 +59,20 @@ public class ConfirmRideBooking extends AppCompatActivity {
         setContentView(R.layout.single_ride_book_activity);
         getSupportActionBar().hide();
 
-        requestQueue = Volley.newRequestQueue(this);
+//        // Instantiate the cache
+//        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+//
+//        // Set up the network to use HttpURLConnection as the HTTP client.
+//        Network network = new BasicNetwork(new HurlStack());
+//
+//        // Instantiate the RequestQueue with the cache and network.
+//        requestQueue = new RequestQueue(cache, network);
+//        requestQueue.start();
+
+//        RequestQueue requestQueue = MySingleton.getInstance(this.getApplicationContext()).
+//                getRequestQueue();
+//        requestQueue = Volley.newRequestQueue(ConfirmRideBooking.this);
+        final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         TextView ride_date = findViewById(R.id.ride_date);
         final TextView seat_icon = findViewById(R.id.seat_icon);
@@ -67,7 +88,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
         TextView drop_off_icon = findViewById(R.id.drop_off_icon);
         TextView drop_off_time = findViewById(R.id.drop_off_time);
 
-        TextView vehicle_details = findViewById(R.id.vehicle_details);
+//        TextView vehicle_details = findViewById(R.id.vehicle_details);
         TextView route_id = findViewById(R.id.route_id);
         final TextView kilometer = findViewById(R.id.kilometer_tv);
         final TextView fare_per_person = findViewById(R.id.fare_per_person);
@@ -99,7 +120,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
         final String token = sharedPreferences.getString("Token","");
 
         ride_date.setText(ride_booking_details.get(0).get("ride_date"));
-        vehicle_details.setText(ride_booking_details.get(0).get("vehicle_no_plate") + " Silver");
+//        vehicle_details.setText(ride_booking_details.get(0).get("vehicle_no_plate") + " Silver");
         bus_remaining_seats.setText(ride_booking_details.get(0).get("seats_left"));
         pick_up_point.setText(ride_booking_details.get(0).get("pick_up_stop_name"));
         pick_up_time.setText(ride_booking_details.get(0).get("arrival_time"));
@@ -214,6 +235,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
                             }
                         });
                         requestQueue.add(stringRequest);
+//                        MySingleton.getInstance(ConfirmRideBooking.this).addToRequestQueue(stringRequest);
 
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -310,6 +332,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
                             }
                         });
+//                        MySingleton.getInstance(ConfirmRideBooking.this).addToRequestQueue(stringRequest);
                         requestQueue.add(stringRequest);
 
                     } catch (Exception e) {
@@ -326,14 +349,15 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
                 try {
                     Toast.makeText(ConfirmRideBooking.this, "Working", Toast.LENGTH_LONG).show();
-                    String URL = MainActivity.baseurl+"/confirm/book/ride/";
+                    String URL = MainActivity.baseurl + "/confirm/book/ride/";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
                         @Override
                         public void onResponse(String response) {
+//                        spinner.setVisibility(View.GONE);
+//                        spinner_frame.setVisibility(View.GONE);
 
-//                            Toast.makeText(getApplicationContext(), "Getting response", Toast.LENGTH_LONG).show();
                             Log.i("VOLLEY", response);
                             try {
                                 final JSONObject json = new JSONObject(response);
@@ -341,8 +365,11 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
                                     UserDetails.getUserRides(ConfirmRideBooking.this);
                                     Toast.makeText(ConfirmRideBooking.this,"Your ride is confirmed.", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(ConfirmRideBooking.this, NavActivity.class);
+                                    Intent intent = new Intent(ConfirmRideBooking.this, RideFragmentN.class);
                                     startActivity(intent);
+
+//                                    ride_scheduled scheduled = new ride_scheduled();
+//                                    getSupportFragmentManager().beginTransaction().replace(R.id.fra, scheduled).commit();
 
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
@@ -364,7 +391,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
                     }){
                         @Override
                         protected Map<String,String> getParams(){
-                            Map<String,String> params = new HashMap<>();
+                            Map<String,String> params = new HashMap<String, String>();
 
                             params.put("vehicle_no_plate", ride_booking_details.get(0).get("vehicle_no_plate"));
                             params.put("req_seats", total_seats.getText().toString());
@@ -408,6 +435,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
                         }
                     });
+//                    MySingleton.getInstance(ConfirmRideBooking.this).addToRequestQueue(stringRequest);
                     requestQueue.add(stringRequest);
 
 
