@@ -20,28 +20,6 @@ public class UserRidesDetailActivity extends AppCompatActivity implements View.O
 
     private Bundle b;
     Context context;
-    private Button back_btn_ride_details;
-    private TextView my_ride_details_tv;
-    private TextView tv_ride_seats;
-    private TextView tv_ride_seat_icon;
-    private TextView green_icon;
-    private TextView red_icon;
-    private TextView return_trip_icon;
-    private TextView invoice_icon;
-    private TextView vertical_line;
-    private Button share_btn;
-    private Button cancel_btn;
-
-    private TextView tv_ride_date;
-    private TextView arrival_time_tv;
-    private TextView departure_time_tv;
-    private TextView pick_up_location_tv;
-    private TextView drop_off_location_tv;
-    private TextView booking_id_tv;
-    private TextView bus_details_tv;
-    private TextView return_trip_tv;
-    private TextView invoice_tv;
-//    private BottomSheetMaterialDialog mSimpleBottomSheetDialog;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -53,28 +31,32 @@ public class UserRidesDetailActivity extends AppCompatActivity implements View.O
             getSupportActionBar().hide();
 
             b = getIntent().getExtras();
-            back_btn_ride_details = findViewById(R.id.back_btn_ride_details);
-            my_ride_details_tv = findViewById(R.id.boarding_pass_details_tv);
-            tv_ride_seat_icon = findViewById(R.id.tv_ride_seat_icon);;
-            green_icon = findViewById(R.id.green_icon);
-            red_icon = findViewById(R.id.red_icon);
-            return_trip_icon = findViewById(R.id.return_trip_icon);
-            invoice_icon = findViewById(R.id.invoice_icon);
-            vertical_line = findViewById(R.id.vertical_line);
+            TextView back_button_user_ride_detail = findViewById(R.id.back_button_user_ride_detail);
+            TextView seat_icon = findViewById(R.id.seat_icon);
+            TextView user_booked_seats = findViewById(R.id.user_booked_seats);
+            TextView ride_date_tv = findViewById(R.id.ride_date);
 
-            tv_ride_seats = findViewById(R.id.tv_ride_seats);
-            share_btn = findViewById(R.id.share_ride_btn);
-            cancel_btn = findViewById(R.id.cancel_ride_btn);
-            tv_ride_date = findViewById(R.id.tv_ride_date);
-            arrival_time_tv = findViewById(R.id.arrival_time_tv);
-            departure_time_tv = findViewById(R.id.departure_time_tv);
-            pick_up_location_tv = findViewById(R.id.pick_up_location_tv);
-            drop_off_location_tv = findViewById(R.id.drop_off_location_tv);
-            booking_id_tv = findViewById(R.id.booking_id_tv);
-            bus_details_tv = findViewById(R.id.bus_details_tv);
-            return_trip_tv = findViewById(R.id.return_trip_tv);
-            invoice_tv = findViewById(R.id.invoice_tv);
-//            Button mButtonBottomSheetDialog = findViewById(R.id.button_simple_bottomsheet_dialog);
+            TextView pick_up_icon = findViewById(R.id.pick_up_icon);
+            TextView pick_up_time = findViewById(R.id.pick_up_time);
+            TextView pick_up_point = findViewById(R.id.pick_up_point);
+
+            TextView drop_off_icon = findViewById(R.id.drop_off_icon);
+            TextView drop_off_time = findViewById(R.id.drop_off_time);
+            TextView drop_off_point = findViewById(R.id.drop_off_point);
+
+            TextView booking_number = findViewById(R.id.booking_number);
+            TextView vehicle_no_plate = findViewById(R.id.vehicle_no_plate);
+            TextView fare_per_person = findViewById(R.id.fare_per_person);
+
+            TextView return_trip_icon = findViewById(R.id.return_trip_icon);
+            TextView return_trip = findViewById(R.id.return_trip);
+
+            TextView invoice_icon = findViewById(R.id.invoice_icon);
+            TextView invoice = findViewById(R.id.invoice);
+
+            TextView find_stop_icon = findViewById(R.id.find_stop_icon);
+            TextView share_ride_icon = findViewById(R.id.share_ride_icon);
+            TextView cancel_ride_button_icon = findViewById(R.id.cancel_ride_button_icon);
 
             final String ride_status = b.getString("ride_status");
             final String ride_fare = b.getString("ride_fare");
@@ -87,76 +69,67 @@ public class UserRidesDetailActivity extends AppCompatActivity implements View.O
             final String ride_seats = b.getString("ride_seats");
             final String ride_vehicle_no_plate = b.getString("ride_vehicle_no_plate");
 
-            my_ride_details_tv.setText("Boarding Pass");
-            tv_ride_seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seatinblue, 0, 0, 0);
-            green_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.greencircle, 0, 0, 0);
-            red_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle, 0, 0, 0);
-            return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.shareicon, 0, 0, 0);
+            back_button_user_ride_detail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_back_icon, 0, 0, 0);
             invoice_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.invoiceicon, 0, 0, 0);
-            vertical_line.setCompoundDrawablesWithIntrinsicBounds(R.drawable.vertical_line, 0, 0, 0);
+            return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
+            seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seat_icon_32px, 0, 0, 0);
+            pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle_10px, 0, 0, 0);
+            drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle_10px, 0, 0, 0);
+            find_stop_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.find_stop_icon, 0, 0, 0);
+            share_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.share_icon_48px, 0, 0, 0);
+            cancel_ride_button_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.x_mark_3_40, 0, 0, 0);
 
-            tv_ride_seats.setText(ride_seats);
-            tv_ride_date.setText(ride_date);
-            arrival_time_tv.setText(ride_start_time);
-            departure_time_tv.setText(ride_end_time);
-            pick_up_location_tv.setText(ride_pick_up_location);
-            drop_off_location_tv.setText(ride_drop_off_location);
-            booking_id_tv.setText(ride_booking_id + "    ");
-            bus_details_tv.setText(ride_vehicle_no_plate + " Silver Color   ");
+            user_booked_seats.setText(ride_seats);
+            ride_date_tv.setText(ride_date);
+            pick_up_time.setText(ride_start_time);
+            drop_off_time.setText(ride_end_time);
+            pick_up_point.setText(ride_pick_up_location);
+            drop_off_point.setText(ride_drop_off_location);
+            booking_number.setText(ride_booking_id);
+            vehicle_no_plate.setText(ride_vehicle_no_plate + " SILVER");
 
-//            mSimpleBottomSheetDialog = new BottomSheetMaterialDialog.Builder(this)
-//                    .setTitle("Delete?")
-//                    .setMessage("Are you sure want to delete this file?")
-//                    .setCancelable(false)
-//                    .setPositiveButton("Delete", R.drawable.ic_delete, new BottomSheetMaterialDialog.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int i) {
-//                            Toast.makeText(getApplicationContext(), "Deleted!", Toast.LENGTH_SHORT).show();
-//                            dialogInterface.dismiss();
-//                        }
-//                    })
-//                    .setNegativeButton("Cancel", R.drawable.ic_close, new BottomSheetMaterialDialog.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialogInterface, int which) {
-//                            Toast.makeText(getApplicationContext(), "Cancelled!", Toast.LENGTH_SHORT).show();
-//                            dialogInterface.dismiss();
-//                        }
-//                    })
-//                    .build();
+            find_stop_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(UserRidesDetailActivity.this, "Working", Toast.LENGTH_LONG).show();
+                }
+            });
 
-//       mButtonSimpleDialog.setOnClickListener(this);
-//        mButtonBottomSheetDialog.setOnClickListener(this);
-//       mButtonAnimatedDialog.setOnClickListener(this);
-//       mButtonAnimatedBottomSheetDialog.setOnClickListener(this);
+            share_ride_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(UserRidesDetailActivity.this, "Working", Toast.LENGTH_LONG).show();
+                }
+            });
 
+            cancel_ride_button_icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(UserRidesDetailActivity.this, "Working", Toast.LENGTH_LONG).show();
+                }
+            });
 
-            back_btn_ride_details.setOnClickListener(new View.OnClickListener() {
+            return_trip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(UserRidesDetailActivity.this, "Working", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            invoice.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(UserRidesDetailActivity.this, "Working", Toast.LENGTH_LONG).show();
+                }
+            });
+
+            back_button_user_ride_detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     onBackPressed();
                 }
             });
 
-            share_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            cancel_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            return_trip_tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getApplicationContext(), "Working on this Activity", Toast.LENGTH_SHORT).show();
-                }
-            });
         }
         catch (Exception e){
             System.out.println(e.toString());

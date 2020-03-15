@@ -26,6 +26,7 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.CustomPreviewUserRidesHistory;
 import com.sohaibaijaz.sawaari.Fragments.AccountFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Fragments.ride_scheduled;
@@ -33,6 +34,7 @@ import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.UserDetails;
+import com.sohaibaijaz.sawaari.UserRidesDetailActivity;
 import com.sohaibaijaz.sawaari.VolleyRequestSingletonClass.MySingleton;
 
 import org.json.JSONException;
@@ -365,16 +367,28 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
                                     UserDetails.getUserRides(ConfirmRideBooking.this);
                                     Toast.makeText(ConfirmRideBooking.this,"Your ride is confirmed.", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(ConfirmRideBooking.this, RideFragmentN.class);
-                                    startActivity(intent);
+                                    Intent i = new Intent(ConfirmRideBooking.this, UserRidesDetailActivity.class);
 
-//                                    ride_scheduled scheduled = new ride_scheduled();
-//                                    getSupportFragmentManager().beginTransaction().replace(R.id.fra, scheduled).commit();
+                                    Bundle b = new Bundle();
+                                    b.putString("ride_status", json.getString("ride_status"));
+                                    b.putString("ride_fare", json.getString("fare"));
+                                    b.putString("ride_date", json.getString("ride_date"));
+                                    b.putString("ride_start_time", json.getString("pick_up_time"));
+                                    b.putString("ride_end_time", json.getString("drop_off_time"));
+                                    b.putString("ride_pick_up_location", json.getString("pick-up-point"));
+                                    b.putString("ride_drop_off_location", json.getString("drop-off-point"));
+                                    b.putString("ride_date", json.getString("ride_date"));
+                                    b.putString("ride_booking_id", json.getString("reservation_number"));
+                                    b.putString("ride_seats", json.getString("seats"));
+                                    b.putString("ride_vehicle_no_plate", json.getString("vehicle_no_plate"));
 
+                                    i.putExtras(b);
+                                    ConfirmRideBooking.this.startActivity(i);
                                 }
                                 else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
                                 }
+
                             } catch (JSONException e) {
                                 Log.e("VOLLEY", e.toString());
                                 Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();

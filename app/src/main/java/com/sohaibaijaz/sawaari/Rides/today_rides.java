@@ -86,7 +86,7 @@ public class today_rides extends Fragment {
             if(ride.getRides().size()!=0){
 
                 today_no_ride_tv.setVisibility(View.GONE);
-                today_ride_suggestion_tv.setVisibility(View.GONE);
+//                today_ride_suggestion_tv.setVisibility(View.GONE);
 
                 for(int i=0; i<ride.getRides().size(); i++){
 
@@ -121,7 +121,7 @@ public class today_rides extends Fragment {
             }
             else{
                 today_no_ride_tv.setVisibility(View.VISIBLE);
-                today_ride_suggestion_tv.setVisibility(View.VISIBLE);
+//                today_ride_suggestion_tv.setVisibility(View.VISIBLE);
             }
 
             list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, json));
