@@ -7,7 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,8 +51,10 @@ import java.util.Map;
 public class ConfirmRideBooking extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
-//    private RequestQueue requestQueue;
     private Bundle b;
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
+    private ArrayAdapter<CharSequence> adapter;
     Context context;
     private String user_json_response;
     ArrayList<HashMap<String, String>> ride_booking_details = new ArrayList<HashMap<String, String>>();
@@ -61,19 +67,6 @@ public class ConfirmRideBooking extends AppCompatActivity {
         setContentView(R.layout.single_ride_book_activity);
         getSupportActionBar().hide();
 
-//        // Instantiate the cache
-//        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
-//
-//        // Set up the network to use HttpURLConnection as the HTTP client.
-//        Network network = new BasicNetwork(new HurlStack());
-//
-//        // Instantiate the RequestQueue with the cache and network.
-//        requestQueue = new RequestQueue(cache, network);
-//        requestQueue.start();
-
-//        RequestQueue requestQueue = MySingleton.getInstance(this.getApplicationContext()).
-//                getRequestQueue();
-//        requestQueue = Volley.newRequestQueue(ConfirmRideBooking.this);
         final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         TextView ride_date = findViewById(R.id.ride_date);
@@ -109,7 +102,13 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
         TextView back_button_final_ride_details_activity = findViewById(R.id.back_button_final_ride_details_activity);
 
-        seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_seat_icon_40px, 0, 0, 0);
+        spinner = findViewById(R.id.progressBar_ride_booking_activity);
+        spinner_frame = findViewById(R.id.spinner_frame_ride_booking_activity);
+
+        spinner.setVisibility(View.GONE);
+        spinner_frame.setVisibility(View.GONE);
+
+        seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seat_icon_32px, 0, 0, 0);
         pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
         drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
         walking_icon_pick_up.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
@@ -137,15 +136,23 @@ public class ConfirmRideBooking extends AppCompatActivity {
         pick_up_stop_duration.setText(ride_booking_details.get(0).get("pick_up_location_duration") + " from your location.");
         drop_off_stop_duration.setText(ride_booking_details.get(0).get("drop_off_location_duration") + " to your location.");
 
+        final Spinner payment_spinner = findViewById(R.id.payment_spinner);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapter = ArrayAdapter.createFromResource(this,
+                R.array.payment_array, android.R.layout.simple_spinner_item);
+
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Apply the adapter to the spinner
+        payment_spinner.setAdapter(adapter);
+
 
         back_button_final_ride_details_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
-//                Intent i = new Intent(ConfirmRideBooking.this, show_rides.class);
-//                i.putExtra("json", user_json_response);
-//                ConfirmRideBooking.this.startActivity(i);
-
             }
         });
 
@@ -164,17 +171,20 @@ public class ConfirmRideBooking extends AppCompatActivity {
                     seat_value += 1;
                     try {
 
+                        spinner.setVisibility(View.VISIBLE);
+                        spinner_frame.setVisibility(View.VISIBLE);
+
                         String URL = MainActivity.baseurl+"/calculate/fare/";
 
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
-//                            Toast.makeText(getApplicationContext(), "Getting response", Toast.LENGTH_LONG).show();
                                 Log.i("VOLLEY", response);
                                 try {
                                     final JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
+
                                         if(seat_value==2){
                                             subtract_seat.setEnabled(true);
                                             add_seat.setEnabled(true);
@@ -183,14 +193,23 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                             subtract_seat.setEnabled(true);
                                             add_seat.setEnabled(false);
                                         }
+
                                         fare_per_person.setText(ride_booking_details.get(0).get("fare_per_person") + " x " + seat_value);
                                         total_seats.setText(String.valueOf(seat_value));
                                         total_fare_value.setText(json.getString("total_fare"));
+
+                                        spinner.setVisibility(View.GONE);
+                                        spinner_frame.setVisibility(View.GONE);
+
                                     }
                                     else if (json.getString("status").equals("500")) {
                                         Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                        spinner.setVisibility(View.VISIBLE);
+                                        spinner_frame.setVisibility(View.VISIBLE);
                                     }
                                 } catch (JSONException e) {
+                                    spinner.setVisibility(View.GONE);
+                                    spinner_frame.setVisibility(View.GONE);
                                     Log.e("VOLLEY", e.toString());
                                     Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                                 }
@@ -198,8 +217,9 @@ public class ConfirmRideBooking extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-//                            spinner.setVisibility(View.GONE);
-//                            spinner_frame.setVisibility(View.GONE);
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
+
                                 Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
                             }
@@ -262,6 +282,9 @@ public class ConfirmRideBooking extends AppCompatActivity {
                     seat_value -= 1;
                     try {
 
+                        spinner.setVisibility(View.VISIBLE);
+                        spinner_frame.setVisibility(View.VISIBLE);
+
                         String URL = MainActivity.baseurl+"/calculate/fare/";
 
                         StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
@@ -271,8 +294,10 @@ public class ConfirmRideBooking extends AppCompatActivity {
 //                            Toast.makeText(getApplicationContext(), "Getting response", Toast.LENGTH_LONG).show();
                                 Log.i("VOLLEY", response);
                                 try {
+
                                     final JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
+
                                         if(seat_value==1){
                                             subtract_seat.setEnabled(false);
                                             add_seat.setEnabled(true);
@@ -281,14 +306,22 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                             subtract_seat.setEnabled(true);
                                             add_seat.setEnabled(true);
                                         }
+
                                         fare_per_person.setText(ride_booking_details.get(0).get("fare_per_person") + " x " + seat_value);
                                         total_seats.setText(String.valueOf(seat_value));
                                         total_fare_value.setText(json.getString("total_fare"));
+
+                                        spinner.setVisibility(View.GONE);
+                                        spinner_frame.setVisibility(View.GONE);
                                     }
                                     else if (json.getString("status").equals("500")) {
+                                        spinner.setVisibility(View.GONE);
+                                        spinner_frame.setVisibility(View.GONE);
                                         Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
+                                    spinner.setVisibility(View.GONE);
+                                    spinner_frame.setVisibility(View.GONE);
                                     Log.e("VOLLEY", e.toString());
                                     Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                                 }
@@ -296,8 +329,8 @@ public class ConfirmRideBooking extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-//                            spinner.setVisibility(View.GONE);
-//                            spinner_frame.setVisibility(View.GONE);
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
                                 Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
                             }
@@ -350,15 +383,15 @@ public class ConfirmRideBooking extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    Toast.makeText(ConfirmRideBooking.this, "Working", Toast.LENGTH_LONG).show();
+
                     String URL = MainActivity.baseurl + "/confirm/book/ride/";
 
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
 
                         @Override
                         public void onResponse(String response) {
-//                        spinner.setVisibility(View.GONE);
-//                        spinner_frame.setVisibility(View.GONE);
+                        spinner.setVisibility(View.VISIBLE);
+                        spinner_frame.setVisibility(View.VISIBLE);
 
                             Log.i("VOLLEY", response);
                             try {
@@ -385,11 +418,15 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                     i.putExtras(b);
                                     ConfirmRideBooking.this.startActivity(i);
                                 }
-                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                else if (json.getString("status").equals("501")) {
+                                    Toast.makeText(getApplicationContext(), "ForeePay coming soon!", Toast.LENGTH_LONG).show();
+                                    spinner.setVisibility(View.GONE);
+                                    spinner_frame.setVisibility(View.GONE);
                                 }
 
                             } catch (JSONException e) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
                                 Log.e("VOLLEY", e.toString());
                                 Toast.makeText(getApplicationContext(), e.toString(), Toast.LENGTH_LONG).show();
                             }
@@ -397,8 +434,8 @@ public class ConfirmRideBooking extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-//                            spinner.setVisibility(View.GONE);
-//                            spinner_frame.setVisibility(View.GONE);
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
                             Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                             Log.e("VOLLEY", error.toString());
                         }
@@ -416,7 +453,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
                             params.put("drop_off_stop_id", ride_booking_details.get(0).get("drop_off_stop_id"));
                             params.put("arrival_time", ride_booking_details.get(0).get("arrival_time"));
                             params.put("departure_time", ride_booking_details.get(0).get("departure_time"));
-                            params.put("payment_method", "Cash");
+                            params.put("payment_method", payment_spinner.getSelectedItem().toString());
                             params.put("fare_per_person", ride_booking_details.get(0).get("fare_per_person"));
                             params.put("kilometer", ride_booking_details.get(0).get("kilometer"));
                             params.put("total_fare", total_fare_value.getText().toString());

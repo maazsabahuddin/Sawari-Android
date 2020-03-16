@@ -85,7 +85,6 @@ public class today_rides extends Fragment {
 
             if(ride.getRides().size()!=0){
 
-                today_no_ride_tv.setVisibility(View.GONE);
 //                today_ride_suggestion_tv.setVisibility(View.GONE);
 
                 for(int i=0; i<ride.getRides().size(); i++){
@@ -93,6 +92,8 @@ public class today_rides extends Fragment {
                     HashMap<String, String> ride_hashMap = new HashMap<>();
 
                     if(ride.getRides().get(i).getRideDate().equals(local_date)) {
+
+                        today_no_ride_tv.setVisibility(View.GONE);
 
                         ride_hashMap.put("vehicle_no_plate", ride.getRides().get(i).getVehicleNoPlate());
                         ride_hashMap.put("ride_date", ride.getRides().get(i).getRideDate());
@@ -121,7 +122,6 @@ public class today_rides extends Fragment {
             }
             else{
                 today_no_ride_tv.setVisibility(View.VISIBLE);
-//                today_ride_suggestion_tv.setVisibility(View.VISIBLE);
             }
 
             list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, json));

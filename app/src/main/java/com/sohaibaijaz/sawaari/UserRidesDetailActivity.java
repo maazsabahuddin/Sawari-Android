@@ -4,19 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.shreyaspatil.MaterialDialog.BottomSheetMaterialDialog;
-import com.shreyaspatil.MaterialDialog.MaterialDialog;
-import com.shreyaspatil.MaterialDialog.interfaces.DialogInterface;
-import com.shreyaspatil.MaterialDialog.interfaces.OnCancelListener;
-import com.shreyaspatil.MaterialDialog.interfaces.OnDismissListener;
-import com.shreyaspatil.MaterialDialog.interfaces.OnShowListener;
 
-public class UserRidesDetailActivity extends AppCompatActivity implements View.OnClickListener, OnCancelListener, OnDismissListener, OnShowListener{
+import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
+
+public class UserRidesDetailActivity extends AppCompatActivity{
 
     private Bundle b;
     Context context;
@@ -126,7 +123,9 @@ public class UserRidesDetailActivity extends AppCompatActivity implements View.O
             back_button_user_ride_detail.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onBackPressed();
+//                    onBackPressed();
+                    Intent i = new Intent(UserRidesDetailActivity.this, RideFragmentN.class);
+                    startActivity(i);
                 }
             });
 
@@ -137,29 +136,4 @@ public class UserRidesDetailActivity extends AppCompatActivity implements View.O
 
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-
-//            case R.id.button_simple_bottomsheet_dialog :
-//                mSimpleBottomSheetDialog.show();
-//                break;
-
-        }
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialogInterface) {
-
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialogInterface) {
-
-    }
-
-    @Override
-    public void onShow(DialogInterface dialogInterface) {
-
-    }
 }
