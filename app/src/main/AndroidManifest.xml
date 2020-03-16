@@ -21,6 +21,7 @@
         <activity android:name=".Rides.BusActivity"></activity>
         <activity android:name=".Rides.SelectedRideActivity"></activity>
         <activity android:name=".Rides.ConfirmRideBooking"></activity>
+        <activity android:name=".Fragments.SettingsActivity"></activity>
 
         <activity
             android:name=".SplashActivity"

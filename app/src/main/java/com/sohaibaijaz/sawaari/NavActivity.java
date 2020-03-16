@@ -32,6 +32,7 @@ import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.MessageFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Fragments.RidesFragment;
+import com.sohaibaijaz.sawaari.Fragments.SettingsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -96,9 +97,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                 break;
 
             case R.id.nav_account:
-                AccountFragment accountFragment = new AccountFragment();
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accountFragment).commit();
+//                AccountFragment accountFragment = new AccountFragment();
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, accountFragment).commit();
 
                 break;
             case R.id.nav_ride:
