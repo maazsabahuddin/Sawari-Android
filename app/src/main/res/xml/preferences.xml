@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-<PreferenceCategory
-    android:key="name_cat">
-    <Preference
-        android:key="name" />
-</PreferenceCategory>
+    <PreferenceCategory
+        android:key="name_category">
+        <Preference
+            android:key="name" />
+    </PreferenceCategory>
 
 
     <PreferenceCategory
-        android:key="basic_cat"
+        android:key="favourites_category"
         android:title="Favorites" >
 
         <Preference
@@ -30,7 +29,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="safety_cat"
+        android:key="safety_category"
         android:title="Safety" >
 
         <Preference
@@ -43,15 +42,16 @@
     <PreferenceCategory
         android:key="safety_cat" >
 
-    <Preference
-        android:key="privacy"
-        android:title="Privacy"
-        android:summary="Manage the data you share with us" />
+        <Preference
+            android:key="privacy"
+            android:title="Privacy"
+            android:summary="Manage the data you share with us" />
 
         <Preference
-        android:key="security"
-        android:title="Security"
-        android:summary="Control your account security with 2-step verification"  />
+            android:key="security"
+            android:title="Security"
+            android:summary="Control your account security with 2-step verification"  />
 
     </PreferenceCategory>
+
 </PreferenceScreen>
