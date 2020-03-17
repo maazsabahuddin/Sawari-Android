@@ -8,8 +8,6 @@ import com.sohaibaijaz.sawaari.R;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceScreen;
-import androidx.preference.PreferenceCategory;
 
 import java.util.Objects;
 
@@ -26,7 +24,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getSupportActionBar().hide();
 
         try{
             sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
@@ -44,8 +41,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             pref.setTitle(firstName);
             pref.setSummary(email + "\n" + phoneNumber);
 
-//            final PreferenceCategory preferenceCategory = findPreference("name_category");
-//            PreferenceScreen preferenceScreen = this.getPreferenceScreen();
         }
         catch (Exception e){
             e.printStackTrace();
