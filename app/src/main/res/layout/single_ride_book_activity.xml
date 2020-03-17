@@ -92,7 +92,7 @@
                 android:layout_width="32dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/seat_icon_32px"
+                android:src="@drawable/seat_icon"
                 android:layout_marginEnd="2dp"/>
 
             <TextView
@@ -166,7 +166,7 @@
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/walk"
+                android:src="@drawable/walk_icon"
                 android:layout_marginEnd="5dp"/>
 
             <TextView
@@ -199,7 +199,7 @@
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/pickupinblue"
+                android:src="@drawable/pick_up_icon"
                 android:layout_marginEnd="5dp"/>
 
             <TextView
@@ -258,7 +258,7 @@
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/walk"
+                android:src="@drawable/walk_icon"
                 android:layout_marginEnd="5dp"/>
 
             <TextView
@@ -291,7 +291,7 @@
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|center_horizontal"
-                android:src="@drawable/dropoffinblue"
+                android:src="@drawable/drop_off_icon"
                 android:layout_marginEnd="5dp"/>
 
             <TextView

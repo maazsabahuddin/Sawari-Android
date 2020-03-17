@@ -87,7 +87,7 @@
                 android:layout_width="32dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/seat_icon_32px"
+                android:src="@drawable/seat_icon"
                 android:layout_marginEnd="2dp"/>
 
             <TextView
@@ -145,7 +145,7 @@
                 android:layout_width="8dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/red_circle_8px"
+                android:src="@drawable/red_pick_up_icon"
                 android:layout_marginEnd="8dp"/>
 
             <TextView
@@ -215,7 +215,7 @@
                 android:layout_width="8dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/green_circle_8"
+                android:src="@drawable/green_frop_off_icon"
                 android:layout_marginEnd="8dp"/>
 
             <TextView
@@ -445,7 +445,7 @@
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/pickupinblue"
+                android:src="@drawable/pick_up_icon"
                 android:layout_marginEnd="2dp"
                 android:layout_weight="1"/>
 
@@ -487,7 +487,7 @@
                 android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/invoiceicon"
+                android:src="@drawable/invoice_icon"
                 android:layout_marginEnd="2dp"
                 android:layout_weight="1" />
 
@@ -525,7 +525,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:src="@drawable/find_stop_icon" />
+                    android:src="@drawable/stop" />
 
                 <TextView
                     android:id="@+id/find_stop"
@@ -550,7 +550,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:src="@drawable/share_icon_48px"
+                    android:src="@drawable/share_icon"
                     android:layout_marginEnd="2dp" />
 
                 <TextView
@@ -576,7 +576,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="42dp"
                     android:layout_gravity="center_vertical|center_horizontal"
-                    android:src="@drawable/cancel_icon_blue_48px"
+                    android:src="@drawable/cancel_icon"
                     android:layout_marginEnd="2dp" />
 
                 <TextView
