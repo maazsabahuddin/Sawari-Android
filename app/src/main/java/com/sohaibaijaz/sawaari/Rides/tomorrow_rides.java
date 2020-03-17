@@ -80,8 +80,8 @@ public class tomorrow_rides extends Fragment {
             JSONArray rides = new JSONArray(rides_data);
             if(rides.length() != 0 || !rides.isNull(0)){
 
-                tomorrow_no_ride_tv.setVisibility(TextView.INVISIBLE);
-                tomorrow_ride_suggestion_tv.setVisibility(TextView.INVISIBLE);
+                tomorrow_no_ride_tv.setVisibility(TextView.GONE);
+//                tomorrow_ride_suggestion_tv.setVisibility(TextView.INVISIBLE);
 
                 for(int i=0 ; i< rides.length(); i++){
                     JSONObject ride = rides.getJSONObject(i);
@@ -132,10 +132,10 @@ public class tomorrow_rides extends Fragment {
             }
             else{
                 tomorrow_no_ride_tv.setVisibility(TextView.VISIBLE);
-                tomorrow_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
+//                tomorrow_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
             }
 
-            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), tomorrow_buses));
+//            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), tomorrow_buses));
         }
         catch (Exception e){
             e.printStackTrace();

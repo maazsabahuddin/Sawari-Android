@@ -56,12 +56,15 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.sohaibaijaz.sawaari.Rides.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.Rides.show_rides;
+import com.sohaibaijaz.sawaari.model.RidesModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -210,10 +213,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             public void onClick(View view) {
 
                 //Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
-                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-                }
-                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+//                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+//                }
+//                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
 
                     try {
 
@@ -233,6 +236,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     if(json.getString("status").equals("200")){
 
                                         Intent i = new Intent(getContext(), show_rides.class);
+                                        i.putExtra("json", json.toString());
                                         i.putExtra("rides", json.getJSONArray("rides").toString());
                                         startActivity(i);
 
@@ -258,16 +262,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                             protected Map<String, String> getParams() {
                                 Map<String, String> params = new HashMap<String, String>();
 
-                                System.out.println("Starting latitude" + currentLocation.get("latitude"));
-                                System.out.println("Starting longitude" + currentLocation.get("longitude"));
-                                System.out.println("Drop off latitude" + dropoffLocation.get("latitude"));
-                                System.out.println("Drop off longitude" + dropoffLocation.get("longitude"));
+//                                params.put("start_lat", currentLocation.get("latitude"));
+//                                params.put("start_lon", currentLocation.get("longitude"));
+//                                params.put("stop_lat", dropoffLocation.get("latitude"));
+//                                params.put("stop_lon", dropoffLocation.get("longitude"));
 
-                                params.put("start_lat", currentLocation.get("latitude"));
-                                params.put("start_lon", currentLocation.get("longitude"));
-                                params.put("stop_lat", dropoffLocation.get("latitude"));
-                                params.put("stop_lon", dropoffLocation.get("longitude"));
-                                System.out.println(currentLocation.get("latitude")+"\n"+currentLocation.get("longitude")+"\n"+dropoffLocation.get("latitude")+"\n"+dropoffLocation.get("longitude"));
+                                params.put("stop_lat", "24.913363");
+                                params.put("stop_lon", "67.124208");
+                                params.put("start_lat", "24.823343");
+                                params.put("start_lon", "67.029656");
 
                                 return params;
                             }
@@ -302,8 +305,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
                     }
 
-
-                }
             }
 
         });

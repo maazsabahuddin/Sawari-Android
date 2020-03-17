@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 
 
@@ -71,8 +72,8 @@ public class RideFragmentN extends AppCompatActivity {
         back_btn_my_ride.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
-//                startActivity(new Intent(getApplicationContext(), HomeFragment.class));
+//                onBackPressed();
+                startActivity(new Intent(getApplicationContext(), NavActivity.class));
             }
         });
     }

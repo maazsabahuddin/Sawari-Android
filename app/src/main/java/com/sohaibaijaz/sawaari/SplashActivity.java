@@ -10,7 +10,7 @@ import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIMEOUT = 1000;
+    private static int SPLASH_TIMEOUT = 300;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

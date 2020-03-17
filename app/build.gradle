@@ -36,8 +36,9 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.1.0'
+    implementation "com.google.android.material:material:1.2.0-alpha05"
 
-
+    implementation 'com.android.volley:volley:1.1.1'
 
     // Material Dialog Library
     implementation 'com.shreyaspatil:MaterialDialog:2.1'
@@ -46,10 +47,13 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.3.0'
 
     // Material Design Library
-    implementation 'com.google.android.material:material:1.0.0'
+//    implementation 'com.google.android.material:material:1.0.0'
 
     // Lottie Animation Library
     implementation 'com.airbnb.android:lottie:3.3.0'
 
+    // for preference setting
+    implementation 'androidx.preference:preference:1.1.0'
+//    implementation 'androidx.preference:preference:1.0.0'
 
 }

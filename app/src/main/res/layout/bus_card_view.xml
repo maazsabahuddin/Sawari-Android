@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardView"
-    android:layout_width="380dp"
-    android:layout_height="150dp"
-    app:cardCornerRadius="10dp"
-    android:background="@color/colorEdwardGrey"
-    android:hapticFeedbackEnabled="true"
-    app:cardElevation="6dp"
-    app:cardMaxElevation="10dp">
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:background="@color/colorEdwardGrey"
+        android:hapticFeedbackEnabled="true"
+        app:cardElevation="6dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:cardMaxElevation="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="404dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorEdwardGrey">
 
@@ -47,7 +53,7 @@
             app:layout_constraintVertical_bias="0.576" />
 
         <TextView
-            android:id="@+id/tv_pickup_time"
+            android:id="@+id/arrival_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
@@ -89,7 +95,7 @@
                 android:layout_height="11dp" />
 
             <TextView
-                android:id="@+id/tv_pickup_location"
+                android:id="@+id/pick_up_stop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -99,7 +105,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tv_pickup_location_time"
+                android:id="@+id/pick_up_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -114,7 +120,7 @@
                 android:layout_height="11dp" />
 
             <TextView
-                android:id="@+id/tv_dropoff_location"
+                android:id="@+id/drop_off_stop_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -124,7 +130,7 @@
                 android:textSize="13sp" />
 
             <TextView
-                android:id="@+id/tv_dropoff_location_time"
+                android:id="@+id/drop_off_duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat"
@@ -150,3 +156,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
+</RelativeLayout>

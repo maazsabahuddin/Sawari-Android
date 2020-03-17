@@ -19,7 +19,7 @@
             android:id="@+id/textView4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Rhenox Innovations"
+            android:text="Foree"
             android:textColor="@color/colorJacksonPurple"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"

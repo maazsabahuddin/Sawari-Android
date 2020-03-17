@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:key="name_category">
+        <Preference
+            android:key="name" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:key="favourites_category"
+        android:title="Favorites" >
+
+        <Preference
+            android:key="home"
+            android:summary="Click to add home"
+            android:title="Add Home"
+            android:icon="@drawable/home"
+            />
+
+        <Preference
+            android:key="w_place"
+            android:summary="Click to add work place"
+            android:title="Add Work Place"
+            android:icon="@drawable/work"
+            />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="safety_category"
+        android:title="Safety" >
+
+        <Preference
+            android:key="safety"
+            android:title="Manage Contacts"
+            android:icon="@drawable/contact" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="safety_cat" >
+
+        <Preference
+            android:key="privacy"
+            android:title="Privacy"
+            android:summary="Manage the data you share with us" />
+
+        <Preference
+            android:key="security"
+            android:title="Security"
+            android:summary="Control your account security with 2-step verification"  />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
