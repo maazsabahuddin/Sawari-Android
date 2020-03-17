@@ -70,17 +70,17 @@ public class ConfirmRideBooking extends AppCompatActivity {
         final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
 
         TextView ride_date = findViewById(R.id.ride_date);
-        final TextView seat_icon = findViewById(R.id.seat_icon);
+//        final TextView seat_icon = findViewById(R.id.seat_icon);
         TextView bus_remaining_seats = findViewById(R.id.bus_remaining_seats);
 
         TextView pick_up_stop_duration = findViewById(R.id.pick_up_stop_duration);
         TextView pick_up_point = findViewById(R.id.pick_up_point);
-        TextView pick_up_icon = findViewById(R.id.pick_up_icon);
+//        TextView pick_up_icon = findViewById(R.id.pick_up_icon);
         TextView pick_up_time = findViewById(R.id.pick_up_time);
 
         TextView drop_off_stop_duration = findViewById(R.id.drop_off_stop_duration);
         TextView drop_off_point = findViewById(R.id.drop_off_point);
-        TextView drop_off_icon = findViewById(R.id.drop_off_icon);
+//        TextView drop_off_icon = findViewById(R.id.drop_off_icon);
         TextView drop_off_time = findViewById(R.id.drop_off_time);
 
 //        TextView vehicle_details = findViewById(R.id.vehicle_details);
@@ -97,8 +97,8 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
         Button confirm_ride_button = findViewById(R.id.confirm_ride_button);
 
-        final TextView walking_icon_pick_up = findViewById(R.id.walk_icon_pickup);
-        final TextView walking_icon_drop_off = findViewById(R.id.walk_icon_drop_off);
+//        final TextView walking_icon_pick_up = findViewById(R.id.walk_icon_pickup);
+//        final TextView walking_icon_drop_off = findViewById(R.id.walk_icon_drop_off);
 
         TextView back_button_final_ride_details_activity = findViewById(R.id.back_button_final_ride_details_activity);
 
@@ -108,11 +108,11 @@ public class ConfirmRideBooking extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         spinner_frame.setVisibility(View.GONE);
 
-        seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seat_icon_32px, 0, 0, 0);
-        pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
-        drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
-        walking_icon_pick_up.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
-        walking_icon_drop_off.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
+//        seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seat_icon_32px, 0, 0, 0);
+//        pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
+//        drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.dropoffinblue, 0, 0, 0);
+//        walking_icon_pick_up.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
+//        walking_icon_drop_off.setCompoundDrawablesWithIntrinsicBounds(R.drawable.walk, 0, 0, 0);
 
         ride_booking_details = (ArrayList<HashMap<String, String>>) getIntent().getSerializableExtra("selected_ride");
         user_json_response = getIntent().getStringExtra("json");

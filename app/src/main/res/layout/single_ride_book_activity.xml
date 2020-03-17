@@ -88,11 +88,12 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
 
-            <TextView
-                android:id="@+id/seat_icon"
-                android:layout_width="55dp"
+            <ImageView
+                android:layout_width="32dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/seat_icon_32px"
+                android:layout_marginEnd="2dp"/>
 
             <TextView
                 android:id="@+id/bus_remaining_seats"
@@ -137,13 +138,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space2"
-                android:layout_width="wrap_content"
+<!--            <TextView-->
+<!--                android:id="@+id/space2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="20" />-->
+
+            <ImageView
+                android:layout_width="15dp"
                 android:layout_height="match_parent"
-                android:layout_weight="20" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:id="@+id/pick_up_time"
@@ -151,13 +160,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="08:50 AM"
-                android:layout_weight="10" />
+                android:layout_marginEnd="15dp" />
 
-            <TextView
-                android:id="@+id/walk_icon_pickup"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="15dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:src="@drawable/walk"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:id="@+id/pick_up_stop_duration"
@@ -175,37 +185,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space4"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
+<!--            <TextView-->
+<!--                android:id="@+id/space4"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10"/>-->
 
-            <TextView
-                android:id="@+id/pick_up_icon"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="15dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5"/>
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:src="@drawable/pickupinblue"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:id="@+id/pick_up_point"
-                android:layout_width="290dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="serif"
                 android:gravity="start|center_vertical"
                 android:text="Outside Khalid Bakers, Block-1alksjd8, Gulistan e Jauhar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:typeface="monospace"
                 android:layout_weight="20"/>
 
-            <TextView
-                android:id="@+id/space6"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
+<!--            <TextView-->
+<!--                android:id="@+id/space6"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10"/>-->
 
         </LinearLayout>
 
@@ -217,13 +230,21 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space8"
-                android:layout_width="wrap_content"
+<!--            <TextView-->
+<!--                android:id="@+id/space8"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="20" />-->
+
+            <ImageView
+                android:layout_width="15dp"
                 android:layout_height="match_parent"
-                android:layout_weight="20" />
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:id="@+id/drop_off_time"
@@ -231,13 +252,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="08:50 AM"
-                android:layout_weight="10" />
+                android:layout_marginEnd="15dp" />
 
-            <TextView
-                android:id="@+id/walk_icon_drop_off"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="15dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5" />
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:src="@drawable/walk"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:id="@+id/drop_off_stop_duration"
@@ -255,37 +277,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
+<!--            <TextView-->
+<!--                android:id="@+id/space1"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10"/>-->
 
-            <TextView
-                android:id="@+id/drop_off_icon"
-                android:layout_width="wrap_content"
+            <ImageView
+                android:layout_width="15dp"
                 android:layout_height="match_parent"
-                android:layout_weight="5"/>
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:src="@drawable/dropoffinblue"
+                android:layout_marginEnd="5dp"/>
 
             <TextView
                 android:id="@+id/drop_off_point"
-                android:layout_width="290dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="serif"
                 android:gravity="start|center_vertical"
-                android:text="Outside Khalidalksjd Bakers, Block-18, Gulistan e Jauhar"
+                android:text="Outside Khalidalksjd Bakers, Block-18, Gulistan e Jauhsar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:typeface="monospace"
                 android:layout_weight="20"/>
 
-            <TextView
-                android:id="@+id/space7"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10"/>
+<!--            <TextView-->
+<!--                android:id="@+id/space7"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10"/>-->
 
         </LinearLayout>
 
@@ -312,13 +337,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space24"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="9" />
+<!--            <TextView-->
+<!--                android:id="@+id/space24"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="9" />-->
 
             <TextView
                 android:id="@+id/route"
@@ -340,11 +367,11 @@
                 android:textSize="14sp"
                 android:typeface="monospace" />
 
-            <TextView
-                android:id="@+id/space12"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="9" />
+<!--            <TextView-->
+<!--                android:id="@+id/space12"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="9" />-->
 
         </LinearLayout>
 
@@ -355,13 +382,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space30"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10" />
+<!--            <TextView-->
+<!--                android:id="@+id/space30"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10" />-->
 
             <TextView
                 android:id="@+id/kilometer"
@@ -383,11 +412,11 @@
                 android:textSize="14sp"
                 android:typeface="monospace" />
 
-            <TextView
-                android:id="@+id/space29"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10" />
+<!--            <TextView-->
+<!--                android:id="@+id/space29"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10" />-->
 
         </LinearLayout>
 
@@ -398,13 +427,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
-            <TextView
-                android:id="@+id/space11"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10" />
+<!--            <TextView-->
+<!--                android:id="@+id/space11"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10" />-->
 
             <TextView
                 android:id="@+id/seats"
@@ -426,11 +457,11 @@
                 android:textSize="14sp"
                 android:typeface="monospace" />
 
-            <TextView
-                android:id="@+id/space10"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="10" />
+<!--            <TextView-->
+<!--                android:id="@+id/space10"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="10" />-->
 
         </LinearLayout>
 
@@ -441,13 +472,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp" >
 
-            <TextView
-                android:id="@+id/space"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="8" />
+<!--            <TextView-->
+<!--                android:id="@+id/space"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="8" />-->
 
             <TextView
                 android:id="@+id/seat"
@@ -502,99 +535,26 @@
                 android:textSize="20sp"
                 android:typeface="serif" />
 
-            <TextView
-                android:id="@+id/space28"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
+<!--            <TextView-->
+<!--                android:id="@+id/space28"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="5" />-->
 
         </LinearLayout>
-
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="40dp"-->
-        <!--            android:orientation="horizontal">-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="205dp"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:orientation="vertical">-->
-
-        <!--                <LinearLayout-->
-        <!--                    android:layout_width="wrap_content"-->
-        <!--                    android:layout_height="match_parent"-->
-        <!--                    android:orientation="horizontal">-->
-
-        <!--                    <TextView-->
-        <!--                        android:id="@+id/space33"-->
-        <!--                        android:layout_width="30dp"-->
-        <!--                        android:layout_height="match_parent"-->
-        <!--                        android:layout_weight="1"-->
-        <!--                        android:textSize="20sp" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:id="@+id/price_method_icon"-->
-        <!--                        android:layout_width="25dp"-->
-        <!--                        android:layout_height="match_parent"-->
-        <!--                        android:layout_weight="1"-->
-        <!--                        android:gravity="center|center_vertical"-->
-        <!--                        android:typeface="serif" />-->
-
-        <!--                    <TextView-->
-        <!--                        android:id="@+id/payment_method_name"-->
-        <!--                        android:layout_width="150dp"-->
-        <!--                        android:layout_height="match_parent"-->
-        <!--                        android:gravity="start|center_vertical"-->
-        <!--                        android:text="Cash"-->
-        <!--                        android:layout_weight="1"-->
-        <!--                        android:textSize="15sp"-->
-        <!--                        android:typeface="serif" />-->
-
-        <!--                </LinearLayout>-->
-
-        <!--            </LinearLayout>-->
-
-        <!--            <LinearLayout-->
-        <!--                android:layout_width="200dp"-->
-        <!--                android:layout_height="match_parent"-->
-        <!--                android:orientation="vertical">-->
-
-        <!--                <LinearLayout-->
-        <!--                    android:layout_width="205dp"-->
-        <!--                    android:layout_height="wrap_content"-->
-        <!--                    android:orientation="horizontal">-->
-
-        <!--                </LinearLayout>-->
-
-        <!--                <Spinner-->
-        <!--                    android:id="@+id/payment_spinner"-->
-        <!--                    android:layout_width="match_parent"-->
-        <!--                    android:layout_height="match_parent"-->
-        <!--                    android:gravity="center|center_vertical"-->
-        <!--                    android:layout_weight="1"-->
-        <!--                    android:typeface="serif" />-->
-
-        <!--            </LinearLayout>-->
-
-        <!--        </LinearLayout>-->
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/space36"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="12" />
+            android:orientation="horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
 
             <TextView
                 android:id="@+id/payment_method_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="55"
+                android:layout_weight="60"
                 android:gravity="start|center_vertical"
                 android:text="Payment"
                 android:textSize="15sp"
@@ -611,11 +571,11 @@
                 android:textSize="14sp"
                 android:typeface="monospace" />
 
-            <TextView
-                android:id="@+id/space35"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="5" />
+<!--            <TextView-->
+<!--                android:id="@+id/space35"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="5" />-->
 
         </LinearLayout>
 
