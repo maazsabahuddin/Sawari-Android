@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="@color/colorEdwardGrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -76,11 +77,18 @@
                 android:layout_height="match_parent"
                 android:layout_weight="10" />
 
-            <TextView
-                android:id="@+id/seat_icon"
-                android:layout_width="wrap_content"
+<!--            <TextView-->
+<!--                android:id="@+id/seat_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1" />-->
+
+            <ImageView
+                android:layout_width="32dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/seat_icon_32px"
+                android:layout_marginEnd="2dp"/>
 
             <TextView
                 android:id="@+id/user_booked_seats"
@@ -425,20 +433,28 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2" />
 
-            <TextView
+<!--            <TextView-->
+<!--                android:id="@+id/return_trip_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_weight="1" />-->
+
+            <ImageView
                 android:id="@+id/return_trip_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1" />
-
+                android:src="@drawable/pickupinblue"
+                android:layout_marginEnd="2dp"
+                android:layout_weight="1"/>
 
             <TextView
                 android:id="@+id/return_trip"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="20"
+                android:layout_weight="19"
                 android:text="Book a return trip"
                 android:textSize="16sp" />
 
@@ -459,13 +475,21 @@
                 android:layout_height="match_parent"
                 android:layout_weight="2" />
 
-            <TextView
+<!--            <TextView-->
+<!--                android:id="@+id/invoice_icon"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_gravity="center_vertical"-->
+<!--                android:layout_weight="1" />-->
+
+            <ImageView
                 android:id="@+id/invoice_icon"
-                android:layout_width="wrap_content"
+                android:layout_width="20dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                android:src="@drawable/invoiceicon"
+                android:layout_marginEnd="2dp"
                 android:layout_weight="1" />
-
 
             <TextView
                 android:id="@+id/invoice"
@@ -485,95 +509,87 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/rounded_background_drawable"
+            android:layout_marginStart="20dp">
 
-            <TextView
-                android:id="@+id/space41"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="6" />
+                android:orientation="vertical"
+                android:layout_weight="5" >
 
-            <TextView
-                android:id="@+id/find_stop_icon"
+                <ImageView
+                    android:id="@+id/find_stop_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:src="@drawable/find_stop_icon" />
+
+                <TextView
+                    android:id="@+id/find_stop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:text="Find Stop"
+                    android:textSize="13sp"
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_weight="4"/>
+                android:orientation="vertical"
+                android:layout_weight="5" >
 
-            <TextView
-                android:id="@+id/share_ride_icon"
+                <ImageView
+                    android:id="@+id/share_ride_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:src="@drawable/share_icon_48px"
+                    android:layout_marginEnd="2dp" />
+
+                <TextView
+                    android:id="@+id/share_ride"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:text="Share"
+                    android:textSize="13sp"
+                    android:typeface="serif" />
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_weight="5" />
+                android:orientation="vertical"
+                android:layout_weight="5" >
 
-            <TextView
-                android:id="@+id/cancel_ride_button_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:layout_weight="4" />
+                <ImageView
+                    android:id="@+id/cancel_ride_icon"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:src="@drawable/cancel_icon_blue_48px"
+                    android:layout_marginEnd="2dp" />
 
-            <TextView
-                android:id="@+id/space40"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="2" />
+                <TextView
+                    android:id="@+id/cancel_ride_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:layout_gravity="center|center_horizontal|center_vertical"
+                    android:text="Cancel Ride"
+                    android:textSize="13sp"
+                    android:typeface="serif"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/space38"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
-            <TextView
-                android:id="@+id/find_stop"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:text="Find Stop"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp"
-                android:layout_weight="1"
-                android:typeface="serif" />
-
-            <TextView
-                android:id="@+id/share_ride"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:text="Share"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp"
-                android:layout_weight="1"
-                android:typeface="serif" />
-
-            <TextView
-                android:id="@+id/cancel_ride_button"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:textAlignment="center"
-                android:layout_gravity="center|center_horizontal|center_vertical"
-                android:text="Cancel Ride"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="16sp"
-                android:layout_weight="1"
-                android:typeface="serif"/>
-
-            <TextView
-                android:id="@+id/space39"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +34,11 @@ public class UserRidesDetailActivity extends AppCompatActivity{
             TextView user_booked_seats = findViewById(R.id.user_booked_seats);
             TextView ride_date_tv = findViewById(R.id.ride_date);
 
-            TextView pick_up_icon = findViewById(R.id.pick_up_icon);
+//            TextView pick_up_icon = findViewById(R.id.pick_up_icon);
             TextView pick_up_time = findViewById(R.id.pick_up_time);
             TextView pick_up_point = findViewById(R.id.pick_up_point);
 
-            TextView drop_off_icon = findViewById(R.id.drop_off_icon);
+//            TextView drop_off_icon = findViewById(R.id.drop_off_icon);
             TextView drop_off_time = findViewById(R.id.drop_off_time);
             TextView drop_off_point = findViewById(R.id.drop_off_point);
 
@@ -45,15 +46,15 @@ public class UserRidesDetailActivity extends AppCompatActivity{
             TextView vehicle_no_plate = findViewById(R.id.vehicle_no_plate);
             TextView fare_per_person = findViewById(R.id.fare_per_person);
 
-            TextView return_trip_icon = findViewById(R.id.return_trip_icon);
+//            TextView return_trip_icon = findViewById(R.id.return_trip_icon);
             TextView return_trip = findViewById(R.id.return_trip);
 
-            TextView invoice_icon = findViewById(R.id.invoice_icon);
+//            TextView invoice_icon = findViewById(R.id.invoice_icon);
             TextView invoice = findViewById(R.id.invoice);
 
-            TextView find_stop_icon = findViewById(R.id.find_stop_icon);
-            TextView share_ride_icon = findViewById(R.id.share_ride_icon);
-            TextView cancel_ride_button_icon = findViewById(R.id.cancel_ride_button_icon);
+            ImageView find_stop_icon = findViewById(R.id.find_stop_icon);
+            ImageView share_ride_icon = findViewById(R.id.share_ride_icon);
+            ImageView cancel_ride_button_icon = findViewById(R.id.cancel_ride_icon);
 
             final String ride_status = b.getString("ride_status");
             final String ride_fare = b.getString("ride_fare");
@@ -67,14 +68,14 @@ public class UserRidesDetailActivity extends AppCompatActivity{
             final String ride_vehicle_no_plate = b.getString("ride_vehicle_no_plate");
 
             back_button_user_ride_detail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_back_icon, 0, 0, 0);
-            invoice_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.invoiceicon, 0, 0, 0);
-            return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
+//            invoice_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.invoiceicon, 0, 0, 0);
+//            return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
             seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seat_icon_32px, 0, 0, 0);
-            pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle_10px, 0, 0, 0);
-            drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle_10px, 0, 0, 0);
-            find_stop_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.find_stop_icon, 0, 0, 0);
-            share_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.share_icon_48px, 0, 0, 0);
-            cancel_ride_button_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.x_mark_3_40, 0, 0, 0);
+//            pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle_10px, 0, 0, 0);
+//            drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle_10px, 0, 0, 0);
+//            find_stop_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.find_stop_icon, 0, 0, 0);
+//            share_ride_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.share_icon_48px, 0, 0, 0);
+//            cancel_ride_button_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.x_mark_3_40, 0, 0, 0);
 
             user_booked_seats.setText(ride_seats);
             ride_date_tv.setText(ride_date);
