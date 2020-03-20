@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -58,6 +59,8 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sohaibaijaz.sawaari.Maps.LocationActivity;
+import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.Rides.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
@@ -109,6 +112,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
+
+
+        TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
+
+        where_to_textview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, LocationFragment()).commit();
+//                Intent intent = new Intent(getContext(), LocationActivity.class);
+//                startActivity(intent);
+                LocationFragment nextFrag= new LocationFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.mapView, nextFrag)
+                        .commit();
+            }
+        });
 
 
         //on Back Pressed

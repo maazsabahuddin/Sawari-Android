@@ -16,13 +16,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserRidesDetailActivity"></activity>
-        <activity android:name=".Rides.show_rides"></activity>
-        <activity android:name=".Rides.BusActivity"></activity>
-        <activity android:name=".Rides.SelectedRideActivity"></activity>
-        <activity android:name=".Rides.ConfirmRideBooking"></activity>
-        <activity android:name=".Fragments.SettingsActivity"></activity>
-
+        <activity android:name=".Maps.LocationFragment"></activity>
+        <activity android:name=".UserRidesDetailActivity" />
+        <activity android:name=".Rides.show_rides" />
+        <activity android:name=".Rides.BusActivity" />
+        <activity android:name=".Rides.SelectedRideActivity" />
+        <activity android:name=".Rides.ConfirmRideBooking" />
+        <activity android:name=".Fragments.SettingsActivity" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait" />
@@ -61,11 +61,10 @@
         <activity
             android:name=".NavActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-<!--        <activity-->
-<!--            android:name="Rides.BusActivity"-->
-<!--            android:noHistory="true"-->
-<!--            android:screenOrientation="portrait" />-->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity -->
+        <!-- android:name="Rides.BusActivity" -->
+        <!-- android:noHistory="true" -->
+        <!-- android:screenOrientation="portrait" /> -->
         <activity
             android:name=".VerifyActivity"
             android:screenOrientation="portrait" />
