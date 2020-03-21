@@ -4,7 +4,9 @@
     <PreferenceCategory
         android:key="name_category">
         <Preference
-            android:key="name" />
+            android:key="name"
+            android:icon="@drawable/profile"
+            />
     </PreferenceCategory>
 
 
@@ -30,7 +32,8 @@
 
     <PreferenceCategory
         android:key="safety_category"
-        android:title="Safety" >
+        android:title="Safety"
+        >
 
         <Preference
             android:key="safety"
@@ -45,11 +48,13 @@
         <Preference
             android:key="privacy"
             android:title="Privacy"
+            android:icon="@drawable/privacy"
             android:summary="Manage the data you share with us" />
 
         <Preference
             android:key="security"
             android:title="Security"
+            android:icon="@drawable/security"
             android:summary="Control your account security with 2-step verification"  />
 
     </PreferenceCategory>
