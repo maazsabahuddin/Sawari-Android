@@ -24,6 +24,10 @@
         <activity android:name=".Rides.SelectedRideActivity" />
         <activity android:name=".Rides.ConfirmRideBooking" />
         <activity android:name=".Fragments.SettingsActivity" />
+        <activity android:name=".Fragments.UpdateActivity" />
+        <activity android:name=".Fragments.Verifypassword" />
+        <activity android:name=".Fragments.Updatepassword" />
+
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait" />

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:icon="@drawable/profile_icon" >
+
+        <Preference />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+
+        <EditTextPreference
+            android:key="firstName"
+            android:title="First Name"
+            android:dialogMessage="Update first name"
+            android:dialogTitle="First Name"
+            android:positiveButtonText="SAVE"
+            android:negativeButtonText=""
+            />
+
+        <EditTextPreference
+            android:key="lastName"
+            android:title="Last Name"
+            android:dialogMessage="Update last name"
+            android:dialogTitle="Last Name"
+            android:positiveButtonText="SAVE"
+            android:negativeButtonText=""/>
+
+        <EditTextPreference
+            android:key="email"
+            android:title="Email"
+            android:dialogTitle="Email"
+            android:dialogMessage="Confirm your email address"
+            android:positiveButtonText="SAVE"
+            android:negativeButtonText=""/>
+
+        <EditTextPreference
+            android:key="phoneNumber"
+            android:title="Phone Number"
+            android:dialogTitle="Phone"
+            android:dialogMessage="Confirm your phone number."
+            android:positiveButtonText="SAVE"
+            android:negativeButtonText="" />
+
+        <Preference
+            android:key="password"
+            android:title="Password"
+            android:summary="********"/>
+
+
+
+<!--        <EditTextPreference-->
+<!--            android:key="check"-->
+<!--            android:title="Hello"-->
+<!--            android:summary="Hello World"-->
+<!--            android:positiveButtonText="SAVE"-->
+<!--            android:negativeButtonText=""-->
+<!--            android:dialogMessage="Verify Password"-->
+<!--            android:dialogTitle="A"-->
+<!--            />-->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

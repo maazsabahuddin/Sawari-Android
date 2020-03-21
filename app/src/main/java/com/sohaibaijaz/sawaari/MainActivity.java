@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    //Shared preferences code
+    //Shared account_setting_preference code
     public static final String AppPreferences = "AppPreferences";
     SharedPreferences sharedPreferences;
 
