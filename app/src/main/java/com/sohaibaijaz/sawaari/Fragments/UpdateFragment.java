@@ -30,6 +30,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
 
     SharedPreferences sharedPreferences;
 
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.update_account_setting_preference);
@@ -67,16 +68,10 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
                     String firstNameEditValue = newValue.toString();
-                    boolean result = name_update(firstNameEditValue, "");
-                    if (result)
-                    {
-                        editTextFirstName.setSummary(firstNameEditValue);
-                        editTextFirstName.setText(firstNameEditValue);
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
+                    name_update(firstNameEditValue, "");
+                    return false;
+
+
                 }
             });
 
@@ -86,16 +81,9 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
 
                     String lastNameEditValue = newValue.toString();
-                    boolean result = name_update("", lastNameEditValue);
-                    if(result)
-                    {
-                        editTextLastName.setSummary(lastNameEditValue);
-                        editTextLastName.setText(lastNameEditValue);
-                        return true;
-                    }
-                    else{
-                        return false;
-                    }
+                    name_update("", lastNameEditValue);
+                    return false;
+
                 }
             });
 
@@ -133,71 +121,150 @@ public class UpdateFragment extends PreferenceFragmentCompat {
 
     }
 
-    private boolean flag = true;
-    public boolean name_update(final String firstNameEditValue, final String lastNameEditValue) {
+
+   // private boolean flag = true;
+    public void name_update(final String firstNameEditValue, final String lastNameEditValue) {
 
         String url = "http://52.15.104.184/update/name/";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
 
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            if (json.getString("status").equals("200")) {
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+
+                                editor.putString("first_name", json.getString("first_name"));
+                                editor.putString("last_name", json.getString("last_name"));
+                                editor.apply();
+                                if(lastNameEditValue.equals("")){
+                                    EditTextPreference editTextFirstName = findPreference("firstName");
+                                    editTextFirstName.setSummary(firstNameEditValue);
+                                    editTextFirstName.setText(firstNameEditValue);
+                                }
+                                if(firstNameEditValue.equals("")){
+                                    EditTextPreference editTextLastName = findPreference("lastName");
+                                    editTextLastName.setSummary(lastNameEditValue);
+                                    editTextLastName.setText(lastNameEditValue);
+                                }
+                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+                            //  check1 =1;
+                               // flag = true;
+
+                            }
+                            else if(json.getString("status").equals("404") || json.getString("status").equals("400")){
+                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+
+                               // flag = false;
+                            }
+
+                        }
+                        catch (JSONException e) {
+                          //  flag = false;
+                            e.printStackTrace();
+                        }
+                    }},
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                      //  flag = false;
+                    }
+                })
+
+        {
             @Override
-            public void onResponse(String response) {
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<>();
+                params.put("first_name", firstNameEditValue);
+                params.put("last_name", lastNameEditValue);
 
-                try {
-                    JSONObject json = new JSONObject(response);
-                    if (json.getString("status").equals("200")) {
+                return params;
+            }
 
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", sharedPreferences.getString("Token", ""));
+                return headers;
+            }
 
-                        editor.putString("first_name", json.getString("first_name"));
-                        editor.putString("last_name", json.getString("last_name"));
-                        editor.apply();
+        };
 
-                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
-                        flag = true;
-
-                    }
-                    else if(json.getString("status").equals("404") || json.getString("status").equals("400")){
-                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
-                        flag = false;
-                    }
-
-                }
-                catch (JSONException e) {
-                    flag = false;
-                    e.printStackTrace();
-                }
-            }},
-            new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
-                    flag = false;
-                }
-            })
-
-            {
-                @Override
-                protected Map<String,String> getParams(){
-                    Map<String,String> params = new HashMap<>();
-                    params.put("first_name", firstNameEditValue);
-                    params.put("last_name", lastNameEditValue);
-
-                    return params;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", sharedPreferences.getString("Token", ""));
-                    return headers;
-                }
-
-            };
-
-            RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
-            requestQueue.add(stringRequest);
-            return flag;
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(stringRequest);
+        //return check1;
     }
+
+//    private boolean flag = true;
+//    public boolean name_update(final String firstNameEditValue, final String lastNameEditValue) {
+//
+//        String url = "http://52.15.104.184/update/name/";
+//        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+//                new Response.Listener<String>() {
+//
+//            @Override
+//            public void onResponse(String response) {
+//
+//                try {
+//                    JSONObject json = new JSONObject(response);
+//                    if (json.getString("status").equals("200")) {
+//
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                        editor.putString("first_name", json.getString("first_name"));
+//                        editor.putString("last_name", json.getString("last_name"));
+//                        editor.apply();
+//
+//                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+//                        flag = true;
+//
+//                    }
+//                    else if(json.getString("status").equals("404") || json.getString("status").equals("400")){
+//                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+//                        flag = false;
+//                    }
+//
+//                }
+//                catch (JSONException e) {
+//                    flag = false;
+//                    e.printStackTrace();
+//                }
+//            }},
+//            new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+//                    flag = false;
+//                }
+//            })
+//
+//            {
+//                @Override
+//                protected Map<String,String> getParams(){
+//                    Map<String,String> params = new HashMap<>();
+//                    params.put("first_name", firstNameEditValue);
+//                    params.put("last_name", lastNameEditValue);
+//
+//                    return params;
+//                }
+//
+//                @Override
+//                public Map<String, String> getHeaders() {
+//                    Map<String, String> headers = new HashMap<>();
+//                    headers.put("Authorization", sharedPreferences.getString("Token", ""));
+//                    return headers;
+//                }
+//
+//            };
+//
+//            RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+//            requestQueue.add(stringRequest);
+//            return flag;
+//    }
 
 }
