@@ -126,6 +126,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.mapView, nextFrag)
                         .commit();
+//                getActivity().finish();
             }
         });
 
