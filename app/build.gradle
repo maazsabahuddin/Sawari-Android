@@ -56,4 +56,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0'
 //    implementation 'androidx.preference:preference:1.0.0'
 
+    // Circlular ImageView
+    implementation 'com.mikhaellopez:circularimageview:4.2.0'
+
 }

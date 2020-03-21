@@ -6,9 +6,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:id="@+id/toolbar"
+        android:layout_marginTop="10dp"
+        android:elevation="4dp"
+        />
+
 <androidx.drawerlayout.widget.DrawerLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,28 +29,17 @@
     tools:openDrawer="start"
     >
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/colorJacksonPurple"
-            android:id="@+id/toolbar"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            android:elevation="4dp"
-            />
-
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="671dp" />
+            android:layout_height="match_parent"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
     <com.google.android.material.navigation.NavigationView
@@ -53,35 +53,37 @@
 
 
 </androidx.drawerlayout.widget.DrawerLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
-<FrameLayout
-android:id="@+id/spinner_frame"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-app:layout_constraintBottom_toBottomOf="parent"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toTopOf="parent"
-android:foregroundGravity="center"
-android:clickable="true"
-android:background="@color/ShadeBlack"
-android:backgroundTintMode="src_over"
-    >
 
-<ProgressBar
-    android:id="@+id/progressBar1"
-    style="?android:attr/progressBarStyleLarge"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:theme="@style/PurpleAccent"
-    android:layout_centerHorizontal="true"
-    android:layout_gravity="center"
+</RelativeLayout>
+
+<FrameLayout
+    android:id="@+id/spinner_frame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.51"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.0" />
+    android:foregroundGravity="center"
+    android:clickable="true"
+    android:background="@color/ShadeBlack"
+    android:backgroundTintMode="src_over"
+        >
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/PurpleAccent"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.51"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -29,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.ListFragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -57,17 +57,12 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.sohaibaijaz.sawaari.Maps.LocationActivity;
 import com.sohaibaijaz.sawaari.Maps.LocationFragment;
-import com.sohaibaijaz.sawaari.Rides.BusActivity;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.Rides.show_rides;
-import com.sohaibaijaz.sawaari.model.RidesModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,6 +99,27 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
 
+
+//    @Override
+//    public void onViewCreated(View view, Bundle savedInstanceState) {
+//        Fragment childFragment = new LocationFragment();
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        transaction.replace(R.id.location_fragment, childFragment).commit();
+//    }
+
+
+//    public void buttonClick(View v) {
+//        switch(v.getId()) {
+//            case R.id.where_to_textview:
+//                Intent myIntent = new Intent();
+//                myIntent.setClassName("com.sohaibaijaz.sawaari", "com.sohaibaijaz.sawaari.Maps.LF");
+//                // for ex: your package name can be "com.example"
+//                // your activity name will be "com.example.Contact_Developer"
+//                startActivity(myIntent);
+//                break;
+//        }
+//    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -115,18 +131,34 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 
         TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
-
+//
         where_to_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, LocationFragment()).commit();
-//                Intent intent = new Intent(getContext(), LocationActivity.class);
-//                startActivity(intent);
-                LocationFragment nextFrag= new LocationFragment();
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.mapView, nextFrag)
-                        .commit();
-//                getActivity().finish();
+
+////                Intent intent = new Intent(getContext(), LF.class);
+////                startActivity(intent);
+//
+                // Arsalan bhai
+                Fragment newFragment = new LocationFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+//
+////                LocationFragment nextFrag= new LocationFragment();
+////                getChildFragmentManager().beginTransaction()
+////                        .replace(R.id.mapView, nextFrag, "findThisFragment")
+////                        .addToBackStack(null)
+////                        .commit();
+//
+////                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+////                Fragment1Page2 fragment = new Fragment1Page2();
+////                ft.replace(R.id.contentLayoutFragment1Page2, fragment);
+////                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+////                ft.addToBackStack(null);
+////                ft.commit();
+//
             }
         });
 
@@ -192,7 +224,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
 
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
-        final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
+//        final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
 
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -228,106 +260,106 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             System.out.println(e.getMessage());
         }
 
-        dropoff_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
-//                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-//                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-//                }
-//                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-
-                    try {
-
-                        String URL = MainActivity.baseurl + "/bus/route/";
-                        JSONObject jsonBody = new JSONObject();
-                        spinner.setVisibility(View.VISIBLE);
-                        spinner_frame.setVisibility(View.VISIBLE);
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                spinner.setVisibility(View.GONE);
-                                spinner_frame.setVisibility(View.GONE);
-                                Log.i("VOLLEY", response.toString());
-                                try {
-                                    JSONObject json = new JSONObject(response);
-
-                                    if(json.getString("status").equals("200")){
-
-                                        Intent i = new Intent(getContext(), show_rides.class);
-                                        i.putExtra("json", json.toString());
-                                        i.putExtra("rides", json.getJSONArray("rides").toString());
-                                        startActivity(i);
-
-                                    }
-                                    else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
-                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                spinner.setVisibility(View.GONE);
-                                spinner_frame.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                                Log.e("VOLLEY", error.toString());
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-
-//                                params.put("start_lat", currentLocation.get("latitude"));
-//                                params.put("start_lon", currentLocation.get("longitude"));
-//                                params.put("stop_lat", dropoffLocation.get("latitude"));
-//                                params.put("stop_lon", dropoffLocation.get("longitude"));
-
-                                params.put("stop_lat", "24.913363");
-                                params.put("stop_lon", "67.124208");
-                                params.put("start_lat", "24.823343");
-                                params.put("start_lon", "67.029656");
-
-                                return params;
-                            }
-
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String> headers = new HashMap<String, String>();
-                                headers.put("Authorization", token);
-                                return headers;
-                            }
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 500000;
-                            }
-
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 500000;
-                            }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
-                            }
-                        });
-
-                        requestQueue.add(stringRequest);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-                    }
-
-            }
-
-        });
+//        dropoff_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                //Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
+////                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+////                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+////                }
+////                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//
+//                    try {
+//
+//                        String URL = MainActivity.baseurl + "/bus/route/";
+//                        JSONObject jsonBody = new JSONObject();
+//                        spinner.setVisibility(View.VISIBLE);
+//                        spinner_frame.setVisibility(View.VISIBLE);
+//                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+//                                Log.i("VOLLEY", response.toString());
+//                                try {
+//                                    JSONObject json = new JSONObject(response);
+//
+//                                    if(json.getString("status").equals("200")){
+//
+//                                        Intent i = new Intent(getContext(), show_rides.class);
+//                                        i.putExtra("json", json.toString());
+//                                        i.putExtra("rides", json.getJSONArray("rides").toString());
+//                                        startActivity(i);
+//
+//                                    }
+//                                    else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+//                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+//                                    }
+//
+//                                } catch (JSONException e) {
+//                                    Log.e("VOLLEY", e.toString());
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+//                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+//                                Log.e("VOLLEY", error.toString());
+//                            }
+//                        }) {
+//                            @Override
+//                            protected Map<String, String> getParams() {
+//                                Map<String, String> params = new HashMap<String, String>();
+//
+////                                params.put("start_lat", currentLocation.get("latitude"));
+////                                params.put("start_lon", currentLocation.get("longitude"));
+////                                params.put("stop_lat", dropoffLocation.get("latitude"));
+////                                params.put("stop_lon", dropoffLocation.get("longitude"));
+//
+//                                params.put("stop_lat", "24.913363");
+//                                params.put("stop_lon", "67.124208");
+//                                params.put("start_lat", "24.823343");
+//                                params.put("start_lon", "67.029656");
+//
+//                                return params;
+//                            }
+//
+//                            @Override
+//                            public Map<String, String> getHeaders() throws AuthFailureError {
+//                                Map<String, String> headers = new HashMap<String, String>();
+//                                headers.put("Authorization", token);
+//                                return headers;
+//                            }
+//                        };
+//
+//                        stringRequest.setRetryPolicy(new RetryPolicy() {
+//                            @Override
+//                            public int getCurrentTimeout() {
+//                                return 500000;
+//                            }
+//
+//                            @Override
+//                            public int getCurrentRetryCount() {
+//                                return 500000;
+//                            }
+//
+//                            @Override
+//                            public void retry(VolleyError error) throws VolleyError {
+//
+//                            }
+//                        });
+//
+//                        requestQueue.add(stringRequest);
+//                    } catch (Exception e) {
+//                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//            }
+//
+//        });
         return fragmentView;
     }
 

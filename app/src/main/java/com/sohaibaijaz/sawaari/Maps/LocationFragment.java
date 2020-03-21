@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -29,6 +30,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Rides.today_rides;
 
 import org.json.JSONObject;
 
@@ -59,6 +61,15 @@ public class LocationFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationClient;
 
 
+    public static LocationFragment newInstance() {
+
+        LocationFragment LF = new LocationFragment();
+        Bundle args = new Bundle();
+        LF.setArguments(args);
+
+        return LF;
+    }
+
     public LocationFragment(){}
 
     @Nullable
@@ -74,7 +85,7 @@ public class LocationFragment extends Fragment {
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListener);
 
-        AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
+        AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
         autocompleteFragmentdropOff.setCountry("PK");
         autocompleteFragmentdropOff.setText("Your location");
 

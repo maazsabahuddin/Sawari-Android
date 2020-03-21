@@ -27,12 +27,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
-import com.sohaibaijaz.sawaari.Fragments.AccountFragment;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.MessageFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
-import com.sohaibaijaz.sawaari.Fragments.RidesFragment;
 import com.sohaibaijaz.sawaari.Fragments.SettingsActivity;
+import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,7 +52,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().hide();
         drawer = findViewById(R.id.drawer_layout);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -91,6 +91,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         switch (menuItem.getItemId()) {
 
             case R.id.nav_home:
+//                startActivity(new Intent(getApplicationContext(), EmptyFragment.class));
                 HomeFragment homeFragment = new HomeFragment();
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
@@ -110,8 +111,10 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                 break;
             case R.id.nav_message:
                 MessageFragment messageFragment = new MessageFragment();
+                LocationFragment locationFragment = new LocationFragment();
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, messageFragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, locationFragment).commit();
+//                startActivity(new Intent(getApplicationContext(), EmptyFragment.class));
                 break;
 
             case R.id.nav_logout:
