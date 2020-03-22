@@ -18,11 +18,25 @@ import com.sohaibaijaz.sawaari.R;
 
 public class SavedPlace extends AppCompatActivity {
 
+    // create a FragmentManager
+    FragmentManager fm = getSupportFragmentManager();
+
+    private void loadFragment(Fragment fragment) {
+        // create a FragmentTransaction to begin the transaction and replace the Fragment
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
+        // replace the FrameLayout with new Fragment
+        fragmentTransaction.replace(R.id.saved_place_frame, fragment);
+        fragmentTransaction.addToBackStack(null).commit(); // save the changes
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_saved_place);
         getSupportActionBar().hide();
+
+//        loadFragment(new HomeFragment());
 
         TextView add_home = findViewById(R.id.add_home_saved_place);
         TextView add_work = findViewById(R.id.add_work_saved_place);
@@ -50,9 +64,12 @@ public class SavedPlace extends AppCompatActivity {
 //                getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.fragment_container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
 
+                loadFragment(new AddPlaceFragment());
+
 //                AddPlaceFragment fragment = new AddPlaceFragment();
 //                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, fragment);
+//                transaction.replace(R.id.spinner_frame, fragment);
+//                transaction.addToBackStack(null);
 //                transaction.commit();
 //                onBackPressed();
             }

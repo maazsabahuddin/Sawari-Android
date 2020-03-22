@@ -145,4 +145,15 @@
 
     </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/saved_place_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/ShadeBlack"
+            android:backgroundTintMode="src_over" >
+
+        </FrameLayout>
+
+
 </RelativeLayout>

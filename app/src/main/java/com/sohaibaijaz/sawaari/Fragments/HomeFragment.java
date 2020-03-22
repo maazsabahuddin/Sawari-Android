@@ -33,6 +33,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
@@ -195,6 +196,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         add_place.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//                Fragment newFragment = new SavedPlace();
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, newFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+
                 Intent intent = new Intent(getActivity(), SavedPlace.class);
                 startActivity(intent);
             }
