@@ -55,6 +55,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -100,7 +101,7 @@ public class LocationFragment extends Fragment {
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListenerFrom);
 
-        AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
+        final AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
         autocompleteFragmentdropOff.setCountry("PK");
         autocompleteFragmentdropOff.setHint("Where To?");
         autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
@@ -139,11 +140,10 @@ public class LocationFragment extends Fragment {
 
                 Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
 
-                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+                if (dropoffLocation.get("latitude") == null || dropoffLocation.get("longitude") == null) {
+                    Toast.makeText(getContext(), "Select drop off location first!", Toast.LENGTH_SHORT).show();
                 }
-                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null) {
-
+                else{
                     try {
 
                         String URL = MainActivity.baseurl + "/bus/route/";
@@ -158,19 +158,18 @@ public class LocationFragment extends Fragment {
 //                                spinner_frame.setVisibility(View.GONE);
                                 Log.i("VOLLEY", response.toString());
                                 try {
-                                    JSONObject json = new JSONObject(response);
+                                    JSONObject jsonObj = new JSONObject(response);
 
-                                    if (json.getString("status").equals("200")) {
+                                    if (jsonObj.getString("status").equals("200")) {
 
                                         Intent i = new Intent(getContext(), show_rides.class);
-                                        i.putExtra("json", json.toString());
-                                        i.putExtra("rides", json.getJSONArray("rides").toString());
+                                        i.putExtra("json", jsonObj.toString());
                                         i.putExtra("pick_up_location", currentLocation);
-                                        i.putExtra("drop_off_location", currentLocation);
+                                        i.putExtra("drop_off_location", dropoffLocation);
                                         startActivity(i);
 
-                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
-                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+                                        Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
                                     }
 
                                 } catch (JSONException e) {
@@ -182,30 +181,30 @@ public class LocationFragment extends Fragment {
                             public void onErrorResponse(VolleyError error) {
 //                                spinner.setVisibility(View.GONE);
 //                                spinner_frame.setVisibility(View.GONE);
-                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
                             }
                         }) {
                             @Override
                             protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
+                                Map<String, String> params = new HashMap<>();
 
-//                                params.put("start_lat", currentLocation.get("latitude"));
-//                                params.put("start_lon", currentLocation.get("longitude"));
-//                                params.put("stop_lat", dropoffLocation.get("latitude"));
-//                                params.put("stop_lon", dropoffLocation.get("longitude"));
+                                params.put("start_lat", currentLocation.get("latitude"));
+                                params.put("start_lon", currentLocation.get("longitude"));
+                                params.put("stop_lat", dropoffLocation.get("latitude"));
+                                params.put("stop_lon", dropoffLocation.get("longitude"));
 
-                                params.put("stop_lat", "24.913363");
-                                params.put("stop_lon", "67.124208");
-                                params.put("start_lat", "24.823343");
-                                params.put("start_lon", "67.029656");
+//                                params.put("stop_lat", "24.913363");
+//                                params.put("stop_lon", "67.124208");
+//                                params.put("start_lat", "24.823343");
+//                                params.put("start_lon", "67.029656");
 
                                 return params;
                             }
 
                             @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String> headers = new HashMap<String, String>();
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> headers = new HashMap<>();
                                 headers.put("Authorization", token);
                                 return headers;
                             }
@@ -230,8 +229,9 @@ public class LocationFragment extends Fragment {
 
                         requestQueue.add(stringRequest);
                     } catch (Exception e) {
-                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
                     }
+
                 }
             }
 
@@ -244,13 +244,18 @@ public class LocationFragment extends Fragment {
     PlaceSelectionListener placeSelectionListenerFrom = new PlaceSelectionListener() {
         @Override
         public void onPlaceSelected(@NonNull Place place) {
-            currentLocation.clear();
-            currentLocation.put("name", place.getName());
-            currentLocation.put("id", place.getId());
-            LatLng latLng = place.getLatLng();
-            currentLocation.put("latitude", String.valueOf(latLng.latitude));
-            currentLocation.put("longitude", String.valueOf(latLng.longitude));
+            try{
+                currentLocation.clear();
+                currentLocation.put("name", place.getName());
+                currentLocation.put("id", place.getId());
+                LatLng latLng = place.getLatLng();
+                currentLocation.put("latitude", String.valueOf(latLng.latitude));
+                currentLocation.put("longitude", String.valueOf(latLng.longitude));
 
+            }
+            catch (Exception e){
+                Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
+            }
 
 //            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
 //                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
@@ -296,7 +301,7 @@ public class LocationFragment extends Fragment {
 
         @Override
         public void onError(@NonNull Status status) {
-            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -304,12 +309,18 @@ public class LocationFragment extends Fragment {
     PlaceSelectionListener placeSelectionListenerTo = new PlaceSelectionListener() {
         @Override
         public void onPlaceSelected(@NonNull Place place) {
-            dropoffLocation.clear();
-            dropoffLocation.put("name", place.getName());
-            dropoffLocation.put("id", place.getId());
-            LatLng latLng = place.getLatLng();
-            dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
-            dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+
+            try{
+                dropoffLocation.clear();
+                dropoffLocation.put("name", place.getName());
+                dropoffLocation.put("id", place.getId());
+                LatLng latLng = place.getLatLng();
+                dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
+                dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+            }
+            catch (Exception e){
+                Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
+            }
 
 
 //            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
@@ -356,7 +367,7 @@ public class LocationFragment extends Fragment {
 
         @Override
         public void onError(@NonNull Status status) {
-            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
         }
     };
 
