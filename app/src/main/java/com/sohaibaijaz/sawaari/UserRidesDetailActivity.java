@@ -29,8 +29,7 @@ public class UserRidesDetailActivity extends AppCompatActivity{
             getSupportActionBar().hide();
 
             b = getIntent().getExtras();
-            TextView back_button_user_ride_detail = findViewById(R.id.back_button_user_ride_detail);
-            TextView seat_icon = findViewById(R.id.seat_icon);
+            ImageView back_button_user_ride_detail = findViewById(R.id.back_button_user_ride_detail);
             TextView user_booked_seats = findViewById(R.id.user_booked_seats);
             TextView ride_date_tv = findViewById(R.id.ride_date);
 
@@ -67,10 +66,9 @@ public class UserRidesDetailActivity extends AppCompatActivity{
             final String ride_seats = b.getString("ride_seats");
             final String ride_vehicle_no_plate = b.getString("ride_vehicle_no_plate");
 
-            back_button_user_ride_detail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_back_icon, 0, 0, 0);
+//            back_button_user_ride_detail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_back_icon, 0, 0, 0);
 //            invoice_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.invoiceicon, 0, 0, 0);
 //            return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
-            seat_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.seat_icon_32px, 0, 0, 0);
 //            pick_up_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.red_circle_10px, 0, 0, 0);
 //            drop_off_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.green_circle_10px, 0, 0, 0);
 //            find_stop_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.find_stop_icon, 0, 0, 0);

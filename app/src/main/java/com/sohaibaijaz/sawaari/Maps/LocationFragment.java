@@ -138,7 +138,7 @@ public class LocationFragment extends Fragment {
             public void onClick(View v) {
 //                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
 
-                Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
+//                Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
 
                 if (dropoffLocation.get("latitude") == null || dropoffLocation.get("longitude") == null) {
                     Toast.makeText(getContext(), "Select drop off location first!", Toast.LENGTH_SHORT).show();

@@ -67,7 +67,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
         setContentView(R.layout.single_ride_book_activity);
         getSupportActionBar().hide();
 
-        final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        final RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         TextView ride_date = findViewById(R.id.ride_date);
 //        final TextView seat_icon = findViewById(R.id.seat_icon);
@@ -416,6 +416,8 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                     b.putString("ride_vehicle_no_plate", json.getString("vehicle_no_plate"));
 
                                     i.putExtras(b);
+                                    spinner.setVisibility(View.GONE);
+                                    spinner_frame.setVisibility(View.GONE);
                                     ConfirmRideBooking.this.startActivity(i);
                                 }
                                 else if (json.getString("status").equals("501")) {

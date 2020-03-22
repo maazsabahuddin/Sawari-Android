@@ -105,52 +105,52 @@ public class AddPlaceFragment extends Fragment {
             dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
 
-            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-            }
-            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-
-
-                markerPoints.clear();
-                mMap.clear();
-
-                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-
-                markerPoints.add(start);
-                markerPoints.add(stop);
-                MarkerOptions options = new MarkerOptions();
-
-                options.position(start);
-                options.position(stop);
-
-
-                if(markerPoints.size() >=2 ){
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-
-                    mMap.addMarker(options);
-
-                    LatLng origin = markerPoints.get(0);
-                    LatLng dest = markerPoints.get(1);
-
-                    // Getting URL to the Google Directions API
-                    String url = getDirectionsUrl(origin, dest);
-
-                    DownloadTask downloadTask = new DownloadTask();
-
-                    // Start downloading json data from Google Directions API
-                    downloadTask.execute(url);
-
-
-                }
-
-            }
+//            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+//                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+//            }
+//            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//
+//
+//                markerPoints.clear();
+//                mMap.clear();
+//
+//                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
+//                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
+//
+//                markerPoints.add(start);
+//                markerPoints.add(stop);
+//                MarkerOptions options = new MarkerOptions();
+//
+//                options.position(start);
+//                options.position(stop);
+//
+//
+//                if(markerPoints.size() >=2 ){
+//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+//
+//                    mMap.addMarker(options);
+//
+//                    LatLng origin = markerPoints.get(0);
+//                    LatLng dest = markerPoints.get(1);
+//
+//                    // Getting URL to the Google Directions API
+//                    String url = getDirectionsUrl(origin, dest);
+//
+//                    DownloadTask downloadTask = new DownloadTask();
+//
+//                    // Start downloading json data from Google Directions API
+//                    downloadTask.execute(url);
+//
+//
+//                }
+//
+//            }
 
         }
 
         @Override
         public void onError(@NonNull Status status) {
-            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
         }
     };
 
