@@ -40,7 +40,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             Preference preference_profile = findPreference("name");
             assert preference_profile != null;
             preference_profile.setTitle(firstName);
-            preference_profile.setSummary(email + "\n" + phoneNumber);
+            
+            if(email.equals("")) {
+                preference_profile.setSummary(phoneNumber);
+            }
+            else{
+                preference_profile.setSummary(email + "\n" + phoneNumber);
+
+            }
 
             preference_profile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
