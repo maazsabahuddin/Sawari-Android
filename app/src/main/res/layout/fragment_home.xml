@@ -23,29 +23,29 @@
             app:layout_constraintVertical_bias="0.0"
             tools:context="example.com.mapexample.MapsActivity" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_view1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
-            android:foregroundGravity="center"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.175"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.023">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:id="@+id/card_view1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="50dp"-->
+<!--            android:layout_marginRight="10dp"-->
+<!--            android:layout_marginLeft="10dp"-->
+<!--            android:layout_marginTop="50dp"-->
+<!--            android:foregroundGravity="center"-->
+<!--            app:cardCornerRadius="10dp"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.175"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.023">-->
 
-            <fragment
-                android:id="@+id/autocomplete_fragment"
-                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+<!--            <fragment-->
+<!--                android:id="@+id/autocomplete_fragment"-->
+<!--                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent" />-->
 
-        </androidx.cardview.widget.CardView>
+<!--        </androidx.cardview.widget.CardView>-->
 
 <!--        <Button-->
 <!--            android:id="@+id/btn_dropoff"-->
@@ -154,17 +154,22 @@
 
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/add_home"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/home"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/circle_shape"/>
+                    android:elevation="10dp"
+                    />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Home"/>
+                    android:text="Home"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="16sp"
+                    android:typeface="monospace"/>
 
             </LinearLayout>
 
@@ -175,17 +180,22 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/home"
+                    android:id="@+id/add_work"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/work"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/circle_shape"/>
-
+                    />
+<!--                android:background="@drawable/circle_shape"-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Home"/>
+                    android:text="Work"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="16sp"
+                    android:typeface="monospace"/>
+
             </LinearLayout>
 
             <LinearLayout
@@ -195,17 +205,23 @@
                 android:layout_weight="1">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/home"
-                    android:layout_gravity="center_horizontal"
-                    android:background="@drawable/circle_shape"/>
+                    android:id="@+id/add_place"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/plus_icon"
+                    android:layout_gravity="center_horizontal" />
+
+<!--                android:background="@drawable/circle_shape"-->
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="Home"/>
+                    android:text="Add "
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="16sp"
+                    android:typeface="monospace"/>
+
             </LinearLayout>
         </LinearLayout>
 

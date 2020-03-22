@@ -18,6 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Maps.LocationFragment" />
         <activity android:name=".Maps.LocationActivity" />
+        <activity android:name=".Maps.SavedPlace" />
         <activity android:name=".UserRidesDetailActivity" />
         <activity android:name=".Rides.show_rides" />
         <activity android:name=".Rides.BusActivity" />

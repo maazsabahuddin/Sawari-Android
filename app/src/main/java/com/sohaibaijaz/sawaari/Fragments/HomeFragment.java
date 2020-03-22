@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,9 +59,11 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
 import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.Maps.SavedPlace;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.Rides.show_rides;
@@ -162,6 +166,39 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             }
         });
 
+        ImageView add_home = fragmentView.findViewById(R.id.add_home);
+        ImageView add_work = fragmentView.findViewById(R.id.add_work);
+        ImageView add_place = fragmentView.findViewById(R.id.add_place);
+
+        add_home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment newFragment = new AddPlaceFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        add_work.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Fragment newFragment = new AddPlaceFragment();
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+        });
+
+        add_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SavedPlace.class);
+                startActivity(intent);
+            }
+        });
 
         //on Back Pressed
         fragmentView.setFocusableInTouchMode(true);
@@ -230,12 +267,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         spinner.setVisibility(View.GONE);
         spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-        autocompleteFragment.setCountry("PK");
-        autocompleteFragment.setHint("Enter Drop off Location");
-
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
+//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+//        autocompleteFragment.setCountry("PK");
+//        autocompleteFragment.setHint("Enter Drop off Location");
+//
+//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+//        autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
 //        user_rides.setVisibility(View.GONE);
         String rides_data = sharedPreferences.getString("user_rides", "");

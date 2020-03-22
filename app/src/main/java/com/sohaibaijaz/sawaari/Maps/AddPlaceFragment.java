@@ -1,12 +1,5 @@
 package com.sohaibaijaz.sawaari.Maps;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,10 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,7 +28,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
-import com.sohaibaijaz.sawaari.Rides.today_rides;
 
 import org.json.JSONObject;
 
@@ -48,7 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LocationFragment extends Fragment {
+public class AddPlaceFragment extends Fragment {
 
     private View fragmentView;
 
@@ -63,61 +58,36 @@ public class LocationFragment extends Fragment {
     private FusedLocationProviderClient fusedLocationClient;
 
 
-    public static LocationFragment newInstance() {
+    public static AddPlaceFragment newInstance() {
 
-        LocationFragment LF = new LocationFragment();
+        AddPlaceFragment LF = new AddPlaceFragment();
         Bundle args = new Bundle();
         LF.setArguments(args);
 
         return LF;
     }
 
-    public LocationFragment(){}
+    public AddPlaceFragment(){}
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        fragmentView = inflater.inflate(R.layout.activity_where_to, container, false);
+        fragmentView = inflater.inflate(R.layout.add_place_fragment, container, false);
 
-        AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
+        AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.add_location);
 
         autocompleteFragment_pickUp.setCountry("PK");
-        autocompleteFragment_pickUp.setText("Your location");
-
+        autocompleteFragment_pickUp.setHint("Add Place");
 
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListener);
 
-        AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
-        autocompleteFragmentdropOff.setCountry("PK");
-        autocompleteFragmentdropOff.setHint("Where To?");
-
-        autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListener);
-
-        Button proceed_button = fragmentView.findViewById(R.id.proceed_button);
+        final Button proceed_button = fragmentView.findViewById(R.id.add_place_button);
         proceed_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
-            }
-        });
-
-        TextView add_home = fragmentView.findViewById(R.id.add_home_place);
-        TextView add_work = fragmentView.findViewById(R.id.add_work_place);
-
-        add_home.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
-            }
-        });
-
-        add_work.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Working" , Toast.LENGTH_LONG).show();
             }
         });
 
