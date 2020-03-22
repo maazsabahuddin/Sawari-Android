@@ -34,6 +34,8 @@ public class show_rides extends AppCompatActivity {
 
 //    ArrayList<HashMap> rides_data = new ArrayList<HashMap>();
     String rides_data, json;
+    HashMap<String, String> pick_up_location = new HashMap<>();
+    HashMap<String, String> drop_off_location = new HashMap<>();
 
     public static String[] titles = {
             "Today", "Tomorrow",
@@ -92,6 +94,11 @@ public class show_rides extends AppCompatActivity {
         getSupportActionBar().hide();
 
         json = getIntent().getStringExtra("json");
+
+        Intent intent = getIntent();
+        pick_up_location = (HashMap<String, String>) intent.getSerializableExtra("pick_up_location");
+        drop_off_location = (HashMap<String, String>) intent.getSerializableExtra("drop_off_location");
+
 
 //        GsonBuilder builder = new GsonBuilder();
 //        Gson gson = builder.create();

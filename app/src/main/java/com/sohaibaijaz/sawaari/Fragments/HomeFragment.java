@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.media.Image;
@@ -82,6 +84,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -97,8 +100,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private Map<String, String> dropoffLocation = new HashMap<String, String>();
-    private Map<String, String> currentLocation = new HashMap<String, String>();
+    private Map<String, String> dropoffLocation = new HashMap<>();
+    private HashMap<String, String> currentLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
@@ -143,12 +146,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 ////                Intent intent = new Intent(getContext(), LF.class);
 ////                startActivity(intent);
 //
+
+                LocationFragment fragment = new LocationFragment();
+                Bundle arguments = new Bundle();
+                arguments.putSerializable("pick_up_location" , currentLocation);
+                fragment.setArguments(arguments);
+                final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, fragment);
+                ft.addToBackStack(null);
+                ft.commit();
+
                 // Arsalan bhai
-                Fragment newFragment = new LocationFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+//                Fragment newFragment = new LocationFragment();
+//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.fragment_container, newFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
 //
 ////                LocationFragment nextFrag= new LocationFragment();
 ////                getChildFragmentManager().beginTransaction()
@@ -301,11 +314,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //            @Override
 //            public void onClick(View view) {
 //
-//                //Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
-////                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-////                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-////                }
-////                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//                Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
+//                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+//                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+//                }
+//                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null) {
 //
 //                    try {
 //
@@ -322,15 +335,14 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                                try {
 //                                    JSONObject json = new JSONObject(response);
 //
-//                                    if(json.getString("status").equals("200")){
+//                                    if (json.getString("status").equals("200")) {
 //
 //                                        Intent i = new Intent(getContext(), show_rides.class);
 //                                        i.putExtra("json", json.toString());
 //                                        i.putExtra("rides", json.getJSONArray("rides").toString());
 //                                        startActivity(i);
 //
-//                                    }
-//                                    else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+//                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
 //                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
 //                                    }
 //
@@ -393,7 +405,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //                    } catch (Exception e) {
 //                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
 //                    }
-//
+//                }
 //            }
 //
 //        });
@@ -478,6 +490,35 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     }
 
+    public void getAddress(double lat, double lng) {
+        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+            Address obj = addresses.get(0);
+            String add = obj.getAddressLine(0);
+            add = add + "\n" + obj.getCountryName();
+            add = add + "\n" + obj.getCountryCode();
+            add = add + "\n" + obj.getAdminArea();
+            add = add + "\n" + obj.getPostalCode();
+            add = add + "\n" + obj.getSubAdminArea();
+            add = add + "\n" + obj.getLocality();
+            add = add + "\n" + obj.getSubThoroughfare();
+
+            currentLocation.put("name", obj.getAddressLine(0));
+//            currentLocation.put("id", place.getId());
+
+            Log.v("IGA", "Address" + add);
+            // Toast.makeText(this, "Address=>" + add,
+            // Toast.LENGTH_SHORT).show();
+
+            // TennisAppActivity.showDialog(add);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -504,6 +545,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 currentLocation.clear();
                                 currentLocation.put("latitude", String.valueOf(latitude));
                                 currentLocation.put("longitude", String.valueOf(longitude));
+                                getAddress(latitude, longitude);
                                 LatLng coordinate = new LatLng(latitude, longitude);
                                 CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
                                 mMap.animateCamera(yourLocation);

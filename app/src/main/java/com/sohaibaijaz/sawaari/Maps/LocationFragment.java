@@ -7,6 +7,9 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +21,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
@@ -32,8 +43,10 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Rides.show_rides;
 import com.sohaibaijaz.sawaari.Rides.today_rides;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -47,6 +60,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class LocationFragment extends Fragment {
 
@@ -56,8 +70,8 @@ public class LocationFragment extends Fragment {
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private Map<String, String> dropoffLocation = new HashMap<String, String>();
-    private Map<String, String> currentLocation = new HashMap<String, String>();
+    private HashMap<String, String> dropoffLocation = new HashMap<>();
+    private HashMap<String, String> currentLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
@@ -81,28 +95,21 @@ public class LocationFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.activity_where_to, container, false);
 
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
-
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setText("Your location");
-
-
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListener);
+        autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListenerFrom);
 
         AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
         autocompleteFragmentdropOff.setCountry("PK");
         autocompleteFragmentdropOff.setHint("Where To?");
-
         autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListener);
+        autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListenerTo);
 
-        Button proceed_button = fragmentView.findViewById(R.id.proceed_button);
-        proceed_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
-            }
-        });
+        Bundle b = this.getArguments();
+        if(b.getSerializable("pick_up_location") != null){
+            currentLocation = (HashMap<String,String>)b.getSerializable("pick_up_location");
+        }
 
         TextView add_home = fragmentView.findViewById(R.id.add_home_place);
         TextView add_work = fragmentView.findViewById(R.id.add_work_place);
@@ -121,10 +128,180 @@ public class LocationFragment extends Fragment {
             }
         });
 
+        final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
+        final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("Token", "");
+        Button proceed_button = fragmentView.findViewById(R.id.proceed_button);
+        proceed_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
+
+                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+                }
+                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null) {
+
+                    try {
+
+                        String URL = MainActivity.baseurl + "/bus/route/";
+                        JSONObject jsonBody = new JSONObject();
+//                        spinner.setVisibility(View.VISIBLE);
+//                        spinner_frame.setVisibility(View.VISIBLE);
+
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                                Log.i("VOLLEY", response.toString());
+                                try {
+                                    JSONObject json = new JSONObject(response);
+
+                                    if (json.getString("status").equals("200")) {
+
+                                        Intent i = new Intent(getContext(), show_rides.class);
+                                        i.putExtra("json", json.toString());
+                                        i.putExtra("rides", json.getJSONArray("rides").toString());
+                                        i.putExtra("pick_up_location", currentLocation);
+                                        i.putExtra("drop_off_location", currentLocation);
+                                        startActivity(i);
+
+                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } catch (JSONException e) {
+                                    Log.e("VOLLEY", e.toString());
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                                Log.e("VOLLEY", error.toString());
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<String, String>();
+
+//                                params.put("start_lat", currentLocation.get("latitude"));
+//                                params.put("start_lon", currentLocation.get("longitude"));
+//                                params.put("stop_lat", dropoffLocation.get("latitude"));
+//                                params.put("stop_lon", dropoffLocation.get("longitude"));
+
+                                params.put("stop_lat", "24.913363");
+                                params.put("stop_lon", "67.124208");
+                                params.put("start_lat", "24.823343");
+                                params.put("start_lon", "67.029656");
+
+                                return params;
+                            }
+
+                            @Override
+                            public Map<String, String> getHeaders() throws AuthFailureError {
+                                Map<String, String> headers = new HashMap<String, String>();
+                                headers.put("Authorization", token);
+                                return headers;
+                            }
+                        };
+
+                        stringRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 500000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 500000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });
+
+                        requestQueue.add(stringRequest);
+                    } catch (Exception e) {
+                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+        });
+
         return fragmentView;
     }
 
-    PlaceSelectionListener placeSelectionListener = new PlaceSelectionListener() {
+
+    PlaceSelectionListener placeSelectionListenerFrom = new PlaceSelectionListener() {
+        @Override
+        public void onPlaceSelected(@NonNull Place place) {
+            currentLocation.clear();
+            currentLocation.put("name", place.getName());
+            currentLocation.put("id", place.getId());
+            LatLng latLng = place.getLatLng();
+            currentLocation.put("latitude", String.valueOf(latLng.latitude));
+            currentLocation.put("longitude", String.valueOf(latLng.longitude));
+
+
+//            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+//                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+//            }
+//            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//
+//
+//                markerPoints.clear();
+//                mMap.clear();
+//
+//                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
+//                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
+//
+//                markerPoints.add(start);
+//                markerPoints.add(stop);
+//                MarkerOptions options = new MarkerOptions();
+//
+//                options.position(start);
+//                options.position(stop);
+//
+//
+//                if(markerPoints.size() >=2 ){
+//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+//
+//                    mMap.addMarker(options);
+//
+//                    LatLng origin = markerPoints.get(0);
+//                    LatLng dest = markerPoints.get(1);
+//
+//                    // Getting URL to the Google Directions API
+//                    String url = getDirectionsUrl(origin, dest);
+//
+//                    DownloadTask downloadTask = new DownloadTask();
+//
+//                    // Start downloading json data from Google Directions API
+//                    downloadTask.execute(url);
+//
+//                }
+//
+//            }
+
+        }
+
+        @Override
+        public void onError(@NonNull Status status) {
+            Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
+        }
+    };
+
+
+    PlaceSelectionListener placeSelectionListenerTo = new PlaceSelectionListener() {
         @Override
         public void onPlaceSelected(@NonNull Place place) {
             dropoffLocation.clear();
@@ -135,46 +312,45 @@ public class LocationFragment extends Fragment {
             dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
 
-            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-            }
-            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-
-
-                markerPoints.clear();
-                mMap.clear();
-
-                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-
-                markerPoints.add(start);
-                markerPoints.add(stop);
-                MarkerOptions options = new MarkerOptions();
-
-                options.position(start);
-                options.position(stop);
-
-
-                if(markerPoints.size() >=2 ){
-                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-
-                    mMap.addMarker(options);
-
-                    LatLng origin = markerPoints.get(0);
-                    LatLng dest = markerPoints.get(1);
-
-                    // Getting URL to the Google Directions API
-                    String url = getDirectionsUrl(origin, dest);
-
-                    DownloadTask downloadTask = new DownloadTask();
-
-                    // Start downloading json data from Google Directions API
-                    downloadTask.execute(url);
-
-
-                }
-
-            }
+//            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
+//                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
+//            }
+//            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
+//
+//
+//                markerPoints.clear();
+//                mMap.clear();
+//
+//                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
+//                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
+//
+//                markerPoints.add(start);
+//                markerPoints.add(stop);
+//                MarkerOptions options = new MarkerOptions();
+//
+//                options.position(start);
+//                options.position(stop);
+//
+//
+//                if(markerPoints.size() >=2 ){
+//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
+//
+//                    mMap.addMarker(options);
+//
+//                    LatLng origin = markerPoints.get(0);
+//                    LatLng dest = markerPoints.get(1);
+//
+//                    // Getting URL to the Google Directions API
+//                    String url = getDirectionsUrl(origin, dest);
+//
+//                    DownloadTask downloadTask = new DownloadTask();
+//
+//                    // Start downloading json data from Google Directions API
+//                    downloadTask.execute(url);
+//
+//                }
+//
+//            }
 
         }
 
