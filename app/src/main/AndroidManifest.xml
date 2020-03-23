@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PrivacyActivity"></activity>
         <activity android:name=".Maps.LocationFragment" />
         <activity android:name=".Maps.LocationActivity" />
         <activity android:name=".Maps.SavedPlace" />
@@ -28,7 +29,6 @@
         <activity android:name=".Fragments.UpdateActivity" />
         <activity android:name=".Fragments.Verifypassword" />
         <activity android:name=".Fragments.Updatepassword" />
-
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait" />

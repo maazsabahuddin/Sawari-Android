@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import com.sohaibaijaz.sawaari.PrivacyActivity;
 import com.sohaibaijaz.sawaari.R;
 
 import androidx.preference.Preference;
@@ -36,7 +38,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             addPreferencesFromResource(R.xml.account_setting_preference);
 
             firstName = firstName + " " + lastName;
-
+            Preference preference_privacy = findPreference("privacy");
             Preference preference_profile = findPreference("name");
             assert preference_profile != null;
             preference_profile.setTitle(firstName);
@@ -52,6 +54,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             preference_profile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent i = new Intent(getActivity(), UpdateActivity.class);
+                    SettingsFragment.this.startActivity(i);
+
+                    return true;
+                }
+            });
+            preference_privacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(getActivity(), PrivacyActivity.class);
                     SettingsFragment.this.startActivity(i);
 
                     return true;
