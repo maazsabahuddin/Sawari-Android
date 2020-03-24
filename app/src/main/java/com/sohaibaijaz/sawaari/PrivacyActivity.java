@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MotionEvent;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.sohaibaijaz.sawaari.Fragments.Updatepassword;
 import com.sohaibaijaz.sawaari.Fragments.Verifypassword;
 
 public class PrivacyActivity extends AppCompatActivity {
@@ -56,7 +58,10 @@ public class PrivacyActivity extends AppCompatActivity {
         button_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(PrivacyActivity.this, "Nothing", Toast.LENGTH_LONG).show();
+
+                Intent i = new Intent(PrivacyActivity.this, VerifyPassword2_Activity.class);
+                PrivacyActivity.this.startActivity(i);
+               // Toast.makeText(PrivacyActivity.this, "Nothing", Toast.LENGTH_LONG).show();
             }
         });
 

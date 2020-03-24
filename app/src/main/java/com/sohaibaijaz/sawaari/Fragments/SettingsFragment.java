@@ -8,8 +8,10 @@ import android.os.Bundle;
 
 import com.sohaibaijaz.sawaari.PrivacyActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.SecurityActivity;
 
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 
 import java.util.Objects;
@@ -40,6 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             firstName = firstName + " " + lastName;
             Preference preference_privacy = findPreference("privacy");
             Preference preference_profile = findPreference("name");
+            Preference preference_security = findPreference("security");
             assert preference_profile != null;
             preference_profile.setTitle(firstName);
             
@@ -65,6 +68,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                     SettingsFragment.this.startActivity(i);
 
                     return true;
+                }
+            });
+
+            preference_security.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(getActivity(), SecurityActivity.class);
+                    SettingsFragment.this.startActivity(i);
+
+                    return false;
                 }
             });
 

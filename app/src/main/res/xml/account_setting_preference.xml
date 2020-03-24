@@ -12,7 +12,7 @@
 
     <PreferenceCategory
         android:key="favourites_category"
-        android:title="Favorites" >
+        android:title="Favorites">
 
         <Preference
             android:key="home"

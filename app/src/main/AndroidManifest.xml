@@ -16,7 +16,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PrivacyActivity"></activity>
+        <activity android:name=".SecurityActivity"></activity>
+        <activity android:name=".DeleteAccount_Activity" />
+        <activity android:name=".VerifyPassword2_Activity" />
+        <activity android:name=".PrivacyActivity" />
         <activity android:name=".Maps.LocationFragment" />
         <activity android:name=".Maps.LocationActivity" />
         <activity android:name=".Maps.SavedPlace" />

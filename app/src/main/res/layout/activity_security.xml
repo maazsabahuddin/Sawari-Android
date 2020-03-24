@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2-step verification"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:textSize="20sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/security"
+        android:drawableRight="@drawable/location"
+        android:background="#f8f8f8"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="120dp"></Button>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="When this is on, you will be asked for your password and verification code when you sign in to your account."
+        android:textSize="15sp"
+        android:layout_gravity="left"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"></TextView>
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
