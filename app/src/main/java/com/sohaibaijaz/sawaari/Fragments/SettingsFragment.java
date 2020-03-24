@@ -76,8 +76,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent i = new Intent(getActivity(), SecurityActivity.class);
                     SettingsFragment.this.startActivity(i);
-
-                    return false;
+                    return true;
                 }
             });
 
