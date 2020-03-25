@@ -6,35 +6,34 @@
     android:orientation="vertical"
     android:fitsSystemWindows="true"
 
-xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Verify Password"
-        android:textSize="20sp"
+        android:text="Phone"
+        android:textSize="15sp"
         android:textAlignment="center"
         android:layout_gravity="left"
         android:layout_marginLeft="15dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:layout_marginTop="40dp"></TextView>
+        android:layout_marginTop="100dp"></TextView>
 
 
     <EditText
-        android:id="@+id/verify_password"
+        android:id="@+id/phonenumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="15dp"
-        android:inputType="textPassword"
-        android:hint="Enter Password"
+        android:inputType="number"
         android:backgroundTint="#1F3A93"
         android:paddingRight="20dp"></EditText>
 
     <TextView
-        android:id="@+id/errormessage"
+        android:id="@+id/errormessagep"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="15sp"
@@ -45,30 +44,17 @@ xmlns:android="http://schemas.android.com/apk/res/android">
         android:visibility="gone"
         android:fontFamily="sans-serif-condensed-medium"
         android:layout_marginTop="10dp"></TextView>
-    <TextView
-        android:id="@+id/securitytext"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="For security reasons, please enter your password."
-        android:textSize="15sp"
-        android:textAlignment="center"
-        android:layout_gravity="left"
-        android:layout_marginLeft="15dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:layout_marginTop="20dp"></TextView>
 
     <Button
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:text="CONTINUE"
+        android:text="SAVE"
         android:textSize="20sp"
-        android:id="@+id/verifypassword"
+        android:id="@+id/savephone"
         android:background="#1F3A93"
         android:layout_gravity="center"
         android:textColor="@android:color/white"
-        android:layout_marginTop="200dp"
-        android:enabled="false"
-        android:alpha="0.5"
+        android:layout_marginTop="50dp"
         ></Button>
 
 

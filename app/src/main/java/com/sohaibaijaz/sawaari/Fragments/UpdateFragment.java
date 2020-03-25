@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.VerifyPassword4_Activity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,7 +42,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             final EditTextPreference editTextFirstName = findPreference("firstName");
             final EditTextPreference editTextLastName = findPreference("lastName");
             final EditTextPreference editTextEmail = findPreference("email");
-            final EditTextPreference editTextPhoneNumber = findPreference("phoneNumber");
+            final Preference preferencePhoneNumber = findPreference("phoneNumber");
             final Preference preferencePassword = findPreference("password");
 
             editTextFirstName.setSummary(sharedPreferences.getString("first_name", ""));
@@ -56,9 +57,8 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             editTextEmail.setText(sharedPreferences.getString("email", ""));
             editTextEmail.setIconSpaceReserved(false);
 
-            editTextPhoneNumber.setSummary(sharedPreferences.getString("phone_number", ""));
-            editTextPhoneNumber.setText(sharedPreferences.getString("phone_number", ""));
-            editTextPhoneNumber.setIconSpaceReserved(false);
+            preferencePhoneNumber.setSummary(sharedPreferences.getString("phone_number", ""));
+            preferencePhoneNumber.setIconSpaceReserved(false);
 
             preferencePassword.setIconSpaceReserved(false);
 
@@ -88,16 +88,16 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             });
 
 
-//            editTextPhoneNumber.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-//                @Override
-//                public boolean onPreferenceClick(Preference preference) {
-//
-////                    editTextPhoneNumber.setIntent(new Intent(getContext(), Login.class));
-//                   // Intent i = new Intent(getContext(), Login.class);
-//                    startActivity(i);
-//                    return true;
-//                }
-//            });
+            preferencePhoneNumber.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+//                    editTextPhoneNumber.setIntent(new Intent(getContext(), Login.class));
+                    Intent i = new Intent(getActivity(), VerifyPassword4_Activity.class);
+                    UpdateFragment.this.startActivity(i);
+                    return true;
+                }
+            });
 
 
             preferencePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

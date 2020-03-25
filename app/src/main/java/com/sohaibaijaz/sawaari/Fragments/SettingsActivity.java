@@ -16,9 +16,13 @@
 
 package com.sohaibaijaz.sawaari.Fragments;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sohaibaijaz.sawaari.R;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String
@@ -27,7 +31,8 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setIcon(R.drawable.seat_icon);
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content,
                         new SettingsFragment()).commit();

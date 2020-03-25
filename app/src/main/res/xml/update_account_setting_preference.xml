@@ -37,13 +37,11 @@
             android:positiveButtonText="SAVE"
             android:negativeButtonText=""/>
 
-        <EditTextPreference
+        <Preference
             android:key="phoneNumber"
             android:title="Phone Number"
-            android:dialogTitle="Phone"
-            android:dialogMessage="Confirm your phone number."
-            android:positiveButtonText="SAVE"
-            android:negativeButtonText="" />
+            />
+
 
         <Preference
             android:key="password"
