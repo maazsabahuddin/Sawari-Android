@@ -214,7 +214,8 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
 
                                         Toast.makeText(VerifyPhoneNoActivity.this, "main hun", Toast.LENGTH_LONG).show();
-
+                                        error_message.setText(json.getString("message"));
+                                        error_message.setVisibility(View.VISIBLE);
                                        // Intent i = new Intent(UpdatePhoneActivity.this, VerifyPhoneNoActivity.class);
                                       //  UpdatePhoneActivity.this.startActivity(i);
 
@@ -247,7 +248,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
                         params.put("otp", otp);
-                        params.put("email_or_phone", verifyphonenumber);
+                        params.put("phone_number", verifyphonenumber);
 
 
                         return params;
