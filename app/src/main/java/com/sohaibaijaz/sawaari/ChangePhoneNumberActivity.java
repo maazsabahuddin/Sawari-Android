@@ -46,8 +46,13 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_phone);
         sharedPreferences = ChangePhoneNumberActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
+        String number_before_split= sharedPreferences.getString("phone_number", "");
+
+        String[] result = number_before_split.split("2", 2);
+        String number_after_split = result[1];
         editText_PhoneNumber=findViewById(R.id.phonenumber);
-        editText_PhoneNumber.setText(sharedPreferences.getString("phone_number", ""));
+        editText_PhoneNumber.setText(number_after_split);
+
 
         error_message=findViewById(R.id.errormessagep);
 

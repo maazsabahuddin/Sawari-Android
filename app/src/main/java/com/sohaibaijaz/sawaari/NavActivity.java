@@ -110,10 +110,11 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
                 startActivity(new Intent(getApplicationContext(), RideFragmentN.class));
                 break;
             case R.id.nav_message:
-                MessageFragment messageFragment = new MessageFragment();
-                LocationFragment locationFragment = new LocationFragment();
+              //  MessageFragment messageFragment = new MessageFragment();
+               // LocationFragment locationFragment = new LocationFragment();
+                startActivity(new Intent(getApplicationContext(), NotificationsActivity.class));
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, locationFragment).commit();
+                //getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, locationFragment).commit();
 //                startActivity(new Intent(getApplicationContext(), EmptyFragment.class));
                 break;
 

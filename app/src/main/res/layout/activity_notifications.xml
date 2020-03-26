@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+
+    <Button
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Account and Trip Updates"
+    android:textAllCaps="false"
+    android:textAlignment="textStart"
+    android:textSize="18sp"
+    style="?android:attr/borderlessButtonStyle"
+    android:layout_marginLeft="10dp"
+    android:id="@+id/accountandtrip"
+    android:background="#f8f8f8"
+    android:textColor="@android:color/black"
+    android:layout_marginTop="70dp"></Button>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Include trip status notifications and updates related to riding on your account."
+        android:textSize="15sp"
+        android:layout_gravity="left"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"></TextView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Discounts and News"
+        android:textAllCaps="false"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/discountsandnews"
+        android:background="#f8f8f8"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="30dp"></Button>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Includes special offers, recommendations and product updates."
+        android:textSize="15sp"
+        android:layout_gravity="left"
+        android:textColor="@android:color/darker_gray"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"></TextView>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
