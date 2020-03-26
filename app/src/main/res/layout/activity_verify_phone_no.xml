@@ -30,6 +30,7 @@
         android:layout_marginLeft="15dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:layout_marginTop="10dp"></TextView>
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -147,6 +148,18 @@
         android:layout_marginLeft="15dp"
         android:textColor="#DC1324"
         android:visibility="gone"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:layout_marginTop="10dp"></TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Resend Code"
+        android:id="@+id/resendotp"
+        android:textAlignment="center"
+        android:textColor="@color/colorJacksonPurple"
+        android:layout_gravity="left"
+        android:layout_marginLeft="15dp"
         android:fontFamily="sans-serif-condensed-medium"
         android:layout_marginTop="10dp"></TextView>
 

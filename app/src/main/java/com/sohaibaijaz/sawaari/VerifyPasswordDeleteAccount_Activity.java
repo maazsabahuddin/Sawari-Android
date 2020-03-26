@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,8 +23,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.sohaibaijaz.sawaari.Fragments.Updatepassword;
-import com.sohaibaijaz.sawaari.Fragments.Verifypassword;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,7 +32,7 @@ import java.util.Map;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
-public class VerifyPassword2_Activity extends AppCompatActivity {
+public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
 
     Button button_verify_pass;
     EditText editText_password;
@@ -44,10 +42,11 @@ public class VerifyPassword2_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-        setContentView(R.layout.activity_verifypassword2);
+        getSupportActionBar().setTitle("Delete Account");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_verifypassword_delete_accout);
 
-        sharedPreferences = VerifyPassword2_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        sharedPreferences = VerifyPasswordDeleteAccount_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         editText_password= findViewById(R.id.verify_password);
         button_verify_pass= findViewById(R.id.verifypassword);
         error_message=findViewById(R.id.errormessage);
@@ -98,7 +97,15 @@ public class VerifyPassword2_Activity extends AppCompatActivity {
             }
         });
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     public void verify_password()
     {
@@ -152,10 +159,10 @@ public class VerifyPassword2_Activity extends AppCompatActivity {
                                         //editor.putString("Token", token);
                                         //editor.apply();
 
-                                       // Toast.makeText(VerifyPassword2_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                       // Toast.makeText(VerifyPasswordDeleteAccount_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(VerifyPassword2_Activity.this, DeleteAccount_Activity.class);
-                                        VerifyPassword2_Activity.this.startActivity(i);
+                                        Intent i = new Intent(VerifyPasswordDeleteAccount_Activity.this, DeleteAccount_Activity.class);
+                                        VerifyPasswordDeleteAccount_Activity.this.startActivity(i);
 
                                     } else if (json.getString("status").equals("401")) {
 
@@ -193,7 +200,7 @@ public class VerifyPassword2_Activity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(VerifyPassword2_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(VerifyPasswordDeleteAccount_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override

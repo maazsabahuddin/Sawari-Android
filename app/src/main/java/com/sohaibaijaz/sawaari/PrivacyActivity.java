@@ -3,18 +3,12 @@ package com.sohaibaijaz.sawaari;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MotionEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-
-import com.sohaibaijaz.sawaari.Fragments.Updatepassword;
-import com.sohaibaijaz.sawaari.Fragments.Verifypassword;
 
 public class PrivacyActivity extends AppCompatActivity {
 
@@ -24,7 +18,8 @@ public class PrivacyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_privacy);
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("Privacy");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         button_location=findViewById(R.id.location);
         button_delete=findViewById(R.id.delete_account);
 
@@ -59,7 +54,7 @@ public class PrivacyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(PrivacyActivity.this, VerifyPassword2_Activity.class);
+                Intent i = new Intent(PrivacyActivity.this, VerifyPasswordDeleteAccount_Activity.class);
                 PrivacyActivity.this.startActivity(i);
                // Toast.makeText(PrivacyActivity.this, "Nothing", Toast.LENGTH_LONG).show();
             }
@@ -67,7 +62,14 @@ public class PrivacyActivity extends AppCompatActivity {
 
 
     }
-
-
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
+

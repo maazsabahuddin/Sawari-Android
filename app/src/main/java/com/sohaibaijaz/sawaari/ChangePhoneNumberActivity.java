@@ -5,10 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,81 +31,65 @@ import java.util.Map;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
-public class VerifyPassword4_Activity extends AppCompatActivity {
+public class ChangePhoneNumberActivity extends AppCompatActivity {
 
-    Button button_verify_pass;
-    EditText editText_password;
+    EditText editText_PhoneNumber;
     SharedPreferences sharedPreferences;
+    Button button_savephonenumber;
     TextView error_message;
-    TextView password_message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_password4);
-        getSupportActionBar().setTitle("Verify Password");
+        getSupportActionBar().setTitle("Phone Number");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_change_phone);
+        sharedPreferences = ChangePhoneNumberActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
-        sharedPreferences = VerifyPassword4_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password4);
-        button_verify_pass= findViewById(R.id.verifypassword4);
-        error_message=findViewById(R.id.errormessage4);
-        password_message=findViewById(R.id.securitytext4);
+        editText_PhoneNumber=findViewById(R.id.phonenumber);
+        editText_PhoneNumber.setText(sharedPreferences.getString("phone_number", ""));
 
+        error_message=findViewById(R.id.errormessagep);
 
-        button_verify_pass.setOnClickListener(new View.OnClickListener() {
+        button_savephonenumber=findViewById(R.id.savephone);
+
+        button_savephonenumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText_password.setCursorVisible(false);
-                verify_password();
-            }
-        });
-        editText_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                button_verify_pass.setEnabled(false);
-                button_verify_pass.setAlpha(0.5f);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                button_verify_pass.setEnabled(true);
-                button_verify_pass.setAlpha(1);
-
-                if((editText_password.getText().toString()).equals(""))
-                {
-                    button_verify_pass.setEnabled(false);
-                    button_verify_pass.setAlpha(0.5f);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                editText_PhoneNumber.setCursorVisible(false);
+                update_phonenumber();
             }
         });
 
-
-        editText_password.setOnClickListener(new View.OnClickListener() {
+        editText_PhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText_password.setCursorVisible(true);
+                editText_PhoneNumber.setCursorVisible(true);
                 error_message.setVisibility(View.GONE);
-                password_message.setVisibility(View.VISIBLE);
-
             }
         });
+
     }
 
-    public void verify_password()
-    {
-        final String password_verify = editText_password.getText().toString();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
-        if(password_verify.equals(""))
+    public void update_phonenumber()
+    {
+        final String new_phonenumber = editText_PhoneNumber.getText().toString();
+
+        if(new_phonenumber.equals(""))
         {
-            password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
-            editText_password.addTextChangedListener(new TextWatcher() {
+            editText_PhoneNumber.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -114,10 +98,8 @@ public class VerifyPassword4_Activity extends AppCompatActivity {
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    editText_password.setCursorVisible(true);
+                    editText_PhoneNumber.setCursorVisible(true);
                     error_message.setVisibility(View.GONE);
-                    password_message.setVisibility(View.VISIBLE);
-
                 }
 
                 @Override
@@ -132,7 +114,7 @@ public class VerifyPassword4_Activity extends AppCompatActivity {
 
             try {
 
-                String url = "http://52.15.104.184/password/check/";
+                String url = "http://52.15.104.184/change/phonenumber/";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -143,23 +125,23 @@ public class VerifyPassword4_Activity extends AppCompatActivity {
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
 
-
                                         // SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        //editor.putString("Token", token);
-                                        //editor.apply();
+                                         //editor.putString("phone_number", new_phonenumber);
+                                         //editor.apply();
 
-                                        // Toast.makeText(VerifyPassword4_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(ChangePhoneNumberActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(VerifyPassword4_Activity.this, UpdatePhoneActivity.class);
-                                        VerifyPassword4_Activity.this.startActivity(i);
+                                         Intent i = new Intent(ChangePhoneNumberActivity.this, VerifyPhoneNoActivity.class);
+                                         i.putExtra("change_number", new_phonenumber );
+                                         startActivity(i);
 
-                                    } else if (json.getString("status").equals("401")) {
+                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
 
-                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
-                                        editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
-                                        editText_password.addTextChangedListener(new TextWatcher() {
+                                        Toast.makeText(ChangePhoneNumberActivity.this, new_phonenumber, Toast.LENGTH_LONG).show();
+
+                                        editText_PhoneNumber.addTextChangedListener(new TextWatcher() {
                                             @Override
                                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -167,11 +149,8 @@ public class VerifyPassword4_Activity extends AppCompatActivity {
 
                                             @Override
                                             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                editText_password.setCursorVisible(true);
+                                                editText_PhoneNumber.setCursorVisible(true);
                                                 error_message.setVisibility(View.GONE);
-                                                editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
-
-                                                password_message.setVisibility(View.VISIBLE);
                                             }
 
                                             @Override
@@ -181,6 +160,29 @@ public class VerifyPassword4_Activity extends AppCompatActivity {
                                         });
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
+                                    else{
+                                        error_message.setText(json.getString("message"));
+                                        error_message.setVisibility(View.VISIBLE);
+                                        Toast.makeText(ChangePhoneNumberActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
+
+                                        editText_PhoneNumber.addTextChangedListener(new TextWatcher() {
+                                            @Override
+                                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                            }
+
+                                            @Override
+                                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                editText_PhoneNumber.setCursorVisible(true);
+                                                error_message.setVisibility(View.GONE);
+                                            }
+
+                                            @Override
+                                            public void afterTextChanged(Editable s) {
+
+                                            }
+                                        });
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -189,13 +191,13 @@ public class VerifyPassword4_Activity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(VerifyPassword4_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ChangePhoneNumberActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        params.put("password", password_verify);
+                        params.put("phonenumber", new_phonenumber);
 
                         return params;
                     }

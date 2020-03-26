@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -38,13 +39,15 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
     EditText editText_otp5;
     EditText editText_otp6;
     TextView phonenumber;
+    TextView textView_resend_otp;
     SharedPreferences sharedPreferences;
     TextView error_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("Phone Number");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_verify_phone_no);
 
         sharedPreferences = VerifyPhoneNoActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
@@ -65,8 +68,10 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
         error_message=findViewById(R.id.errormessageo);
         phonenumber=findViewById(R.id.number);
+        textView_resend_otp=findViewById(R.id.resendotp);
 
-        phonenumber.setText(sharedPreferences.getString("phone_number", ""));
+
+        phonenumber.setText(getIntent().getStringExtra("change_number"));
 
         editText_otp1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -191,11 +196,28 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
             }
         });
+
+        textView_resend_otp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resend_otp();
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void verify_phonenumber(){
 
-        final String verifyphonenumber = sharedPreferences.getString("phone_number", "");
+        final String verifyphonenumber = getIntent().getStringExtra("change_number");
         final String otp= editText_otp1.getText().toString()+ editText_otp2.getText().toString()+ editText_otp3.getText().toString()+editText_otp4.getText().toString()+editText_otp5.getText().toString()+editText_otp6.getText().toString();
 
 
@@ -213,17 +235,20 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
 
+                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                                        editor.putString("phone_number", verifyphonenumber);
+                                        editor.apply();
                                         Toast.makeText(VerifyPhoneNoActivity.this, "main hun", Toast.LENGTH_LONG).show();
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
-                                       // Intent i = new Intent(UpdatePhoneActivity.this, VerifyPhoneNoActivity.class);
-                                      //  UpdatePhoneActivity.this.startActivity(i);
+                                       // Intent i = new Intent(ChangePhoneNumberActivity.this, VerifyPhoneNoActivity.class);
+                                      //  ChangePhoneNumberActivity.this.startActivity(i);
 
                                     } else if ( json.getString("status").equals("404") || json.getString("status").equals("400")) {
 
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
-                                       // Toast.makeText(UpdatePhoneActivity.this, new_phonenumber, Toast.LENGTH_LONG).show();
+                                        Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
 
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
@@ -231,7 +256,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                     else{
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
-                                       // Toast.makeText(UpdatePhoneActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(VerifyPhoneNoActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -269,5 +294,75 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+    }
+
+    private void resend_otp(){
+
+        final String newphonenumber = getIntent().getStringExtra("change_number");
+
+        try {
+            String url = "http://52.15.104.184/phonenumber/change/resend_otp/";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                        @Override
+                        public void onResponse(String response) {
+
+                            try {
+                                JSONObject json = new JSONObject(response);
+                                if (json.getString("status").equals("200")) {
+
+                                    error_message.setText(json.getString("message"));
+                                    error_message.setVisibility(View.VISIBLE);
+                                    Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+
+
+                                } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+
+                                    error_message.setText(json.getString("message"));
+                                    error_message.setVisibility(View.VISIBLE);
+                                    Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+
+                                    // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    error_message.setText(json.getString("message"));
+                                    error_message.setVisibility(View.VISIBLE);
+                                    Toast.makeText(VerifyPhoneNoActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(VerifyPhoneNoActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("phone_number", newphonenumber);
+
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", sharedPreferences.getString("Token", ""));
+                    return headers;
+                }
+
+            };
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

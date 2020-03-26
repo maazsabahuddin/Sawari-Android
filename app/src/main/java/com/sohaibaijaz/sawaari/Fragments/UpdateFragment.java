@@ -19,7 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.R;
-import com.sohaibaijaz.sawaari.VerifyPassword4_Activity;
+import com.sohaibaijaz.sawaari.VerifyPasswordChangePhoneNumber_Activity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,7 +93,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceClick(Preference preference) {
 
 //                    editTextPhoneNumber.setIntent(new Intent(getContext(), Login.class));
-                    Intent i = new Intent(getActivity(), VerifyPassword4_Activity.class);
+                    Intent i = new Intent(getActivity(), VerifyPasswordChangePhoneNumber_Activity.class);
                     UpdateFragment.this.startActivity(i);
                     return true;
                 }

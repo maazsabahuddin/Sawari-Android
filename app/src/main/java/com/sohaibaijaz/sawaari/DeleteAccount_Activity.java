@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -39,7 +40,8 @@ public class DeleteAccount_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("Delete Account");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         sharedPreferences = DeleteAccount_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
         setContentView(R.layout.activity_delete_account);
@@ -65,6 +67,16 @@ public class DeleteAccount_Activity extends AppCompatActivity {
         });
 
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     private void delete_account(){
         try {

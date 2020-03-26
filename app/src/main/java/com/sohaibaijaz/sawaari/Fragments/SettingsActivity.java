@@ -16,9 +16,11 @@
 
 package com.sohaibaijaz.sawaari.Fragments;
 
+import android.app.ActionBar;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,10 +33,26 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Settings");
-        getSupportActionBar().setIcon(R.drawable.seat_icon);
+       getSupportActionBar().setTitle("Account Settings");
+      //  getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+      //  getSupportActionBar().setHomeButtonEnabled(true);
+
+        // getSupportActionBar().setHomeAsUpIndicator(R.drawable.blue_back_icon);
+
+        //  getSupportActionBar().setIcon(R.drawable.blue_back_icon);
+      //  getActionBar().setIcon(R.drawable.blue_back_icon);
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content,
                         new SettingsFragment()).commit();
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

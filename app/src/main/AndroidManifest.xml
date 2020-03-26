@@ -16,21 +16,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".VerifyPhoneNoActivity"></activity>
+        <activity android:name=".VerifyPhoneNoActivity"
+            android:windowSoftInputMode="adjustResize" ></activity>
         <activity
-            android:name=".UpdatePhoneActivity"
+            android:name=".ChangePhoneNumberActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".VerifyPassword4_Activity"
+            android:name=".VerifyPasswordChangePhoneNumber_Activity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".VerifyPassword3_Activity"
+            android:name=".VerifyPasswordTwoStepVerification_Activity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".TwoStepVerificationActivity" />
         <activity android:name=".SecurityActivity" />
         <activity android:name=".DeleteAccount_Activity" />
         <activity
-            android:name=".VerifyPassword2_Activity"
+            android:name=".VerifyPasswordDeleteAccount_Activity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".PrivacyActivity" />
         <activity android:name=".Maps.LocationFragment" />
