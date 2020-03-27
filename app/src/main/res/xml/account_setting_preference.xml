@@ -4,7 +4,10 @@
 
     <Preference
         android:key="name"
-        android:icon="@drawable/profile" />
+        android:title="Maaz Sabahuddin"
+        android:summary="maazsabahuddin@gmail.com\n+923442713545"
+        android:layout="@layout/image_preference"
+        android:icon="@drawable/maaz" />
 
     <PreferenceCategory
         android:key="favourites_category"
