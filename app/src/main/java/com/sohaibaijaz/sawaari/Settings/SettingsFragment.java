@@ -9,6 +9,7 @@ import android.os.Bundle;
 import com.sohaibaijaz.sawaari.R;
 
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 
 import java.util.Objects;
