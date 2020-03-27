@@ -37,6 +37,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     Button button_savephonenumber;
     TextView error_message;
+    TextView textView_number_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +48,13 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
         sharedPreferences = ChangePhoneNumberActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
         String number_before_split= sharedPreferences.getString("phone_number", "");
-
         String[] result = number_before_split.split("2", 2);
         String number_after_split = result[1];
         editText_PhoneNumber=findViewById(R.id.phonenumber);
         editText_PhoneNumber.setText(number_after_split);
 
-
+        textView_number_code=findViewById(R.id.numcode);
         error_message=findViewById(R.id.errormessagep);
-
         button_savephonenumber=findViewById(R.id.savephone);
 
         button_savephonenumber.setOnClickListener(new View.OnClickListener() {
@@ -88,8 +87,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
 
     public void update_phonenumber()
     {
-        final String new_phonenumber = editText_PhoneNumber.getText().toString();
-
+        final String new_phonenumber = textView_number_code.getText().toString() + editText_PhoneNumber.getText().toString();
         if(new_phonenumber.equals(""))
         {
             error_message.setText("Field cannot be empty");
