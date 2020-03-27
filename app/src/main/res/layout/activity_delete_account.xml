@@ -1,67 +1,76 @@
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sorrymessage"
-        android:textSize="25sp"
-        android:textColor="@android:color/black"
-        android:textAlignment="center"
-        android:layout_gravity="left"
-        android:layout_marginLeft="15dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:layout_marginTop="70dp"></TextView>
+        android:orientation="vertical"
+        android:layout_marginTop="15dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sorrymessage"
+            android:textSize="22sp"
+            android:text="Maaz, sorry to see you go."
+            android:textColor="@android:color/black"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginTop="10dp" />
 
+        <TextView
+            android:id="@+id/securitytext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="When you delete your account, it will immediately be deactivated and permanently deleted after 30 days."
+            android:textSize="15sp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginTop="10dp" />
 
-    <TextView
-        android:id="@+id/securitytext"
-        android:layout_width="wrap_content"
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="When you delete your account, it will immediately be deactivated and permanently deleted after 30 days."
-        android:textSize="18sp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="5dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:layout_marginTop="40dp"></TextView>
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
 
-<androidx.appcompat.widget.LinearLayoutCompat
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_marginTop="300dp">
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CANCEL"
-        android:textSize="20sp"
-        android:layout_weight="1"
-        android:id="@+id/cancel"
-        android:background="#1F3A93"
-        android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:textColor="@android:color/white"
-        ></Button>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:text="CONTINUE"
-        android:textSize="20sp"
-        android:id="@+id/continue_delete"
-        android:background="#1F3A93"
-        android:layout_gravity="center"
-        android:layout_marginRight="20dp"
-        android:textColor="@android:color/white"
-        ></Button>
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_background"
+            android:text="CANCEL"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <Button
+            android:id="@+id/continue_delete"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_background"
+            android:text="CONTINUE"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+</RelativeLayout>
+
