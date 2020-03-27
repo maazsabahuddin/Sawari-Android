@@ -41,7 +41,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
     TextView phonenumber;
     TextView textView_resend_otp;
     SharedPreferences sharedPreferences;
-    TextView error_message;
+    TextView otp_message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +66,13 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
         editText_otp5.setCursorVisible(false);
         editText_otp6.setCursorVisible(false);
 
-        error_message=findViewById(R.id.errormessageo);
+        otp_message=findViewById(R.id.otp_message);
         phonenumber=findViewById(R.id.number);
         textView_resend_otp=findViewById(R.id.resendotp);
 
 
         phonenumber.setText(getIntent().getStringExtra("change_number"));
+        otp_message.setVisibility(View.GONE);
 
         editText_otp1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -239,23 +240,23 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                         editor.putString("phone_number", verifyphonenumber);
                                         editor.apply();
                                         Toast.makeText(VerifyPhoneNoActivity.this, "main hun", Toast.LENGTH_LONG).show();
-                                        error_message.setText(json.getString("message"));
-                                        error_message.setVisibility(View.VISIBLE);
+                                        otp_message.setText(json.getString("message"));
+                                        otp_message.setVisibility(View.VISIBLE);
                                        // Intent i = new Intent(ChangePhoneNumberActivity.this, VerifyPhoneNoActivity.class);
                                       //  ChangePhoneNumberActivity.this.startActivity(i);
 
                                     } else if ( json.getString("status").equals("404") || json.getString("status").equals("400")) {
 
-                                        error_message.setText(json.getString("message"));
-                                        error_message.setVisibility(View.VISIBLE);
+                                        otp_message.setText(json.getString("message"));
+                                        otp_message.setVisibility(View.VISIBLE);
                                         Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
 
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
                                     else{
-                                        error_message.setText(json.getString("message"));
-                                        error_message.setVisibility(View.VISIBLE);
+                                        otp_message.setText(json.getString("message"));
+                                        otp_message.setVisibility(View.VISIBLE);
                                         Toast.makeText(VerifyPhoneNoActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
@@ -312,22 +313,22 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
 
-                                    error_message.setText(json.getString("message"));
-                                    error_message.setVisibility(View.VISIBLE);
+                                    otp_message.setText(json.getString("message"));
+                                    otp_message.setVisibility(View.VISIBLE);
                                     Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
 
                                 } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
 
-                                    error_message.setText(json.getString("message"));
-                                    error_message.setVisibility(View.VISIBLE);
+                                    otp_message.setText(json.getString("message"));
+                                    otp_message.setVisibility(View.VISIBLE);
                                     Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
                                     // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                 }
                                 else{
-                                    error_message.setText(json.getString("message"));
-                                    error_message.setVisibility(View.VISIBLE);
+                                    otp_message.setText(json.getString("message"));
+                                    otp_message.setVisibility(View.VISIBLE);
                                     Toast.makeText(VerifyPhoneNoActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
 
                                 }
