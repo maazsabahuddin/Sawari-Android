@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -313,6 +314,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
 
+                                    otp_message.setTextColor(Color.parseColor("#15a336"));
                                     otp_message.setText(json.getString("message"));
                                     otp_message.setVisibility(View.VISIBLE);
                                     Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
