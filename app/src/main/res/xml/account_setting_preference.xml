@@ -14,12 +14,14 @@
         <Preference
             android:key="home"
             android:title="Add Home"
-            android:icon="@drawable/home" />
+            android:icon="@drawable/home"
+            android:layout="@layout/custom_preference" />
 
         <Preference
             android:key="w_place"
             android:title="Add Work Place"
-            android:icon="@drawable/work" />
+            android:icon="@drawable/work"
+            android:layout="@layout/custom_preference"/>
 
     </PreferenceCategory>
 
@@ -32,15 +34,15 @@
             android:key="privacy"
             android:title="Privacy"
             android:icon="@drawable/privacy"
-
-            android:summary="Manage the data you share with us" />
+            android:summary="Manage the data you share with us"
+            android:layout="@layout/custom_preference"/>
 
         <Preference
             android:key="security"
             android:title="Security"
-
             android:icon="@drawable/security"
-            android:summary="Control your account security with 2-step verification"  />
+            android:summary="Control your account security with 2-step verification"
+            android:layout="@layout/custom_preference"/>
 
     </PreferenceCategory>
 
@@ -54,17 +56,20 @@
             android:key="language"
             android:title="Language"
             android:summary="English"
-            android:icon="@drawable/contact" />
+            android:icon="@drawable/contact"
+            android:layout="@layout/custom_preference"/>
 
         <Preference
             android:key="rate_the_app"
             android:title="Rate the App"
-            android:icon="@drawable/privacy" />
+            android:icon="@drawable/privacy"
+            android:layout="@layout/custom_preference"/>
 
         <Preference
             android:key="sign_out"
             android:title="Sign out"
-            android:icon="@drawable/security" />
+            android:icon="@drawable/security"
+            android:layout="@layout/custom_preference"/>
 
     </PreferenceCategory>
 
