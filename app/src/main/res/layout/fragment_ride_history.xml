@@ -5,37 +5,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/back_btn_my_ride"
-        android:layout_width="42dp"
-        android:layout_height="37dp"
-
-        android:layout_marginTop="12dp"
-        android:background="@drawable/ic_action_name"
-        app:layout_constraintBottom_toBottomOf="@+id/list_buses"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.044"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        app:layout_constraintVertical_bias="0.023" />
-
-    <TextView
-        android:id="@+id/my_rides_txt"
-        android:layout_width="140dp"
-        android:layout_height="40dp"
-        android:fontFamily="@font/montserrat"
-        android:text="My rides"
-        android:textColor="@color/colorJacksonPurple"
-        android:textSize="22dp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.02" />
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpPager"
         android:layout_width="387dp"

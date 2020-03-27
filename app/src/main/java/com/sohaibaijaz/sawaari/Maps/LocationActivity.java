@@ -20,7 +20,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sohaibaijaz.sawaari.Fragments.SettingsFragment;
 import com.sohaibaijaz.sawaari.R;
 
 public class LocationActivity extends AppCompatActivity {

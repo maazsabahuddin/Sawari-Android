@@ -1,9 +1,8 @@
-package com.sohaibaijaz.sawaari;
+package com.sohaibaijaz.sawaari.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -23,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
-public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
+public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivity {
 
     Button button_verify_pass;
     EditText editText_password;
@@ -42,16 +42,15 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Delete Account");
+        getSupportActionBar().setTitle("2-step Verification");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_verifypassword_delete_accout);
 
-        sharedPreferences = VerifyPasswordDeleteAccount_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password);
-        button_verify_pass= findViewById(R.id.verifypassword);
-        error_message=findViewById(R.id.errormessage);
-        password_message=findViewById(R.id.securitytext);
-
+        setContentView(R.layout.activity_verify_password_twostep_verification);
+        sharedPreferences = VerifyPasswordTwoStepVerification_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        editText_password= findViewById(R.id.verify_password2);
+        button_verify_pass= findViewById(R.id.verifypassword2);
+        error_message=findViewById(R.id.errormessage1);
+       // password_message=findViewById(R.id.securitytext);
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +91,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 editText_password.setCursorVisible(true);
                 error_message.setVisibility(View.GONE);
-                password_message.setVisibility(View.VISIBLE);
+               // password_message.setVisibility(View.VISIBLE);
 
             }
         });
@@ -107,13 +106,15 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
     public void verify_password()
     {
         final String password_verify = editText_password.getText().toString();
 
         if(password_verify.equals(""))
         {
-            password_message.setVisibility(View.GONE);
+          //  password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
             editText_password.addTextChangedListener(new TextWatcher() {
@@ -127,7 +128,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
 
                     editText_password.setCursorVisible(true);
                     error_message.setVisibility(View.GONE);
-                    password_message.setVisibility(View.VISIBLE);
+                  //  password_message.setVisibility(View.VISIBLE);
 
                 }
 
@@ -159,14 +160,14 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
                                         //editor.putString("Token", token);
                                         //editor.apply();
 
-                                       // Toast.makeText(VerifyPasswordDeleteAccount_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(VerifyPasswordTwoStepVerification_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(VerifyPasswordDeleteAccount_Activity.this, DeleteAccount_Activity.class);
-                                        VerifyPasswordDeleteAccount_Activity.this.startActivity(i);
+                                        //Intent i = new Intent(VerifyPasswordDeleteAccount_Activity.this, DeleteAccount_Activity.class);
+                                        //VerifyPasswordDeleteAccount_Activity.this.startActivity(i);
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                        password_message.setVisibility(View.GONE);
+                                      //  password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
@@ -182,7 +183,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
                                                 error_message.setVisibility(View.GONE);
                                                 editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
 
-                                                password_message.setVisibility(View.VISIBLE);
+                                               // password_message.setVisibility(View.VISIBLE);
                                             }
 
                                             @Override
@@ -200,7 +201,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(VerifyPasswordDeleteAccount_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(VerifyPasswordTwoStepVerification_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override

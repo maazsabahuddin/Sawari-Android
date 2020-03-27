@@ -2,6 +2,7 @@ package com.sohaibaijaz.sawaari.Fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -61,21 +62,32 @@ public class RideFragmentN extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_ride_history);
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("My Rides");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-        Button back_btn_my_ride = findViewById(R.id.back_btn_my_ride);
+       // Button back_btn_my_ride = findViewById(R.id.back_btn_my_ride);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
 
-        back_btn_my_ride.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                onBackPressed();
-                startActivity(new Intent(getApplicationContext(), NavActivity.class));
-            }
-        });
+//        back_btn_my_ride.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                onBackPressed();
+//                startActivity(new Intent(getApplicationContext(), NavActivity.class));
+//            }
+//        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.sohaibaijaz.sawaari.Fragments;
+package com.sohaibaijaz.sawaari.Settings;
 
 import android.os.Bundle;
 import android.view.MenuItem;

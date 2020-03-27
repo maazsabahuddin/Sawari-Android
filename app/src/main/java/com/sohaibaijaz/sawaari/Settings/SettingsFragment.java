@@ -1,17 +1,14 @@
 
-package com.sohaibaijaz.sawaari.Fragments;
+package com.sohaibaijaz.sawaari.Settings;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import com.sohaibaijaz.sawaari.PrivacyActivity;
 import com.sohaibaijaz.sawaari.R;
-import com.sohaibaijaz.sawaari.SecurityActivity;
 
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
 
 import java.util.Objects;

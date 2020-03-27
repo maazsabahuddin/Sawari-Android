@@ -1,10 +1,8 @@
-package com.sohaibaijaz.sawaari;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.sohaibaijaz.sawaari.Settings;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,35 +22,35 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
-public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivity {
+public class Verifypassword extends AppCompatActivity {
 
     Button button_verify_pass;
     EditText editText_password;
     SharedPreferences sharedPreferences;
     TextView error_message;
     TextView password_message;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("2-step Verification");
+        getSupportActionBar().setTitle("Password");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_verifypassword);
 
-        setContentView(R.layout.activity_verify_password_twostep_verification);
-        sharedPreferences = VerifyPasswordTwoStepVerification_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password2);
-        button_verify_pass= findViewById(R.id.verifypassword2);
-        error_message=findViewById(R.id.errormessage1);
-       // password_message=findViewById(R.id.securitytext);
-
+        sharedPreferences = Verifypassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        editText_password= findViewById(R.id.verify_password);
+        button_verify_pass= findViewById(R.id.verifypassword);
+        error_message=findViewById(R.id.errormessage);
+        password_message=findViewById(R.id.securitytext);
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,39 +58,12 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
                 verify_password();
             }
         });
-        editText_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                button_verify_pass.setEnabled(false);
-                button_verify_pass.setAlpha(0.5f);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                button_verify_pass.setEnabled(true);
-                button_verify_pass.setAlpha(1);
-
-                if((editText_password.getText().toString()).equals(""))
-                {
-                    button_verify_pass.setEnabled(false);
-                    button_verify_pass.setAlpha(0.5f);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
         editText_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editText_password.setCursorVisible(true);
                 error_message.setVisibility(View.GONE);
-               // password_message.setVisibility(View.VISIBLE);
+                password_message.setVisibility(View.VISIBLE);
 
             }
         });
@@ -106,38 +79,37 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
     }
 
 
-
     public void verify_password()
     {
         final String password_verify = editText_password.getText().toString();
 
         if(password_verify.equals(""))
         {
-          //  password_message.setVisibility(View.GONE);
+            password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
-            editText_password.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+           editText_password.addTextChangedListener(new TextWatcher() {
+               @Override
+               public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-                }
+               }
 
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
+               @Override
+               public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    editText_password.setCursorVisible(true);
-                    error_message.setVisibility(View.GONE);
-                  //  password_message.setVisibility(View.VISIBLE);
+                   editText_password.setCursorVisible(true);
+                   error_message.setVisibility(View.GONE);
+                   password_message.setVisibility(View.VISIBLE);
 
-                }
+               }
 
-                @Override
-                public void afterTextChanged(Editable s) {
+               @Override
+               public void afterTextChanged(Editable s) {
 
-                }
-            });
+               }
+           });
 
-            //  Toast.makeText(Verifypassword.this, "Field cannot be empty", Toast.LENGTH_LONG).show();
+          //  Toast.makeText(Verifypassword.this, "Field cannot be empty", Toast.LENGTH_LONG).show();
         }
         else {
 
@@ -159,17 +131,16 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
                                         //editor.putString("Token", token);
                                         //editor.apply();
 
-                                         Toast.makeText(VerifyPasswordTwoStepVerification_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        //Intent i = new Intent(VerifyPasswordDeleteAccount_Activity.this, DeleteAccount_Activity.class);
-                                        //VerifyPasswordDeleteAccount_Activity.this.startActivity(i);
+                                        Intent i = new Intent(Verifypassword.this, Updatepassword.class);
+                                        Verifypassword.this.startActivity(i);
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                      //  password_message.setVisibility(View.GONE);
+                                         password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
-                                        editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
                                         editText_password.addTextChangedListener(new TextWatcher() {
                                             @Override
                                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -180,9 +151,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
                                             public void onTextChanged(CharSequence s, int start, int before, int count) {
                                                 editText_password.setCursorVisible(true);
                                                 error_message.setVisibility(View.GONE);
-                                                editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
-
-                                               // password_message.setVisibility(View.VISIBLE);
+                                                password_message.setVisibility(View.VISIBLE);
                                             }
 
                                             @Override
@@ -190,7 +159,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
 
                                             }
                                         });
-                                        // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                       // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -200,7 +169,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(VerifyPasswordTwoStepVerification_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(Verifypassword.this, error.toString(), Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override

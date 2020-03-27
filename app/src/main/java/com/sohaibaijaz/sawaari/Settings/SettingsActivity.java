@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package com.sohaibaijaz.sawaari.Fragments;
+package com.sohaibaijaz.sawaari.Settings;
 
-import android.app.ActionBar;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.sohaibaijaz.sawaari.R;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String
