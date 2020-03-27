@@ -77,4 +77,12 @@
     </PreferenceCategory>
 
 
+    <Preference
+        android:key="sign_out"
+        android:title="Terms and Condition"
+        android:summary="App Version 1.0.5"
+        android:icon="@drawable/security"
+        android:layout="@layout/custom_version_preference"/>
+
+
 </PreferenceScreen>

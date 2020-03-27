@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <TextView
+            android:id="@android:id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Terms and Condition"
+            android:textColor="@color/quantum_black_text"
+            android:textAlignment="center"
+            android:textSize="15sp"
+            android:gravity="center_vertical"
+            android:layout_weight="10" />
+
+        <TextView
+            android:id="@android:id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/quantum_grey"
+            android:textAlignment="center"
+            android:text="App Version 1.0.5"
+            android:textSize="13.5sp"
+            android:gravity="center_vertical"
+            android:layout_weight="10" />
+
+    </LinearLayout>
+
+</RelativeLayout>
