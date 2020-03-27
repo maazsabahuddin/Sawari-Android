@@ -1,9 +1,11 @@
-package com.sohaibaijaz.sawaari;
+package com.sohaibaijaz.sawaari.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+
+import com.sohaibaijaz.sawaari.R;
 
 public class PushNotificationsActivity extends AppCompatActivity {
 

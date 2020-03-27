@@ -1,7 +1,6 @@
-package com.sohaibaijaz.sawaari;
+package com.sohaibaijaz.sawaari.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.Preference;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,8 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.sohaibaijaz.sawaari.Fragments.SettingsActivity;
-import com.sohaibaijaz.sawaari.Fragments.Verifypassword;
+import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;

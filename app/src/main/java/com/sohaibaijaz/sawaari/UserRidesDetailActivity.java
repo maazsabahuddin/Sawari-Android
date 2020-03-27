@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -26,10 +27,11 @@ public class UserRidesDetailActivity extends AppCompatActivity{
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_user_rides_detail);
-            getSupportActionBar().hide();
+            getSupportActionBar().setTitle("Boarding Pass");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             b = getIntent().getExtras();
-            ImageView back_button_user_ride_detail = findViewById(R.id.back_button_user_ride_detail);
+            //ImageView back_button_user_ride_detail = findViewById(R.id.back_button_user_ride_detail);
             TextView user_booked_seats = findViewById(R.id.user_booked_seats);
             TextView ride_date_tv = findViewById(R.id.ride_date);
 
@@ -119,20 +121,30 @@ public class UserRidesDetailActivity extends AppCompatActivity{
                 }
             });
 
-            back_button_user_ride_detail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-//                    onBackPressed();
-                    Intent i = new Intent(UserRidesDetailActivity.this, RideFragmentN.class);
-                    startActivity(i);
-                }
-            });
+//            back_button_user_ride_detail.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+////                    onBackPressed();
+//                    Intent i = new Intent(UserRidesDetailActivity.this, RideFragmentN.class);
+//                    startActivity(i);
+//                }
+//            });
 
         }
         catch (Exception e){
             System.out.println(e.toString());
         }
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

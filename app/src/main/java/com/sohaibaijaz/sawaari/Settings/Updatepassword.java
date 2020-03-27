@@ -1,4 +1,4 @@
-package com.sohaibaijaz.sawaari.Fragments;
+package com.sohaibaijaz.sawaari.Settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;

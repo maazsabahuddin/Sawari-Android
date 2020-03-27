@@ -28,10 +28,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.material.navigation.NavigationView;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
-import com.sohaibaijaz.sawaari.Fragments.MessageFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
-import com.sohaibaijaz.sawaari.Fragments.SettingsActivity;
-import com.sohaibaijaz.sawaari.Maps.LocationFragment;
+import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
+import com.sohaibaijaz.sawaari.Settings.SettingsActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;

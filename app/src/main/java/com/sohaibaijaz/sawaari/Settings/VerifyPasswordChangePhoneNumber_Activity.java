@@ -1,8 +1,11 @@
-package com.sohaibaijaz.sawaari.Fragments;
+package com.sohaibaijaz.sawaari.Settings;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -12,8 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,28 +30,30 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
-public class Verifypassword extends AppCompatActivity {
+public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity {
 
     Button button_verify_pass;
     EditText editText_password;
     SharedPreferences sharedPreferences;
     TextView error_message;
     TextView password_message;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Password");
+        setContentView(R.layout.activity_verify_password_change_phone_number);
+        getSupportActionBar().setTitle("Phone Number");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_verifypassword);
 
-        sharedPreferences = Verifypassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password);
-        button_verify_pass= findViewById(R.id.verifypassword);
-        error_message=findViewById(R.id.errormessage);
-        password_message=findViewById(R.id.securitytext);
+        sharedPreferences = VerifyPasswordChangePhoneNumber_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        editText_password= findViewById(R.id.verify_password4);
+        button_verify_pass= findViewById(R.id.verifypassword4);
+        error_message=findViewById(R.id.errormessage4);
+        password_message=findViewById(R.id.securitytext4);
+
+
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,6 +61,33 @@ public class Verifypassword extends AppCompatActivity {
                 verify_password();
             }
         });
+        editText_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                button_verify_pass.setEnabled(false);
+                button_verify_pass.setAlpha(0.5f);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                button_verify_pass.setEnabled(true);
+                button_verify_pass.setAlpha(1);
+
+                if((editText_password.getText().toString()).equals(""))
+                {
+                    button_verify_pass.setEnabled(false);
+                    button_verify_pass.setAlpha(0.5f);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         editText_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +98,7 @@ public class Verifypassword extends AppCompatActivity {
             }
         });
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -78,7 +109,6 @@ public class Verifypassword extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
     public void verify_password()
     {
         final String password_verify = editText_password.getText().toString();
@@ -88,28 +118,28 @@ public class Verifypassword extends AppCompatActivity {
             password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
-           editText_password.addTextChangedListener(new TextWatcher() {
-               @Override
-               public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            editText_password.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-               }
+                }
 
-               @Override
-               public void onTextChanged(CharSequence s, int start, int before, int count) {
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                   editText_password.setCursorVisible(true);
-                   error_message.setVisibility(View.GONE);
-                   password_message.setVisibility(View.VISIBLE);
+                    editText_password.setCursorVisible(true);
+                    error_message.setVisibility(View.GONE);
+                    password_message.setVisibility(View.VISIBLE);
 
-               }
+                }
 
-               @Override
-               public void afterTextChanged(Editable s) {
+                @Override
+                public void afterTextChanged(Editable s) {
 
-               }
-           });
+                }
+            });
 
-          //  Toast.makeText(Verifypassword.this, "Field cannot be empty", Toast.LENGTH_LONG).show();
+            //  Toast.makeText(Verifypassword.this, "Field cannot be empty", Toast.LENGTH_LONG).show();
         }
         else {
 
@@ -131,17 +161,21 @@ public class Verifypassword extends AppCompatActivity {
                                         //editor.putString("Token", token);
                                         //editor.apply();
 
-                                        Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        // Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(Verifypassword.this, Updatepassword.class);
-                                        Verifypassword.this.startActivity(i);
+                                        Intent i = new Intent(VerifyPasswordChangePhoneNumber_Activity.this, ChangePhoneNumberActivity.class);
+                                        VerifyPasswordChangePhoneNumber_Activity.this.startActivity(i);
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                         password_message.setVisibility(View.GONE);
+                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
+                                        editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
+                                        Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, sharedPreferences.getString("Token", ""), Toast.LENGTH_LONG).show();
+
                                         editText_password.addTextChangedListener(new TextWatcher() {
+
                                             @Override
                                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -151,6 +185,8 @@ public class Verifypassword extends AppCompatActivity {
                                             public void onTextChanged(CharSequence s, int start, int before, int count) {
                                                 editText_password.setCursorVisible(true);
                                                 error_message.setVisibility(View.GONE);
+                                                editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
+
                                                 password_message.setVisibility(View.VISIBLE);
                                             }
 
@@ -159,7 +195,7 @@ public class Verifypassword extends AppCompatActivity {
 
                                             }
                                         });
-                                       // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
@@ -169,7 +205,7 @@ public class Verifypassword extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(Verifypassword.this, error.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override

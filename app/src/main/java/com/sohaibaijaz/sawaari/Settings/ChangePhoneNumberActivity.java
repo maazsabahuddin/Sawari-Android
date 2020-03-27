@@ -1,11 +1,10 @@
-package com.sohaibaijaz.sawaari;
+package com.sohaibaijaz.sawaari.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,70 +32,48 @@ import java.util.Map;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
-public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity {
+public class ChangePhoneNumberActivity extends AppCompatActivity {
 
-    Button button_verify_pass;
-    EditText editText_password;
+    EditText editText_PhoneNumber;
     SharedPreferences sharedPreferences;
+    Button button_savephonenumber;
     TextView error_message;
-    TextView password_message;
+    TextView textView_number_code;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_password_change_phone_number);
         getSupportActionBar().setTitle("Phone Number");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setContentView(R.layout.activity_change_phone);
+        sharedPreferences = ChangePhoneNumberActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
-        sharedPreferences = VerifyPasswordChangePhoneNumber_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password4);
-        button_verify_pass= findViewById(R.id.verifypassword4);
-        error_message=findViewById(R.id.errormessage4);
-        password_message=findViewById(R.id.securitytext4);
+        String number_before_split= sharedPreferences.getString("phone_number", "");
+        String[] result = number_before_split.split("2", 2);
+        String number_after_split = result[1];
+        editText_PhoneNumber=findViewById(R.id.phonenumber);
+        editText_PhoneNumber.setText(number_after_split);
 
+        textView_number_code=findViewById(R.id.numcode);
+        error_message=findViewById(R.id.errormessagep);
+        button_savephonenumber=findViewById(R.id.savephone);
 
-        button_verify_pass.setOnClickListener(new View.OnClickListener() {
+        button_savephonenumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText_password.setCursorVisible(false);
-                verify_password();
-            }
-        });
-        editText_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                button_verify_pass.setEnabled(false);
-                button_verify_pass.setAlpha(0.5f);
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                button_verify_pass.setEnabled(true);
-                button_verify_pass.setAlpha(1);
-
-                if((editText_password.getText().toString()).equals(""))
-                {
-                    button_verify_pass.setEnabled(false);
-                    button_verify_pass.setAlpha(0.5f);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
+                editText_PhoneNumber.setCursorVisible(false);
+                update_phonenumber();
             }
         });
 
-
-        editText_password.setOnClickListener(new View.OnClickListener() {
+        editText_PhoneNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editText_password.setCursorVisible(true);
+                editText_PhoneNumber.setCursorVisible(true);
                 error_message.setVisibility(View.GONE);
-                password_message.setVisibility(View.VISIBLE);
-
             }
         });
+
     }
 
     @Override
@@ -108,16 +86,14 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
         return super.onOptionsItemSelected(item);
     }
 
-    public void verify_password()
+    public void update_phonenumber()
     {
-        final String password_verify = editText_password.getText().toString();
-
-        if(password_verify.equals(""))
+        final String new_phonenumber = textView_number_code.getText().toString() + editText_PhoneNumber.getText().toString();
+        if(new_phonenumber.equals(""))
         {
-            password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
-            editText_password.addTextChangedListener(new TextWatcher() {
+            editText_PhoneNumber.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -126,10 +102,8 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                    editText_password.setCursorVisible(true);
+                    editText_PhoneNumber.setCursorVisible(true);
                     error_message.setVisibility(View.GONE);
-                    password_message.setVisibility(View.VISIBLE);
-
                 }
 
                 @Override
@@ -144,7 +118,7 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
 
             try {
 
-                String url = "http://52.15.104.184/password/check/";
+                String url = "http://52.15.104.184/change/phonenumber/";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -155,26 +129,23 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
 
-
                                         // SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        //editor.putString("Token", token);
-                                        //editor.apply();
+                                         //editor.putString("phone_number", new_phonenumber);
+                                         //editor.apply();
 
-                                        // Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                         Toast.makeText(ChangePhoneNumberActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(VerifyPasswordChangePhoneNumber_Activity.this, ChangePhoneNumberActivity.class);
-                                        VerifyPasswordChangePhoneNumber_Activity.this.startActivity(i);
+                                         Intent i = new Intent(ChangePhoneNumberActivity.this, VerifyPhoneNoActivity.class);
+                                         i.putExtra("change_number", new_phonenumber );
+                                         startActivity(i);
 
-                                    } else if (json.getString("status").equals("401")) {
+                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
 
-                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
-                                        editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
-                                        Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, sharedPreferences.getString("Token", ""), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(ChangePhoneNumberActivity.this, new_phonenumber, Toast.LENGTH_LONG).show();
 
-                                        editText_password.addTextChangedListener(new TextWatcher() {
-
+                                        editText_PhoneNumber.addTextChangedListener(new TextWatcher() {
                                             @Override
                                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -182,11 +153,8 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
 
                                             @Override
                                             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                editText_password.setCursorVisible(true);
+                                                editText_PhoneNumber.setCursorVisible(true);
                                                 error_message.setVisibility(View.GONE);
-                                                editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
-
-                                                password_message.setVisibility(View.VISIBLE);
                                             }
 
                                             @Override
@@ -196,6 +164,29 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
                                         });
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
+                                    else{
+                                        error_message.setText(json.getString("message"));
+                                        error_message.setVisibility(View.VISIBLE);
+                                        Toast.makeText(ChangePhoneNumberActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
+
+                                        editText_PhoneNumber.addTextChangedListener(new TextWatcher() {
+                                            @Override
+                                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                            }
+
+                                            @Override
+                                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                                editText_PhoneNumber.setCursorVisible(true);
+                                                error_message.setVisibility(View.GONE);
+                                            }
+
+                                            @Override
+                                            public void afterTextChanged(Editable s) {
+
+                                            }
+                                        });
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -204,13 +195,13 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(ChangePhoneNumberActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                             }
                         }) {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<>();
-                        params.put("password", password_verify);
+                        params.put("phonenumber", new_phonenumber);
 
                         return params;
                     }

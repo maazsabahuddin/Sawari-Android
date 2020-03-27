@@ -16,27 +16,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PushNotificationsActivity"></activity>
-        <activity android:name=".NotificationsActivity" />
+        <activity android:name=".Settings.PushNotificationsActivity"></activity>
+        <activity android:name=".Settings.NotificationsActivity" />
         <activity
-            android:name=".VerifyPhoneNoActivity"
+            android:name=".Settings.VerifyPhoneNoActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ChangePhoneNumberActivity"
+            android:name=".Settings.ChangePhoneNumberActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".VerifyPasswordChangePhoneNumber_Activity"
+            android:name=".Settings.VerifyPasswordChangePhoneNumber_Activity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".VerifyPasswordTwoStepVerification_Activity"
+            android:name=".Settings.VerifyPasswordTwoStepVerification_Activity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".TwoStepVerificationActivity" />
-        <activity android:name=".SecurityActivity" />
-        <activity android:name=".DeleteAccount_Activity" />
+        <activity android:name=".Settings.TwoStepVerificationActivity" />
+        <activity android:name=".Settings.SecurityActivity" />
+        <activity android:name=".Settings.DeleteAccount_Activity" />
         <activity
-            android:name=".VerifyPasswordDeleteAccount_Activity"
+            android:name=".Settings.VerifyPasswordDeleteAccount_Activity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".PrivacyActivity" />
+        <activity android:name=".Settings.PrivacyActivity" />
         <activity android:name=".Maps.LocationFragment" />
         <activity android:name=".Maps.LocationActivity" />
         <activity android:name=".Maps.SavedPlace" />
@@ -45,10 +45,10 @@
         <activity android:name=".Rides.BusActivity" />
         <activity android:name=".Rides.SelectedRideActivity" />
         <activity android:name=".Rides.ConfirmRideBooking" />
-        <activity android:name=".Fragments.SettingsActivity" />
-        <activity android:name=".Fragments.UpdateActivity" />
-        <activity android:name=".Fragments.Verifypassword" />
-        <activity android:name=".Fragments.Updatepassword" />
+        <activity android:name=".Settings.SettingsActivity" />
+        <activity android:name=".Settings.UpdateActivity" />
+        <activity android:name=".Settings.Verifypassword" />
+        <activity android:name=".Settings.Updatepassword" />
         <activity
             android:name=".SplashActivity"
             android:screenOrientation="portrait" />

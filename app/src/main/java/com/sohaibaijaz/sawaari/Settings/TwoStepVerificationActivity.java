@@ -1,4 +1,4 @@
-package com.sohaibaijaz.sawaari;
+package com.sohaibaijaz.sawaari.Settings;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,26 +7,25 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-public class SecurityActivity extends AppCompatActivity {
+import com.sohaibaijaz.sawaari.R;
 
-    Button button_security;
+public class TwoStepVerificationActivity extends AppCompatActivity {
+
+    Button button_setupnow;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().setTitle("Security");
+        getSupportActionBar().setTitle("2-step Verification");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_security);
+        setContentView(R.layout.activity_2step_verification);
+        button_setupnow=findViewById(R.id.setupnow);
 
-        button_security=findViewById(R.id.twostepverification);
-
-        button_security.setOnClickListener(new View.OnClickListener() {
+        button_setupnow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(SecurityActivity.this, TwoStepVerificationActivity.class);
-                SecurityActivity.this.startActivity(i);
-               // Toast.makeText(SecurityActivity.this,"hello",Toast.LENGTH_LONG).show();
+                Intent i = new Intent(TwoStepVerificationActivity.this, VerifyPasswordTwoStepVerification_Activity.class);
+                TwoStepVerificationActivity.this.startActivity(i);
             }
         });
     }
