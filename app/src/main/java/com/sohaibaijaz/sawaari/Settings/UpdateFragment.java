@@ -29,7 +29,10 @@ import java.util.Map;
 public class UpdateFragment extends PreferenceFragmentCompat {
 
     SharedPreferences sharedPreferences;
-
+    private String firstName;
+    private String lastName;
+    private String phoneNumber;
+    private String email;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,30 +40,32 @@ public class UpdateFragment extends PreferenceFragmentCompat {
         final PreferenceScreen preferenceScreen = this.getPreferenceScreen();
 
         sharedPreferences = this.getActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
+        firstName = sharedPreferences.getString("first_name", "");
+        lastName = sharedPreferences.getString("last_name", "");
+        phoneNumber = sharedPreferences.getString("phone_number", "");
+        email = sharedPreferences.getString("email", "");
+
         try{
             final EditTextPreference editTextFirstName = findPreference("firstName");
             final EditTextPreference editTextLastName = findPreference("lastName");
             final EditTextPreference editTextEmail = findPreference("email");
             final Preference preferencePhoneNumber = findPreference("phoneNumber");
             final Preference preferencePassword = findPreference("password");
+            final Preference preference_profile = findPreference("userDetails");
+
+            preference_profile.setTitle(firstName + " " + lastName);
+            preference_profile.setSummary(email + "\n" + phoneNumber);
 
             editTextFirstName.setSummary(sharedPreferences.getString("first_name", ""));
             editTextFirstName.setText(sharedPreferences.getString("first_name", ""));
-            editTextFirstName.setIconSpaceReserved(false);
 
             editTextLastName.setSummary(sharedPreferences.getString("last_name", ""));
             editTextLastName.setText(sharedPreferences.getString("last_name", ""));
-            editTextLastName.setIconSpaceReserved(false);
 
             editTextEmail.setSummary(sharedPreferences.getString("email", ""));
             editTextEmail.setText(sharedPreferences.getString("email", ""));
-            editTextEmail.setIconSpaceReserved(false);
 
             preferencePhoneNumber.setSummary(sharedPreferences.getString("phone_number", ""));
-            preferencePhoneNumber.setIconSpaceReserved(false);
-
-            preferencePassword.setIconSpaceReserved(false);
-
 
             editTextFirstName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override

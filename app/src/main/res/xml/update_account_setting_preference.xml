@@ -2,62 +2,58 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory
-        android:icon="@drawable/profile_icon" >
-
-        <Preference />
-
-    </PreferenceCategory>
+    <Preference
+        android:key="userDetails"
+        android:title="Maaz Sabahuddin"
+        android:summary="maazsabahuddin@gmail.com\n+923442713545"
+        android:layout="@layout/image_preference"
+        android:icon="@drawable/maaz" />
 
     <PreferenceCategory>
 
         <EditTextPreference
             android:key="firstName"
             android:title="First Name"
+            android:summary="Maaz"
             android:dialogMessage="Update first name"
             android:dialogTitle="First Name"
             android:positiveButtonText="SAVE"
-            android:negativeButtonText=""
-            />
+            android:layout="@layout/update_setting_custom_preference"
+            android:negativeButtonText="" />
 
         <EditTextPreference
             android:key="lastName"
             android:title="Last Name"
+            android:summary="Sabahuddin"
             android:dialogMessage="Update last name"
             android:dialogTitle="Last Name"
             android:positiveButtonText="SAVE"
-            android:negativeButtonText=""/>
+            android:layout="@layout/update_setting_custom_preference"
+            android:negativeButtonText="" />
 
         <EditTextPreference
             android:key="email"
             android:title="Email"
+            android:summary="maazsabahuddin@gmail.com"
             android:dialogTitle="Email"
             android:dialogMessage="Confirm your email address"
             android:positiveButtonText="SAVE"
-            android:negativeButtonText=""/>
+            android:layout="@layout/update_setting_custom_preference"
+            android:negativeButtonText="" />
 
         <Preference
             android:key="phoneNumber"
             android:title="Phone Number"
-            />
+            android:summary="+923442713545"
+            android:icon="@drawable/pickistan_flag"
+            android:layout="@layout/update_phonenumber_setting_preference"/>
 
 
         <Preference
             android:key="password"
             android:title="Password"
-            android:summary="********"/>
-
-
-
-<!--        <EditTextPreference-->
-<!--            android:key="check"-->
-<!--            android:title="Hello"-->
-<!--            android:summary="Hello World"-->
-<!--            android:positiveButtonText="SAVE"-->
-<!--            android:negativeButtonText=""-->
-<!--            android:dialogMessage="Verify Password"-->
-<!--            android:dialogTitle="A"-->
-<!--            />-->
+            android:summary="********"
+            android:layout="@layout/update_setting_custom_preference"/>
 
     </PreferenceCategory>
 
