@@ -1,55 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-<RadioGroup
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-    <RadioButton
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="   Push Notifications"
-        android:textAllCaps="false"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/accountandtrip"
-        android:background="#f8f8f8"
-        android:checked="true"
-        android:buttonTint="@color/colorJacksonPurple"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="20dp"></RadioButton>
+        android:orientation="vertical"
+        android:layout_marginTop="15dp">
 
-    <RadioButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="   Off"
-        android:textAllCaps="false"
-        android:textAlignment="textStart"
-        android:textSize="18sp"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_marginLeft="10dp"
-        android:id="@+id/discountsandnews"
-        android:buttonTint="@color/colorJacksonPurple"
-        android:background="#f8f8f8"
-        android:textColor="@android:color/black"
-        android:layout_marginTop="20dp"></RadioButton>
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    </RadioGroup>
+            <RadioButton
+                android:id="@+id/accountandtrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  Push Notifications"
+                android:textAllCaps="false"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="#f8f8f8"
+                android:checked="true"
+                android:buttonTint="@color/colorJacksonPurple"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="When turned off you may still receive promotional emails from Uber. If you change these settings, it may take a few minutes to update."
-        android:textSize="15sp"
-        android:layout_gravity="left"
-        android:textColor="@android:color/darker_gray"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"></TextView>
+            <RadioButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  Off"
+                android:textAllCaps="false"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:id="@+id/discountsandnews"
+                android:buttonTint="@color/colorJacksonPurple"
+                android:background="#f8f8f8"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="10dp" />
 
+        </RadioGroup>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="When turned off you may still receive promotional emails from Uber. If you change these settings, it may take a few minutes to update."
+            android:textSize="13sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="15dp" />
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>
+
