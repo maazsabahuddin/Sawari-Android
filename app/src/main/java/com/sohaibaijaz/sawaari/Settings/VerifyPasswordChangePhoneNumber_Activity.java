@@ -53,6 +53,7 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
         error_message=findViewById(R.id.errormessage4);
         password_message=findViewById(R.id.securitytext4);
 
+        error_message.setVisibility(View.GONE);
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,11 +169,9 @@ public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity 
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
-                                        Toast.makeText(VerifyPasswordChangePhoneNumber_Activity.this, sharedPreferences.getString("Token", ""), Toast.LENGTH_LONG).show();
 
                                         editText_password.addTextChangedListener(new TextWatcher() {
 
