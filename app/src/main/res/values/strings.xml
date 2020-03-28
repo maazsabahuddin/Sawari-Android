@@ -20,8 +20,8 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_account">Account</string>
-    <string name="menu_rides">Rides</string>
-    <string name="menu_message">Notification</string>
+    <string name="menu_rides">My Rides</string>
+    <string name="menu_message">My Notifications</string>
     <string name="menu_communicate">Communicate</string>
     <string name="tv_buses">tv_buses</string>
     <string name="menu_logout">Log out</string>
@@ -41,8 +41,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="_2">2</string>
     <string name="mar_23_2020">Mar 23, 2020</string>
-    <string name="about">About</string>
+    <string name="about">About Us</string>
     <string name="setting">Setting</string>
+    <string name="help_nav">Help</string>
 
 </resources>
 
