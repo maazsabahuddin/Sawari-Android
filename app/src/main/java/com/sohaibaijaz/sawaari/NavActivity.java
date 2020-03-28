@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -44,6 +45,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     private NavigationView navView;
+    private ImageView profileImage;
 
     SharedPreferences sharedPreferences;
     @Override
@@ -58,6 +60,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         spinner.setVisibility(View.GONE);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+//        profileImage = findViewById(R.id.title);
 
 
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -117,94 +120,6 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 //                startActivity(new Intent(getApplicationContext(), EmptyFragment.class));
                 break;
 
-            case R.id.nav_logout:
-
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.remove("Token");
-//                editor.apply();
-//                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                finish();
-//                startActivity(intent);
-                requestQueue = Volley.newRequestQueue(getApplicationContext());
-                try {
-                    String URL = MainActivity.baseurl + "/logout/";
-                    spinner.setVisibility(View.VISIBLE);
-                    spinner_frame.setVisibility(View.VISIBLE);
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            spinner.setVisibility(View.GONE);
-                            spinner_frame.setVisibility(View.GONE);
-                            Log.i("VOLLEY", response.toString());
-                            try {
-                                JSONObject json = new JSONObject(response);
-                                if (json.getString("status").equals("200")) {
-                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.remove("Token");
-                                    editor.remove("first_name");
-                                    editor.remove("last_name");
-                                    editor.remove("email");
-                                    editor.remove("phone_number");
-                                    editor.remove("user_rides");
-                                    editor.apply();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    finish();
-                                    startActivity(intent);
-                                }
-                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-                                    Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (JSONException e) {
-                                Log.e("VOLLEY", e.toString());
-
-                            }
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            spinner.setVisibility(View.GONE);
-                            spinner_frame.setVisibility(View.GONE);
-                            Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                            Log.e("VOLLEY", error.toString());
-                        }
-                    }){
-                        @Override
-                        protected Map<String,String> getParams(){
-                            Map<String,String> params = new HashMap<String, String>();
-
-                            return params;
-                        }
-
-                        @Override
-                        public Map<String, String> getHeaders() throws AuthFailureError {
-                            Map<String, String>  params = new HashMap<String, String>();
-                            params.put("Authorization", token);
-                            return params;
-                        }
-                    };
-
-                    stringRequest.setRetryPolicy(new RetryPolicy() {
-                        @Override
-                        public int getCurrentTimeout() {
-                            return 50000;
-                        }
-
-                        @Override
-                        public int getCurrentRetryCount() {
-                            return 50000;
-                        }
-
-                        @Override
-                        public void retry(VolleyError error) throws VolleyError {
-
-                        }
-                    });
-                    requestQueue.add(stringRequest);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
         }
 
         drawer.closeDrawer(GravityCompat.START);

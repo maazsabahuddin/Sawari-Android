@@ -69,7 +69,7 @@
             android:layout="@layout/custom_preference"/>
 
         <Preference
-            android:key="sign_out"
+            android:key="signOutPreference"
             android:title="Sign out"
             android:icon="@drawable/security"
             android:layout="@layout/custom_preference"/>
@@ -78,7 +78,7 @@
 
 
     <Preference
-        android:key="sign_out"
+        android:key="versionPreference"
         android:title="Terms and Condition"
         android:summary="App Version 1.0.5"
         android:icon="@drawable/security"
