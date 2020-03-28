@@ -18,8 +18,8 @@
             android:dialogMessage="Update first name"
             android:dialogTitle="First Name"
             android:positiveButtonText="SAVE"
-            android:layout="@layout/update_setting_custom_preference"
-            android:negativeButtonText="" />
+            android:negativeButtonText="@string/Cancel"
+            android:layout="@layout/update_setting_custom_preference"/>
 
         <EditTextPreference
             android:key="lastName"
@@ -28,8 +28,8 @@
             android:dialogMessage="Update last name"
             android:dialogTitle="Last Name"
             android:positiveButtonText="SAVE"
-            android:layout="@layout/update_setting_custom_preference"
-            android:negativeButtonText="" />
+            android:negativeButtonText=""
+            android:layout="@layout/update_setting_custom_preference"/>
 
         <EditTextPreference
             android:key="email"
