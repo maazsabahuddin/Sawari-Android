@@ -3,32 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_home" />
 
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_home"
-            android:title="@string/menu_home" />
+    <item
+        android:id="@+id/nav_ride"
+        android:icon="@drawable/ic_ride"
+        android:title="@string/menu_rides" />
 
-        <item
-            android:id="@+id/nav_account"
-            android:icon="@drawable/ic_account"
-            android:title="@string/menu_account" />
-        <item
-            android:id="@+id/nav_ride"
-            android:icon="@drawable/ic_ride"
-            android:title="@string/menu_rides" />
-    </group>
+    <item
+        android:id="@+id/nav_message"
+        android:icon="@drawable/ic_message"
+        android:title="@string/menu_message" />
 
-    <item android:title="@string/menu_communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_message"
-                android:icon="@drawable/ic_message"
-                android:title="@string/menu_message" />
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/ic_account"
+        android:title="@string/about" />
 
-        </menu>
-    </item>
+    <item
+        android:id="@+id/nav_account"
+        android:icon="@drawable/ic_account"
+        android:title="@string/setting" />
+
+<!--    <item android:title="@string/menu_communicate">-->
+<!--        <menu>-->
+<!--            <item-->
+<!--                android:id="@+id/nav_message"-->
+<!--                android:icon="@drawable/ic_message"-->
+<!--                android:title="@string/menu_message" />-->
+
+<!--        </menu>-->
+<!--    </item>-->
+
     <item android:title="">
         <menu>
             <item

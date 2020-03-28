@@ -1,17 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="176dp"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="175dp"
     android:background="@color/colorJacksonPurple"
-    android:gravity="bottom"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    android:padding="16dp"
-    android:id="@+id/nav_header"
-    >
+    android:id="@+id/nav_header" >
 
     <ImageView
-        android:layout_width="110dp"
-        android:layout_height="103dp"
-        android:src="@mipmap/ic_user" />
+        android:id="@android:id/icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginBottom="18dp"
+        android:src="@drawable/maaz"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="55dp" >
+
+        <TextView
+            android:id="@android:id/title"
+            android:textColor="@color/colorWhite"
+            android:layout_width="match_parent"
+            android:text="Maaz Sabahuddin"
+            android:layout_height="match_parent"
+            android:textSize="20sp"
+            android:gravity="center_vertical"
+            android:layout_weight="10"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@android:id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textColor="@color/quantum_grey"
+            android:text="maazsabahuddin@gmail.com\n+923442713545"
+            android:textSize="13.5sp"
+            android:gravity="center_vertical"
+            android:layout_weight="10"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </LinearLayout>
