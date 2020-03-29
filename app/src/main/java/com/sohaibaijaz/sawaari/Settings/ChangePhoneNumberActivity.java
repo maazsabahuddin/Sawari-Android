@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +49,10 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_phone);
         sharedPreferences = ChangePhoneNumberActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
-        String number_before_split= sharedPreferences.getString("phone_number", "");
+       // User user = new User();
+
+       String number_before_split= sharedPreferences.getString("phone_number", "");
+       // String number_before_split= user.getPhoneNumber();
         String[] result = number_before_split.split("2", 2);
         String number_after_split = result[1];
         editText_PhoneNumber=findViewById(R.id.phonenumber);

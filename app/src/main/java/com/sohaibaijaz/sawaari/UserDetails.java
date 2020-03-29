@@ -13,6 +13,9 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +36,7 @@ public class UserDetails {
 
            //Getting user details
             try {
-                String URL = MainActivity.baseurl + "/my_details/";
+                final String URL = MainActivity.baseurl + "/my_details/";
                 JSONObject jsonBody = new JSONObject();
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
@@ -50,6 +53,18 @@ public class UserDetails {
                                 edit.putString("email", json.getString("email"));
                                 edit.putString("phone_number", json.getString("phone_number"));
                                 edit.apply();
+                                GsonBuilder builder = new GsonBuilder();
+                                 Gson gson = builder.create();
+                                   // Gson gson = new Gson();
+                                   User user= gson.fromJson(json.toString(), User.class);
+                                  Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, user.getEmail(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, user.getEmail(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, user.getEmail(), Toast.LENGTH_SHORT).show();
+//
+
+
+
                             } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
                             }

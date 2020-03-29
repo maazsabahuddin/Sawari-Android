@@ -19,6 +19,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.User;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
@@ -49,10 +50,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         try{
             sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
             final String token = sharedPreferences.getString("Token", "");
-            firstName = sharedPreferences.getString("first_name", "");
-            lastName = sharedPreferences.getString("last_name", "");
+//            firstName = sharedPreferences.getString("first_name", "");
+//            lastName = sharedPreferences.getString("last_name", "");
             phoneNumber = sharedPreferences.getString("phone_number", "");
             email = sharedPreferences.getString("email", "");
+
+
+             User user = new User();
+            Toast.makeText(getActivity(),user.getFirstName(), Toast.LENGTH_SHORT).show();
+
+            firstName= user.getFirstName();
+            lastName=user.getLastName();
+          //  email=user.getEmail();
 
             addPreferencesFromResource(R.xml.account_setting_preference);
 
