@@ -125,7 +125,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                                         editor.remove("user_rides");
                                         editor.apply();
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
-                                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                         getActivity().finish();
                                         startActivity(intent);
                                     }
