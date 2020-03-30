@@ -55,13 +55,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             phoneNumber = sharedPreferences.getString("phone_number", "");
             email = sharedPreferences.getString("email", "");
 
+            User user= User.getInstance();
 
-             User user = new User();
-            Toast.makeText(getActivity(),user.getFirstName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
 
-            firstName= user.getFirstName();
+            firstName= user.getFirstName() ;
             lastName=user.getLastName();
           //  email=user.getEmail();
+            //phoneNumber=user.getPhoneNumber();
 
             addPreferencesFromResource(R.xml.account_setting_preference);
 
@@ -206,5 +207,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         /*setPreferencesFromResource(R.xml.account_setting_preference, rootKey);*/
     }
+
 
 }

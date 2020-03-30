@@ -49,9 +49,10 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_change_phone);
         sharedPreferences = ChangePhoneNumberActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
-       // User user = new User();
+          User user = User.getInstance();
+       // User user = (User)getContext();
 
-       String number_before_split= sharedPreferences.getString("phone_number", "");
+       String number_before_split= user.getPhoneNumber();
        // String number_before_split= user.getPhoneNumber();
         String[] result = number_before_split.split("2", 2);
         String number_after_split = result[1];
