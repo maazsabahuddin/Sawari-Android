@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +48,8 @@ public class DeleteAccount_Activity extends AppCompatActivity {
         button_cancel=findViewById(R.id.cancel);
         button_continue=findViewById(R.id.continue_delete);
 
-        sorry_message.setText(sharedPreferences.getString("first_name", "")+", "+"sorry to see you go");
+        User user = User.getInstance();
+        sorry_message.setText(user.getFirstName());
 
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -22,6 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -237,9 +238,13 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                     if (json.getString("status").equals("200")) {
 
 
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("phone_number", verifyphonenumber);
-                                        editor.apply();
+                                        User user= User.getInstance();
+                                        user.setPhoneNumber(verifyphonenumber);
+
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.putString("phone_number", verifyphonenumber);
+//                                        editor.apply();
+
                                         Toast.makeText(VerifyPhoneNoActivity.this, "main hun", Toast.LENGTH_LONG).show();
                                         otp_message.setText(json.getString("message"));
                                         otp_message.setVisibility(View.VISIBLE);

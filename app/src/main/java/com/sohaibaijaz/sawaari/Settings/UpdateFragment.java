@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,12 +39,12 @@ public class UpdateFragment extends PreferenceFragmentCompat {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.update_account_setting_preference);
         final PreferenceScreen preferenceScreen = this.getPreferenceScreen();
-
+        User user=User.getInstance();
         sharedPreferences = this.getActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
-        firstName = sharedPreferences.getString("first_name", "");
-        lastName = sharedPreferences.getString("last_name", "");
-        phoneNumber = sharedPreferences.getString("phone_number", "");
-        email = sharedPreferences.getString("email", "");
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
+        phoneNumber = user.getPhoneNumber();
+        email = user.getEmail();
 
         try{
             final EditTextPreference editTextFirstName = findPreference("firstName");
@@ -56,16 +57,16 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             preference_profile.setTitle(firstName + " " + lastName);
             preference_profile.setSummary(email + "\n" + phoneNumber);
 
-            editTextFirstName.setSummary(sharedPreferences.getString("first_name", ""));
-            editTextFirstName.setText(sharedPreferences.getString("first_name", ""));
+            editTextFirstName.setSummary(user.getFirstName());
+            editTextFirstName.setText(user.getFirstName());
 
-            editTextLastName.setSummary(sharedPreferences.getString("last_name", ""));
-            editTextLastName.setText(sharedPreferences.getString("last_name", ""));
+            editTextLastName.setSummary(user.getLastName());
+            editTextLastName.setText(user.getLastName());
 
-            editTextEmail.setSummary(sharedPreferences.getString("email", ""));
-            editTextEmail.setText(sharedPreferences.getString("email", ""));
+            editTextEmail.setSummary(user.getEmail());
+            editTextEmail.setText(user.getEmail());
 
-            preferencePhoneNumber.setSummary(sharedPreferences.getString("phone_number", ""));
+            preferencePhoneNumber.setSummary(user.getPhoneNumber());
 
             editTextFirstName.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -140,11 +141,14 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                             JSONObject json = new JSONObject(response);
                             if (json.getString("status").equals("200")) {
 
-                                SharedPreferences.Editor editor = sharedPreferences.edit();
-
-                                editor.putString("first_name", json.getString("first_name"));
-                                editor.putString("last_name", json.getString("last_name"));
-                                editor.apply();
+//                                SharedPreferences.Editor editor = sharedPreferences.edit();
+//
+//                                editor.putString("first_name", json.getString("first_name"));
+//                                editor.putString("last_name", json.getString("last_name"));
+//                                editor.apply();
+                                User user = User.getInstance();
+                                user.setFirstName(json.getString("first_name"));
+                                user.setLastName(json.getString("last_name"));
                                 if(lastNameEditValue.equals("")){
                                     EditTextPreference editTextFirstName = findPreference("firstName");
                                     editTextFirstName.setSummary(firstNameEditValue);

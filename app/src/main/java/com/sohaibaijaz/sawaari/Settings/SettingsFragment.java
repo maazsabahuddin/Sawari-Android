@@ -50,11 +50,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         try{
             sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
             final String token = sharedPreferences.getString("Token", "");
-
-            phoneNumber = sharedPreferences.getString("phone_number", "");
-            email = sharedPreferences.getString("email", "");
-
             User user= User.getInstance();
+            phoneNumber = user.getPhoneNumber();
+            email = user.getEmail();
+
+
             Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
 
             firstName= user.getFirstName() ;
