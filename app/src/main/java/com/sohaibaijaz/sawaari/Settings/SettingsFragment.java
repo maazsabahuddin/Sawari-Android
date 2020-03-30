@@ -50,18 +50,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         try{
             sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
             final String token = sharedPreferences.getString("Token", "");
-//            firstName = sharedPreferences.getString("first_name", "");
-//            lastName = sharedPreferences.getString("last_name", "");
+
             phoneNumber = sharedPreferences.getString("phone_number", "");
             email = sharedPreferences.getString("email", "");
 
+            User user= User.getInstance();
+            Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
 
-            User user = new User();
-//            Toast.makeText(getActivity(),user.getFirstName(), Toast.LENGTH_SHORT).show();
-
-            firstName= user.getFirstName();
+            firstName= user.getFirstName() ;
             lastName=user.getLastName();
-          //  email=user.getEmail();
 
             addPreferencesFromResource(R.xml.account_setting_preference);
 
@@ -206,5 +203,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         /*setPreferencesFromResource(R.xml.account_setting_preference, rootKey);*/
     }
+
 
 }
