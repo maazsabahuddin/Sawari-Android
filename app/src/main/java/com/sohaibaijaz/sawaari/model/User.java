@@ -20,10 +20,6 @@ public class User implements Serializable {
     @SerializedName("phone_number")
     private String phoneNumber;
 
-    public User() {
-    }
-
-
     public int getStatus() {
         return status;
     }

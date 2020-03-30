@@ -56,8 +56,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             email = sharedPreferences.getString("email", "");
 
 
-             User user = new User();
-            Toast.makeText(getActivity(),user.getFirstName(), Toast.LENGTH_SHORT).show();
+            User user = new User();
+//            Toast.makeText(getActivity(),user.getFirstName(), Toast.LENGTH_SHORT).show();
 
             firstName= user.getFirstName();
             lastName=user.getLastName();

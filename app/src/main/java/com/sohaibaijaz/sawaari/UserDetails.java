@@ -53,17 +53,15 @@ public class UserDetails {
                                 edit.putString("email", json.getString("email"));
                                 edit.putString("phone_number", json.getString("phone_number"));
                                 edit.apply();
+
                                 GsonBuilder builder = new GsonBuilder();
-                                 Gson gson = builder.create();
-                                   // Gson gson = new Gson();
-                                   User user= gson.fromJson(json.toString(), User.class);
-                                  Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(context, user.getEmail(), Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(context, user.getEmail(), Toast.LENGTH_SHORT).show();
-//                                Toast.makeText(context, user.getEmail(), Toast.LENGTH_SHORT).show();
-//
+                                Gson gson = builder.create();
+                                User user = gson.fromJson(json.toString(), User.class);
 
-
+                                System.out.println("\n\n\n\n\n" + user.getPhoneNumber());
+                                System.out.println(user.getEmail());
+                                System.out.println(user.getFirstName());
+                                System.out.println(user.getLastName());
 
                             } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
