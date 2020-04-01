@@ -45,6 +45,7 @@ import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.Rides.show_rides;
 import com.sohaibaijaz.sawaari.Rides.today_rides;
+import com.sohaibaijaz.sawaari.model.Location;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,8 +64,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import io.realm.Realm;
+
 public class LocationFragment extends Fragment {
 
+    Realm realm;
     private View fragmentView;
 
     private GoogleMap mMap;
@@ -87,7 +91,8 @@ public class LocationFragment extends Fragment {
         return LF;
     }
 
-    public LocationFragment(){}
+    public LocationFragment() {
+    }
 
     @Nullable
     @Override
@@ -95,21 +100,23 @@ public class LocationFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.activity_where_to, container, false);
 
-        AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
+        realm = Realm.getDefaultInstance();
+
+        AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setText("Your location");
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListenerFrom);
 
-        final AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
+        final AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
         autocompleteFragmentdropOff.setCountry("PK");
         autocompleteFragmentdropOff.setHint("Where To?");
         autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListenerTo);
 
         Bundle b = this.getArguments();
-        if(b.getSerializable("pick_up_location") != null){
-            currentLocation = (HashMap<String,String>)b.getSerializable("pick_up_location");
+        if (b.getSerializable("pick_up_location") != null) {
+            currentLocation = (HashMap<String, String>) b.getSerializable("pick_up_location");
         }
 
         TextView add_home = fragmentView.findViewById(R.id.add_home_place);
@@ -118,19 +125,19 @@ public class LocationFragment extends Fragment {
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
 
         add_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
 
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
-        final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
         Button proceed_button = fragmentView.findViewById(R.id.proceed_button);
         proceed_button.setOnClickListener(new View.OnClickListener() {
@@ -142,8 +149,7 @@ public class LocationFragment extends Fragment {
 
                 if (dropoffLocation.get("latitude") == null || dropoffLocation.get("longitude") == null) {
                     Toast.makeText(getContext(), "Select drop off location first!", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     try {
 
                         String URL = MainActivity.baseurl + "/bus/route/";
@@ -244,7 +250,7 @@ public class LocationFragment extends Fragment {
     PlaceSelectionListener placeSelectionListenerFrom = new PlaceSelectionListener() {
         @Override
         public void onPlaceSelected(@NonNull Place place) {
-            try{
+            try {
                 currentLocation.clear();
                 currentLocation.put("name", place.getName());
                 currentLocation.put("id", place.getId());
@@ -252,8 +258,7 @@ public class LocationFragment extends Fragment {
                 currentLocation.put("latitude", String.valueOf(latLng.latitude));
                 currentLocation.put("longitude", String.valueOf(latLng.longitude));
 
-            }
-            catch (Exception e){
+            } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
             }
 
@@ -310,16 +315,19 @@ public class LocationFragment extends Fragment {
         @Override
         public void onPlaceSelected(@NonNull Place place) {
 
-            try{
+            try {
                 dropoffLocation.clear();
                 dropoffLocation.put("name", place.getName());
                 dropoffLocation.put("id", place.getId());
                 LatLng latLng = place.getLatLng();
                 dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
                 dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
-            }
-            catch (Exception e){
+                writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude));
+            } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
+            }
+            finally {
+                realm.close();
             }
 
 
@@ -524,7 +532,7 @@ public class LocationFragment extends Fragment {
         // Sensor enabled
         String sensor = "sensor=false";
 
-        String api_key = "key="+ MainActivity.MAP_VIEW_BUNDLE_KEY;
+        String api_key = "key=" + MainActivity.MAP_VIEW_BUNDLE_KEY;
 
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + api_key;
@@ -538,4 +546,32 @@ public class LocationFragment extends Fragment {
         return url;
     }
 
+
+    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                Location user = bgRealm.createObject(Location.class, placeID.toString());
+               // user.setPlaceID(placeID);
+                user.setPlaceName(placeName);
+                user.setLatitude(latitude);
+                user.setLongitude(longitude);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
+                Toast.makeText(getActivity(), "Data inserted", Toast.LENGTH_SHORT).show();
+                Log.v("Database","Datam inserted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Log.e("Database", error.getMessage());
+            }
+        });
+    }
 }
