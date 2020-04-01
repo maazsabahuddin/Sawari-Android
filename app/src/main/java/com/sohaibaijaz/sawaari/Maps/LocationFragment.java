@@ -562,7 +562,7 @@ public class LocationFragment extends Fragment {
             public void onSuccess() {
                 // Transaction was a success.
                 Toast.makeText(getActivity(), "Data inserted", Toast.LENGTH_SHORT).show();
-                Log.v("Database","Datam inserted");
+                Log.v("Database","Data inserted");
             }
         }, new Realm.Transaction.OnError() {
             @Override

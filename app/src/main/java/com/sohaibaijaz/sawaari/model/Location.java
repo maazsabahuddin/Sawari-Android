@@ -10,8 +10,9 @@ public class Location extends RealmObject {
     @Required
     private String placeID;
 
-
+    @Required
     private String placeName;
+    @Required
     private String latitude;
 
     public String getPlaceID() {
@@ -46,5 +47,17 @@ public class Location extends RealmObject {
         this.longitude = longitude;
     }
 
+    @Required
     private String longitude;
+
+    public String getPlaceType() {
+        return placeType;
+    }
+
+    public void setPlaceType(String placeType) {
+        this.placeType = placeType;
+    }
+
+    private String placeType;
+
 }

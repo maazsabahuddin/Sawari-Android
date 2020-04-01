@@ -22,6 +22,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONException;
@@ -115,7 +116,7 @@ public class Verifypassword extends AppCompatActivity {
 
             try {
 
-                String url = "http://52.15.104.184/password/check/";
+                String url = MainActivity.baseurl+"/password/check/";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
