@@ -99,16 +99,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     Realm realm;
-    private String longitude;
-    private String latitude;
+    private String longitudeDB;
+    private String latitudeDB;
+    private String placeNameDB;
+    private String placetype;
     private View fragmentView;
     public static String placeType;
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private Map<String, String> dropoffLocation = new HashMap<>();
+  //  private Map<String, String> dropoffLocation = new HashMap<>();
     private HashMap<String, String> currentLocation = new HashMap<>();
+    private HashMap<String, String> dropoffLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
@@ -143,7 +146,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         boolean gps_enabled = false;
         boolean network_enabled = false;
         realm = Realm.getDefaultInstance();
-
+        final SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("Token", "");
+        final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
 
         TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
@@ -194,11 +199,102 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         add_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showresult();
-                if(!(longitude.equals("") && latitude.equals("")))
+                placetype="Work";
+                getValue(placetype);
+                if(!(longitudeDB.equals("") && latitudeDB.equals("")))
                 {
-                    Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+                    dropoffLocation.clear();
+                    dropoffLocation.put("latitude", latitudeDB);
+                    dropoffLocation.put("longitude", longitudeDB);
+                    dropoffLocation.put("name", placeNameDB);
+                    Toast.makeText(getActivity(), longitudeDB+" "+placeNameDB, Toast.LENGTH_SHORT).show();
+                    try {
 
+                        String URL = MainActivity.baseurl + "/bus/route/";
+                        JSONObject jsonBody = new JSONObject();
+//                        spinner.setVisibility(View.VISIBLE);
+//                        spinner_frame.setVisibility(View.VISIBLE);
+
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                                Log.i("VOLLEY", response.toString());
+                                try {
+                                    JSONObject jsonObj = new JSONObject(response);
+
+                                    if (jsonObj.getString("status").equals("200")) {
+
+                                        Intent i = new Intent(getContext(), show_rides.class);
+                                        i.putExtra("json", jsonObj.toString());
+                                        i.putExtra("pick_up_location", currentLocation);
+                                        i.putExtra("drop_off_location", dropoffLocation);
+                                        startActivity(i);
+
+                                    } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+                                        Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                                    }
+
+                                } catch (JSONException e) {
+                                    Log.e("VOLLEY", e.toString());
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                                Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                                Log.e("VOLLEY", error.toString());
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                Map<String, String> params = new HashMap<>();
+
+                                params.put("start_lat", currentLocation.get("latitude"));
+                                params.put("start_lon", currentLocation.get("longitude"));
+                                params.put("stop_lat", dropoffLocation.get("latitude"));
+                                params.put("stop_lon", dropoffLocation.get("longitude"));
+
+//                                params.put("stop_lat", "24.913363");
+//                                params.put("stop_lon", "67.124208");
+//                                params.put("start_lat", "24.823343");
+//                                params.put("start_lon", "67.029656");
+
+                                return params;
+                            }
+
+                            @Override
+                            public Map<String, String> getHeaders() {
+                                Map<String, String> headers = new HashMap<>();
+                                headers.put("Authorization", token);
+                                return headers;
+                            }
+                        };
+
+                        stringRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 500000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 500000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });
+
+                        requestQueue.add(stringRequest);
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else {
                     Fragment newFragment = new AddPlaceFragment();
@@ -278,8 +374,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mapFragment.getMapAsync(this);
 
 
-        final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("Token", "");
+       // final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        //final String token = sharedPreferences.getString("Token", "");
         System.out.print("Token: "+ token);
 
         if(token.equals(""))
@@ -289,7 +385,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //            Toast.makeText(getContext(), "Invalid token", Toast.LENGTH_LONG).show();
         }
 
-        final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
+      //  final RequestQueue requestueue = Volley.newRequestQueue(fragmentView.getContext());
 //        final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
 
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
@@ -857,17 +953,18 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 //    }
 
-    public void showresult(){
+    public void getValue(final  String placetype){
 
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
 
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Work").findAll();
+                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placetype).findAll();
                 for(com.sohaibaijaz.sawaari.model.Location location : results){
-                    longitude=location.getLongitude();
-                    latitude=location.getLatitude();
+                    longitudeDB=location.getLongitude();
+                    latitudeDB=location.getLatitude();
+                    placeNameDB=location.getPlaceName();
                 }
                // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
 

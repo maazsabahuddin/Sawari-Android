@@ -111,8 +111,8 @@ public class AddPlaceFragment extends Fragment {
             LatLng latLng = place.getLatLng();
             dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
             dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
-          //  writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), HomeFragment.placeType);
-            showresult();
+            writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), HomeFragment.placeType);
+           // showresult();
 
 
 //            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
@@ -347,7 +347,7 @@ public class AddPlaceFragment extends Fragment {
             @Override
             public void onSuccess() {
                 // Transaction was a success.
-                Toast.makeText(getActivity(), "Data inserted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_SHORT).show();
                 Log.v("Database","Data inserted");
             }
         }, new Realm.Transaction.OnError() {
@@ -360,22 +360,22 @@ public class AddPlaceFragment extends Fragment {
             }
         });
     }
-    public void showresult(){
-
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-
-                RealmResults<Location> results = bgRealm.where(Location.class).equalTo("placeType","Work").findAll();
-                for(Location location : results){
-                    longitude=location.getLongitude();
-                    latitude=location.getLatitude();
-                }
-                Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
+//    public void showresult(){
+//
+//
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm bgRealm) {
+//
+//                RealmResults<Location> results = bgRealm.where(Location.class).equalTo("placeType","Work").findAll();
+//                for(Location location : results){
+//                    longitude=location.getLongitude();
+//                    latitude=location.getLatitude();
+//                }
+//                Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//    }
 
 }

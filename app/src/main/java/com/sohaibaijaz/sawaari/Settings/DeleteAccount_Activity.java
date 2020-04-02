@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.User;
 
@@ -81,7 +82,7 @@ public class DeleteAccount_Activity extends AppCompatActivity {
     private void delete_account(){
         try {
 
-            String url = "http://52.15.104.184/delete/user/";
+            String url = MainActivity.baseurl+"/delete/user/";
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override

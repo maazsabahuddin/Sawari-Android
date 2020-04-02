@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 
 import org.json.JSONException;
@@ -186,7 +187,7 @@ public class Updatepassword extends AppCompatActivity {
 
             try {
 
-                String url = "http://52.15.104.184/password/change/";
+                String url = MainActivity.baseurl+"/password/change/";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             //@RequiresApi(api = Build.VERSION_CODES.KITKAT)

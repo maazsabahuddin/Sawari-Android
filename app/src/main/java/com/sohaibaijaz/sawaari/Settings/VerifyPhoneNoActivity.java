@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.User;
 
@@ -226,7 +227,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
             try {
 
-                String url = "http://52.15.104.184/verify/phonenumber/";
+                String url = MainActivity.baseurl+"/verify/phonenumber/";
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             //@RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -308,7 +309,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
         final String newphonenumber = getIntent().getStringExtra("change_number");
 
         try {
-            String url = "http://52.15.104.184/phonenumber/change/resend_otp/";
+            String url = MainActivity.baseurl+"/phonenumber/change/resend_otp/";
             StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         //@RequiresApi(api = Build.VERSION_CODES.KITKAT)

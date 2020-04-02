@@ -18,6 +18,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.User;
 
@@ -130,7 +131,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
    // private boolean flag = true;
     public void name_update(final String firstNameEditValue, final String lastNameEditValue) {
 
-        String url = "http://52.15.104.184/update/name/";
+        String url = MainActivity.baseurl+"/update/name/";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
 
