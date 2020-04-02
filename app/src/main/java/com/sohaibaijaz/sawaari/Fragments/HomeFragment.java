@@ -89,14 +89,20 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
 
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+    Realm realm;
+    private String longitude;
+    private String latitude;
     private View fragmentView;
-
+    public static String placeType;
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -136,6 +142,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
+        realm = Realm.getDefaultInstance();
+
 
 
         TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
@@ -179,17 +187,30 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 transaction.replace(R.id.fragment_container, newFragment);
                 transaction.addToBackStack(null);
                 transaction.commit();
+                placeType="Home";
             }
         });
 
         add_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment newFragment = new AddPlaceFragment();
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                showresult();
+                if(!(longitude.equals("") && latitude.equals("")))
+                {
+                    Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    Fragment newFragment = new AddPlaceFragment();
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, newFragment);
+                    transaction.addToBackStack(null);
+                    placeType = "Work";
+                    transaction.commit();
+                }
+
+
+
             }
         });
 
@@ -836,6 +857,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
 //    }
 
+    public void showresult(){
 
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+
+                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Work").findAll();
+                for(com.sohaibaijaz.sawaari.model.Location location : results){
+                    longitude=location.getLongitude();
+                    latitude=location.getLatitude();
+                }
+               // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
 
 }

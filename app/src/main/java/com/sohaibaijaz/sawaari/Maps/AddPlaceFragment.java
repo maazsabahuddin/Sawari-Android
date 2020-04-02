@@ -26,8 +26,10 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
+import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.Location;
 
 import org.json.JSONObject;
 
@@ -43,9 +45,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 public class AddPlaceFragment extends Fragment {
 
     private View fragmentView;
+    Realm realm;
+    private String longitude;
+    private String latitude;
 
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
@@ -74,7 +82,7 @@ public class AddPlaceFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.add_place_fragment, container, false);
-
+        realm = Realm.getDefaultInstance();
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.add_location);
 
         autocompleteFragment_pickUp.setCountry("PK");
@@ -103,6 +111,8 @@ public class AddPlaceFragment extends Fragment {
             LatLng latLng = place.getLatLng();
             dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
             dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+          //  writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), HomeFragment.placeType);
+            showresult();
 
 
 //            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
@@ -319,6 +329,53 @@ public class AddPlaceFragment extends Fragment {
         String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
 
         return url;
+    }
+
+
+    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                Location user = bgRealm.createObject(Location.class, placeID.toString());
+                // user.setPlaceID(placeID);
+                user.setPlaceName(placeName);
+                user.setLatitude(latitude);
+                user.setLongitude(longitude);
+                user.setPlaceType(placeType);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
+                Toast.makeText(getActivity(), "Data inserted", Toast.LENGTH_SHORT).show();
+                Log.v("Database","Data inserted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Log.e("Database", error.getMessage());
+            }
+        });
+    }
+    public void showresult(){
+
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+
+                RealmResults<Location> results = bgRealm.where(Location.class).equalTo("placeType","Work").findAll();
+                for(Location location : results){
+                    longitude=location.getLongitude();
+                    latitude=location.getLatitude();
+                }
+                Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 }

@@ -65,10 +65,11 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class LocationFragment extends Fragment {
 
-    Realm realm;
+
     private View fragmentView;
 
     private GoogleMap mMap;
@@ -99,8 +100,6 @@ public class LocationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.activity_where_to, container, false);
-
-        realm = Realm.getDefaultInstance();
 
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
@@ -322,12 +321,12 @@ public class LocationFragment extends Fragment {
                 LatLng latLng = place.getLatLng();
                 dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
                 dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
-                writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude));
+               //
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
             }
             finally {
-                realm.close();
+               // realm.close();
             }
 
 
@@ -547,31 +546,33 @@ public class LocationFragment extends Fragment {
     }
 
 
-    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-                Location user = bgRealm.createObject(Location.class, placeID.toString());
-               // user.setPlaceID(placeID);
-                user.setPlaceName(placeName);
-                user.setLatitude(latitude);
-                user.setLongitude(longitude);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                // Transaction was a success.
-                Toast.makeText(getActivity(), "Data inserted", Toast.LENGTH_SHORT).show();
-                Log.v("Database","Data inserted");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                // Transaction failed and was automatically canceled.
-                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude) {
+//        realm.executeTransactionAsync(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm bgRealm) {
+//                Location user = bgRealm.createObject(Location.class, placeID.toString());
+//               // user.setPlaceID(placeID);
+//                user.setPlaceName(placeName);
+//                user.setLatitude(latitude);
+//                user.setLongitude(longitude);
+//            }
+//        }, new Realm.Transaction.OnSuccess() {
+//            @Override
+//            public void onSuccess() {
+//                // Transaction was a success.
+//                Toast.makeText(getActivity(), "Data inserted", Toast.LENGTH_SHORT).show();
+//                Log.v("Database","Data inserted");
+//            }
+//        }, new Realm.Transaction.OnError() {
+//            @Override
+//            public void onError(Throwable error) {
+//                // Transaction failed and was automatically canceled.
+//                Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                Log.e("Database", error.getMessage());
+//            }
+//        });
+//    }
 
-                Log.e("Database", error.getMessage());
-            }
-        });
-    }
+
 }
