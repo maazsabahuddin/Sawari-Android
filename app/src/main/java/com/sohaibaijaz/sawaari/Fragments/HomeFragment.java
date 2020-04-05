@@ -194,7 +194,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     dropoffLocation.put("longitude", longitudeDB);
                     dropoffLocation.put("name", placeNameDB);
                     Toast.makeText(getActivity(), longitudeDB+" "+latitudeDB, Toast.LENGTH_SHORT).show();
-                  //  showrides();
+                    showrides();
                 }
                else {
                     Fragment newFragment = new AddPlaceFragment();
