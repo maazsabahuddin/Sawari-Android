@@ -86,7 +86,6 @@ public class LocationFragment extends Fragment {
 
     private ArrayList<String> placeName;
     ListView placeName_lv;
-    ArrayAdapter adapter;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -148,8 +147,8 @@ public class LocationFragment extends Fragment {
         RealmHelper helper = new RealmHelper(realm);
         placeName=helper.getAllRecords();
 
-       // adapter= new
-
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView,placeName);
+        placeName_lv.setAdapter(adapter);
 
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         final SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);

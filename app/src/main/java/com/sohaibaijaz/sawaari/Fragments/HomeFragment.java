@@ -212,22 +212,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             public void onClick(View v) {
                 placetype="Work";
                 getValue(placetype);
-               if(!(longitudeDB.equals("") && latitudeDB.equals("")))
+               if(longitudeDB== null && latitudeDB== null)
                 {
-                    dropoffLocation.clear();
-                    dropoffLocation.put("latitude", latitudeDB);
-                    dropoffLocation.put("longitude", longitudeDB);
-                    dropoffLocation.put("name", placeNameDB);
-                    Toast.makeText(getActivity(), longitudeDB+" "+placeNameDB, Toast.LENGTH_SHORT).show();
-                    showrides();
-                }
-                else {
                     Fragment newFragment = new AddPlaceFragment();
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
                     placeType = "Work";
                     transaction.commit();
+
+                }
+                else {
+                   dropoffLocation.clear();
+                   dropoffLocation.put("latitude", latitudeDB);
+                   dropoffLocation.put("longitude", longitudeDB);
+                   dropoffLocation.put("name", placeNameDB);
+                   Toast.makeText(getActivity(), longitudeDB+" "+placeNameDB, Toast.LENGTH_SHORT).show();
+                   showrides();
               }
 
 
