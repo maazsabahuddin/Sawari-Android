@@ -17,7 +17,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.show_rides;
 import com.sohaibaijaz.sawaari.Rides.today_rides;
 import com.sohaibaijaz.sawaari.model.Location;
@@ -71,7 +74,7 @@ public class LocationFragment extends Fragment {
 
 
     private View fragmentView;
-
+    Realm realm;
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -80,6 +83,11 @@ public class LocationFragment extends Fragment {
     private HashMap<String, String> currentLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
+
+    private ArrayList<String> placeName;
+    ListView placeName_lv;
+    ArrayAdapter adapter;
+
     private FusedLocationProviderClient fusedLocationClient;
 
 
@@ -101,6 +109,8 @@ public class LocationFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.activity_where_to, container, false);
 
+        placeName_lv= fragmentView.findViewById(R.id.place_name_listview);
+        realm = Realm.getDefaultInstance();
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setText("Your location");
@@ -134,6 +144,12 @@ public class LocationFragment extends Fragment {
                 Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
+
+        RealmHelper helper = new RealmHelper(realm);
+        placeName=helper.getAllRecords();
+
+       // adapter= new
+
 
         final RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         final SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);

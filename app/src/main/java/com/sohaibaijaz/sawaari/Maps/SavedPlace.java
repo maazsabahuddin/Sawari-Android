@@ -40,6 +40,7 @@ public class SavedPlace extends AppCompatActivity {
 
         TextView add_home = findViewById(R.id.add_home_saved_place);
         TextView add_work = findViewById(R.id.add_work_saved_place);
+        TextView add_place = findViewById(R.id.add_saved_place);
         ImageView back_saved_places_button = findViewById(R.id.back_saved_places_button);
 
         back_saved_places_button.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +80,28 @@ public class SavedPlace extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(SavedPlace.this, "Working", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        add_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Fragment newFragment = new AddPlaceFragment();
+//                FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+//                transaction.replace(R.id.saved_place_frame, newFragment);
+//                transaction.addToBackStack(null);
+//                transaction.commit();
+//                Fragment mFragment = new AddPlaceFragment();
+//                FragmentManager fragmentManager =getSupportFragmentManager();
+//                fragmentManager.beginTransaction()
+//                        .add(R.id.saved_place_frame, mFragment).commit();
+
+                AddPlaceFragment fragment2=new AddPlaceFragment();
+                FragmentManager fragmentManager=getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.saved_place_frame,fragment2,"tag");
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
 

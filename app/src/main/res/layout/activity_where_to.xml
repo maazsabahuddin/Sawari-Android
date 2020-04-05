@@ -170,6 +170,25 @@
                 android:layout_weight="15"/>
 
         </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
+
+        <ListView
+            android:id="@+id/place_name_listview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            />
+
+
+    </LinearLayout>
+
     </LinearLayout>
 
     <Button

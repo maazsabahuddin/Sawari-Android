@@ -223,7 +223,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 }
                 else {
                     Fragment newFragment = new AddPlaceFragment();
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
                     placeType = "Work";
@@ -239,9 +239,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
 
-//                Fragment newFragment = new SavedPlace();
+//                Fragment newFragment1 = new SavedPlace();
 //                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, newFragment);
+//                transaction.replace(R.id.fragment_container, newFragment1);
 //                transaction.addToBackStack(null);
 //                transaction.commit();
 
