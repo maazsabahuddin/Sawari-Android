@@ -65,6 +65,9 @@ public class AddPlaceFragment extends Fragment {
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
 
+    private String placeType;
+
+
 
     public static AddPlaceFragment newInstance() {
 
@@ -88,6 +91,12 @@ public class AddPlaceFragment extends Fragment {
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setHint("Add Place");
 
+        Bundle b = this.getArguments();
+
+        placeType=b.getString("place_type");
+
+      // Toast.makeText(getContext(), b.getString("place_type") , Toast.LENGTH_LONG).show();
+
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListener);
 
@@ -103,6 +112,7 @@ public class AddPlaceFragment extends Fragment {
     }
 
     PlaceSelectionListener placeSelectionListener = new PlaceSelectionListener() {
+
         @Override
         public void onPlaceSelected(@NonNull Place place) {
             dropoffLocation.clear();
@@ -111,7 +121,10 @@ public class AddPlaceFragment extends Fragment {
             LatLng latLng = place.getLatLng();
             dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
             dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
-            writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), HomeFragment.placeType);
+
+            Toast.makeText(getContext(), placeType , Toast.LENGTH_LONG).show();
+
+            writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), placeType);
            // showresult();
 
 

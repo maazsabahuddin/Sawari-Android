@@ -106,11 +106,12 @@ public class show_rides extends AppCompatActivity {
         setContentView(R.layout.show_rides);
         getSupportActionBar().hide();
 
-        json = getIntent().getStringExtra("json");
+       // json = getIntent().getStringExtra("json");
 
         Intent intent = getIntent();
         pick_up_location = (HashMap<String, String>) intent.getSerializableExtra("pick_up_location");
         drop_off_location = (HashMap<String, String>) intent.getSerializableExtra("drop_off_location");
+
 
         final ViewPager vpPager = findViewById(R.id.vpPager_show_rides);
         Button back_btn_my_ride = findViewById(R.id.back_btn_select_ride);
@@ -118,15 +119,23 @@ public class show_rides extends AppCompatActivity {
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+               // getRoute();
+               // Toast.makeText(getApplicationContext(), pick_up_location.get("name")+" "+drop_off_location.get("name"), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onPageSelected(int position) {
-//                getRoute();
+               getRoute();
+                //  Toast.makeText(getApplicationContext(), pick_up_location.get("name")+" "+drop_off_location.get("name"), Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+                //  Toast.makeText(getApplicationContext(), pick_up_location.get("name")+" "+drop_off_location.get("name"), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -171,6 +180,9 @@ public class show_rides extends AppCompatActivity {
                         JSONObject jsonObj = new JSONObject(response);
 
                         if (jsonObj.getString("status").equals("200")) {
+
+
+                            Toast.makeText(getApplicationContext(),  "chlri hai", Toast.LENGTH_SHORT).show();
 
                             json = jsonObj.toString();
 

@@ -50,7 +50,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
         try{
             final EditTextPreference editTextFirstName = findPreference("firstName");
             final EditTextPreference editTextLastName = findPreference("lastName");
-            final EditTextPreference editTextEmail = findPreference("email");
+            final Preference preferenceEmail = findPreference("email");
             final Preference preferencePhoneNumber = findPreference("phoneNumber");
             final Preference preferencePassword = findPreference("password");
             final Preference preference_profile = findPreference("userDetails");
@@ -64,8 +64,9 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             editTextLastName.setSummary(user.getLastName());
             editTextLastName.setText(user.getLastName());
 
-            editTextEmail.setSummary(user.getEmail());
-            editTextEmail.setText(user.getEmail());
+            preferenceEmail.setSummary(user.getEmail());
+            preferenceEmail.setIconSpaceReserved(false);
+
 
             preferencePhoneNumber.setSummary(user.getPhoneNumber());
 
@@ -105,6 +106,16 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                 }
             });
 
+            preferenceEmail.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+
+                    Intent i = new Intent(getActivity(), ChangeEmailActivity.class);
+                    UpdateFragment.this.startActivity(i);
+
+                    return true;
+                }
+            });
 
             preferencePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {

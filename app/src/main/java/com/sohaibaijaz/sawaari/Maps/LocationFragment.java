@@ -336,6 +336,11 @@ public class LocationFragment extends Fragment {
                 LatLng latLng = place.getLatLng();
                 dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
                 dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+
+                Intent i = new Intent(getContext(), show_rides.class);
+                i.putExtra("pick_up_location", currentLocation);
+                i.putExtra("drop_off_location", dropoffLocation);
+                startActivity(i);
                //
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();

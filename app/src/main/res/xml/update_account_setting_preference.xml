@@ -31,15 +31,12 @@
             android:negativeButtonText=""
             android:layout="@layout/update_setting_custom_preference"/>
 
-        <EditTextPreference
+        <Preference
             android:key="email"
             android:title="Email"
-            android:summary="maazsabahuddin@gmail.com"
-            android:dialogTitle="Email"
-            android:dialogMessage="Confirm your email address"
-            android:positiveButtonText="SAVE"
+            android:summary="shahrukh@gmail.com"
             android:layout="@layout/update_setting_custom_preference"
-            android:negativeButtonText="" />
+           />
 
         <Preference
             android:key="phoneNumber"

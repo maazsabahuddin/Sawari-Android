@@ -190,11 +190,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                if(longitudeDB == null && latitudeDB == null)
                 {
                     Fragment newFragment = new AddPlaceFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("place_type" , "Home");
+                    newFragment.setArguments(arguments);
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
-                    placeType = "Home";
+                   // placeType = "Home";
                     transaction.commit();
+
                 }
                else {
                    dropoffLocation.clear();
@@ -215,10 +219,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                if(longitudeDB== null && latitudeDB== null)
                 {
                     Fragment newFragment = new AddPlaceFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("place_type" , "Work");
+                    newFragment.setArguments(arguments);
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
-                    placeType = "Work";
+                   // placeType = "Work";
                     transaction.commit();
 
                 }
@@ -240,14 +247,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
 
+                Fragment newFragment = new AddPlaceFragment();
+                Bundle arguments = new Bundle();
+                arguments.putString("place_type" , "Extra");
+                newFragment.setArguments(arguments);
+                FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container, newFragment);
+                transaction.addToBackStack(null);
+               // placeType = "Work";
+                transaction.commit();
 //                Fragment newFragment1 = new SavedPlace();
 //                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //                transaction.replace(R.id.fragment_container, newFragment1);
 //                transaction.addToBackStack(null);
 //                transaction.commit();
 
-                Intent intent = new Intent(getActivity(), SavedPlace.class);
-                startActivity(intent);
+//                Intent intent = new Intent(getActivity(), SavedPlace.class);
+//                startActivity(intent);
             }
         });
 
