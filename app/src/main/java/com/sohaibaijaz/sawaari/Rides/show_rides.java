@@ -47,7 +47,8 @@ import java.util.Objects;
 public class show_rides extends AppCompatActivity {
 
 //    ArrayList<HashMap> rides_data = new ArrayList<HashMap>();
-    String rides_data, json;
+    private String rides_data;
+    private String json1,json2;
     HashMap<String, String> pick_up_location = new HashMap<>();
     HashMap<String, String> drop_off_location = new HashMap<>();
 
@@ -106,7 +107,7 @@ public class show_rides extends AppCompatActivity {
         setContentView(R.layout.show_rides);
         getSupportActionBar().hide();
 
-       // json = getIntent().getStringExtra("json");
+        json1 = getIntent().getStringExtra("json");
 
         Intent intent = getIntent();
         pick_up_location = (HashMap<String, String>) intent.getSerializableExtra("pick_up_location");
@@ -115,20 +116,32 @@ public class show_rides extends AppCompatActivity {
 
         final ViewPager vpPager = findViewById(R.id.vpPager_show_rides);
         Button back_btn_my_ride = findViewById(R.id.back_btn_select_ride);
+       final MyPagerAdapter adapterViewPager = new MyPagerAdapter(this.getSupportFragmentManager());
 
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
                // getRoute();
-               // Toast.makeText(getApplicationContext(), pick_up_location.get("name")+" "+drop_off_location.get("name"), Toast.LENGTH_SHORT).show();
+
+               // check(json2);
+//                today_rides today = new today_rides();
+//                tomorrow_rides tomorrow = new tomorrow_rides();
+//
+//                adapterViewPager.addFragment(today, json1);
+//               Toast.makeText(getApplicationContext(), json2, Toast.LENGTH_SHORT).show();
+//
+//                adapterViewPager.addFragment(tomorrow, json1);
+//                vpPager.setAdapter(adapterViewPager);
+              // Toast.makeText(getApplicationContext(), json1, Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onPageSelected(int position) {
-               getRoute();
+             //  getRoute();
                 //  Toast.makeText(getApplicationContext(), pick_up_location.get("name")+" "+drop_off_location.get("name"), Toast.LENGTH_SHORT).show();
+
 
             }
 
@@ -140,14 +153,17 @@ public class show_rides extends AppCompatActivity {
             }
         });
 
-        MyPagerAdapter adapterViewPager = new MyPagerAdapter(this.getSupportFragmentManager());
-
         today_rides today = new today_rides();
         tomorrow_rides tomorrow = new tomorrow_rides();
 
-        adapterViewPager.addFragment(today, json);
-        adapterViewPager.addFragment(tomorrow, json);
+        adapterViewPager.addFragment(today, json1);
+        Toast.makeText(getApplicationContext(), json1, Toast.LENGTH_SHORT).show();
+
+        adapterViewPager.addFragment(tomorrow, json1);
         vpPager.setAdapter(adapterViewPager);
+        Toast.makeText(getApplicationContext(), json1, Toast.LENGTH_SHORT).show();
+
+
 
 
         back_btn_my_ride.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +173,19 @@ public class show_rides extends AppCompatActivity {
             }
         });
     }
-
+//public void check(final  String json3){
+//    final ViewPager vpPager = findViewById(R.id.vpPager_show_rides);
+//    final MyPagerAdapter adapterViewPager = new MyPagerAdapter(this.getSupportFragmentManager());
+//    today_rides today = new today_rides();
+//    tomorrow_rides tomorrow = new tomorrow_rides();
+//
+//    adapterViewPager.addFragment(today, json3);
+//    Toast.makeText(getApplicationContext(), json2, Toast.LENGTH_SHORT).show();
+//
+//    adapterViewPager.addFragment(tomorrow, json3);
+//    vpPager.setAdapter(adapterViewPager);
+//
+//}
     public void getRoute(){
 
         final RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -181,10 +209,9 @@ public class show_rides extends AppCompatActivity {
 
                         if (jsonObj.getString("status").equals("200")) {
 
+                          //  Toast.makeText(getApplicationContext(),  "chlri hai", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(getApplicationContext(),  "chlri hai", Toast.LENGTH_SHORT).show();
-
-                            json = jsonObj.toString();
+                           json2 = jsonObj.toString();
 
                         } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
                             Toast.makeText(getApplicationContext(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();

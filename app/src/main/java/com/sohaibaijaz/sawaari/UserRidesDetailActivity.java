@@ -1,6 +1,8 @@
 package com.sohaibaijaz.sawaari;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,13 +15,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
+import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
 
 public class UserRidesDetailActivity extends AppCompatActivity{
 
     private Bundle b;
     Context context;
 
+    private String coming_from;
+    Button button_back_home;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,14 +33,16 @@ public class UserRidesDetailActivity extends AppCompatActivity{
         try{
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_user_rides_detail);
-            getSupportActionBar().setTitle("Boarding Pass");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().hide();
+//            getSupportActionBar().setTitle("Boarding Pass");
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
             b = getIntent().getExtras();
             //ImageView back_button_user_ride_detail = findViewById(R.id.back_button_user_ride_detail);
             TextView user_booked_seats = findViewById(R.id.user_booked_seats);
             TextView ride_date_tv = findViewById(R.id.ride_date);
 
+            button_back_home=findViewById(R.id.back_button_boardingpass);
 //            TextView pick_up_icon = findViewById(R.id.pick_up_icon);
             TextView pick_up_time = findViewById(R.id.pick_up_time);
             TextView pick_up_point = findViewById(R.id.pick_up_point);
@@ -68,6 +76,7 @@ public class UserRidesDetailActivity extends AppCompatActivity{
             final String ride_seats = b.getString("ride_seats");
             final String ride_vehicle_no_plate = b.getString("ride_vehicle_no_plate");
 
+            coming_from=b.getString("coming_from");
 //            back_button_user_ride_detail.setCompoundDrawablesWithIntrinsicBounds(R.drawable.blue_back_icon, 0, 0, 0);
 //            invoice_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.invoiceicon, 0, 0, 0);
 //            return_trip_icon.setCompoundDrawablesWithIntrinsicBounds(R.drawable.pickupinblue, 0, 0, 0);
@@ -130,6 +139,28 @@ public class UserRidesDetailActivity extends AppCompatActivity{
 //                }
 //            });
 
+            button_back_home.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+//                    HomeFragment newFragment = new HomeFragment();
+//                    FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.fragment_container, newFragment);
+//                    transaction.addToBackStack(null);
+//                    // placeType = "Home";
+//                    transaction.commit();
+                    if(coming_from== null) {
+                        Intent i = new Intent(UserRidesDetailActivity.this, RideFragmentN.class);
+                        startActivity(i);
+                    }
+                    else{
+                        Intent intent = new Intent(UserRidesDetailActivity.this, NavActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+            });
         }
         catch (Exception e){
             System.out.println(e.toString());
@@ -142,6 +173,8 @@ public class UserRidesDetailActivity extends AppCompatActivity{
         switch (item.getItemId()){
             case android.R.id.home:
                 onBackPressed();
+//                Intent intent = new Intent(UserRidesDetailActivity.this, NavActivity.class);
+//                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

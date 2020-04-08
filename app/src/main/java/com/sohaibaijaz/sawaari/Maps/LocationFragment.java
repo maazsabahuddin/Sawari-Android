@@ -160,99 +160,99 @@ public class LocationFragment extends Fragment {
 //                Toast.makeText(getActivity(), "Working" , Toast.LENGTH_LONG).show();
 
 //                Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
-
-                if (dropoffLocation.get("latitude") == null || dropoffLocation.get("longitude") == null) {
-                    Toast.makeText(getContext(), "Select drop off location first!", Toast.LENGTH_SHORT).show();
-                } else {
-                    try {
-
-                        String URL = MainActivity.baseurl + "/bus/route/";
-                        JSONObject jsonBody = new JSONObject();
-//                        spinner.setVisibility(View.VISIBLE);
-//                        spinner_frame.setVisibility(View.VISIBLE);
-
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-                                Log.i("VOLLEY", response.toString());
-                                try {
-                                    JSONObject jsonObj = new JSONObject(response);
-
-                                    if (jsonObj.getString("status").equals("200")) {
-
-                                        Intent i = new Intent(getContext(), show_rides.class);
-                                        i.putExtra("json", jsonObj.toString());
-                                        i.putExtra("pick_up_location", currentLocation);
-                                        i.putExtra("drop_off_location", dropoffLocation);
-                                        startActivity(i);
-
-                                    } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
-                                        Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
-                                    }
-
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                                Log.e("VOLLEY", error.toString());
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<>();
-
-                                params.put("start_lat", currentLocation.get("latitude"));
-                                params.put("start_lon", currentLocation.get("longitude"));
-                                params.put("stop_lat", dropoffLocation.get("latitude"));
-                                params.put("stop_lon", dropoffLocation.get("longitude"));
-
-//                                params.put("stop_lat", "24.913363");
-//                                params.put("stop_lon", "67.124208");
-//                                params.put("start_lat", "24.823343");
-//                                params.put("start_lon", "67.029656");
-
-                                return params;
-                            }
-
-                            @Override
-                            public Map<String, String> getHeaders() {
-                                Map<String, String> headers = new HashMap<>();
-                                headers.put("Authorization", token);
-                                return headers;
-                            }
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 500000;
-                            }
-
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 500000;
-                            }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
-                            }
-                        });
-
-                        requestQueue.add(stringRequest);
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-                    }
-
-                }
+//
+//                if (dropoffLocation.get("latitude") == null || dropoffLocation.get("longitude") == null) {
+//                    Toast.makeText(getContext(), "Select drop off location first!", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    try {
+//
+//                        String URL = MainActivity.baseurl + "/bus/route/";
+//                        JSONObject jsonBody = new JSONObject();
+////                        spinner.setVisibility(View.VISIBLE);
+////                        spinner_frame.setVisibility(View.VISIBLE);
+//
+//                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+////                                spinner.setVisibility(View.GONE);
+////                                spinner_frame.setVisibility(View.GONE);
+//                                Log.i("VOLLEY", response.toString());
+//                                try {
+//                                    JSONObject jsonObj = new JSONObject(response);
+//
+//                                    if (jsonObj.getString("status").equals("200")) {
+//
+//                                        Intent i = new Intent(getContext(), show_rides.class);
+//                                        i.putExtra("json", jsonObj.toString());
+//                                        i.putExtra("pick_up_location", currentLocation);
+//                                        i.putExtra("drop_off_location", dropoffLocation);
+//                                        startActivity(i);
+//
+//                                    } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+//                                        Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+//                                    }
+//
+//                                } catch (JSONException e) {
+//                                    Log.e("VOLLEY", e.toString());
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+////                                spinner.setVisibility(View.GONE);
+////                                spinner_frame.setVisibility(View.GONE);
+//                                Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+//                                Log.e("VOLLEY", error.toString());
+//                            }
+//                        }) {
+//                            @Override
+//                            protected Map<String, String> getParams() {
+//                                Map<String, String> params = new HashMap<>();
+//
+//                                params.put("start_lat", currentLocation.get("latitude"));
+//                                params.put("start_lon", currentLocation.get("longitude"));
+//                                params.put("stop_lat", dropoffLocation.get("latitude"));
+//                                params.put("stop_lon", dropoffLocation.get("longitude"));
+//
+////                                params.put("stop_lat", "24.913363");
+////                                params.put("stop_lon", "67.124208");
+////                                params.put("start_lat", "24.823343");
+////                                params.put("start_lon", "67.029656");
+//
+//                                return params;
+//                            }
+//
+//                            @Override
+//                            public Map<String, String> getHeaders() {
+//                                Map<String, String> headers = new HashMap<>();
+//                                headers.put("Authorization", token);
+//                                return headers;
+//                            }
+//                        };
+//
+//                        stringRequest.setRetryPolicy(new RetryPolicy() {
+//                            @Override
+//                            public int getCurrentTimeout() {
+//                                return 500000;
+//                            }
+//
+//                            @Override
+//                            public int getCurrentRetryCount() {
+//                                return 500000;
+//                            }
+//
+//                            @Override
+//                            public void retry(VolleyError error) throws VolleyError {
+//
+//                            }
+//                        });
+//
+//                        requestQueue.add(stringRequest);
+//                    } catch (Exception e) {
+//                        Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
             }
 
         });
@@ -337,10 +337,11 @@ public class LocationFragment extends Fragment {
                 dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
                 dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
-                Intent i = new Intent(getContext(), show_rides.class);
-                i.putExtra("pick_up_location", currentLocation);
-                i.putExtra("drop_off_location", dropoffLocation);
-                startActivity(i);
+                showridesapi();
+//                Intent i = new Intent(getContext(), show_rides.class);
+//                i.putExtra("pick_up_location", currentLocation);
+//                i.putExtra("drop_off_location", dropoffLocation);
+//                startActivity(i);
                //
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
@@ -565,7 +566,101 @@ public class LocationFragment extends Fragment {
         return url;
     }
 
+    public void showridesapi(){
+        try {
+            SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 
+            final String token = sharedPreferences.getString("Token", "");
+            RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
+
+            String URL = MainActivity.baseurl + "/bus/route/";
+            JSONObject jsonBody = new JSONObject();
+//                        spinner.setVisibility(View.VISIBLE);
+//                        spinner_frame.setVisibility(View.VISIBLE);
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                    Log.i("VOLLEY", response.toString());
+                    try {
+                        JSONObject jsonObj = new JSONObject(response);
+
+                        if (jsonObj.getString("status").equals("200")) {
+
+                            Toast.makeText(getActivity(), jsonObj.toString(), Toast.LENGTH_SHORT).show();
+
+                            Intent i = new Intent(getContext(), show_rides.class);
+                            i.putExtra("json", jsonObj.toString());
+                            i.putExtra("pick_up_location", currentLocation);
+                            i.putExtra("drop_off_location", dropoffLocation);
+                            startActivity(i);
+
+                        } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        Log.e("VOLLEY", e.toString());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                    Log.e("VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+
+                    params.put("start_lat", currentLocation.get("latitude"));
+                    params.put("start_lon", currentLocation.get("longitude"));
+                    params.put("stop_lat", dropoffLocation.get("latitude"));
+                    params.put("stop_lon", dropoffLocation.get("longitude"));
+
+//                                params.put("stop_lat", "24.913363");
+//                                params.put("stop_lon", "67.124208");
+//                                params.put("start_lat", "24.823343");
+//                                params.put("start_lon", "67.029656");
+
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", token);
+                    return headers;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 500000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 500000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+
+            requestQueue.add(stringRequest);
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
+    }
 //    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude) {
 //        realm.executeTransactionAsync(new Realm.Transaction() {
 //            @Override

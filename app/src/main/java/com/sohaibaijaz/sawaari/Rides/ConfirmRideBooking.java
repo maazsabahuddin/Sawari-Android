@@ -414,11 +414,13 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                     b.putString("ride_booking_id", json.getString("reservation_number"));
                                     b.putString("ride_seats", json.getString("seats"));
                                     b.putString("ride_vehicle_no_plate", json.getString("vehicle_no_plate"));
+                                    b.putString("coming_from","Booking");
 
                                     i.putExtras(b);
                                     spinner.setVisibility(View.GONE);
                                     spinner_frame.setVisibility(View.GONE);
                                     ConfirmRideBooking.this.startActivity(i);
+                                    finish();
                                 }
                                 else if (json.getString("status").equals("501")) {
                                     Toast.makeText(getApplicationContext(), "ForeePay coming soon!", Toast.LENGTH_LONG).show();

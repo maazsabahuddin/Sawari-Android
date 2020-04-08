@@ -159,7 +159,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 ////                startActivity(intent);
 //
 
-                LocationFragment fragment = new LocationFragment();
+                Fragment fragment = new LocationFragment();
                 Bundle arguments = new Bundle();
                 arguments.putSerializable("pick_up_location" , currentLocation);
                 fragment.setArguments(arguments);
