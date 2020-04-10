@@ -3,6 +3,7 @@ package com.sohaibaijaz.sawaari.Settings;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -45,13 +46,19 @@ public class Verifypassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Password");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_verifypassword);
+        setContentView(R.layout.activity_verify_password_change_phone_number);
 
         sharedPreferences = Verifypassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         editText_password= findViewById(R.id.verify_password);
         button_verify_pass= findViewById(R.id.verifypassword);
-        error_message=findViewById(R.id.errormessage);
-        password_message=findViewById(R.id.securitytext);
+        error_message=findViewById(R.id.errormessage4);
+        password_message=findViewById(R.id.securitytext4);
+
+
+        editText_password= findViewById(R.id.verify_password4);
+        button_verify_pass= findViewById(R.id.verifypassword4);
+        error_message.setVisibility(View.GONE);
+
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,6 +72,32 @@ public class Verifypassword extends AppCompatActivity {
                 editText_password.setCursorVisible(true);
                 error_message.setVisibility(View.GONE);
                 password_message.setVisibility(View.VISIBLE);
+
+            }
+        });
+
+        editText_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                button_verify_pass.setEnabled(false);
+                button_verify_pass.setAlpha(0.5f);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                button_verify_pass.setEnabled(true);
+                button_verify_pass.setAlpha(1);
+
+                if((editText_password.getText().toString()).equals(""))
+                {
+                    button_verify_pass.setEnabled(false);
+                    button_verify_pass.setAlpha(0.5f);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
@@ -142,6 +175,8 @@ public class Verifypassword extends AppCompatActivity {
                                          password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
+                                        editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
+
                                         editText_password.addTextChangedListener(new TextWatcher() {
                                             @Override
                                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -152,6 +187,8 @@ public class Verifypassword extends AppCompatActivity {
                                             public void onTextChanged(CharSequence s, int start, int before, int count) {
                                                 editText_password.setCursorVisible(true);
                                                 error_message.setVisibility(View.GONE);
+                                                editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
+
                                                 password_message.setVisibility(View.VISIBLE);
                                             }
 

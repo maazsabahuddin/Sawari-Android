@@ -46,13 +46,15 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Delete Account");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_verifypassword_delete_accout);
+        setContentView(R.layout.activity_verify_password_change_phone_number);
 
         sharedPreferences = VerifyPasswordDeleteAccount_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password);
-        button_verify_pass= findViewById(R.id.verifypassword);
-        error_message=findViewById(R.id.errormessage);
-        password_message=findViewById(R.id.securitytext);
+        editText_password= findViewById(R.id.verify_password4);
+        button_verify_pass= findViewById(R.id.verifypassword4);
+        error_message=findViewById(R.id.errormessage4);
+        password_message=findViewById(R.id.securitytext4);
+
+        error_message.setVisibility(View.GONE);
 
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {

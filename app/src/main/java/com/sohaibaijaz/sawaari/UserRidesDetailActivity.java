@@ -153,6 +153,7 @@ public class UserRidesDetailActivity extends AppCompatActivity{
                     if(coming_from== null) {
                         Intent i = new Intent(UserRidesDetailActivity.this, RideFragmentN.class);
                         startActivity(i);
+                        finish();
                     }
                     else{
                         Intent intent = new Intent(UserRidesDetailActivity.this, NavActivity.class);

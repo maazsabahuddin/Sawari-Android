@@ -46,12 +46,15 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
         getSupportActionBar().setTitle("2-step Verification");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setContentView(R.layout.activity_verify_password_twostep_verification);
+        setContentView(R.layout.activity_verify_password_change_phone_number);
         sharedPreferences = VerifyPasswordTwoStepVerification_Activity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password2);
-        button_verify_pass= findViewById(R.id.verifypassword2);
-        error_message=findViewById(R.id.errormessage1);
-       // password_message=findViewById(R.id.securitytext);
+        editText_password= findViewById(R.id.verify_password4);
+        button_verify_pass= findViewById(R.id.verifypassword4);
+        error_message=findViewById(R.id.errormessage4);
+        password_message=findViewById(R.id.securitytext4);
+
+        error_message.setVisibility(View.GONE);
+
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,7 +95,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
             public void onClick(View v) {
                 editText_password.setCursorVisible(true);
                 error_message.setVisibility(View.GONE);
-               // password_message.setVisibility(View.VISIBLE);
+                password_message.setVisibility(View.VISIBLE);
 
             }
         });
@@ -115,7 +118,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
 
         if(password_verify.equals(""))
         {
-          //  password_message.setVisibility(View.GONE);
+            password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
             editText_password.addTextChangedListener(new TextWatcher() {
@@ -129,7 +132,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
 
                     editText_password.setCursorVisible(true);
                     error_message.setVisibility(View.GONE);
-                  //  password_message.setVisibility(View.VISIBLE);
+                    password_message.setVisibility(View.VISIBLE);
 
                 }
 
@@ -168,7 +171,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                      //  password_message.setVisibility(View.GONE);
+                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
@@ -184,7 +187,7 @@ public class VerifyPasswordTwoStepVerification_Activity extends AppCompatActivit
                                                 error_message.setVisibility(View.GONE);
                                                 editText_password.getBackground().mutate().setColorFilter(getResources().getColor(R.color.colorJacksonPurple), PorterDuff.Mode.SRC_ATOP);
 
-                                               // password_message.setVisibility(View.VISIBLE);
+                                                password_message.setVisibility(View.VISIBLE);
                                             }
 
                                             @Override
