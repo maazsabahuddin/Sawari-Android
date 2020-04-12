@@ -32,10 +32,15 @@ public class CustomAdapterActivity extends BaseAdapter {
     ArrayList<HashMap<String, String>> rides;
     String json;
 
-    private static LayoutInflater inflater=null;
-    public CustomAdapterActivity(Context activity, ArrayList<HashMap<String, String>> array_rides, String json_response) {
-        // TODO Auto-generated constructor stub
+    private static HashMap<String, String> currentLocation = new HashMap<>();
+    private static HashMap<String, String> dropoffLocation = new HashMap<>();
 
+    private static LayoutInflater inflater=null;
+    public CustomAdapterActivity(Context activity, ArrayList<HashMap<String, String>> array_rides, String json_response,
+                                 HashMap<String, String> pick_up_location, HashMap<String, String> drop_off_location) {
+        // TODO Auto-generated constructor stub
+        CustomAdapterActivity.currentLocation = pick_up_location;
+        CustomAdapterActivity.dropoffLocation = drop_off_location;
         rides = array_rides;
         context = activity;
         json = json_response;
@@ -146,9 +151,12 @@ public class CustomAdapterActivity extends BaseAdapter {
 
                     selected_ride.add(selected_ride_hashmap);
                     intent.putExtra("selected_ride", selected_ride);
+                    intent.putExtra("pick_up_location", currentLocation);
+                    intent.putExtra("drop_off_location", dropoffLocation);
                     intent.putExtra("json", json);
 
                     context.startActivity(intent);
+                    ((Activity) context).finish();
                 }
                 catch (Exception e){
                     e.printStackTrace();

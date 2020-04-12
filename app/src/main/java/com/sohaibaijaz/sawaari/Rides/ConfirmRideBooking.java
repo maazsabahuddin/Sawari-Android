@@ -35,6 +35,7 @@ import com.sohaibaijaz.sawaari.Fragments.AccountFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Fragments.ride_scheduled;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.UserDetails;
@@ -47,6 +48,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ConfirmRideBooking extends AppCompatActivity {
 
@@ -58,6 +60,9 @@ public class ConfirmRideBooking extends AppCompatActivity {
     Context context;
     private String user_json_response;
     ArrayList<HashMap<String, String>> ride_booking_details = new ArrayList<HashMap<String, String>>();
+    private HashMap<String, String> dropoffLocation = new HashMap<>();
+    private HashMap<String, String> currentLocation = new HashMap<>();
+
     private int seat_value;
 
     @SuppressWarnings("unchecked")
@@ -116,6 +121,9 @@ public class ConfirmRideBooking extends AppCompatActivity {
 
         ride_booking_details = (ArrayList<HashMap<String, String>>) getIntent().getSerializableExtra("selected_ride");
         user_json_response = getIntent().getStringExtra("json");
+        Intent intent = getIntent();
+        currentLocation = (HashMap<String, String>) intent.getSerializableExtra("pick_up_location");
+        dropoffLocation = (HashMap<String, String>) intent.getSerializableExtra("drop_off_location");
 
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         final String token = sharedPreferences.getString("Token","");
@@ -152,7 +160,8 @@ public class ConfirmRideBooking extends AppCompatActivity {
         back_button_final_ride_details_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+//                LocationFragment lf = new LocationFragment();
+                BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
             }
         });
 
@@ -500,4 +509,103 @@ public class ConfirmRideBooking extends AppCompatActivity {
             }
         });
     }
+
+    public void BusRouteApi(final HashMap<String, String> currentLocation, final HashMap<String, String> dropoffLocation,
+                            final FrameLayout spinner_frame, final ProgressBar spinner){
+        try {
+            SharedPreferences sharedPreferences= Objects.requireNonNull(getApplication().getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE));
+
+            final String token = sharedPreferences.getString("Token", "");
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+            String URL = MainActivity.baseurl + "/bus/route/";
+            JSONObject jsonBody = new JSONObject();
+
+            spinner.setVisibility(View.VISIBLE);
+            spinner_frame.setVisibility(View.VISIBLE);
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    Log.i("VOLLEY", response);
+                    try {
+                        JSONObject jsonObj = new JSONObject(response);
+
+                        if (jsonObj.getString("status").equals("200")) {
+
+                            Intent i = new Intent(getApplicationContext(), ShowRides.class);
+                            i.putExtra("json", jsonObj.toString());
+                            i.putExtra("pick_up_location", currentLocation);
+                            i.putExtra("drop_off_location", dropoffLocation);
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
+                            startActivity(i);
+                            finish();
+
+                        } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+                            Toast.makeText(getApplicationContext(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+
+                    } catch (JSONException e) {
+                        Log.e("VOLLEY", e.toString());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    spinner.setVisibility(View.GONE);
+                    spinner_frame.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                    Log.e("VOLLEY", error.toString());
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+
+                    params.put("start_lat", currentLocation.get("latitude"));
+                    params.put("start_lon", currentLocation.get("longitude"));
+                    params.put("stop_lat", dropoffLocation.get("latitude"));
+                    params.put("stop_lon", dropoffLocation.get("longitude"));
+
+//                                params.put("stop_lat", "24.913363");
+//                                params.put("stop_lon", "67.124208");
+//                                params.put("start_lat", "24.823343");
+//                                params.put("start_lon", "67.029656");
+
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    Map<String, String> headers = new HashMap<>();
+                    headers.put("Authorization", token);
+                    return headers;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 500000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 500000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+
+            requestQueue.add(stringRequest);
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
