@@ -107,7 +107,6 @@ public class show_rides extends AppCompatActivity {
         setContentView(R.layout.show_rides);
         getSupportActionBar().hide();
 
-        json1 = getIntent().getStringExtra("json");
 
         Intent intent = getIntent();
         pick_up_location = (HashMap<String, String>) intent.getSerializableExtra("pick_up_location");
