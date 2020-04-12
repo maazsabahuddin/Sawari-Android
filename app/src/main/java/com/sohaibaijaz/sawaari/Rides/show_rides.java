@@ -116,7 +116,7 @@ public class show_rides extends AppCompatActivity {
 
         final ViewPager vpPager = findViewById(R.id.vpPager_show_rides);
         Button back_btn_my_ride = findViewById(R.id.back_btn_select_ride);
-       final MyPagerAdapter adapterViewPager = new MyPagerAdapter(this.getSupportFragmentManager());
+        final MyPagerAdapter adapterViewPager = new MyPagerAdapter(this.getSupportFragmentManager());
 
         vpPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
