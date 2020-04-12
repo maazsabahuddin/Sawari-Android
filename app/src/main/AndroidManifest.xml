@@ -44,7 +44,7 @@
         <activity android:name=".Maps.LocationActivity" />
         <activity android:name=".Maps.SavedPlace" />
         <activity android:name=".UserRidesDetailActivity" />
-        <activity android:name=".Rides.show_rides" />
+        <activity android:name=".Rides.ShowRides" />
         <activity android:name=".Rides.BusActivity" />
         <activity android:name=".Rides.SelectedRideActivity" />
         <activity android:name=".Rides.ConfirmRideBooking" />

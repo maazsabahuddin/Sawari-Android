@@ -2,10 +2,7 @@ package com.sohaibaijaz.sawaari.Maps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +16,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -34,8 +32,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -46,9 +42,7 @@ import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
-import com.sohaibaijaz.sawaari.Rides.show_rides;
-import com.sohaibaijaz.sawaari.Rides.today_rides;
-import com.sohaibaijaz.sawaari.model.Location;
+import com.sohaibaijaz.sawaari.Rides.ShowRides;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -59,7 +53,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.security.spec.ECField;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -68,7 +61,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class LocationFragment extends Fragment {
 
@@ -81,6 +73,9 @@ public class LocationFragment extends Fragment {
 
     private HashMap<String, String> dropoffLocation = new HashMap<>();
     private HashMap<String, String> currentLocation = new HashMap<>();
+
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
 
     private ArrayList<LatLng> markerPoints;
 
@@ -108,7 +103,12 @@ public class LocationFragment extends Fragment {
 
         fragmentView = inflater.inflate(R.layout.activity_where_to, container, false);
 
-        placeName_lv= fragmentView.findViewById(R.id.place_name_listview);
+        spinner_frame = fragmentView.findViewById(R.id.spinner_frame_lf);
+        spinner = fragmentView.findViewById(R.id.progressBar_lf);
+        spinner.setVisibility(View.GONE);
+        spinner_frame.setVisibility(View.GONE);
+
+        placeName_lv = fragmentView.findViewById(R.id.place_name_listview);
         realm = Realm.getDefaultInstance();
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
@@ -182,7 +182,7 @@ public class LocationFragment extends Fragment {
 //
 //                                    if (jsonObj.getString("status").equals("200")) {
 //
-//                                        Intent i = new Intent(getContext(), show_rides.class);
+//                                        Intent i = new Intent(getContext(), ShowRides.class);
 //                                        i.putExtra("json", jsonObj.toString());
 //                                        i.putExtra("pick_up_location", currentLocation);
 //                                        i.putExtra("drop_off_location", dropoffLocation);
@@ -337,12 +337,12 @@ public class LocationFragment extends Fragment {
                 dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
                 dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
-                showridesapi();
-//                Intent i = new Intent(getContext(), show_rides.class);
+                BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
+//                Intent i = new Intent(getContext(), ShowRides.class);
 //                i.putExtra("pick_up_location", currentLocation);
 //                i.putExtra("drop_off_location", dropoffLocation);
 //                startActivity(i);
-               //
+
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
             }
@@ -566,7 +566,8 @@ public class LocationFragment extends Fragment {
         return url;
     }
 
-    public void showridesapi(){
+    public void BusRouteApi(final HashMap<String, String> currentLocation, final HashMap<String, String> dropoffLocation,
+                            final FrameLayout spinner_frame, final ProgressBar spinner){
         try {
             SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 
@@ -575,26 +576,26 @@ public class LocationFragment extends Fragment {
 
             String URL = MainActivity.baseurl + "/bus/route/";
             JSONObject jsonBody = new JSONObject();
-//                        spinner.setVisibility(View.VISIBLE);
-//                        spinner_frame.setVisibility(View.VISIBLE);
+
+            spinner.setVisibility(View.VISIBLE);
+            spinner_frame.setVisibility(View.VISIBLE);
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-                    Log.i("VOLLEY", response.toString());
+
+                    Log.i("VOLLEY", response);
                     try {
                         JSONObject jsonObj = new JSONObject(response);
 
                         if (jsonObj.getString("status").equals("200")) {
 
-                            Toast.makeText(getActivity(), jsonObj.toString(), Toast.LENGTH_SHORT).show();
-
-                            Intent i = new Intent(getContext(), show_rides.class);
+                            Intent i = new Intent(getContext(), ShowRides.class);
                             i.putExtra("json", jsonObj.toString());
                             i.putExtra("pick_up_location", currentLocation);
                             i.putExtra("drop_off_location", dropoffLocation);
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
                             startActivity(i);
 
                         } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
@@ -608,8 +609,8 @@ public class LocationFragment extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
+                    spinner_frame.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                     Log.e("VOLLEY", error.toString());
                 }

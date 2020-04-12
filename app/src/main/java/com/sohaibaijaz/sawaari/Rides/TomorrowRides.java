@@ -1,21 +1,33 @@
 package com.sohaibaijaz.sawaari.Rides;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sohaibaijaz.sawaari.CustomAdapterActivity;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.RidesModel;
 
-import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -23,20 +35,27 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
-public class tomorrow_rides extends Fragment {
+public class TomorrowRides extends Fragment {
     private String title;
     private static String rides_data;
     private int page;
+    private static String json;
 
-    public tomorrow_rides(){ }
+    private static HashMap<String, String> pick_up_location = new HashMap<>();
+    private static HashMap<String, String> drop_off_location = new HashMap<>();
 
     // newInstance constructor for creating fragment with arguments
-    public static tomorrow_rides newInstance(int page, String title, String rides_data) {
+    public static TomorrowRides newInstanceValues(int page, String title, HashMap<String, String> pick_up_location,
+                                               HashMap<String, String> drop_off_location, String json) {
 
-        tomorrow_rides.rides_data = rides_data;
+        TomorrowRides.pick_up_location = pick_up_location;
+        TomorrowRides.drop_off_location = drop_off_location;
+        TomorrowRides.json = json;
 
-        tomorrow_rides tomorrow = new tomorrow_rides();
+        TomorrowRides tomorrow = new TomorrowRides();
         Bundle args = new Bundle();
         args.putInt("someInt", page);
         args.putString("someTitle", title);
@@ -171,7 +190,7 @@ public class tomorrow_rides extends Fragment {
                 tomorrow_no_ride_tv.setVisibility(TextView.VISIBLE);
 //                tomorrow_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
             }
-            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, rides_data));
+            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, rides_data, pick_up_location, drop_off_location));
 
 //            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), tomorrow_buses));
         }

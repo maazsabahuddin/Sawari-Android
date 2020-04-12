@@ -191,6 +191,24 @@
 
     </LinearLayout>
 
+
+    <FrameLayout
+        android:id="@+id/spinner_frame_lf"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center"
+        android:background="@color/ShadeBlack"
+        android:backgroundTintMode="src_over">
+
+        <ProgressBar
+            android:id="@+id/progressBar_lf"
+            style="?android:attr/progressBarStyleLarge"
+            android:theme="@style/PurpleAccent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </FrameLayout>
+
     <Button
         android:id="@+id/proceed_button"
         android:layout_width="match_parent"
