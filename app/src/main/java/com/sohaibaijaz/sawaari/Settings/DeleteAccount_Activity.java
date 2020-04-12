@@ -55,8 +55,11 @@ public class DeleteAccount_Activity extends AppCompatActivity {
         button_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(DeleteAccount_Activity.this, SettingsActivity.class);
+               Intent i = new Intent(DeleteAccount_Activity.this, SettingsActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 DeleteAccount_Activity.this.startActivity(i);
+
+                //finish();
             }
         });
 

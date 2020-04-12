@@ -62,6 +62,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
             public void onClick(View v) {
                 editText_password.setCursorVisible(false);
                 verify_password();
+              //  finish();
             }
         });
         editText_password.addTextChangedListener(new TextWatcher() {

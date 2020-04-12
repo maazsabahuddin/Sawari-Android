@@ -132,8 +132,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                                         editor.apply();
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
 //                                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                        getActivity().finish();
+                                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        getActivity().finishAffinity();
                                         startActivity(intent);
+
+                                      // getActivity().finish();
+
                                     }
                                     else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
                                         Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();

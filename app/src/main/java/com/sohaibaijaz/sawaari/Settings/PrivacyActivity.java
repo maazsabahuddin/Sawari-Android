@@ -58,6 +58,7 @@ public class PrivacyActivity extends AppCompatActivity {
 
                 Intent i = new Intent(PrivacyActivity.this, VerifyPasswordDeleteAccount_Activity.class);
                 PrivacyActivity.this.startActivity(i);
+               // finish();
                // Toast.makeText(PrivacyActivity.this, "Nothing", Toast.LENGTH_LONG).show();
             }
         });

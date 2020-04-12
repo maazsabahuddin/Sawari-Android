@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -153,9 +154,11 @@ public class CustomPreviewUserRidesHistory extends BaseAdapter {
                     b.putString("ride_booking_id", ride_booking_id);
                     b.putString("ride_seats", ride_seats);
                     b.putString("ride_vehicle_no_plate", ride_vehicle_no_plate);
-
                     i.putExtras(b);
                     context.startActivity(i);
+                    ((Activity) context).finish();
+
+
                 }
             });
 
