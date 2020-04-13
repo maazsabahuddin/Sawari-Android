@@ -211,10 +211,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 }
                 else {
                    dropoffLocation.clear();
-                   dropoffLocation.put("latitude", latitudeDB);
-                   dropoffLocation.put("longitude", longitudeDB);
-                   dropoffLocation.put("name", placeNameDB);
-                   Toast.makeText(getActivity(), longitudeDB+" "+placeNameDB, Toast.LENGTH_SHORT).show();
+                   dropoffLocation.put("latitude", latitudeWDB);
+                   dropoffLocation.put("longitude", longitudeWDB);
+                   dropoffLocation.put("name", placeNameWDB);
+                   Toast.makeText(getActivity(), longitudeWDB+" "+placeNameWDB, Toast.LENGTH_SHORT).show();
                    showrides();
               }
 
