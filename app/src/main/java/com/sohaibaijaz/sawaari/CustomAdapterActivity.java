@@ -4,14 +4,20 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.sohaibaijaz.sawaari.Rides.ConfirmRideBooking;
@@ -71,17 +77,17 @@ public class CustomAdapterActivity extends BaseAdapter {
         TextView pick_up_duration_from_home_to_stop;
         TextView pick_up_time;
         TextView drop_off_time;
-
+        ImageView seat_icon;
         TextView drop_off_stop_name;
         TextView drop_off_duration_from_home_stop;
-
+        LinearLayout request_more_buses;
         TextView tv_seats_left;
     }
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         // TODO Auto-generated method stub
-        Holder holder=new Holder();
+        final Holder holder=new Holder();
         View rowView;
         rowView = inflater.inflate(R.layout.bus_new_card_view, null);
 
@@ -91,17 +97,34 @@ public class CustomAdapterActivity extends BaseAdapter {
         holder.drop_off_time = rowView.findViewById(R.id.drop_off_time);
         holder.drop_off_stop_name = rowView.findViewById(R.id.drop_off_stop_name);
         holder.drop_off_duration_from_home_stop = rowView.findViewById(R.id.drop_off_duration);
+        holder.seat_icon = rowView.findViewById(R.id.seat_icon_cv);
+        holder.request_more_buses = rowView.findViewById(R.id.layout_request);
 
         holder.tv_seats_left = rowView.findViewById(R.id.tv_seats_left);
-        int seats_left = Integer.parseInt(rides.get(position).get("seats_left"));
+        final int seats_left = Integer.parseInt(rides.get(position).get("seats_left"));
 
         if (seats_left == 0){
-            holder.tv_seats_left.setTextColor(Color.parseColor("#96281b"));
+            holder.seat_icon.setVisibility(View.INVISIBLE);
+            holder.tv_seats_left.setTypeface(null, Typeface.BOLD);
+            holder.tv_seats_left.setTextColor(ContextCompat.getColor(context, R.color.colorJacksonPurple));
             holder.tv_seats_left.setText("Fully Booked!");
+
+            holder.pick_up_stop_name.setText(rides.get(position).get("pick_up_stop_name"));
+            holder.pick_up_time.setText(rides.get(position).get("arrival_time"));
+            holder.pick_up_duration_from_home_to_stop.setText(rides.get(position).get("pick_up_location_duration") + " from your location");
+
+            holder.drop_off_stop_name.setText(rides.get(position).get("drop_off_stop_name"));
+            holder.drop_off_time.setText(rides.get(position).get("departure_time"));
+            holder.drop_off_duration_from_home_stop.setText(rides.get(position).get("drop_off_location_duration") + " to "+ rides.get(position).get("drop_off_stop_name"));
         }
         else {
-
+            ColorStateList oldColors =  holder.tv_seats_left.getTextColors();
+            holder.request_more_buses.setVisibility(View.INVISIBLE);
+            holder.seat_icon.setVisibility(View.VISIBLE);
+            holder.tv_seats_left.setTypeface(null, Typeface.NORMAL);
+            holder.tv_seats_left.setTextColor(oldColors);
             holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left"));
+
             holder.pick_up_stop_name.setText(rides.get(position).get("pick_up_stop_name"));
             holder.pick_up_time.setText(rides.get(position).get("arrival_time"));
             holder.pick_up_duration_from_home_to_stop.setText(rides.get(position).get("pick_up_location_duration") + " from your location");
@@ -114,43 +137,56 @@ public class CustomAdapterActivity extends BaseAdapter {
         rowView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+
                 try{
-                    //              Toast.makeText(context, rides.get(position).get("vehicle_no_plate").toString(), Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(context, ConfirmRideBooking.class);
 
-                    ArrayList<HashMap<String, String>> selected_ride = new ArrayList<HashMap<String, String>>();
-                    HashMap<String, String> selected_ride_hashmap = new HashMap<String, String>();
+                    holder.request_more_buses.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(context, "Request received!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
-                    selected_ride_hashmap.put("vehicle_no_plate", rides.get(position).get("vehicle_no_plate"));
-                    selected_ride_hashmap.put("ride_date", rides.get(position).get("ride_date"));
-                    selected_ride_hashmap.put("route_name", rides.get(position).get("route_name"));
-                    selected_ride_hashmap.put("seats_left", rides.get(position).get("seats_left"));
-                    selected_ride_hashmap.put("kilometer", rides.get(position).get("kilometer"));
-                    selected_ride_hashmap.put("fare_per_km", rides.get(position).get("fare_per_km"));
-                    selected_ride_hashmap.put("fare_per_person", rides.get(position).get("fare_per_person"));
-                    selected_ride_hashmap.put("ride_start_time", rides.get(position).get("ride_start_time"));
+                    int seat = Integer.parseInt(rides.get(position).get("seats_left"));
+                    if(seat==0){
+                        Toast.makeText(context, "Fully booked!", Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Intent intent = new Intent(context, ConfirmRideBooking.class);
 
-                    selected_ride_hashmap.put("pick_up_stop_name", rides.get(position).get("pick_up_stop_name"));
-                    selected_ride_hashmap.put("pick_up_location_distance", rides.get(position).get("pick_up_location_distance"));
-                    selected_ride_hashmap.put("pick_up_location_duration", rides.get(position).get("pick_up_location_duration"));
-                    selected_ride_hashmap.put("arrival_time", rides.get(position).get("arrival_time"));
-                    selected_ride_hashmap.put("pick_up_stop_id", rides.get(position).get("pick_up_stop_id"));
+                        ArrayList<HashMap<String, String>> selected_ride = new ArrayList<HashMap<String, String>>();
+                        HashMap<String, String> selected_ride_hashmap = new HashMap<String, String>();
 
-                    selected_ride_hashmap.put("drop_off_stop_name", rides.get(position).get("drop_off_stop_name"));
-                    selected_ride_hashmap.put("drop_off_location_distance", rides.get(position).get("drop_off_location_distance"));
-                    selected_ride_hashmap.put("drop_off_location_duration", rides.get(position).get("drop_off_location_duration"));
-                    selected_ride_hashmap.put("departure_time", rides.get(position).get("departure_time"));
-                    selected_ride_hashmap.put("drop_off_stop_id", rides.get(position).get("drop_off_stop_id"));
+                        selected_ride_hashmap.put("vehicle_no_plate", rides.get(position).get("vehicle_no_plate"));
+                        selected_ride_hashmap.put("ride_date", rides.get(position).get("ride_date"));
+                        selected_ride_hashmap.put("route_name", rides.get(position).get("route_name"));
+                        selected_ride_hashmap.put("seats_left", rides.get(position).get("seats_left"));
+                        selected_ride_hashmap.put("kilometer", rides.get(position).get("kilometer"));
+                        selected_ride_hashmap.put("fare_per_km", rides.get(position).get("fare_per_km"));
+                        selected_ride_hashmap.put("fare_per_person", rides.get(position).get("fare_per_person"));
+                        selected_ride_hashmap.put("ride_start_time", rides.get(position).get("ride_start_time"));
 
-                    selected_ride.add(selected_ride_hashmap);
-                    intent.putExtra("selected_ride", selected_ride);
-                    intent.putExtra("pick_up_location", currentLocation);
-                    intent.putExtra("drop_off_location", dropoffLocation);
-                    intent.putExtra("json", json);
+                        selected_ride_hashmap.put("pick_up_stop_name", rides.get(position).get("pick_up_stop_name"));
+                        selected_ride_hashmap.put("pick_up_location_distance", rides.get(position).get("pick_up_location_distance"));
+                        selected_ride_hashmap.put("pick_up_location_duration", rides.get(position).get("pick_up_location_duration"));
+                        selected_ride_hashmap.put("arrival_time", rides.get(position).get("arrival_time"));
+                        selected_ride_hashmap.put("pick_up_stop_id", rides.get(position).get("pick_up_stop_id"));
 
-                    context.startActivity(intent);
-                    ((Activity) context).finish();
+                        selected_ride_hashmap.put("drop_off_stop_name", rides.get(position).get("drop_off_stop_name"));
+                        selected_ride_hashmap.put("drop_off_location_distance", rides.get(position).get("drop_off_location_distance"));
+                        selected_ride_hashmap.put("drop_off_location_duration", rides.get(position).get("drop_off_location_duration"));
+                        selected_ride_hashmap.put("departure_time", rides.get(position).get("departure_time"));
+                        selected_ride_hashmap.put("drop_off_stop_id", rides.get(position).get("drop_off_stop_id"));
+
+                        selected_ride.add(selected_ride_hashmap);
+                        intent.putExtra("selected_ride", selected_ride);
+                        intent.putExtra("pick_up_location", currentLocation);
+                        intent.putExtra("drop_off_location", dropoffLocation);
+                        intent.putExtra("json", json);
+
+                        context.startActivity(intent);
+                        ((Activity) context).finish();
+                    }
                 }
                 catch (Exception e){
                     e.printStackTrace();
