@@ -3,6 +3,7 @@ package com.sohaibaijaz.sawaari;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,12 +36,8 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-
-
-    //Shared account_setting_preference code
     public static final String AppPreferences = "AppPreferences";
     SharedPreferences sharedPreferences;
-
 
     private String token;
     private RequestQueue requestQueue;
@@ -49,13 +46,9 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     private TextView tv_forget_password;
-//    private Button user_ride;
 
-
-    public static final String MAP_VIEW_BUNDLE_KEY = "AIzaSyCxh6jiboDAWzR7c_373KDStrtj2W4Sgg4";
-
+    Context context;
     public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
-//    public static String baseurl= "http://maaz-h2t6.localhost.run";
 
     private int backpress = 0;
     @Override

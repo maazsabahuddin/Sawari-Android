@@ -47,21 +47,22 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     private NavigationView navView;
     private ImageView profileImage;
 
+    public static String MAP_VIEW_BUNDLE_KEY;
+
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav);
         Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().hide();
+
+        MAP_VIEW_BUNDLE_KEY = getText(R.string.GOOGLE_MAP_API_KEY).toString();
+
         drawer = findViewById(R.id.drawer_layout);
         spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
-//        profileImage = findViewById(R.id.title);
-
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);

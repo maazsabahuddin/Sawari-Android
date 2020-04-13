@@ -40,6 +40,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
@@ -552,7 +553,7 @@ public class LocationFragment extends Fragment {
         // Sensor enabled
         String sensor = "sensor=false";
 
-        String api_key = "key=" + MainActivity.MAP_VIEW_BUNDLE_KEY;
+        String api_key = "key=" + NavActivity.MAP_VIEW_BUNDLE_KEY;
 
         // Building the parameters to the web service
         String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + api_key;

@@ -44,6 +44,7 @@
     <string name="about">About Us</string>
     <string name="setting">Setting</string>
     <string name="help_nav">Help</string>
+    <string name="GOOGLE_MAP_API_KEY">AIzaSyCLoj4D3yXrJXoDVoEauuN7wFaB72EJREI</string>
 
 </resources>
 
