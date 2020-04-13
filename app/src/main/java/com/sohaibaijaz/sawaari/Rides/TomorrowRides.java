@@ -40,7 +40,6 @@ import java.util.Objects;
 
 public class TomorrowRides extends Fragment {
     private String title;
-    private static String rides_data;
     private int page;
     private static String json;
 
@@ -101,7 +100,7 @@ public class TomorrowRides extends Fragment {
         try {
             GsonBuilder builder = new GsonBuilder();
             Gson gson = builder.create();
-            RidesModel ride = gson.fromJson(rides_data, RidesModel.class);
+            RidesModel ride = gson.fromJson(json, RidesModel.class);
 
             ArrayList<HashMap<String, String>> rideArrayList = new ArrayList<>();
 
@@ -142,57 +141,13 @@ public class TomorrowRides extends Fragment {
 
                         rideArrayList.add(ride_hashMap);
                     }
-//                    String vehicle_no_plate = ride.getString("vehicle_no_plate");
-//                    String seats_left = ride.getString("seats_left");
-//                    String route_id = ride.getString("route_name");
-//                    String ride_date = ride.getString("ride_date");
-//
-//                    String pick_up_stop_id = ride.getJSONObject("pick-up-location").getString("stop_id");
-//                    String pick_up_stop_name = ride.getJSONObject("pick-up-location").getString("stop_name");
-//                    String pick_up_duration = ride.getJSONObject("pick-up-location").getString("duration");
-//                    String pick_up_distance = ride.getJSONObject("pick-up-location").getString("distance");
-//                    String pick_up_arrival_time = ride.getJSONObject("pick-up-location").getString("arrival_time");
-//
-//                    String drop_off_stop_id = ride.getJSONObject("drop-off-location").getString("stop_id");
-//                    String drop_off_stop_name = ride.getJSONObject("drop-off-location").getString("stop_name");
-//                    String drop_off_duration = ride.getJSONObject("drop-off-location").getString("duration");
-//                    String drop_off_distance = ride.getJSONObject("drop-off-location").getString("distance");
-//                    String drop_off_departure_time = ride.getJSONObject("drop-off-location").getString("departure_time");
-
-//                    if(ride_date.equals(tomorrow_date)){
-//
-//                        HashMap<String, String> bus = new HashMap<>();
-//
-//                        bus.put("ride_date", ride_date);
-//                        bus.put("vehicle_no_plate", vehicle_no_plate);
-//                        bus.put("seats_left", seats_left);
-//                        bus.put("route_name", route_id);
-//
-//                        bus.put("dropoff_location_id", drop_off_stop_id);
-//                        bus.put("dropoff_location", drop_off_stop_name);
-//                        bus.put("dropoff_location_time", drop_off_duration);
-//                        bus.put("departure_time", drop_off_departure_time);
-//                        bus.put("dropoff_distance", drop_off_distance);
-//
-//                        bus.put("pickup_location_id", pick_up_stop_id);
-//                        bus.put("pickup_location", pick_up_stop_name);
-//                        bus.put("pickup_location_time", pick_up_duration);
-//                        bus.put("arrival_time", pick_up_arrival_time);
-//                        bus.put("pickup_distance", pick_up_distance);
-//
-//                        tomorrow_buses.add(bus);
-//
-//                    }
-
                 }
             }
             else{
                 tomorrow_no_ride_tv.setVisibility(TextView.VISIBLE);
-//                tomorrow_ride_suggestion_tv.setVisibility(TextView.VISIBLE);
             }
-            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, rides_data, pick_up_location, drop_off_location));
 
-//            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), tomorrow_buses));
+            list_buses.setAdapter(new CustomAdapterActivity(getActivity(), rideArrayList, json, pick_up_location, drop_off_location));
         }
         catch (Exception e){
             e.printStackTrace();

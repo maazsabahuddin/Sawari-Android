@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        android:background="@color/colorEdwardGrey"
+        android:hapticFeedbackEnabled="true"
+        app:cardElevation="6dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        app:cardMaxElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/drop_off_icon"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:id="@+id/pick_up_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="08:50 AM"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorJacksonPurple"
+                    android:layout_marginEnd="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:id="@+id/pick_up_stop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="serif"
+                    android:gravity="start|center_vertical"
+                    android:text="Outside Khalid Bakers, Block-1alksjd8, Gulistan e Jauhar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="13.5sp"
+                    android:typeface="monospace"
+                    android:layout_weight="20"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginEnd="5dp"/>
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/walk_icon" />
+
+                <TextView
+                    android:id="@+id/pick_up_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="serif"
+                    android:gravity="start|center_vertical"
+                    android:maxLength="65"
+                    android:text="10 mins to your location"
+                    android:textSize="10sp"
+                    android:typeface="monospace"
+                    android:layout_weight="40" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/space3"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/drop_off_icon"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:id="@+id/drop_off_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="08:50 AM"
+                    android:textSize="13.5sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorJacksonPurple"
+                    android:layout_marginEnd="15dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:id="@+id/drop_off_stop_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="serif"
+                    android:gravity="start|center_vertical"
+                    android:text="Outside Khalidalksjd Bakers, Block-18, Gulistan e Jauhsar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    android:textSize="13.5sp"
+                    android:typeface="monospace"
+                    android:layout_weight="20"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginEnd="5dp"/>
+
+                <ImageView
+                    android:layout_width="11dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:layout_marginEnd="5dp"
+                    android:src="@drawable/walk_icon" />
+
+                <TextView
+                    android:id="@+id/drop_off_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="serif"
+                    android:gravity="start|center_vertical"
+                    android:maxLength="65"
+                    android:text="10 mins to your location"
+                    android:textSize="10sp"
+                    android:typeface="monospace"
+                    android:layout_weight="40" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp">
+
+                <ImageView
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:src="@drawable/seatinblue"
+                    android:layout_marginEnd="5dp"/>
+
+                <TextView
+                    android:id="@+id/tv_seats_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:fontFamily="serif"
+                    android:gravity="start|center_vertical"
+                    android:maxLength="65"
+                    android:text="Seats Left 8"
+                    android:layout_weight="10"
+                    android:textSize="14sp"
+                    android:typeface="monospace"/>
+
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/back"
+                    android:layout_weight="5">
+
+                    <TextView
+                        android:id="@+id/request_more_buses"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="serif"
+                        android:text="Request more buses"
+                        android:textAlignment="center"
+                        android:textSize="13.5sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginStart="5dp"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</RelativeLayout>

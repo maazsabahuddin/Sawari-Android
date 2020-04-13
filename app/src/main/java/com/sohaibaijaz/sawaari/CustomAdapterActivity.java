@@ -69,14 +69,13 @@ public class CustomAdapterActivity extends BaseAdapter {
     {
         TextView pick_up_stop_name;
         TextView pick_up_duration_from_home_to_stop;
-        TextView arrival_time;
+        TextView pick_up_time;
+        TextView drop_off_time;
 
         TextView drop_off_stop_name;
         TextView drop_off_duration_from_home_stop;
 
         TextView tv_seats_left;
-        TextView tv_ride_date;
-        TextView tv_route_id;
     }
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     @Override
@@ -84,19 +83,16 @@ public class CustomAdapterActivity extends BaseAdapter {
         // TODO Auto-generated method stub
         Holder holder=new Holder();
         View rowView;
-        rowView = inflater.inflate(R.layout.bus_card_view, null);
+        rowView = inflater.inflate(R.layout.bus_new_card_view, null);
 
         holder.pick_up_stop_name=rowView.findViewById(R.id.pick_up_stop_name);
         holder.pick_up_duration_from_home_to_stop = rowView.findViewById(R.id.pick_up_duration);
-
+        holder.pick_up_time = rowView.findViewById(R.id.pick_up_time);
+        holder.drop_off_time = rowView.findViewById(R.id.drop_off_time);
         holder.drop_off_stop_name = rowView.findViewById(R.id.drop_off_stop_name);
         holder.drop_off_duration_from_home_stop = rowView.findViewById(R.id.drop_off_duration);
 
         holder.tv_seats_left = rowView.findViewById(R.id.tv_seats_left);
-        holder.arrival_time = rowView.findViewById(R.id.arrival_time);
-        holder.tv_ride_date = rowView.findViewById(R.id.tv_ride_date);
-        holder.tv_route_id = rowView.findViewById(R.id.tv_route_id);
-
         int seats_left = Integer.parseInt(rides.get(position).get("seats_left"));
 
         if (seats_left == 0){
@@ -104,16 +100,14 @@ public class CustomAdapterActivity extends BaseAdapter {
             holder.tv_seats_left.setText("Fully Booked!");
         }
         else {
-            holder.tv_ride_date.setText(rides.get(position).get("ride_date"));
-            holder.tv_route_id.setText(rides.get(position).get("route_name"));
+
             holder.tv_seats_left.setText("Seats left: " + rides.get(position).get("seats_left"));
-
-            holder.arrival_time.setText(convertTime(rides.get(position).get("arrival_time")));
-
-            holder.pick_up_stop_name.setText("Pickup: "+rides.get(position).get("pick_up_stop_name"));
+            holder.pick_up_stop_name.setText(rides.get(position).get("pick_up_stop_name"));
+            holder.pick_up_time.setText(rides.get(position).get("arrival_time"));
             holder.pick_up_duration_from_home_to_stop.setText(rides.get(position).get("pick_up_location_duration") + " from your location");
 
-            holder.drop_off_stop_name.setText("Drop off: "+rides.get(position).get("drop_off_stop_name"));
+            holder.drop_off_stop_name.setText(rides.get(position).get("drop_off_stop_name"));
+            holder.drop_off_time.setText(rides.get(position).get("departure_time"));
             holder.drop_off_duration_from_home_stop.setText(rides.get(position).get("drop_off_location_duration") + " to "+ rides.get(position).get("drop_off_stop_name"));
         }
 

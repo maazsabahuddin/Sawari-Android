@@ -142,12 +142,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp">
 
-<!--            <TextView-->
-<!--                android:id="@+id/space2"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="20" />-->
-
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
@@ -189,12 +183,6 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp">
 
-<!--            <TextView-->
-<!--                android:id="@+id/space4"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="10"/>-->
-
             <ImageView
                 android:layout_width="15dp"
                 android:layout_height="match_parent"
@@ -214,12 +202,6 @@
                 android:typeface="monospace"
                 android:layout_weight="20"/>
 
-<!--            <TextView-->
-<!--                android:id="@+id/space6"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="10"/>-->
-
         </LinearLayout>
 
         <TextView
@@ -233,12 +215,6 @@
             android:orientation="horizontal"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp">
-
-<!--            <TextView-->
-<!--                android:id="@+id/space8"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="20" />-->
 
             <ImageView
                 android:layout_width="15dp"
@@ -272,6 +248,7 @@
                 android:textSize="11sp"
                 android:typeface="monospace"
                 android:layout_weight="40" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -280,12 +257,6 @@
             android:orientation="horizontal"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp">
-
-<!--            <TextView-->
-<!--                android:id="@+id/space1"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="10"/>-->
 
             <ImageView
                 android:layout_width="15dp"
@@ -305,12 +276,6 @@
                 android:textSize="16sp"
                 android:typeface="monospace"
                 android:layout_weight="20"/>
-
-<!--            <TextView-->
-<!--                android:id="@+id/space7"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_weight="10"/>-->
 
         </LinearLayout>
 
