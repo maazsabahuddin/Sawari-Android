@@ -541,6 +541,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
                             spinner.setVisibility(View.GONE);
                             spinner_frame.setVisibility(View.GONE);
                             startActivity(i);
+                            finish();
 
                         } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
                             Toast.makeText(getApplicationContext(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();

@@ -150,6 +150,7 @@ public class CustomAdapterActivity extends BaseAdapter {
                     intent.putExtra("json", json);
 
                     context.startActivity(intent);
+                    ((Activity) context).finish();
                 }
                 catch (Exception e){
                     e.printStackTrace();

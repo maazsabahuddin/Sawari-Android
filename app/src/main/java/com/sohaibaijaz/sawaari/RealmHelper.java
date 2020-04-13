@@ -18,7 +18,7 @@ public class RealmHelper {
 
     public ArrayList<String> getAllRecords(){
         ArrayList<String> placeName= new ArrayList<>();
-        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).findAll();
+        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Extra").findAll();
         for(com.sohaibaijaz.sawaari.model.Location location : results){
                 placeName.add(location.getPlaceName());
         }
