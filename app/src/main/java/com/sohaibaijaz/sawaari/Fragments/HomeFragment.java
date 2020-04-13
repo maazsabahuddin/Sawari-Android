@@ -51,6 +51,7 @@ import com.google.android.libraries.places.api.Places;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
 import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
@@ -287,7 +288,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
 
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), MainActivity.MAP_VIEW_BUNDLE_KEY);
+            Places.initialize(getContext(), NavActivity.MAP_VIEW_BUNDLE_KEY);
         }
 
 
