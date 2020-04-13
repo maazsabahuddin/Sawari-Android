@@ -79,6 +79,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private String longitudeDB;
     private String latitudeDB;
     private String placeNameDB;
+    private String longitudeWDB;
+    private String latitudeWDB;
+    private String placeNameWDB;
     private String placetype;
     private View fragmentView;
     public static String placeType;
@@ -163,7 +166,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
                 placetype="Home";
-                getValue(placetype);
+                getValueHome(placetype);
                if(longitudeDB == null && latitudeDB == null)
                 {
                     Fragment newFragment = new AddPlaceFragment();
@@ -192,8 +195,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
                 placetype="Work";
-                getValue(placetype);
-               if(longitudeDB== null && latitudeDB== null)
+                getValueWork(placetype);
+               if(longitudeWDB== null && latitudeWDB== null)
                 {
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
@@ -966,7 +969,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
-    public void getValue(final String placeType){
+    public void getValueHome(final String placeType){
 
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -980,6 +983,24 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     placeNameDB=location.getPlaceName();
                 }
                // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+    public void getValueWork(final String placeType){
+
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+
+                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType).findAll();
+                for(com.sohaibaijaz.sawaari.model.Location location : results){
+                    longitudeWDB=location.getLongitude();
+                    latitudeWDB=location.getLatitude();
+                    placeNameWDB=location.getPlaceName();
+                }
+                // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
 
             }
         });
