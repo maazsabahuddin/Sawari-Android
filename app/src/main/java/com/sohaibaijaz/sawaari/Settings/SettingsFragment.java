@@ -38,8 +38,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private SharedPreferences sharedPreferences;
     private RequestQueue requestQueue;
-    private String firstName;
-    private String lastName;
+    public static String firstName;
+    public static String lastName;
     private String phoneNumber;
     private String email;
 

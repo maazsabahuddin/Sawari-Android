@@ -40,7 +40,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.update_account_setting_preference);
         final PreferenceScreen preferenceScreen = this.getPreferenceScreen();
-        User user=User.getInstance();
+        User user =User.getInstance();
         sharedPreferences = this.getActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
         firstName = user.getFirstName();
         lastName = user.getLastName();
