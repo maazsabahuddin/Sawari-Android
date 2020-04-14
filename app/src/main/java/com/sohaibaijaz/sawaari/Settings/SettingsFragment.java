@@ -122,17 +122,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                                 try {
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
+
                                         SharedPreferences.Editor editor = sharedPreferences.edit();
                                         editor.remove("Token");
-                                        editor.remove("first_name");
-                                        editor.remove("last_name");
-                                        editor.remove("email");
-                                        editor.remove("phone_number");
                                         editor.remove("user_rides");
                                         editor.apply();
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
-//                                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |  Intent.FLAG_ACTIVITY_NEW_TASK);
+
                                         getActivity().finishAffinity();
                                         startActivity(intent);
 
