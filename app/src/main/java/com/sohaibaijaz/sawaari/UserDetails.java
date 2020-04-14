@@ -47,12 +47,6 @@ public class UserDetails {
                             JSONObject json = new JSONObject(response);
 
                             if (json.getString("status").equals("200")) {
-                                SharedPreferences.Editor edit = sharedPreferences.edit();
-                                edit.putString("first_name", json.getString("first_name"));
-                                edit.putString("last_name", json.getString("last_name"));
-                                edit.putString("email", json.getString("email"));
-                                edit.putString("phone_number", json.getString("phone_number"));
-                                edit.apply();
 
                                 User user = User.getInstance();
                                 user.setFirstName(json.getString("first_name"));
