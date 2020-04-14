@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsActivity;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,6 +48,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     private ProgressBar spinner;
     private NavigationView navView;
     private ImageView profileImage;
+    private String firstName;
+    private String lastName;
 
     public static String MAP_VIEW_BUNDLE_KEY;
 
@@ -64,8 +68,24 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
+
         NavigationView navigationView = findViewById(R.id.nav_view);
+      //  TextView navTitle = (TextView) findViewById(R.id.titleN);
+
+
+
         navigationView.setNavigationItemSelectedListener(this);
+        //TextView textView= findViewById(R.id.);
+
+        //textView.setText("pagal");
+        User user= User.getInstance();
+        firstName=user.getFirstName();
+        lastName=user.getLastName();
+        firstName = firstName + " " + lastName;
+        TextView textViewN= navigationView.getHeaderView(0).findViewById(R.id.titleN);
+        Toast.makeText(NavActivity.this, "mt chalo plz ", Toast.LENGTH_SHORT).show();
+
+        textViewN.setText(firstName);
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);

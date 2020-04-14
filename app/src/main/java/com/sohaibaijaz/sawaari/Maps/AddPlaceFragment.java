@@ -68,6 +68,8 @@ public class AddPlaceFragment extends Fragment {
 
     private String placeType;
 
+  //  private Button button_add_place;
+
 
 
     public static AddPlaceFragment newInstance() {
@@ -96,6 +98,7 @@ public class AddPlaceFragment extends Fragment {
 
         placeType=b.getString("place_type");
 
+
       // Toast.makeText(getContext(), b.getString("place_type") , Toast.LENGTH_LONG).show();
 
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
@@ -105,7 +108,13 @@ public class AddPlaceFragment extends Fragment {
         proceed_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Working" , Toast.LENGTH_LONG).show();
+               // Toast.makeText(getContext(), "Working" , Toast.LENGTH_LONG).show();
+                if( dropoffLocation.get("longitude")== null){
+                    Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
+                }
+                else {
+                    writeToDB(dropoffLocation.get("id"), dropoffLocation.get("name"), dropoffLocation.get("latitude"), dropoffLocation.get("longitude"), placeType);
+                }
             }
         });
 
@@ -123,9 +132,9 @@ public class AddPlaceFragment extends Fragment {
             dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
             dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
 
-            Toast.makeText(getContext(), placeType , Toast.LENGTH_LONG).show();
+            //Toast.makeText(getContext(), placeType , Toast.LENGTH_LONG).show();
 
-            writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), placeType);
+            //writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), placeType);
            // showresult();
 
 
