@@ -77,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
         tv_forget_password = findViewById(R.id.tv_forget_password);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
-
-
         tv_forget_password.setOnClickListener(new View.OnClickListener(){
 
             @Override

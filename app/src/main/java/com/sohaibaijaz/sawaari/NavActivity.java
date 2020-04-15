@@ -33,6 +33,7 @@ import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsActivity;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
@@ -50,8 +51,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     private ImageView profileImage;
     private String firstName;
     private String lastName;
-
+    //public  String check;
     public static String MAP_VIEW_BUNDLE_KEY;
+    TextView textViewN;
 
     SharedPreferences sharedPreferences;
     @Override
@@ -69,27 +71,59 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         spinner_frame.setVisibility(View.GONE);
 
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+       final NavigationView navigationView = findViewById(R.id.nav_view);
       //  TextView navTitle = (TextView) findViewById(R.id.titleN);
 
 
 
         navigationView.setNavigationItemSelectedListener(this);
+
         //TextView textView= findViewById(R.id.);
 
         //textView.setText("pagal");
-        User user= User.getInstance();
-        firstName=user.getFirstName();
-        lastName=user.getLastName();
-        firstName = firstName + " " + lastName;
-        TextView textViewN= navigationView.getHeaderView(0).findViewById(R.id.titleN);
-        Toast.makeText(NavActivity.this, "mt chalo plz ", Toast.LENGTH_SHORT).show();
+ //       User user= User.getInstance();
+//        firstName=user.getFirstName();
+//        lastName=user.getLastName();
+//        firstName = firstName + " " + lastName;
 
-        textViewN.setText(firstName);
+        //check= SettingsFragment.firstName;
+       //TextView textViewN= navigationView.getHeaderView(0).findViewById(R.id.titleN);
+        textViewN= navigationView.getHeaderView(0).findViewById(R.id.titleN);
+
+        textViewN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NavActivity.this, SettingsActivity.class);
+                NavActivity.this.startActivity(i);
+                drawer.closeDrawer(GravityCompat.START);
+
+
+            }
+        });
+       // textViewN.setText(firstName);
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
-                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                User user= User.getInstance();
+                firstName=user.getFirstName();
+                lastName=user.getLastName();
+                firstName = firstName + " " + lastName;
+
+                textViewN.setText(firstName);
+                Toast.makeText(NavActivity.this, firstName, Toast.LENGTH_SHORT).show();
+
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
         drawer.addDrawerListener(toggle);
+
         toggle.syncState();
 
 

@@ -27,7 +27,6 @@
             android:id="@+id/titleN"
             android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
-            android:text="Maaz Sabahuddin"
             android:layout_height="match_parent"
             android:textSize="20sp"
             android:gravity="center_vertical"
