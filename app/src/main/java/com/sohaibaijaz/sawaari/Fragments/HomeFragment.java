@@ -54,6 +54,7 @@ import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
 
 import org.json.JSONException;
@@ -158,6 +159,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
             }
         });
+        final RealmHelper helper = new RealmHelper(realm);
 
         ImageView add_home = fragmentView.findViewById(R.id.add_home);
         ImageView add_work = fragmentView.findViewById(R.id.add_work);
@@ -167,8 +169,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
                 placetype="Home";
-                getValueHome(placetype);
-               if(longitudeDB == null && latitudeDB == null)
+             //   getValueHome(placetype);
+                dropoffLocation.clear();
+                dropoffLocation=helper.getPlace(placetype);
+               if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                 {
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
@@ -182,11 +186,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                 }
                else {
-                   dropoffLocation.clear();
-                   dropoffLocation.put("latitude", latitudeDB);
-                   dropoffLocation.put("longitude", longitudeDB);
-                   dropoffLocation.put("name", placeNameDB);
-                   Toast.makeText(getActivity(), longitudeDB+" "+latitudeDB, Toast.LENGTH_SHORT).show();
+//                   dropoffLocation.clear();
+//                   dropoffLocation.put("latitude", latitudeDB);
+//                   dropoffLocation.put("longitude", longitudeDB);
+//                   dropoffLocation.put("name", placeNameDB);
+                   Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
                    showrides();
                }
             }
@@ -196,8 +200,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
                 placetype="Work";
-                getValueWork(placetype);
-               if(longitudeWDB== null && latitudeWDB== null)
+                dropoffLocation.clear();
+                dropoffLocation=helper.getPlace(placetype);
+               if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                 {
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
@@ -211,12 +216,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                 }
                 else {
-                   dropoffLocation.clear();
-                   dropoffLocation.put("latitude", latitudeWDB);
-                   dropoffLocation.put("longitude", longitudeWDB);
-                   dropoffLocation.put("name", placeNameWDB);
-                   Toast.makeText(getActivity(), longitudeWDB+" "+placeNameWDB, Toast.LENGTH_SHORT).show();
-                   showrides();
+//                   dropoffLocation.clear();
+//                   dropoffLocation.put("latitude", latitudeWDB);
+//                   dropoffLocation.put("longitude", longitudeWDB);
+//                   dropoffLocation.put("name", placeNameWDB);
+                  Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+                     showrides();
               }
 
 
