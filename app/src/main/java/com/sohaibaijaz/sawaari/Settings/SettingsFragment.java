@@ -127,6 +127,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                                         editor.remove("Token");
                                         editor.remove("user_rides");
                                         editor.apply();
+                                        editor.clear();
                                         Intent intent = new Intent(getActivity(), MainActivity.class);
 
                                         getActivity().finishAffinity();
