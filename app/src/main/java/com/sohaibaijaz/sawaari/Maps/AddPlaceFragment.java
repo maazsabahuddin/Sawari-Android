@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -55,7 +56,7 @@ public class AddPlaceFragment extends Fragment {
     Realm realm;
     private String longitude;
     private String latitude;
-
+    private String fromwhere;
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
@@ -97,6 +98,7 @@ public class AddPlaceFragment extends Fragment {
         Bundle b = this.getArguments();
 
         placeType=b.getString("place_type");
+        fromwhere=b.getString("comingfrom");
 
 
       // Toast.makeText(getContext(), b.getString("place_type") , Toast.LENGTH_LONG).show();
@@ -114,6 +116,14 @@ public class AddPlaceFragment extends Fragment {
                 }
                 else {
                     writeToDB(dropoffLocation.get("id"), dropoffLocation.get("name"), dropoffLocation.get("latitude"), dropoffLocation.get("longitude"), placeType);
+                    Fragment newFragment = new HomeFragment();
+                    Bundle arguments = new Bundle();
+                    newFragment.setArguments(arguments);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, newFragment);
+                    transaction.addToBackStack(null);
+                    // placeType = "Home";
+                    transaction.commit();
                 }
             }
         });
@@ -370,8 +380,8 @@ public class AddPlaceFragment extends Fragment {
             @Override
             public void onSuccess() {
                 // Transaction was a success.
-                Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_SHORT).show();
-                Log.v("Database","Data inserted");
+                Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_LONG).show();
+               // Log.v("Database","Data inserted");
             }
         }, new Realm.Transaction.OnError() {
             @Override

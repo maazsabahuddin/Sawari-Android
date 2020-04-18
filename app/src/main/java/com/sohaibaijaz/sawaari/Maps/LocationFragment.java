@@ -3,6 +3,7 @@ package com.sohaibaijaz.sawaari.Maps;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.content.Intent;
@@ -77,6 +78,7 @@ public class LocationFragment extends Fragment {
 
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
+    private String placetype;
 
     private ArrayList<LatLng> markerPoints;
 
@@ -111,6 +113,7 @@ public class LocationFragment extends Fragment {
 
         placeName_lv = fragmentView.findViewById(R.id.place_name_listview);
         realm = Realm.getDefaultInstance();
+        final RealmHelper helper = new RealmHelper(realm);
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setText("Your location");
@@ -134,18 +137,73 @@ public class LocationFragment extends Fragment {
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
+                placetype="Home";
+                //   getValueHome(placetype);
+                dropoffLocation.clear();
+                dropoffLocation=helper.getPlace(placetype);
+                if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
+                {
+                    Fragment newFragment = new AddPlaceFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("place_type" , "Home");
+                    newFragment.setArguments(arguments);
+                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, newFragment);
+                    transaction.addToBackStack(null);
+                    // placeType = "Home";
+                    transaction.commit();
+
+                }
+                else {
+//                   dropoffLocation.clear();
+//                   dropoffLocation.put("latitude", latitudeDB);
+//                   dropoffLocation.put("longitude", longitudeDB);
+//                   dropoffLocation.put("name", placeNameDB);
+                   // Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
+
+                }
+
+              //  Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
 
         add_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
+
+
+                placetype="Work";
+                dropoffLocation.clear();
+                dropoffLocation=helper.getPlace(placetype);
+                if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
+                {
+                    Fragment newFragment = new AddPlaceFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("place_type" , "Work");
+                    newFragment.setArguments(arguments);
+                    FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, newFragment);
+                    transaction.addToBackStack(null);
+                    // placeType = "Work";
+                    transaction.commit();
+
+                }
+                else {
+//                   dropoffLocation.clear();
+//                   dropoffLocation.put("latitude", latitudeWDB);
+//                   dropoffLocation.put("longitude", longitudeWDB);
+//                   dropoffLocation.put("name", placeNameWDB);
+                    Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_LONG).show();
+                   // showrides();
+                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
+
+                }
+               // Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
 
-        RealmHelper helper = new RealmHelper(realm);
+       // RealmHelper helper = new RealmHelper(realm);
         placeName=helper.getAllRecords();
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView,placeName);

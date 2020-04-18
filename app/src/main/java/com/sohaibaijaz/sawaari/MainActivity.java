@@ -103,7 +103,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        if(!sharedPreferences.getString("Token",  "").isEmpty()) {
+        String check = sharedPreferences.getString("Token",  "");
+
+        if(check != null && !check.equals("")) {
             UserDetails.getUserDetails(MainActivity.this);
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             finish();
