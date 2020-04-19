@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Settings.UpdateHomeAndWorkActivity"></activity>
-        <activity android:name=".Maps.LoactionActivity2" />
+
         <activity
             android:name=".Settings.ChangeEmailActivity"
             android:windowSoftInputMode="adjustResize" />

@@ -181,10 +181,7 @@
         <ListView
             android:id="@+id/place_name_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-
-            />
+            android:layout_height="wrap_content" />
 
 
     </LinearLayout>
