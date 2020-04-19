@@ -23,48 +23,6 @@
             app:layout_constraintVertical_bias="0.0"
             tools:context="example.com.mapexample.MapsActivity" />
 
-<!--        <androidx.cardview.widget.CardView-->
-<!--            android:id="@+id/card_view1"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="50dp"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            android:layout_marginLeft="10dp"-->
-<!--            android:layout_marginTop="50dp"-->
-<!--            android:foregroundGravity="center"-->
-<!--            app:cardCornerRadius="10dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.175"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintVertical_bias="0.023">-->
-
-<!--            <fragment-->
-<!--                android:id="@+id/autocomplete_fragment"-->
-<!--                android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent" />-->
-
-<!--        </androidx.cardview.widget.CardView>-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn_dropoff"-->
-<!--            android:layout_width="294dp"-->
-<!--            android:layout_height="52dp"-->
-<!--            android:layout_marginBottom="28dp"-->
-<!--            android:background="@drawable/button_background"-->
-<!--            android:gravity="center"-->
-<!--            android:text="Confirm Dropoff"-->
-<!--            android:textAppearance="@style/TextAppearance.AppCompat.Body1"-->
-<!--            android:textColor="@color/colorWhite"-->
-<!--            android:textSize="20dp"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/mapView"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintVertical_bias="1.0" />-->
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout

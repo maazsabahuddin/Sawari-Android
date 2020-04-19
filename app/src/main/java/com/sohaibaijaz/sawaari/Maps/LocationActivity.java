@@ -30,12 +30,13 @@ public class LocationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // setContentView(R.layout.activity_location);
-       // getSupportActionBar().hide();
-       // if (savedInstanceState == null) {
-       //     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, new LocationFragment()).commit();
-//            //  navigationView.setCheckedItem(R.id.nav_home);
-     //  }
+        setContentView(R.layout.activity_location);
+//        getSupportActionBar().hide();
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, new LocationFragment()).commit();
+       }
+
         // create a FragmentManager
        // FragmentManager fm = getSupportFragmentManager();
 // create a FragmentTransaction to begin the transaction and replace the Fragment

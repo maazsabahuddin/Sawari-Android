@@ -49,9 +49,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
-import com.sohaibaijaz.sawaari.Maps.LoactionActivity2;
 import com.sohaibaijaz.sawaari.Maps.LocationActivity;
-import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
@@ -146,6 +144,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
                 Intent i = new Intent(getActivity(), LocationActivity.class);
                 HomeFragment.this.startActivity(i);
+                Objects.requireNonNull(getActivity()).finish();
 //                Fragment fragment = new LocationFragment();
 //                Bundle arguments = new Bundle();
 //                arguments.putSerializable("pick_up_location" , currentLocation);
