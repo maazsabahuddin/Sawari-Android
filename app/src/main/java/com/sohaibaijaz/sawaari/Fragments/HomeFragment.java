@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
                     arguments.putString("place_type" , "Home");
-                    arguments.putString("comingfrom" , "HomeFragment");
+                    arguments.putString("comingfrom" , "HomeF");
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);

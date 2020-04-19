@@ -152,6 +152,8 @@ public class LocationFragment extends Fragment {
                     transaction.addToBackStack(null);
                     // placeType = "Home";
                     transaction.commit();
+                  //  getActivity().onBackPressed();
+
 
                 }
                 else {
@@ -185,6 +187,7 @@ public class LocationFragment extends Fragment {
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
+                  //  getActivity().onBackPressed();
                     // placeType = "Work";
                     transaction.commit();
 

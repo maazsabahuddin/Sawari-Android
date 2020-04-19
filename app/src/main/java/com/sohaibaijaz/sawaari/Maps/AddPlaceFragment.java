@@ -116,14 +116,33 @@ public class AddPlaceFragment extends Fragment {
                 }
                 else {
                     writeToDB(dropoffLocation.get("id"), dropoffLocation.get("name"), dropoffLocation.get("latitude"), dropoffLocation.get("longitude"), placeType);
-                    Fragment newFragment = new HomeFragment();
-                    Bundle arguments = new Bundle();
-                    newFragment.setArguments(arguments);
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    // placeType = "Home";
-                    transaction.commit();
+                   if(fromwhere=="HomeF"){
+                       Fragment newFragment = new HomeFragment();
+                       Bundle arguments = new Bundle();
+                       newFragment.setArguments(arguments);
+                       FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                       transaction.replace(R.id.fragment_container, newFragment);
+                       transaction.addToBackStack(null);
+                       // placeType = "Home";
+                       transaction.commit();
+                   }
+                   else {
+                       Fragment newFragment = new LocationFragment();
+                       Bundle arguments = new Bundle();
+                       newFragment.setArguments(arguments);
+                       FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                       transaction.replace(R.id.fragment_container, newFragment);
+                     //  transaction.addToBackStack(null);
+                      // transaction.remove(AddPlaceFragment.this);
+                       //getActivity().getFragmentManager().beginTransaction().remove(me).commit();
+                       // placeType = "Home";
+                     //  getActivity().onBackPressed();
+                      // getActivity().getSupportFragmentManager().popBackStack();
+                       transaction.commit();
+                     // ;
+
+                       //finish();
+                   }
                 }
             }
         });
