@@ -31,21 +31,11 @@ public class LocationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
-//        getSupportActionBar().hide();
+        getSupportActionBar().hide();
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, new LocationFragment()).commit();
-       }
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, new LocationFragment()).commit();
+        }
 
-        // create a FragmentManager
-       // FragmentManager fm = getSupportFragmentManager();
-// create a FragmentTransaction to begin the transaction and replace the Fragment
-       // FragmentTransaction fragmentTransaction = fm.beginTransaction();
-// replace the FrameLayout with new Fragment
-       // fragmentTransaction.replace(R.id.fragment_container2,  new LocationFragment());
-        //fragmentTransaction.commit(); // save the changes
-//       getSupportFragmentManager().beginTransaction()
-//                .add(R.id.fragment_container2,
-//                        new LocationFragment()).commit();
     }
 }
