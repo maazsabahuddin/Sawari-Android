@@ -19,19 +19,32 @@ package com.sohaibaijaz.sawaari.Maps;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.sohaibaijaz.sawaari.R;
 
 public class LocationActivity extends AppCompatActivity {
-    public static final String
-            KEY_PREF_EXAMPLE_SWITCH = "example_switch";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content,
-                        new LocationFragment()).commit();
+       // setContentView(R.layout.activity_location);
+       // getSupportActionBar().hide();
+       // if (savedInstanceState == null) {
+       //     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container2, new LocationFragment()).commit();
+//            //  navigationView.setCheckedItem(R.id.nav_home);
+     //  }
+        // create a FragmentManager
+       // FragmentManager fm = getSupportFragmentManager();
+// create a FragmentTransaction to begin the transaction and replace the Fragment
+       // FragmentTransaction fragmentTransaction = fm.beginTransaction();
+// replace the FrameLayout with new Fragment
+       // fragmentTransaction.replace(R.id.fragment_container2,  new LocationFragment());
+        //fragmentTransaction.commit(); // save the changes
+//       getSupportFragmentManager().beginTransaction()
+//                .add(R.id.fragment_container2,
+//                        new LocationFragment()).commit();
     }
 }

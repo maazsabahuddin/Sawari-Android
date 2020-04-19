@@ -151,6 +151,7 @@ public class LocationFragment extends Fragment {
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
                     // placeType = "Home";
+                   // transaction.remove(LocationFragment.this).commit();
                     transaction.commit();
                   //  getActivity().onBackPressed();
 

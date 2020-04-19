@@ -49,6 +49,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
+import com.sohaibaijaz.sawaari.Maps.LoactionActivity2;
+import com.sohaibaijaz.sawaari.Maps.LocationActivity;
 import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
@@ -140,15 +142,18 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 ////                Intent intent = new Intent(getContext(), LF.class);
 ////                startActivity(intent);
 //
+              //  startActivity(new Intent(getContext(), LocationActivity.class));
 
-                Fragment fragment = new LocationFragment();
-                Bundle arguments = new Bundle();
-                arguments.putSerializable("pick_up_location" , currentLocation);
-                fragment.setArguments(arguments);
-                final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fragment);
-                ft.addToBackStack(null);
-                ft.commit();
+                Intent i = new Intent(getActivity(), LocationActivity.class);
+                HomeFragment.this.startActivity(i);
+//                Fragment fragment = new LocationFragment();
+//                Bundle arguments = new Bundle();
+//                arguments.putSerializable("pick_up_location" , currentLocation);
+//                fragment.setArguments(arguments);
+//                final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+//                ft.replace(R.id.fragment_container, fragment);
+//                ft.addToBackStack(null);
+//                ft.commit();
 
                 // Arsalan bhai
 //                Fragment newFragment = new LocationFragment();
