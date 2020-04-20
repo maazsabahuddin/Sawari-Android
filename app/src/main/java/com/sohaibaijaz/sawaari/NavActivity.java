@@ -51,6 +51,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     private ImageView profileImage;
     private String firstName;
     private String lastName;
+    private  ActionBarDrawerToggle toggle;
     //public  String check;
     public static String MAP_VIEW_BUNDLE_KEY;
     TextView textViewN;
@@ -70,6 +71,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+       // getSupportActionBar().setDisplayShowHomeEnabled(false);
 
        final NavigationView navigationView = findViewById(R.id.nav_view);
       //  TextView navTitle = (TextView) findViewById(R.id.titleN);
@@ -102,29 +105,34 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         });
        // textViewN.setText(firstName);
         sharedPreferences = getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE );
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                User user= User.getInstance();
-                firstName=user.getFirstName();
-                lastName=user.getLastName();
-                firstName = firstName + " " + lastName;
 
-                textViewN.setText(firstName);
-                Toast.makeText(NavActivity.this, firstName, Toast.LENGTH_SHORT).show();
 
-            }
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
+                toggle.setDrawerIndicatorEnabled(true);
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                User user= User.getInstance();
+               firstName=user.getFirstName();
+                lastName=user.getLastName();
+                firstName = firstName + " " + lastName;
+                toggle.setDrawerIndicatorEnabled(false);
+
+                textViewN.setText(firstName);
             }
         };
+       // toggle.setDrawerIndicatorEnabled(false);
         drawer.addDrawerListener(toggle);
-
+       // drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         toggle.syncState();
+
 
 
         if (savedInstanceState == null) {

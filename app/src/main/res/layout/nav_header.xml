@@ -7,21 +7,24 @@
     android:background="@color/colorJacksonPurple"
     android:id="@+id/nav_header" >
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@android:id/icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="45dp"
+        android:background="@drawable/circle"
         android:layout_marginBottom="18dp"
-        android:src="@drawable/maaz"/>
+
+        android:src="@drawable/profile2"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="65dp" >
+        android:layout_marginTop="60dp" >
 
         <TextView
             android:id="@+id/titleN"
@@ -33,33 +36,33 @@
             android:layout_weight="10"
             android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/summaryN"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/quantum_grey"
-            android:text="maazsabahuddin@gmail.com\n+923442713545"
-            android:textSize="13.5sp"
-            android:gravity="center_vertical"
-            android:layout_weight="10"
-            android:textStyle="bold" />
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="300 points"
-            android:textAllCaps="false"
-            android:textAlignment="center"
-            android:textSize="13sp"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:id="@+id/location"
-            android:drawableEnd="@drawable/location"
-            android:drawableStart="@drawable/gift"
-            android:background="@color/colorJacksonPurple"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="10dp" />
+         <LinearLayout
+             android:layout_width="170dp"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="35dp"
+             android:background="@drawable/back"
+             >
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:text="300 points"
+                    android:textAllCaps="false"
+                    android:textAlignment="center"
+                    android:textSize="13sp"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginEnd="1dp"
+                    android:id="@+id/location"
+                    android:drawableEnd="@drawable/location"
+                    android:drawableStart="@drawable/gift"
+                    android:background="@color/colorJacksonPurple"
+                    android:textColor="@android:color/white"
+                    android:layout_marginTop="1dp"
+                    android:layout_marginBottom="1dp"
+
+                     />
+         </LinearLayout>
 
     </LinearLayout>
 
