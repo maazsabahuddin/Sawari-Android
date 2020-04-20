@@ -34,6 +34,7 @@ import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
 import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.UpdateActivity;
 import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
@@ -96,7 +97,7 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         textViewN.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(NavActivity.this, SettingsActivity.class);
+                Intent i = new Intent(NavActivity.this, UpdateActivity.class);
                 NavActivity.this.startActivity(i);
                 drawer.closeDrawer(GravityCompat.START);
 

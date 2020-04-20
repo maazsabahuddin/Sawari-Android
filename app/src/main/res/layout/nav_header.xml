@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="60dp" >
+        android:layout_marginTop="55dp" >
 
         <TextView
             android:id="@+id/titleN"
@@ -40,28 +40,23 @@
          <LinearLayout
              android:layout_width="170dp"
              android:layout_height="wrap_content"
-             android:layout_marginTop="35dp"
-             android:background="@drawable/back"
+             android:layout_marginTop="2dp"
+             android:orientation="horizontal"
              >
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:text="300 points"
-                    android:textAllCaps="false"
-                    android:textAlignment="center"
-                    android:textSize="13sp"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_marginStart="1dp"
-                    android:layout_marginEnd="1dp"
-                    android:id="@+id/location"
-                    android:drawableEnd="@drawable/location"
-                    android:drawableStart="@drawable/gift"
-                    android:background="@color/colorJacksonPurple"
-                    android:textColor="@android:color/white"
-                    android:layout_marginTop="1dp"
-                    android:layout_marginBottom="1dp"
-
-                     />
+             <TextView
+                 android:id="@+id/rating"
+                 android:textColor="@color/colorWhite"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="18sp"
+                 android:text="Rated  4.5"
+                 android:gravity="center_vertical"
+                 />
+             <ImageView
+                 android:layout_width="15dp"
+                 android:layout_height="15dp"
+                 android:layout_marginTop="6dp"
+                 android:src="@drawable/starrrr"></ImageView>
          </LinearLayout>
 
     </LinearLayout>
