@@ -45,6 +45,8 @@
     <string name="setting">Setting</string>
     <string name="help_nav">Help</string>
     <string name="GOOGLE_MAP_API_KEY">AIzaSyCLoj4D3yXrJXoDVoEauuN7wFaB72EJREI</string>
+    <string name="add_place">Add Place</string>
+    <string name="set_location_on_map">Set location on map</string>
 
 </resources>
 
