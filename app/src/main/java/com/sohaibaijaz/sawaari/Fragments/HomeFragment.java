@@ -341,7 +341,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             mMap = map;
             boolean success = mMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
-                            Objects.requireNonNull(getActivity()), R.raw.aubergine));
+                            Objects.requireNonNull(getActivity()), R.raw.silver));
 
             if (!success) {
                 Log.e(TAG, "Style parsing failed.");
@@ -349,11 +349,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } catch (Resources.NotFoundException e) {
             Log.e(TAG, "Can't find style. Error: ", e);
         }
+
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
-        mMap.clear();
+//        mMap.clear();
         enableMyLocation();
-
     }
 
     public void getAddress(double lat, double lng) {

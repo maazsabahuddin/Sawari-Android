@@ -157,9 +157,9 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 
             case R.id.nav_home:
 //                startActivity(new Intent(getApplicationContext(), EmptyFragment.class));
-                HomeFragment homeFragment = new HomeFragment();
-
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
+//                HomeFragment homeFragment = new HomeFragment();
+                    onBackPressed();
+//                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
                 break;
 
             case R.id.nav_account:
