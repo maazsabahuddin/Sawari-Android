@@ -1,64 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
+        android:id="@+id/parentRelative"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="500dp"
+        app:layout_constraintBottom_toBottomOf="@+id/bottomRelative"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <fragment
             android:id="@+id/mapView"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
             tools:context="example.com.mapexample.MapsActivity" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <FrameLayout
+            android:id="@+id/spinner_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foregroundGravity="center"
+            android:background="@color/ShadeBlack"
+            android:backgroundTintMode="src_over">
 
-    <FrameLayout
-        android:id="@+id/spinner_frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:foregroundGravity="center"
-        android:clickable="true"
-        android:background="@color/ShadeBlack"
-        android:backgroundTintMode="src_over"
-        >
+            <ProgressBar
+                android:id="@+id/progressBar1"
+                style="?android:attr/progressBarStyleLarge"
+                android:theme="@style/PurpleAccent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
 
-        <ProgressBar
-            android:id="@+id/progressBar1"
-            style="?android:attr/progressBarStyleLarge"
-            android:theme="@style/PurpleAccent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.51"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-    </FrameLayout>
+        </FrameLayout>
+
+    </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/bottomRelative"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="520dp"
+        android:layout_marginTop="500dp"
         android:background="#ede9e8"
         android:alpha="0.8">
 
@@ -144,7 +134,7 @@
                     android:src="@drawable/work"
                     android:layout_gravity="center_horizontal"
                     />
-<!--                android:background="@drawable/circle_shape"-->
+                <!--                android:background="@drawable/circle_shape"-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,8 +159,6 @@
                     android:src="@drawable/plus_icon"
                     android:layout_gravity="center_horizontal" />
 
-<!--                android:background="@drawable/circle_shape"-->
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -185,5 +173,4 @@
 
     </RelativeLayout>
 
-</RelativeLayout>
-
+</androidx.constraintlayout.widget.ConstraintLayout>

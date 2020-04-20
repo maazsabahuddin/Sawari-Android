@@ -6,7 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -19,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,6 +49,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
@@ -71,6 +75,8 @@ import java.util.Objects;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
+import static com.android.volley.VolleyLog.TAG;
+
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
@@ -91,33 +97,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-  //  private Map<String, String> dropoffLocation = new HashMap<>();
     private HashMap<String, String> currentLocation = new HashMap<>();
     private HashMap<String, String> dropoffLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
-
-
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState) {
-//        Fragment childFragment = new LocationFragment();
-//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//        transaction.replace(R.id.location_fragment, childFragment).commit();
-//    }
-
-
-//    public void buttonClick(View v) {
-//        switch(v.getId()) {
-//            case R.id.where_to_textview:
-//                Intent myIntent = new Intent();
-//                myIntent.setClassName("com.sohaibaijaz.sawaari", "com.sohaibaijaz.sawaari.Maps.LF");
-//                // for ex: your package name can be "com.example"
-//                // your activity name will be "com.example.Contact_Developer"
-//                startActivity(myIntent);
-//                break;
-//        }
-//    }
 
     @Nullable
     @Override
@@ -128,41 +112,17 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         boolean gps_enabled = false;
         boolean network_enabled = false;
         realm = Realm.getDefaultInstance();
-      //  SharedPreferences sharedPreferences = Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
-
 
         TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
-//
         where_to_textview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-////                Intent intent = new Intent(getContext(), LF.class);
-////                startActivity(intent);
-//
-              //  startActivity(new Intent(getContext(), LocationActivity.class));
 
                 Intent i = new Intent(getActivity(), LocationActivity.class);
                 Bundle b = new Bundle();
                 b.putSerializable("pick_up_location" , currentLocation);
                 i.putExtras(b);
                 HomeFragment.this.startActivity(i);
-            //git    Objects.requireNonNull(getActivity()).finish();
-//                Fragment fragment = new LocationFragment();
-//                Bundle arguments = new Bundle();
-//                arguments.putSerializable("pick_up_location" , currentLocation);
-//                fragment.setArguments(arguments);
-//                final FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-//                ft.replace(R.id.fragment_container, fragment);
-//                ft.addToBackStack(null);
-//                ft.commit();
-
-                // Arsalan bhai
-//                Fragment newFragment = new LocationFragment();
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, newFragment);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
 
             }
         });
@@ -176,7 +136,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
                 placetype="Home";
-             //   getValueHome(placetype);
                 dropoffLocation.clear();
                 dropoffLocation=helper.getPlace(placetype);
                if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
@@ -189,15 +148,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
-                   // placeType = "Home";
                     transaction.commit();
 
                 }
                else {
-//                   dropoffLocation.clear();
-//                   dropoffLocation.put("latitude", latitudeDB);
-//                   dropoffLocation.put("longitude", longitudeDB);
-//                   dropoffLocation.put("name", placeNameDB);
                    Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
                    showrides();
                }
@@ -220,20 +174,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);
                     transaction.addToBackStack(null);
-                   // placeType = "Work";
                     transaction.commit();
 
                 }
                 else {
-//                   dropoffLocation.clear();
-//                   dropoffLocation.put("latitude", latitudeWDB);
-//                   dropoffLocation.put("longitude", longitudeWDB);
-//                   dropoffLocation.put("name", placeNameWDB);
-                  Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                     showrides();
+                    Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+                    showrides();
               }
-
-
 
             }
         });
@@ -249,16 +196,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, newFragment);
                 transaction.addToBackStack(null);
-               // placeType = "Work";
                 transaction.commit();
-//                Fragment newFragment1 = new SavedPlace();
-//                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction.replace(R.id.fragment_container, newFragment1);
-//                transaction.addToBackStack(null);
-//                transaction.commit();
-
-//                Intent intent = new Intent(getActivity(), SavedPlace.class);
-//                startActivity(intent);
             }
         });
 
@@ -310,134 +248,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .findFragmentById(R.id.mapView);
         mapFragment.getMapAsync(this);
 
-
-       final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final String token = sharedPreferences.getString("Token", "");
-        System.out.print("Token: "+ token);
-
-        if(token.equals(""))
-        {
-            Intent i = new Intent(getActivity(), MainActivity.class);
-            HomeFragment.this.startActivity(i);
-//            Toast.makeText(getContext(), "Invalid token", Toast.LENGTH_LONG).show();
-        }
-
-      //  final RequestQueue requestueue = Volley.newRequestQueue(fragmentView.getContext());
-//        final Button dropoff_btn = fragmentView.findViewById(R.id.btn_dropoff);
 
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
         spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
-//        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-//        autocompleteFragment.setCountry("PK");
-//        autocompleteFragment.setHint("Enter Drop off Location");
-//
-//        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-//        autocompleteFragment.setOnPlaceSelectedListener(placeSelectionListener);
 
-//        user_rides.setVisibility(View.GONE);
+        View locationButton = ((View) mapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+        // position on right bottom
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);rlp.setMargins(0,0,30,30);
 
-
-//        dropoff_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Toast.makeText(getContext(), "Current:"+currentLocation.get("latitude")+","+currentLocation.get("longitude")+"\nDropoff:"+dropoffLocation.get("latitude")+","+dropoffLocation.get("longitude"), Toast.LENGTH_LONG).show();
-//                if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-//                    Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-//                }
-//                else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null) {
-//
-//                    try {
-//
-//                        String URL = MainActivity.baseurl + "/bus/route/";
-//                        JSONObject jsonBody = new JSONObject();
-//                        spinner.setVisibility(View.VISIBLE);
-//                        spinner_frame.setVisibility(View.VISIBLE);
-//                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-//                            @Override
-//                            public void onResponse(String response) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-//                                Log.i("VOLLEY", response.toString());
-//                                try {
-//                                    JSONObject json = new JSONObject(response);
-//
-//                                    if (json.getString("status").equals("200")) {
-//
-//                                        Intent i = new Intent(getContext(), ShowRides.class);
-//                                        i.putExtra("json", json.toString());
-//                                        i.putExtra("rides", json.getJSONArray("rides").toString());
-//                                        startActivity(i);
-//
-//                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
-//                                        Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                    }
-//
-//                                } catch (JSONException e) {
-//                                    Log.e("VOLLEY", e.toString());
-//                                }
-//                            }
-//                        }, new Response.ErrorListener() {
-//                            @Override
-//                            public void onErrorResponse(VolleyError error) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-//                                Toast.makeText(getContext(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-//                                Log.e("VOLLEY", error.toString());
-//                            }
-//                        }) {
-//                            @Override
-//                            protected Map<String, String> getParams() {
-//                                Map<String, String> params = new HashMap<String, String>();
-//
-////                                params.put("start_lat", currentLocation.get("latitude"));
-////                                params.put("start_lon", currentLocation.get("longitude"));
-////                                params.put("stop_lat", dropoffLocation.get("latitude"));
-////                                params.put("stop_lon", dropoffLocation.get("longitude"));
-//
-//                                params.put("stop_lat", "24.913363");
-//                                params.put("stop_lon", "67.124208");
-//                                params.put("start_lat", "24.823343");
-//                                params.put("start_lon", "67.029656");
-//
-//                                return params;
-//                            }
-//
-//                            @Override
-//                            public Map<String, String> getHeaders() throws AuthFailureError {
-//                                Map<String, String> headers = new HashMap<String, String>();
-//                                headers.put("Authorization", token);
-//                                return headers;
-//                            }
-//                        };
-//
-//                        stringRequest.setRetryPolicy(new RetryPolicy() {
-//                            @Override
-//                            public int getCurrentTimeout() {
-//                                return 500000;
-//                            }
-//
-//                            @Override
-//                            public int getCurrentRetryCount() {
-//                                return 500000;
-//                            }
-//
-//                            @Override
-//                            public void retry(VolleyError error) throws VolleyError {
-//
-//                            }
-//                        });
-//
-//                        requestQueue.add(stringRequest);
-//                    } catch (Exception e) {
-//                        Toast.makeText(getContext(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//
-//        });
         return fragmentView;
     }
 
@@ -511,7 +335,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 //
     @Override
     public void onMapReady(GoogleMap map){
-        mMap = map;
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            mMap = map;
+            boolean success = mMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            Objects.requireNonNull(getActivity()), R.raw.retro));
+
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e(TAG, "Can't find style. Error: ", e);
+        }
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
         mMap.clear();
@@ -549,20 +386,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     private void enableMyLocation() {
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             // Permission to access the location is missing.
             PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
                     Manifest.permission.ACCESS_FINE_LOCATION, true);
+            onMapReady(mMap);
         } else if (mMap != null) {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
 
-//            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-//            Criteria criteria = new Criteria();
-//            String provider = locationManager.getBestProvider(criteria, true);
-//            Location location = locationManager.getLastKnownLocation(provider);
-//
+            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
+            String provider = locationManager.getBestProvider(criteria, true);
+            Location location = locationManager.getLastKnownLocation(provider);
 
             fusedLocationClient.getLastLocation()
                     .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -576,7 +413,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                 currentLocation.put("longitude", String.valueOf(longitude));
                                 getAddress(latitude, longitude);
                                 LatLng coordinate = new LatLng(latitude, longitude);
-                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
                                 mMap.animateCamera(yourLocation);
                             }
                         }
@@ -609,32 +446,36 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public boolean onMyLocationButtonClick() {
 
-        Toast.makeText(getContext(), "Fetching Current Location", Toast.LENGTH_SHORT).show();
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-        } else if (mMap != null) {
+        try{
+            Toast.makeText(getContext(), "Fetching Current Location", Toast.LENGTH_SHORT).show();
+            if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+                // Permission to access the location is missing.
+                PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+                        Manifest.permission.ACCESS_FINE_LOCATION, true);
+            } else if (mMap != null) {
 
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-                                currentLocation.clear();
-                                currentLocation.put("latitude", String.valueOf(latitude));
-                                currentLocation.put("longitude", String.valueOf(longitude));
-                                LatLng coordinate = new LatLng(latitude, longitude);
-                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
-                                mMap.animateCamera(yourLocation);
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    double latitude = location.getLatitude();
+                                    double longitude = location.getLongitude();
+                                    currentLocation.clear();
+                                    currentLocation.put("latitude", String.valueOf(latitude));
+                                    currentLocation.put("longitude", String.valueOf(longitude));
+                                    LatLng coordinate = new LatLng(latitude, longitude);
+                                    CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 16);
+                                    mMap.animateCamera(yourLocation);
+                                }
                             }
-                        }
-                    });
+                        });
+            }
         }
-
+        catch (Exception e){
+            Toast.makeText(getContext(), "Error " + e.toString(), Toast.LENGTH_SHORT).show();
+        }
         return false;
     }
 
@@ -699,7 +540,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         new AlertDialog.Builder(this.getContext())
                 .setTitle("Enable Location")
-                .setMessage("Sawaari can't go on without the device's Location!")
+                .setMessage("Sawari can't go on without the device's Location!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -716,8 +557,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 })
                 .setIcon(R.mipmap.alert)
                 .show();
-
-
     }
 
 //    private String getDirectionsUrl(LatLng origin, LatLng dest) {
