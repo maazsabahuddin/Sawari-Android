@@ -117,6 +117,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             public void onClick(View v) {
 
                 Intent i = new Intent(getActivity(), LocationActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable("pick_up_location" , currentLocation);
+                i.putExtras(b);
                 HomeFragment.this.startActivity(i);
 
             }
@@ -164,6 +167,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
                     arguments.putString("place_type" , "Work");
+                    arguments.putString("comingfrom" , "HomeF");
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.fragment_container, newFragment);

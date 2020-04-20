@@ -123,10 +123,10 @@ public class LocationFragment extends Fragment {
         autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListenerTo);
 
-//        Bundle b = this.getArguments();
-//        if (b.getSerializable("pick_up_location") != null) {
-//            currentLocation = (HashMap<String, String>) b.getSerializable("pick_up_location");
-//        }
+        Bundle b = this.getArguments();
+        if (b.getSerializable("pick_up_location") != null) {
+            currentLocation = (HashMap<String, String>) b.getSerializable("pick_up_location");
+        }
 
         TextView add_home = fragmentView.findViewById(R.id.add_home_place);
         TextView add_work = fragmentView.findViewById(R.id.add_work_place);
@@ -145,8 +145,8 @@ public class LocationFragment extends Fragment {
                     arguments.putString("place_type" , "Home");
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
+                    transaction.replace(R.id.place_fragment, newFragment);
+                   // transaction.addToBackStack(null);
                     // placeType = "Home";
                    // transaction.remove(LocationFragment.this).commit();
                     transaction.commit();
@@ -183,8 +183,8 @@ public class LocationFragment extends Fragment {
                     arguments.putString("place_type" , "Work");
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
+                    transaction.replace(R.id.place_fragment, newFragment);
+                  //  transaction.addToBackStack(null);
                   //  getActivity().onBackPressed();
                     // placeType = "Work";
                     transaction.commit();
