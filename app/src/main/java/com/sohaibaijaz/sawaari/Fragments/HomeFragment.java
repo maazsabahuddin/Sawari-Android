@@ -341,7 +341,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             mMap = map;
             boolean success = mMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
-                            Objects.requireNonNull(getActivity()), R.raw.retro));
+                            Objects.requireNonNull(getActivity()), R.raw.aubergine));
 
             if (!success) {
                 Log.e(TAG, "Style parsing failed.");
