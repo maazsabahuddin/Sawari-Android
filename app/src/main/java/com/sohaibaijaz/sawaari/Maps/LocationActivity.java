@@ -17,15 +17,20 @@
 package com.sohaibaijaz.sawaari.Maps;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sohaibaijaz.sawaari.R;
 
+import java.util.HashMap;
+
 public class LocationActivity extends AppCompatActivity {
 
+    private HashMap<String, String> currentLocation = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +38,17 @@ public class LocationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_location);
         getSupportActionBar().hide();
 
+        Bundle b = getIntent().getExtras();
+        if (b.getSerializable("pick_up_location") != null) {
+           currentLocation = (HashMap<String, String>) b.getSerializable("pick_up_location");
+           // Toast.makeText(this,currentLocation.get("longitude"), Toast.LENGTH_SHORT).show();
+        }
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, new LocationFragment()).commit();
+            Fragment fragment = new LocationFragment();
+               Bundle arguments = new Bundle();
+                arguments.putSerializable("pick_up_location" , currentLocation);
+                fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
 
     }

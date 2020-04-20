@@ -127,18 +127,21 @@ public class AddPlaceFragment extends Fragment {
                        transaction.commit();
                    }
                    else {
-//                       Fragment newFragment = new LocationFragment();
-//                       Bundle arguments = new Bundle();
-//                       newFragment.setArguments(arguments);
-//                       FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                       transaction.replace(R.id.fragment_container, newFragment);
+                       Fragment newFragment = new LocationFragment();
+                       Bundle arguments = new Bundle();
+                       newFragment.setArguments(arguments);
+                       FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                       transaction.add(R.id.place_fragment, newFragment);
                       // transaction.addToBackStack(null);
                       // transaction.remove(LocationFragment);
                        //getActivity().getFragmentManager().beginTransaction().remove(me).commit();
                        // placeType = "Home";
+                       transaction.commit();
                       // getActivity().getSupportFragmentManager().popBackStack();
-                     //  transaction.commit();
-                      // getActivity().onBackPressed();
+
+                       //  getActivity().getSupportFragmentManager().beginTransaction().remove(getTargetFragment()).commit();
+
+                       //  getActivity().onBackPressed();
                       // getActivity().getSupportFragmentManager().popBackStackImmediate();
 
                        // ;
