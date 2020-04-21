@@ -71,6 +71,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -192,6 +193,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 Fragment newFragment = new AddPlaceFragment();
                 Bundle arguments = new Bundle();
                 arguments.putString("place_type" , "Extra");
+                arguments.putSerializable("currentLocation" , currentLocation);
                 newFragment.setArguments(arguments);
                 FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.fragment_container, newFragment);
@@ -256,11 +258,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
-        View locationButton = ((View) mapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-        RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-        // position on right bottom
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-        rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);rlp.setMargins(0,0,30,30);
+        try{
+            View locationButton = ((View) mapFragment.getView().findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
+            RelativeLayout.LayoutParams rlp = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
+            // position on right bottom
+            rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
+            rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);rlp.setMargins(0,0,30,30);
+        }catch (Exception e){}
 
         return fragmentView;
     }
@@ -371,13 +375,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             add = add + "\n" + obj.getSubThoroughfare();
 
             currentLocation.put("name", obj.getAddressLine(0));
-//            currentLocation.put("id", place.getId());
+            UUID uuid = UUID.randomUUID();
+            String placeID = uuid.toString();
+            currentLocation.put("id", placeID);
 
             Log.v("IGA", "Address" + add);
-            // Toast.makeText(this, "Address=>" + add,
-            // Toast.LENGTH_SHORT).show();
-
-            // TennisAppActivity.showDialog(add);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
