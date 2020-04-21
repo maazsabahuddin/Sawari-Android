@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
 public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
 
-    Button button_verify_pass;
+    ImageView button_verify_pass;
     EditText editText_password;
     SharedPreferences sharedPreferences;
     TextView error_message;
@@ -55,7 +56,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
         password_message=findViewById(R.id.securitytext4);
 
         error_message.setVisibility(View.GONE);
-
+        button_verify_pass.setAlpha(0.5f);
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +77,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 button_verify_pass.setEnabled(true);
-                button_verify_pass.setAlpha(1);
+                button_verify_pass.setAlpha(1.0f);
 
                 if((editText_password.getText().toString()).equals(""))
                 {

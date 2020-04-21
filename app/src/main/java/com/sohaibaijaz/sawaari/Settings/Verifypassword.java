@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
 public class Verifypassword extends AppCompatActivity {
 
-    Button button_verify_pass;
+    ImageView button_verify_pass;
     EditText editText_password;
     SharedPreferences sharedPreferences;
     TextView error_message;
@@ -50,7 +51,7 @@ public class Verifypassword extends AppCompatActivity {
 
         sharedPreferences = Verifypassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         editText_password= findViewById(R.id.verify_password);
-        button_verify_pass= findViewById(R.id.verifypassword);
+        button_verify_pass= findViewById(R.id.verifypassword4);
         error_message=findViewById(R.id.errormessage4);
         password_message=findViewById(R.id.securitytext4);
 
