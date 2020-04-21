@@ -8,7 +8,6 @@
     android:id="@+id/nav_header" >
 
     <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@android:id/icon"
         android:layout_width="80dp"
         android:layout_height="80dp"
@@ -17,8 +16,7 @@
         android:layout_marginTop="45dp"
         android:background="@drawable/circle"
         android:layout_marginBottom="18dp"
-
-        android:src="@drawable/profilefinal"/>
+        android:src="@drawable/profilefinal" />
 
     <LinearLayout
         android:layout_width="match_parent"
