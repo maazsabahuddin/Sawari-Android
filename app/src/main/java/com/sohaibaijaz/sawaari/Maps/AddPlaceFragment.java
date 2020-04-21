@@ -135,31 +135,36 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         add_place_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Toast.makeText(getContext(), "Working" , Toast.LENGTH_LONG).show();
-                if( userLocation.get("longitude")== null){
-                    Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
-                }
-                else {
-                    writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType);
-                    if(fromwhere=="HomeF"){
-                        Fragment newFragment = new HomeFragment();
-                        Bundle arguments = new Bundle();
-                        newFragment.setArguments(arguments);
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragment_container, newFragment);
-                        transaction.addToBackStack(null);
-                        // placeType = "Home";
-                        transaction.commit();
+
+                try{
+                    if( userLocation.get("longitude")== null){
+                        Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
                     }
                     else {
-                        Toast.makeText(getActivity(), "Place Added", Toast.LENGTH_SHORT).show();
+                        writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType);
+                        if(fromwhere=="HomeF"){
+                            Fragment newFragment = new HomeFragment();
+                            Bundle arguments = new Bundle();
+                            newFragment.setArguments(arguments);
+                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            transaction.replace(R.id.fragment_container, newFragment);
+                            transaction.addToBackStack(null);
+                            // placeType = "Home";
+                            transaction.commit();
+                        }
+                        else {
+                            Toast.makeText(getActivity(), "Place Added", Toast.LENGTH_SHORT).show();
 //                        Fragment newFragment = new LocationFragment();
 //                        Bundle arguments = new Bundle();
 //                        newFragment.setArguments(arguments);
 //                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
 //                        transaction.add(R.id.place_fragment, newFragment);
 //                        transaction.commit();
+                        }
                     }
+                }
+                catch (Exception e){
+                     Toast.makeText(getContext(), "Emulator Error." , Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -198,7 +203,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             public void onClick(View v) {
                 mapViewFrameLayout.setVisibility(View.VISIBLE);
                 add_place_btn.setVisibility(View.VISIBLE);
-                onMapReady(mMap);
+                try{ onMapReady(mMap); } catch (Exception e){}
             }
         });
 
@@ -218,7 +223,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
             mapViewFrameLayout.setVisibility(View.VISIBLE);
             add_place_btn.setVisibility(View.VISIBLE);
-            onMapReady(mMap);
+            try{ onMapReady(mMap); } catch (Exception e){}
 
             //Toast.makeText(getContext(), placeType , Toast.LENGTH_LONG).show();
 
