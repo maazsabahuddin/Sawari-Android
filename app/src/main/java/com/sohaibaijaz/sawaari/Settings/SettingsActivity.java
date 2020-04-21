@@ -18,18 +18,34 @@ package com.sohaibaijaz.sawaari.Settings;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.sohaibaijaz.sawaari.R;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String
             KEY_PREF_EXAMPLE_SWITCH = "example_switch";
 
+    public static FrameLayout spnner_frame;
+    public static ProgressBar spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        getSupportActionBar().setTitle("Account Settings");
-      //  getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setContentView(R.layout.checksettings);
+
+        spinner= findViewById(R.id.progressBar_s);
+        spnner_frame= findViewById(R.id.spinner_frame_s);
+
+        spinner.setVisibility(View.GONE);
+        spnner_frame.setVisibility(View.GONE);
+
+        //  getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       //  getSupportActionBar().setHomeButtonEnabled(true);
 

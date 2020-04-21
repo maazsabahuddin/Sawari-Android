@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -43,7 +45,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private String phoneNumber;
     private String email;
     private String token;
-
+    private FrameLayout spinner_frame;
+    private ProgressBar spinner;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +57,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             User user= User.getInstance();
             phoneNumber = user.getPhoneNumber();
             email = user.getEmail();
+
 
 
             Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
@@ -215,8 +219,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
         try {
             String URL = MainActivity.baseurl + "/logout/";
-//                        spinner.setVisibility(View.VISIBLE);
-//                        spinner_frame.setVisibility(View.VISIBLE);
+            spinner=SettingsActivity.spinner;
+            spinner_frame=SettingsActivity.spnner_frame;
+            spinner.setVisibility(View.VISIBLE);
+            spinner_frame.setVisibility(View.VISIBLE);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
