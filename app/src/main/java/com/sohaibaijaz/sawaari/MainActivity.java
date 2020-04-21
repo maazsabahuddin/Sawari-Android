@@ -102,17 +102,16 @@ public class MainActivity extends AppCompatActivity {
             }
             });
 
-
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        String check = sharedPreferences.getString("Token",  "");
-
-        if(!check.equals("")) {
-            UserDetails.getUserDetails(MainActivity.this);
-
-            Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-            finish();
-            MainActivity.this.startActivity(intent);
-        }
+//        String isToken = sharedPreferences.getString("Token",  "");
+//
+//        if(!isToken.equals("")) {
+//            UserDetails.getUserDetails(MainActivity.this);
+//
+//            Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+//            finish();
+//            MainActivity.this.startActivity(intent);
+//        }
 
         // Do here
 //        String rides = sharedPreferences.getString("user_rides", "");
@@ -176,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
                             spinner.setVisibility(View.GONE);
                             spinner_frame.setVisibility(View.GONE);
 
-                            Log.i("VOLLEY", response.toString());
+                            Log.i("VOLLEY", response);
                             try {
                                 JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
@@ -194,15 +193,15 @@ public class MainActivity extends AppCompatActivity {
 
                                     else {
                                         //Shared Preferences
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.putString("Token", token);
-                                        editor.apply();
+                                         SharedPreferences.Editor editor = sharedPreferences.edit();
+                                         editor.putString("Token", token);
+                                         editor.apply();
 
-                                        UserDetails.getUserDetails(MainActivity.this);
-                                        UserDetails.getUserRides(MainActivity.this);
-                                        Intent myIntent = new Intent(MainActivity.this, SplashActivity.class);//Optional parameters
-                                        finish();
-                                        MainActivity.this.startActivity(myIntent);
+                                         UserDetails.getUserDetails(MainActivity.this);
+                                         UserDetails.getUserRides(MainActivity.this);
+                                         Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                         finish();
+                                         MainActivity.this.startActivity(myIntent);
                                     }
 
                                 }
@@ -238,12 +237,12 @@ public class MainActivity extends AppCompatActivity {
                     stringRequest.setRetryPolicy(new RetryPolicy() {
                         @Override
                         public int getCurrentTimeout() {
-                            return 50000;
+                            return 5000;
                         }
 
                         @Override
                         public int getCurrentRetryCount() {
-                            return 50000;
+                            return 5000;
                         }
 
                         @Override

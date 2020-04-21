@@ -58,9 +58,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             phoneNumber = user.getPhoneNumber();
             email = user.getEmail();
 
-
-
-            Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
 
             firstName= user.getFirstName() ;
             lastName=user.getLastName();

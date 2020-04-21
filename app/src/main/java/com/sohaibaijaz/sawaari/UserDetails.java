@@ -54,7 +54,7 @@ public class UserDetails {
                                 user.setPhoneNumber(json.getString("phone_number"));
                                 user.setEmail(json.getString("email"));
 
-                                Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
 
                             } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
