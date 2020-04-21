@@ -50,7 +50,7 @@ public class Verifypassword extends AppCompatActivity {
         setContentView(R.layout.activity_verify_password_change_phone_number);
 
         sharedPreferences = Verifypassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password);
+        editText_password= findViewById(R.id.verify_password4);
         button_verify_pass= findViewById(R.id.verifypassword4);
         error_message=findViewById(R.id.errormessage4);
         password_message=findViewById(R.id.securitytext4);
@@ -88,7 +88,7 @@ public class Verifypassword extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 button_verify_pass.setEnabled(true);
-                button_verify_pass.setAlpha(1);
+                button_verify_pass.setAlpha(1.0f);
 
                 if((editText_password.getText().toString()).equals(""))
                 {
