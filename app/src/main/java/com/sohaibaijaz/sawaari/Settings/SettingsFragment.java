@@ -42,6 +42,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public static String lastName;
     private String phoneNumber;
     private String email;
+    private String token;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         try{
             sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-            final String token = sharedPreferences.getString("Token", "");
+            token = sharedPreferences.getString("Token", "");
             User user= User.getInstance();
             phoneNumber = user.getPhoneNumber();
             email = user.getEmail();
@@ -108,87 +109,89 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             preference_signout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
-                    try {
-                        String URL = MainActivity.baseurl + "/logout/";
-//                        spinner.setVisibility(View.VISIBLE);
-//                        spinner_frame.setVisibility(View.VISIBLE);
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-                                Log.i("VOLLEY", response.toString());
-                                try {
-                                    JSONObject json = new JSONObject(response);
-                                    if (json.getString("status").equals("200")) {
 
-                                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        editor.remove("Token");
-                                        editor.remove("user_rides");
-                                        editor.apply();
-                                        editor.clear();
-                                        Intent intent = new Intent(getActivity(), MainActivity.class);
-
-                                        getActivity().finishAffinity();
-                                        startActivity(intent);
-
-                                      // getActivity().finish();
-
-                                    }
-                                    else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
-                                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
-
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                                Log.e("VOLLEY", error.toString());
-                            }
-                        }){
-                            @Override
-                            protected Map<String,String> getParams(){
-                                Map<String,String> params = new HashMap<String, String>();
-
-                                return params;
-                            }
-
-                            @Override
-                            public Map<String, String> getHeaders() throws AuthFailureError {
-                                Map<String, String>  params = new HashMap<String, String>();
-                                params.put("Authorization", token);
-                                return params;
-                            }
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
-                            }
-                        });
-                        requestQueue.add(stringRequest);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    signout(getActivity());
+//                    requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+//                    try {
+//                        String URL = MainActivity.baseurl + "/logout/";
+////                        spinner.setVisibility(View.VISIBLE);
+////                        spinner_frame.setVisibility(View.VISIBLE);
+//                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+//                            @Override
+//                            public void onResponse(String response) {
+////                                spinner.setVisibility(View.GONE);
+////                                spinner_frame.setVisibility(View.GONE);
+//                                Log.i("VOLLEY", response.toString());
+//                                try {
+//                                    JSONObject json = new JSONObject(response);
+//                                    if (json.getString("status").equals("200")) {
+//
+//                                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                                        editor.remove("Token");
+//                                        editor.remove("user_rides");
+//                                        editor.apply();
+//                                        editor.clear();
+//                                        Intent intent = new Intent(getActivity(), MainActivity.class);
+//
+//                                        getActivity().finishAffinity();
+//                                        startActivity(intent);
+//
+//                                      // getActivity().finish();
+//
+//                                    }
+//                                    else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+//                                        Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
+//                                    }
+//                                } catch (JSONException e) {
+//                                    Log.e("VOLLEY", e.toString());
+//
+//                                }
+//                            }
+//                        }, new Response.ErrorListener() {
+//                            @Override
+//                            public void onErrorResponse(VolleyError error) {
+////                                spinner.setVisibility(View.GONE);
+////                                spinner_frame.setVisibility(View.GONE);
+//                                Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+//                                Log.e("VOLLEY", error.toString());
+//                            }
+//                        }){
+//                            @Override
+//                            protected Map<String,String> getParams(){
+//                                Map<String,String> params = new HashMap<String, String>();
+//
+//                                return params;
+//                            }
+//
+//                            @Override
+//                            public Map<String, String> getHeaders() throws AuthFailureError {
+//                                Map<String, String>  params = new HashMap<String, String>();
+//                                params.put("Authorization", token);
+//                                return params;
+//                            }
+//                        };
+//
+//                        stringRequest.setRetryPolicy(new RetryPolicy() {
+//                            @Override
+//                            public int getCurrentTimeout() {
+//                                return 50000;
+//                            }
+//
+//                            @Override
+//                            public int getCurrentRetryCount() {
+//                                return 50000;
+//                            }
+//
+//                            @Override
+//                            public void retry(VolleyError error) throws VolleyError {
+//
+//                            }
+//                        });
+//                        requestQueue.add(stringRequest);
+//
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
                     return true;
                 }
             });
@@ -198,6 +201,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             e.printStackTrace();
         }
 
+
+
     }
 
     @Override
@@ -205,5 +210,89 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         /*setPreferencesFromResource(R.xml.account_setting_preference, rootKey);*/
     }
 
+    public void signout(final Context context){
+
+        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+        try {
+            String URL = MainActivity.baseurl + "/logout/";
+//                        spinner.setVisibility(View.VISIBLE);
+//                        spinner_frame.setVisibility(View.VISIBLE);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                    Log.i("VOLLEY", response.toString());
+                    try {
+                        JSONObject json = new JSONObject(response);
+                        if (json.getString("status").equals("200")) {
+
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("Token");
+                            editor.remove("user_rides");
+                            editor.apply();
+                            editor.clear();
+                            Intent intent = new Intent(getActivity(), MainActivity.class);
+
+                            getActivity().finishAffinity();
+                            startActivity(intent);
+
+                            // getActivity().finish();
+
+                        }
+                        else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                            Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        Log.e("VOLLEY", e.toString());
+
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+                    Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                    Log.e("VOLLEY", error.toString());
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 50000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+            requestQueue.add(stringRequest);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }

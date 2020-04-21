@@ -26,21 +26,21 @@
         android:orientation="vertical"
         android:layout_marginTop="55dp" >
 
+
         <TextView
             android:id="@+id/titleN"
-            android:textColor="@color/colorWhite"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="A"
+            android:textColor="@color/colorWhite"
             android:textSize="20sp"
-            android:gravity="center_vertical"
-            android:layout_weight="10"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
-
-         <LinearLayout
+        <LinearLayout
              android:layout_width="170dp"
              android:layout_height="wrap_content"
-             android:layout_marginTop="2dp"
+             android:layout_marginTop="0dp"
              android:orientation="horizontal"
              >
              <TextView
@@ -48,13 +48,13 @@
                  android:textColor="@color/colorWhite"
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
-                 android:textSize="18sp"
+                 android:textSize="15sp"
                  android:text="Rated  4.5"
                  android:gravity="center_vertical"
                  />
              <ImageView
                  android:layout_width="15dp"
-                 android:layout_height="15dp"
+                 android:layout_height="12dp"
                  android:layout_marginTop="6dp"
                  android:src="@drawable/starrrr"></ImageView>
          </LinearLayout>

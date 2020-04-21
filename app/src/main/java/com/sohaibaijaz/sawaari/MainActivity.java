@@ -26,6 +26,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -107,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(!check.equals("")) {
             UserDetails.getUserDetails(MainActivity.this);
+
             Intent intent = new Intent(MainActivity.this, SplashActivity.class);
             finish();
             MainActivity.this.startActivity(intent);
