@@ -17,8 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Settings.UpdateHomeAndWorkActivity"></activity>
-
+        <activity android:name=".Settings.UpdateHomeAndWorkActivity"/>
+        <activity android:name=".Fragments.HelpActivity"/>
         <activity
             android:name=".Settings.ChangeEmailActivity"
             android:windowSoftInputMode="adjustResize" />
