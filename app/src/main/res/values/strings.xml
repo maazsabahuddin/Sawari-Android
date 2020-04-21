@@ -47,6 +47,7 @@
     <string name="GOOGLE_MAP_API_KEY">AIzaSyCLoj4D3yXrJXoDVoEauuN7wFaB72EJREI</string>
     <string name="add_place">Add Place</string>
     <string name="set_location_on_map">Set location on map</string>
+    <string name="sawari">SAWARI</string>
 
     <string-array name="help_array">
         <item>Complaints and Refunds</item>

@@ -58,7 +58,7 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Settings.Updatepassword" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".BookingActivity"
@@ -95,10 +95,7 @@
         <activity
             android:name=".NavActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- <activity -->
-        <!-- android:name="Rides.BusActivity" -->
-        <!-- android:noHistory="true" -->
-        <!-- android:screenOrientation="portrait" /> -->
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VerifyActivity"
             android:screenOrientation="portrait" />
@@ -106,14 +103,15 @@
             android:name=".SignupActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".MainActivity"
+            android:name=".SplashActivity"
+            android:theme="@style/AppTheme.Maaz"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
