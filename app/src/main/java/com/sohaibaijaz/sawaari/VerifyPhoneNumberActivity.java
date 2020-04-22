@@ -58,8 +58,6 @@ public class VerifyPhoneNumberActivity extends AppCompatActivity {
         txt_otp_phone = findViewById(R.id.txt_otp_phone);
         resend_otp_phone = findViewById(R.id.resend_otp_phone);
 
-
-
         btn_verify_phone.setOnClickListener(new View.OnClickListener(){
 
 

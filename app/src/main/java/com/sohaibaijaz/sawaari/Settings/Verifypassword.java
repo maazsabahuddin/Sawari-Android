@@ -56,9 +56,7 @@ public class Verifypassword extends AppCompatActivity {
         error_message=findViewById(R.id.errormessage4);
         password_message=findViewById(R.id.securitytext4);
 
-
-          Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
-
+//        Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
 
         editText_password= findViewById(R.id.verify_password4);
         button_verify_pass= findViewById(R.id.verifypassword4);
@@ -164,11 +162,6 @@ public class Verifypassword extends AppCompatActivity {
                                 try {
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
-
-
-                                        // SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        //editor.putString("Token", token);
-                                        //editor.apply();
 
                                         Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
 

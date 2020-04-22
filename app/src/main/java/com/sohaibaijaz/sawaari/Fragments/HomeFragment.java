@@ -160,8 +160,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     {
                         Fragment newFragment = new AddPlaceFragment();
                         Bundle arguments = new Bundle();
-                        arguments.putString("place_type" , "Home");
-                        arguments.putString("comingfrom" , "HomeF");
+                        arguments.putString("value" , "Home");
+                        arguments.putString("activity" , "homeFragment");
                         arguments.putSerializable("currentLocation" , currentLocation);
                         newFragment.setArguments(arguments);
                         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -196,8 +196,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     {
                         Fragment newFragment = new AddPlaceFragment();
                         Bundle arguments = new Bundle();
-                        arguments.putString("place_type" , "Work");
-                        arguments.putString("comingfrom" , "HomeF");
+                        arguments.putString("value" , "Work");
+                        arguments.putString("activity" , "HomeFragment");
                         arguments.putSerializable("currentLocation" , currentLocation);
                         newFragment.setArguments(arguments);
                         FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();

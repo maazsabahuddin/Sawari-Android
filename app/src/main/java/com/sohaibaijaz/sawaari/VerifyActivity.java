@@ -68,8 +68,6 @@ public class VerifyActivity extends AppCompatActivity {
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
 
-
-
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         txt_otp.setOnEditorActionListener(new EditText.OnEditorActionListener(){
 
@@ -171,8 +169,6 @@ public class VerifyActivity extends AppCompatActivity {
 
             }
         });
-
-
 
 
         txt_otp.setOnClickListener(new View.OnClickListener() {

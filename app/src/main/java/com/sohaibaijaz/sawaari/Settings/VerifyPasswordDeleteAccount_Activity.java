@@ -66,6 +66,7 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
               //  finish();
             }
         });
+
         editText_password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -159,13 +160,6 @@ public class VerifyPasswordDeleteAccount_Activity extends AppCompatActivity {
                                 try {
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
-
-
-                                        // SharedPreferences.Editor editor = sharedPreferences.edit();
-                                        //editor.putString("Token", token);
-                                        //editor.apply();
-
-                                       // Toast.makeText(VerifyPasswordDeleteAccount_Activity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
                                         Intent i = new Intent(VerifyPasswordDeleteAccount_Activity.this, DeleteAccount_Activity.class);
                                         VerifyPasswordDeleteAccount_Activity.this.startActivity(i);
