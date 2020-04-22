@@ -17,6 +17,8 @@
 package com.sohaibaijaz.sawaari.Maps;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +39,8 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         getSupportActionBar().hide();
+//        getSupportActionBar().setTitle("");
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
         if (b.getSerializable("pick_up_location") != null) {
@@ -51,5 +55,12 @@ public class LocationActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
 
+        TextView BackLA = findViewById(R.id.BackLA);
+        BackLA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }
