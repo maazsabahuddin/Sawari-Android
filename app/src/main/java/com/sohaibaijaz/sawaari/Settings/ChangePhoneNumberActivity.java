@@ -145,7 +145,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
                                          i.putExtra("change_number", new_phonenumber );
                                          startActivity(i);
 
-                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+                                    } else if (json.getString("status").equals("400")) {
 
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
@@ -169,6 +169,11 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
                                             }
                                         });
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(json.getString("status").equals("404")){
+                                        Toast.makeText(ChangePhoneNumberActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        SettingsFragment.signout(ChangePhoneNumberActivity.this);
+                                        // flag = false;
                                     }
                                     else{
                                         error_message.setText(json.getString("message"));

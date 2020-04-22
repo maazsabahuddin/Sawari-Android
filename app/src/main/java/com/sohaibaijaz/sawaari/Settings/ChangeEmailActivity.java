@@ -138,7 +138,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
 //                                        i.putExtra("change_number", new_phonenumber );
 //                                        startActivity(i);
 
-                                    } else if (json.getString("status").equals("400") || json.getString("status").equals("404")) {
+                                    } else if (json.getString("status").equals("400")) {
 
                                         textViewerror.setText(json.getString("message"));
                                         textViewerror.setVisibility(View.VISIBLE);
@@ -162,6 +162,11 @@ public class ChangeEmailActivity extends AppCompatActivity {
                                             }
                                         });
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(json.getString("status").equals("404")){
+                                        Toast.makeText(ChangeEmailActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        SettingsFragment.signout(ChangeEmailActivity.this);
+                                        // flag = false;
                                     }
                                     else{
                                         textViewerror.setText(json.getString("message"));

@@ -30,6 +30,8 @@ import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.BookingActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 import com.sohaibaijaz.sawaari.UserDetails;
 import com.sohaibaijaz.sawaari.model.Ride;
 
@@ -290,8 +292,13 @@ public class SelectedRideActivity extends AppCompatActivity {
 
                                     SelectedRideActivity.this.startActivity(intent);
                                 }
-                                else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                else if (json.getString("status").equals("400")) {
                                     Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                }
+                                else if(json.getString("status").equals("404")){
+                                    Toast.makeText(SelectedRideActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                    SettingsFragment.signout(SelectedRideActivity.this);
+                                    // flag = false;
                                 }
                             } catch (JSONException e) {
                                 Log.e("VOLLEY", e.toString());

@@ -45,6 +45,7 @@ import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -658,8 +659,13 @@ public class LocationFragment extends Fragment {
                             spinner_frame.setVisibility(View.GONE);
                             startActivity(i);
 
-                        } else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+                        } else if (jsonObj.getString("status").equals("400")) {
                             Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                        else if(jsonObj.getString("status").equals("404")){
+                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_LONG).show();
+                            SettingsFragment.signout(getActivity());
+                            // flag = false;
                         }
 
                     } catch (JSONException e) {

@@ -25,6 +25,8 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -174,8 +176,13 @@ public class SignupActivity extends AppCompatActivity {
                                            SignupActivity.this.startActivity(myIntent);
 
                                        }
-                                       else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {
+                                       else if (json.getString("status").equals("400")) {
                                            Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                       }
+                                       else if(json.getString("status").equals("404")){
+                                           Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                           SettingsFragment.signout(SignupActivity.this);
+                                           // flag = false;
                                        }
                                    } catch (JSONException e) {
                                        Log.e("VOLLEY", e.toString());

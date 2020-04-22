@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -207,6 +208,11 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 else if (json.getString("status").equals("401")||json.getString("status").equals("404")) {
                                     Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+                                else if(json.getString("status").equals("404")){
+                                    Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                    SettingsFragment.signout(MainActivity.this);
+                                    // flag = false;
                                 }
                             } catch (JSONException e) {
                                 Log.e("VOLLEY", e.toString());

@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class UpdateFragment extends PreferenceFragmentCompat {
 
@@ -176,11 +177,17 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                                // flag = true;
 
                             }
-                            else if(json.getString("status").equals("404") || json.getString("status").equals("400")){
+                            else if(json.getString("status").equals("400")){
                                 Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
 
                                // flag = false;
                             }
+                            else if(json.getString("status").equals("404")){
+                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                SettingsFragment.signout(getActivity());
+                                // flag = false;
+                            }
+
 
                         }
                         catch (JSONException e) {

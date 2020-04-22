@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
 public class VerifyPasswordChangePhoneNumber_Activity extends AppCompatActivity {
 
-    Button button_verify_pass;
+    ImageView button_verify_pass;
     EditText editText_password;
     SharedPreferences sharedPreferences;
     TextView error_message;
