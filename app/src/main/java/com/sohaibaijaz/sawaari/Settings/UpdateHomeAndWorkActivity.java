@@ -3,6 +3,7 @@ package com.sohaibaijaz.sawaari.Settings;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +30,7 @@ public class UpdateHomeAndWorkActivity extends AppCompatActivity {
         BackLA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
             }
         });
     }

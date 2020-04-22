@@ -123,8 +123,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         autocompleteFragment_pickUp.setHint("Add Place");
 
         Bundle b = this.getArguments();
-        placeType = b.getString("place_type");
-        fromwhere = b.getString("comingfrom");
+        placeType = b.getString("value");
+        fromwhere = b.getString("activity");
         if(b.getSerializable("currentLocation") != null)
             userLocation = (HashMap<String, String>)b.getSerializable("currentLocation");
 

@@ -16,6 +16,7 @@
 
 package com.sohaibaijaz.sawaari.Settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -54,7 +56,7 @@ public class SettingsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                onBackPressed();
+                startActivity(new Intent(getApplicationContext(), NavActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

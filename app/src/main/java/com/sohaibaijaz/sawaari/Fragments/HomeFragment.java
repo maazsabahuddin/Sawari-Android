@@ -130,7 +130,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 else{
                     Intent i = new Intent(getActivity(), LocationActivity.class);
                     Bundle b = new Bundle();
-                    b.putSerializable("pick_up_location" , currentLocation);
+                    b.putString("value" , "Whereto");
+                    b.putString("activity" , "HomeFragment");
+                    b.putSerializable("currentLocation" , currentLocation);
                     i.putExtras(b);
                     HomeFragment.this.startActivity(i);
                 }
@@ -158,16 +160,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     dropoffLocation=helper.getPlace(placetype);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
-                        Fragment newFragment = new AddPlaceFragment();
-                        Bundle arguments = new Bundle();
-                        arguments.putString("value" , "Home");
-                        arguments.putString("activity" , "homeFragment");
-                        arguments.putSerializable("currentLocation" , currentLocation);
-                        newFragment.setArguments(arguments);
-                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragment_container, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
+                        Intent i = new Intent(getActivity(), LocationActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("value" , "Home");
+                        b.putString("activity" , "HomeFragment");
+                        b.putSerializable("currentLocation" , currentLocation);
+                        i.putExtras(b);
+                        HomeFragment.this.startActivity(i);
+//                        Fragment newFragment = new AddPlaceFragment();
+//                        Bundle arguments = new Bundle();
+//                        arguments.putString("value" , "Home");
+//                        arguments.putString("activity" , "homeFragment");
+//                        arguments.putSerializable("currentLocation" , currentLocation);
+//                        newFragment.setArguments(arguments);
+//                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                        transaction.replace(R.id.fragment_container, newFragment);
+//                        transaction.addToBackStack(null);
+//                        transaction.commit();
 
                     }
                     else {
@@ -194,17 +203,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     dropoffLocation=helper.getPlace(placetype);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
-                        Fragment newFragment = new AddPlaceFragment();
-                        Bundle arguments = new Bundle();
-                        arguments.putString("value" , "Work");
-                        arguments.putString("activity" , "HomeFragment");
-                        arguments.putSerializable("currentLocation" , currentLocation);
-                        newFragment.setArguments(arguments);
-                        FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragment_container, newFragment);
-                        transaction.addToBackStack(null);
-                        transaction.commit();
-
+                        Intent i = new Intent(getActivity(), LocationActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("value" , "Work");
+                        b.putString("activity" , "HomeFragment");
+                        b.putSerializable("currentLocation" , currentLocation);
+                        i.putExtras(b);
+                        HomeFragment.this.startActivity(i);
                     }
                     else {
                         Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
@@ -225,15 +230,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                             LOCATION_PERMISSION_REQUEST_CODE);
                 }
                 else{
-                    Fragment newFragment = new AddPlaceFragment();
-                    Bundle arguments = new Bundle();
-                    arguments.putString("place_type" , "Extra");
-                    arguments.putSerializable("currentLocation" , currentLocation);
-                    newFragment.setArguments(arguments);
-                    FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    Intent i = new Intent(getActivity(), LocationActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("value" , "AddPlace");
+                    b.putString("activity" , "HomeFragment");
+                    b.putSerializable("currentLocation" , currentLocation);
+                    i.putExtras(b);
+                    HomeFragment.this.startActivity(i);
                 }
             }
         });
