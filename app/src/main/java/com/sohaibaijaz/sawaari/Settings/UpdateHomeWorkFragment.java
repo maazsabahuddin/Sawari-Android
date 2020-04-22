@@ -41,8 +41,10 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
+import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
+import com.sohaibaijaz.sawaari.Maps.LocationActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
@@ -86,26 +88,26 @@ public class UpdateHomeWorkFragment extends Fragment {
         HomeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment newFragment = new AddPlaceFragment();
-                Bundle arguments = new Bundle();
-                arguments.putString("value" , "UpdateHome");
-                newFragment.setArguments(arguments);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.HomeWorkFragment, newFragment);
-                transaction.commit();
+                Intent i = new Intent(getActivity(), LocationActivity.class);
+                Bundle b = new Bundle();
+                b.putString("value" , "UpdateHome");
+                b.putString("activity" , "UpdateLocationFragment");
+                b.putSerializable("currentLocation" , currentLocation);
+                i.putExtras(b);
+                UpdateHomeWorkFragment.this.startActivity(i);
             }
         });
 
         WorkLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment newFragment = new AddPlaceFragment();
-                Bundle arguments = new Bundle();
-                arguments.putString("value" , "UpdateWork");
-                newFragment.setArguments(arguments);
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.HomeWorkFragment, newFragment);
-                transaction.commit();
+                Intent i = new Intent(getActivity(), LocationActivity.class);
+                Bundle b = new Bundle();
+                b.putString("value" , "UpdateWork");
+                b.putString("activity" , "UpdateLocationFragment");
+                b.putSerializable("currentLocation" , currentLocation);
+                i.putExtras(b);
+                UpdateHomeWorkFragment.this.startActivity(i);
             }
         });
 

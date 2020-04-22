@@ -16,6 +16,7 @@
 
 package com.sohaibaijaz.sawaari.Maps;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -26,40 +27,92 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Settings.PrivacyActivity;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.UpdateHomeAndWorkActivity;
 
 import java.util.HashMap;
 
 public class LocationActivity extends AppCompatActivity {
 
     private HashMap<String, String> currentLocation = new HashMap<>();
+    private String activity;
+    private String value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
         getSupportActionBar().hide();
-//        getSupportActionBar().setTitle("");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle b = getIntent().getExtras();
-        if (b.getSerializable("pick_up_location") != null) {
-           currentLocation = (HashMap<String, String>) b.getSerializable("pick_up_location");
-           // Toast.makeText(this,currentLocation.get("longitude"), Toast.LENGTH_SHORT).show();
+        activity = b.getString("activity");
+        value = b.getString("value");
+        if (b.getSerializable("currentLocation") != null) {
+           currentLocation = (HashMap<String, String>) b.getSerializable("currentLocation");
         }
-        if (savedInstanceState == null) {
+
+        if (value.equals("Whereto")) {
             Fragment fragment = new LocationFragment();
                Bundle arguments = new Bundle();
-                arguments.putSerializable("pick_up_location" , currentLocation);
+                arguments.putSerializable("currentLocation" , currentLocation);
                 fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
+        else if (value.equals("Home")) {
+            Fragment fragment = new AddPlaceFragment();
+            Bundle arguments = new Bundle();
+            arguments.putSerializable("currentLocation" , currentLocation);
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
+        }
+        else if (value.equals("UpdateHome")) {
+            Fragment fragment = new AddPlaceFragment();
+            Bundle arguments = new Bundle();
+            arguments.putSerializable("currentLocation" , currentLocation);
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
+        }
+        else if (value.equals("Work")) {
+            Fragment fragment = new AddPlaceFragment();
+            Bundle arguments = new Bundle();
+            arguments.putSerializable("currentLocation" , currentLocation);
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
+        }
+        else if (value.equals("UpdateWork")) {
+            Fragment fragment = new AddPlaceFragment();
+            Bundle arguments = new Bundle();
+            arguments.putSerializable("currentLocation" , currentLocation);
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
+        }
+        else if (value.equals("AddPlace")) {
+            Fragment fragment = new AddPlaceFragment();
+            Bundle arguments = new Bundle();
+            arguments.putSerializable("currentLocation" , currentLocation);
+            fragment.setArguments(arguments);
+            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
+        }
+
 
         TextView BackLA = findViewById(R.id.BackLA);
         BackLA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                if(activity.equals("HomeFragment")){
+                    Intent i = new Intent(getApplicationContext(), NavActivity.class);
+                    LocationActivity.this.startActivity(i);
+                }
+                else if(activity.equals("UpdateLocationFragment")){
+                    Intent i = new Intent(getApplicationContext(), UpdateHomeAndWorkActivity.class);
+                    LocationActivity.this.startActivity(i);
+                }
+                else{
+                    onBackPressed();
+                }
             }
         });
     }

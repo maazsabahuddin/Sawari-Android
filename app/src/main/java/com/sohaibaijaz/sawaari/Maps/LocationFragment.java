@@ -135,43 +135,33 @@ public class LocationFragment extends Fragment {
         autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListenerTo);
 
         Bundle b = this.getArguments();
-        if (b.getSerializable("pick_up_location") != null) {
-            currentLocation = (HashMap<String, String>) b.getSerializable("pick_up_location");
+        if (b.getSerializable("currentLocation") != null) {
+            currentLocation = (HashMap<String, String>) b.getSerializable("currentLocation");
         }
 
-        TextView add_home = fragmentView.findViewById(R.id.add_home_place);
-        TextView add_work = fragmentView.findViewById(R.id.add_work_place);
+        LinearLayout add_home = fragmentView.findViewById(R.id.add_home_place);
+        LinearLayout add_work = fragmentView.findViewById(R.id.add_work_place);
 
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 placetype="Home";
-                //   getValueHome(placetype);
                 dropoffLocation.clear();
                 dropoffLocation=helper.getPlace(placetype);
                 if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                 {
-                    Fragment newFragment = new AddPlaceFragment();
-                    Bundle arguments = new Bundle();
-                    arguments.putString("value" , "Home");
-                    arguments.putString("activity" , "LocationFragment");
-                    arguments.putSerializable("currentLocation" , currentLocation);
-                    newFragment.setArguments(arguments);
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.place_fragment, newFragment);
-                    transaction.commit();
+                    Intent i = new Intent(getActivity(), LocationActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("value" , "Home");
+                    b.putString("activity" , "LocationFragment");
+                    b.putSerializable("currentLocation" , currentLocation);
+                    i.putExtras(b);
+                    LocationFragment.this.startActivity(i);
                 }
                 else {
-//                   dropoffLocation.clear();
-//                   dropoffLocation.put("latitude", latitudeDB);
-//                   dropoffLocation.put("longitude", longitudeDB);
-//                   dropoffLocation.put("name", placeNameDB);
-                   // Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
                     BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
-
                 }
 
-              //  Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -185,31 +175,17 @@ public class LocationFragment extends Fragment {
                 dropoffLocation=helper.getPlace(placetype);
                 if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                 {
-                    Fragment newFragment = new AddPlaceFragment();
-                    Bundle arguments = new Bundle();
-                    arguments.putString("value" , "Work");
-                    arguments.putString("activity" , "LocationFragment");
-                    arguments.putSerializable("currentLocation" , currentLocation);
-                    newFragment.setArguments(arguments);
-                    FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.place_fragment, newFragment);
-                  //  transaction.addToBackStack(null);
-                  //  getActivity().onBackPressed();
-                    // placeType = "Work";
-                    transaction.commit();
-
+                    Intent i = new Intent(getActivity(), LocationActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("value" , "Work");
+                    b.putString("activity" , "LocationFragment");
+                    b.putSerializable("currentLocation" , currentLocation);
+                    i.putExtras(b);
+                    LocationFragment.this.startActivity(i);
                 }
                 else {
-//                   dropoffLocation.clear();
-//                   dropoffLocation.put("latitude", latitudeWDB);
-//                   dropoffLocation.put("longitude", longitudeWDB);
-//                   dropoffLocation.put("name", placeNameWDB);
-                    Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_LONG).show();
-                   // showrides();
                     BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
-
                 }
-               // Toast.makeText(getActivity(), "Working", Toast.LENGTH_LONG).show();
             }
         });
 
