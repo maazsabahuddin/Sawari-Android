@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -79,6 +80,8 @@ public class UpdateHomeWorkFragment extends Fragment {
         fragmentView = inflater.inflate(R.layout.fragment_update_home_and_work, container, false);
         LinearLayout HomeLayout = fragmentView.findViewById(R.id.HomeLayout);
         LinearLayout WorkLayout = fragmentView.findViewById(R.id.WorkLayout);
+        Button update_button = fragmentView.findViewById(R.id.update_button);
+        Button skip_button = fragmentView.findViewById(R.id.skip_button);
 
         HomeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,11 +101,25 @@ public class UpdateHomeWorkFragment extends Fragment {
             public void onClick(View v) {
                 Fragment newFragment = new AddPlaceFragment();
                 Bundle arguments = new Bundle();
-                arguments.putString("place_type" , "UpdateWork");
+                arguments.putString("value" , "UpdateWork");
                 newFragment.setArguments(arguments);
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction.replace(R.id.HomeWorkFragment, newFragment);
                 transaction.commit();
+            }
+        });
+
+        update_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Tap to update the location", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        skip_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
             }
         });
 
