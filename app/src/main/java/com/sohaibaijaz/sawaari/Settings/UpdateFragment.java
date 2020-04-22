@@ -121,6 +121,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             preferencePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent i = new Intent(getActivity(), Verifypassword.class);
+                    i.putExtra("coming_from", "passwordpreference");
                     UpdateFragment.this.startActivity(i);
 
                     return true;

@@ -42,6 +42,7 @@ public class Verifypassword extends AppCompatActivity {
     TextView error_message;
     TextView password_message;
 
+    private String comingFrom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,9 @@ public class Verifypassword extends AppCompatActivity {
         button_verify_pass= findViewById(R.id.verifypassword4);
         error_message=findViewById(R.id.errormessage4);
         password_message=findViewById(R.id.securitytext4);
+
+
+          Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
 
 
         editText_password= findViewById(R.id.verify_password4);
