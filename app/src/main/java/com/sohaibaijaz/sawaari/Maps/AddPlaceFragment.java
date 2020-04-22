@@ -56,6 +56,7 @@ import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.Location;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONObject;
 
@@ -98,6 +99,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
     private String placeType;
+    private  String phonenumber;
     FrameLayout mapViewFrameLayout;
     SupportMapFragment mapFragment;
     Button add_place_btn;
@@ -122,6 +124,10 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setHint("Add Place");
 
+        User userobject= User.getInstance();
+
+        phonenumber= userobject.getPhoneNumber();
+
         Bundle b = this.getArguments();
         placeType = b.getString("place_type");
         fromwhere = b.getString("comingfrom");
@@ -141,7 +147,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                         Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
                     }
                     else {
-                        writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType);
+                        writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType, phonenumber);
                         if(fromwhere=="HomeF"){
                             Fragment newFragment = new HomeFragment();
                             Bundle arguments = new Bundle();
@@ -375,7 +381,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
 
-    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType, final String phonenumber) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -385,6 +391,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 user.setLatitude(latitude);
                 user.setLongitude(longitude);
                 user.setPlaceType(placeType);
+                user.setPhoneNumber(phonenumber);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override

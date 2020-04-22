@@ -15,6 +15,11 @@ public class Location extends RealmObject {
     @Required
     private String latitude;
 
+
+
+    @Required
+    private String phoneNumber;
+
     public String getPlaceID() {
         return placeID;
     }
@@ -45,6 +50,14 @@ public class Location extends RealmObject {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Required

@@ -1,6 +1,7 @@
 package com.sohaibaijaz.sawaari;
 
 import com.sohaibaijaz.sawaari.model.Location;
+import com.sohaibaijaz.sawaari.model.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,13 +17,15 @@ public class RealmHelper {
     private String placeNameWDB;
     private String placetype;
 
+
+
     public RealmHelper(Realm realm) {
         this.realm = realm;
     }
 
-    public ArrayList<String> getAllRecords(){
+    public ArrayList<String> getAllRecords(final String phone){
         ArrayList<String> placeName= new ArrayList<>();
-        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Extra").findAll();
+        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Extra").equalTo("phoneNumber", phone).findAll();
         for(com.sohaibaijaz.sawaari.model.Location location : results){
                 placeName.add(location.getPlaceName());
         }
@@ -37,7 +40,7 @@ public class RealmHelper {
             @Override
             public void execute(Realm bgRealm) {
 
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType).findAll();
+                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).findAll();
                 for(com.sohaibaijaz.sawaari.model.Location location : results){
                     dropoffLocation.put("latitude", location.getLatitude());
                     dropoffLocation.put("longitude", location.getLongitude());

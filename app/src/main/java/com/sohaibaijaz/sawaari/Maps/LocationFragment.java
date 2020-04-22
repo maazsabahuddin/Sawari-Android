@@ -49,6 +49,7 @@ import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,6 +91,7 @@ public class LocationFragment extends Fragment {
 
     private ArrayList<String> placeName;
     ListView placeName_lv;
+    private String phone_number;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -113,6 +115,9 @@ public class LocationFragment extends Fragment {
 //        spinner.setVisibility(View.GONE);
 //        spinner_frame.setVisibility(View.GONE);
 
+        User useroject = User.getInstance();
+
+        phone_number=useroject.getPhoneNumber();
         placeName_lv = fragmentView.findViewById(R.id.place_name_listview);
         realm = Realm.getDefaultInstance();
         final RealmHelper helper = new RealmHelper(realm);
@@ -205,7 +210,7 @@ public class LocationFragment extends Fragment {
         });
 
        // RealmHelper helper = new RealmHelper(realm);
-        placeName=helper.getAllRecords();
+        placeName=helper.getAllRecords(phone_number);
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView,placeName);
         placeName_lv.setAdapter(adapter);
