@@ -61,6 +61,7 @@ import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +105,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
+    private  String phone_number;
 
     @Nullable
     @Override
@@ -114,6 +116,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         boolean gps_enabled = false;
         boolean network_enabled = false;
         realm = Realm.getDefaultInstance();
+
+        User useroject = User.getInstance();
+
+        phone_number=useroject.getPhoneNumber();
 
         TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
         where_to_textview.setOnClickListener(new View.OnClickListener() {
