@@ -148,7 +148,9 @@ public class LocationFragment extends Fragment {
                 {
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
-                    arguments.putString("place_type" , "Home");
+                    arguments.putString("value" , "Home");
+                    arguments.putString("activity" , "LocationFragment");
+                    arguments.putSerializable("currentLocation" , currentLocation);
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.place_fragment, newFragment);
@@ -180,7 +182,9 @@ public class LocationFragment extends Fragment {
                 {
                     Fragment newFragment = new AddPlaceFragment();
                     Bundle arguments = new Bundle();
-                    arguments.putString("place_type" , "Work");
+                    arguments.putString("value" , "Work");
+                    arguments.putString("activity" , "LocationFragment");
+                    arguments.putSerializable("currentLocation" , currentLocation);
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.place_fragment, newFragment);
