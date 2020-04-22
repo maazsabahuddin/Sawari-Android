@@ -119,12 +119,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(getActivity(), LocationActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable("pick_up_location" , currentLocation);
-                i.putExtras(b);
-                HomeFragment.this.startActivity(i);
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
 
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
+
+                }
+                else{
+                    Intent i = new Intent(getActivity(), LocationActivity.class);
+                    Bundle b = new Bundle();
+                    b.putSerializable("pick_up_location" , currentLocation);
+                    i.putExtras(b);
+                    HomeFragment.this.startActivity(i);
+                }
             }
         });
         final RealmHelper helper = new RealmHelper(realm);
@@ -136,53 +144,70 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placetype="Home";
-                dropoffLocation.clear();
-                dropoffLocation=helper.getPlace(placetype);
-               if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
-                {
-                    Fragment newFragment = new AddPlaceFragment();
-                    Bundle arguments = new Bundle();
-                    arguments.putString("place_type" , "Home");
-                    arguments.putString("comingfrom" , "HomeF");
-                    newFragment.setArguments(arguments);
-                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
 
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
                 }
-               else {
-                   Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                   showrides();
-               }
+                else{
+                    placetype="Home";
+                    dropoffLocation.clear();
+                    dropoffLocation=helper.getPlace(placetype);
+                    if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
+                    {
+                        Fragment newFragment = new AddPlaceFragment();
+                        Bundle arguments = new Bundle();
+                        arguments.putString("place_type" , "Home");
+                        arguments.putString("comingfrom" , "HomeF");
+                        newFragment.setArguments(arguments);
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragment_container, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+
+                    }
+                    else {
+                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+                        showrides();
+                    }
+                }
             }
         });
 
         add_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                placetype="Work";
-                dropoffLocation.clear();
-                dropoffLocation=helper.getPlace(placetype);
-               if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
-                {
-                    Fragment newFragment = new AddPlaceFragment();
-                    Bundle arguments = new Bundle();
-                    arguments.putString("place_type" , "Work");
-                    arguments.putString("comingfrom" , "HomeF");
-                    newFragment.setArguments(arguments);
-                    FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragment_container, newFragment);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
 
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
                 }
-                else {
-                    Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                    showrides();
-              }
+                else{
+                    placetype="Work";
+                    dropoffLocation.clear();
+                    dropoffLocation=helper.getPlace(placetype);
+                    if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
+                    {
+                        Fragment newFragment = new AddPlaceFragment();
+                        Bundle arguments = new Bundle();
+                        arguments.putString("place_type" , "Work");
+                        arguments.putString("comingfrom" , "HomeF");
+                        newFragment.setArguments(arguments);
+                        FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragment_container, newFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
 
+                    }
+                    else {
+                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+                        showrides();
+                    }
+                }
             }
         });
 
@@ -190,15 +215,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
 
-                Fragment newFragment = new AddPlaceFragment();
-                Bundle arguments = new Bundle();
-                arguments.putString("place_type" , "Extra");
-                arguments.putSerializable("currentLocation" , currentLocation);
-                newFragment.setArguments(arguments);
-                FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_container, newFragment);
-                transaction.addToBackStack(null);
-                transaction.commit();
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                            LOCATION_PERMISSION_REQUEST_CODE);
+                }
+                else{
+                    Fragment newFragment = new AddPlaceFragment();
+                    Bundle arguments = new Bundle();
+                    arguments.putString("place_type" , "Extra");
+                    arguments.putSerializable("currentLocation" , currentLocation);
+                    newFragment.setArguments(arguments);
+                    FragmentTransaction transaction =getActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, newFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
             }
         });
 
@@ -251,7 +284,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         mapFragment.getMapAsync(this);
 
         final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
-        final String token = sharedPreferences.getString("Token", "");
+//        final String token = sharedPreferences.getString("Token", "");
 
         spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
@@ -269,74 +302,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         return fragmentView;
     }
 
-
-//    PlaceSelectionListener placeSelectionListener = new PlaceSelectionListener() {
-//    @Override
-//    public void onPlaceSelected(@NonNull Place place) {
-//        dropoffLocation.clear();
-//        dropoffLocation.put("name", place.getName());
-//        dropoffLocation.put("id", place.getId());
-//        LatLng latLng = place.getLatLng();
-//        dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
-//        dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
-//
-//
-//        if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-//            Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-//        }
-//        else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-//
-//
-//            markerPoints.clear();
-//            mMap.clear();
-//
-//            LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-//            LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-//
-//            markerPoints.add(start);
-//            markerPoints.add(stop);
-//            MarkerOptions options = new MarkerOptions();
-//
-//            options.position(start);
-//            options.position(stop);
-//
-//
-//            if(markerPoints.size() >=2 ){
-//                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//
-//                mMap.addMarker(options);
-//
-//                LatLng origin = markerPoints.get(0);
-//                LatLng dest = markerPoints.get(1);
-//
-//                // Getting URL to the Google Directions API
-//                String url = getDirectionsUrl(origin, dest);
-//
-//                DownloadTask downloadTask = new DownloadTask();
-//
-//                // Start downloading json data from Google Directions API
-//                downloadTask.execute(url);
-//
-//
-//            }
-//
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onError(@NonNull Status status) {
-//        Toast.makeText(getContext(), "There was an error fetching the place", Toast.LENGTH_SHORT).show();
-//    }
-//};
-//
-//
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//    }
-//
     @Override
     public void onMapReady(GoogleMap map){
         try {
@@ -390,11 +355,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-            onMapReady(mMap);
-        } else if (mMap != null) {
+
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PERMISSION_REQUEST_CODE);
+
+        }
+        else {
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
 
@@ -452,10 +418,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             Toast.makeText(getContext(), "Fetching Current Location", Toast.LENGTH_SHORT).show();
             if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
+
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        LOCATION_PERMISSION_REQUEST_CODE);
+
                 // Permission to access the location is missing.
-                PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-                        Manifest.permission.ACCESS_FINE_LOCATION, true);
-            } else if (mMap != null) {
+//                PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
+//                        Manifest.permission.ACCESS_FINE_LOCATION, true);
+            }
+            else{
 
                 fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
@@ -489,22 +460,25 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            return;
-        }
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enableMyLocation();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
 
-        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-            enableMyLocation();
-        } else {
-
-            mPermissionDenied = true;
+            // other 'case' lines to check for other
+            // permissions this app might request.
         }
     }
-
 
     @Override
     public void onResume() {
