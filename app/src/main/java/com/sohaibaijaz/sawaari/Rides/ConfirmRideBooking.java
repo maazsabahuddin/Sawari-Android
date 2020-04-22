@@ -38,6 +38,8 @@ import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 import com.sohaibaijaz.sawaari.UserDetails;
 import com.sohaibaijaz.sawaari.UserRidesDetailActivity;
 import com.sohaibaijaz.sawaari.VolleyRequestSingletonClass.MySingleton;
@@ -215,6 +217,11 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_LONG).show();
                                         spinner.setVisibility(View.VISIBLE);
                                         spinner_frame.setVisibility(View.VISIBLE);
+                                    }
+                                    else if(json.getString("status").equals("404")){
+                                        Toast.makeText(ConfirmRideBooking.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        SettingsFragment.signout(ConfirmRideBooking.this);
+                                        // flag = false;
                                     }
                                 } catch (JSONException e) {
                                     spinner.setVisibility(View.GONE);

@@ -200,6 +200,11 @@ public class Verifypassword extends AppCompatActivity {
                                         });
                                        // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
+                                    else if(json.getString("status").equals("404")){
+                                        Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        SettingsFragment.signout(Verifypassword.this);
+                                        // flag = false;
+                                    }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

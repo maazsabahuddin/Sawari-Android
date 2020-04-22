@@ -252,7 +252,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                        // Intent i = new Intent(ChangePhoneNumberActivity.this, VerifyPhoneNoActivity.class);
                                       //  ChangePhoneNumberActivity.this.startActivity(i);
 
-                                    } else if ( json.getString("status").equals("404") || json.getString("status").equals("400")) {
+                                    } else if (json.getString("status").equals("400")) {
 
                                         otp_message.setText(json.getString("message"));
                                         otp_message.setVisibility(View.VISIBLE);
@@ -260,6 +260,11 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
 
                                         // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(json.getString("status").equals("404")){
+                                        Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        SettingsFragment.signout(VerifyPhoneNoActivity.this);
+                                        // flag = false;
                                     }
                                     else{
                                         otp_message.setText(json.getString("message"));
@@ -334,10 +339,15 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
                                     // Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                 }
+                                else if(json.getString("status").equals("404")){
+                                    Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                    SettingsFragment.signout(VerifyPhoneNoActivity.this);
+                                    // flag = false;
+                                }
                                 else{
                                     otp_message.setText(json.getString("message"));
                                     otp_message.setVisibility(View.VISIBLE);
-                                    Toast.makeText(VerifyPhoneNoActivity.this, "ya ye hai", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
                                 }
                             } catch (JSONException e) {

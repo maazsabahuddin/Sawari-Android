@@ -15,6 +15,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;

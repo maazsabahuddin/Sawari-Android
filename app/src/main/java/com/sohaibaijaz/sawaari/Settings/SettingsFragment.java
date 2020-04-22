@@ -1,6 +1,7 @@
 
 package com.sohaibaijaz.sawaari.Settings;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -52,8 +53,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         super.onCreate(savedInstanceState);
 
         try{
-            sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-            token = sharedPreferences.getString("Token", "");
+
             User user= User.getInstance();
             phoneNumber = user.getPhoneNumber();
             email = user.getEmail();
@@ -212,15 +212,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         /*setPreferencesFromResource(R.xml.account_setting_preference, rootKey);*/
     }
 
-    public void signout(final Context context){
-
-        requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+    public static void signout(final Activity context){
+       final SharedPreferences sharedPreferences = Objects.requireNonNull(context).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+       final String token = sharedPreferences.getString("Token", "");
+      final RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(context));
         try {
             String URL = MainActivity.baseurl + "/logout/";
-            spinner=SettingsActivity.spinner;
-            spinner_frame=SettingsActivity.spnner_frame;
-            spinner.setVisibility(View.VISIBLE);
-            spinner_frame.setVisibility(View.VISIBLE);
+      //      spinner=context.spinner;
+//            spinner_frame=SettingsActivity.spnner_frame;
+//            spinner.setVisibility(View.VISIBLE);
+//            spinner_frame.setVisibility(View.VISIBLE);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -236,10 +237,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                             editor.remove("user_rides");
                             editor.apply();
                             editor.clear();
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                            Intent intent = new Intent(context, MainActivity.class);
 
-                            getActivity().finishAffinity();
-                            startActivity(intent);
+                            context.finishAffinity();
+                           context.startActivity(intent);
 
                             // getActivity().finish();
 

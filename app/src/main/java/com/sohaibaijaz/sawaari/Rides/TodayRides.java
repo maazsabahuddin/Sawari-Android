@@ -28,6 +28,8 @@ import com.google.gson.GsonBuilder;
 import com.sohaibaijaz.sawaari.CustomAdapterActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 import com.sohaibaijaz.sawaari.model.RidesModel;
 
 import org.json.JSONException;
@@ -179,9 +181,15 @@ public class TodayRides extends Fragment {
                         if (jsonObj.getString("status").equals("200")) {
                             json = jsonObj.toString();
                         }
-                        else if (jsonObj.getString("status").equals("400") || jsonObj.getString("status").equals("404")) {
+                        else if (jsonObj.getString("status").equals("400")) {
                             Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
+                        else if(jsonObj.getString("status").equals("404")){
+                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_LONG).show();
+                            SettingsFragment.signout(getActivity());
+                            // flag = false;
+                        }
+
 
                     } catch (JSONException e) {
                         Log.e("VOLLEY", e.toString());
