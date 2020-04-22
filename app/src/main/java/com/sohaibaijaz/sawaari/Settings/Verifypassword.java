@@ -172,8 +172,25 @@ public class Verifypassword extends AppCompatActivity {
 
                                         Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
-                                        Intent i = new Intent(Verifypassword.this, Updatepassword.class);
-                                        Verifypassword.this.startActivity(i);
+                                       if( getIntent().getStringExtra("coming_from").equals("password_preference")){
+                                           Intent i = new Intent(Verifypassword.this, Updatepassword.class);
+                                           Verifypassword.this.startActivity(i);
+                                       }
+                                        else if( getIntent().getStringExtra("coming_from").equals("phone_number_preference")){
+                                            Intent i = new Intent(Verifypassword.this, ChangePhoneNumberActivity.class);
+                                            Verifypassword.this.startActivity(i);
+                                        }
+                                       else if( getIntent().getStringExtra("coming_from").equals("privacy_activity")){
+                                           Intent i = new Intent(Verifypassword.this, DeleteAccount_Activity.class);
+                                           Verifypassword.this.startActivity(i);
+                                       }
+                                       else if( getIntent().getStringExtra("coming_from").equals("two_step_activity")){
+                                           Intent i = new Intent(Verifypassword.this, SecurityActivity.class);
+                                           i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                           Verifypassword.this.startActivity(i);
+                                       }
+
+
 
                                     } else if (json.getString("status").equals("401")) {
 
@@ -181,6 +198,9 @@ public class Verifypassword extends AppCompatActivity {
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
+
+                                        Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
+
 
                                         editText_password.addTextChangedListener(new TextWatcher() {
                                             @Override

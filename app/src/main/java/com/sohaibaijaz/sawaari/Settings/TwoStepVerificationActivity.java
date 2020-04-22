@@ -24,7 +24,8 @@ public class TwoStepVerificationActivity extends AppCompatActivity {
         button_setupnow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(TwoStepVerificationActivity.this, VerifyPasswordTwoStepVerification_Activity.class);
+                Intent i = new Intent(TwoStepVerificationActivity.this, Verifypassword.class);
+                i.putExtra("coming_from", "two_step_activity");
                 TwoStepVerificationActivity.this.startActivity(i);
             }
         });
