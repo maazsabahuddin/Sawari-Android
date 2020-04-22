@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -37,6 +39,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
@@ -82,12 +85,13 @@ public class LocationFragment extends Fragment {
     private String placetype;
 
     private ArrayList<LatLng> markerPoints;
+    private AutocompleteSupportFragment autocompleteFragment_pickUp;
+    private AutocompleteSupportFragment autocompleteFragmentdropOff;
 
     private ArrayList<String> placeName;
     ListView placeName_lv;
 
     private FusedLocationProviderClient fusedLocationClient;
-
 
     public static LocationFragment newInstance() {
 
@@ -113,13 +117,13 @@ public class LocationFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         final RealmHelper helper = new RealmHelper(realm);
 
-        AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
+        autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setText("Your location");
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListenerFrom);
 
-        final AutocompleteSupportFragment autocompleteFragmentdropOff = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
+        autocompleteFragmentdropOff = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_to_location);
         autocompleteFragmentdropOff.setCountry("PK");
         autocompleteFragmentdropOff.setHint("Where To?");
         autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
@@ -148,13 +152,7 @@ public class LocationFragment extends Fragment {
                     newFragment.setArguments(arguments);
                     FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                     transaction.replace(R.id.place_fragment, newFragment);
-                   // transaction.addToBackStack(null);
-                    // placeType = "Home";
-                   // transaction.remove(LocationFragment.this).commit();
                     transaction.commit();
-                  //  getActivity().onBackPressed();
-
-
                 }
                 else {
 //                   dropoffLocation.clear();
@@ -230,47 +228,6 @@ public class LocationFragment extends Fragment {
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
             }
-
-//            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-//                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-//            }
-//            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-//
-//
-//                markerPoints.clear();
-//                mMap.clear();
-//
-//                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-//                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-//
-//                markerPoints.add(start);
-//                markerPoints.add(stop);
-//                MarkerOptions options = new MarkerOptions();
-//
-//                options.position(start);
-//                options.position(stop);
-//
-//
-//                if(markerPoints.size() >=2 ){
-//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//
-//                    mMap.addMarker(options);
-//
-//                    LatLng origin = markerPoints.get(0);
-//                    LatLng dest = markerPoints.get(1);
-//
-//                    // Getting URL to the Google Directions API
-//                    String url = getDirectionsUrl(origin, dest);
-//
-//                    DownloadTask downloadTask = new DownloadTask();
-//
-//                    // Start downloading json data from Google Directions API
-//                    downloadTask.execute(url);
-//
-//                }
-//
-//            }
-
         }
 
         @Override

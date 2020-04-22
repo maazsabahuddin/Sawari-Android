@@ -36,7 +36,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       getSupportActionBar().setTitle("Account Settings");
+        getSupportActionBar().setTitle("Account Settings");
         setContentView(R.layout.checksettings);
 
         spinner= findViewById(R.id.progressBar_s);
@@ -45,14 +45,7 @@ public class SettingsActivity extends AppCompatActivity {
         spinner.setVisibility(View.GONE);
         spnner_frame.setVisibility(View.GONE);
 
-        //  getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-      //  getSupportActionBar().setHomeButtonEnabled(true);
-
-        // getSupportActionBar().setHomeAsUpIndicator(R.drawable.blue_back_icon);
-
-        //  getSupportActionBar().setIcon(R.drawable.blue_back_icon);
-      //  getActionBar().setIcon(R.drawable.blue_back_icon);
         getSupportFragmentManager().beginTransaction()
                 .replace(android.R.id.content,
                         new SettingsFragment()).commit();

@@ -15,16 +15,16 @@
         android:title="Favorites">
 
         <Preference
-            android:key="home"
-            android:title="Add Home"
+            android:key="updateHomeWork"
+            android:title="@string/update_home_work_locations"
             android:icon="@drawable/home"
             android:layout="@layout/custom_preference" />
 
-        <Preference
-            android:key="w_place"
-            android:title="Add Work Place"
-            android:icon="@drawable/work"
-            android:layout="@layout/custom_preference"/>
+<!--        <Preference-->
+<!--            android:key="w_place"-->
+<!--            android:title="Add Work Place"-->
+<!--            android:icon="@drawable/work"-->
+<!--            android:layout="@layout/custom_preference"/>-->
 
     </PreferenceCategory>
 

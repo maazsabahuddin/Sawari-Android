@@ -58,8 +58,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             phoneNumber = user.getPhoneNumber();
             email = user.getEmail();
 
-//            Toast.makeText(getActivity(), user.getLastName(), Toast.LENGTH_SHORT).show();
-
             firstName= user.getFirstName() ;
             lastName=user.getLastName();
 
@@ -69,7 +67,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             Preference preference_privacy = findPreference("privacy");
             Preference preference_profile = findPreference("name");
             Preference preference_security = findPreference("security");
-            Preference preference_signout = findPreference("signOutPreference");
+            Preference preference_signOut = findPreference("signOutPreference");
+            Preference preference_updateHomeWork = findPreference("updateHomeWork");
 
             assert preference_profile != null;
             preference_profile.setTitle(firstName);
@@ -81,6 +80,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 preference_profile.setSummary(email + "\n" + phoneNumber);
 
             }
+
+            preference_updateHomeWork.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(getActivity(), UpdateHomeAndWorkActivity.class);
+                    SettingsFragment.this.startActivity(i);
+
+                    return true;
+                }
+            });
 
             preference_profile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
@@ -108,7 +117,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             });
 
-            preference_signout.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            preference_signOut.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
 
@@ -202,8 +211,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         catch (Exception e){
             e.printStackTrace();
         }
-
-
 
     }
 
