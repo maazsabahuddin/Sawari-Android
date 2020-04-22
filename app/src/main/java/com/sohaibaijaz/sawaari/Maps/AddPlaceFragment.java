@@ -123,8 +123,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         autocompleteFragment_pickUp.setHint("Add Place");
 
         Bundle b = this.getArguments();
-        placeType=b.getString("place_type");
-        fromwhere=b.getString("comingfrom");
+        placeType = b.getString("place_type");
+        fromwhere = b.getString("comingfrom");
         if(b.getSerializable("currentLocation") != null)
             userLocation = (HashMap<String, String>)b.getSerializable("currentLocation");
 
@@ -224,54 +224,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             mapViewFrameLayout.setVisibility(View.VISIBLE);
             add_place_btn.setVisibility(View.VISIBLE);
             try{ onMapReady(mMap); } catch (Exception e){}
-
-            //Toast.makeText(getContext(), placeType , Toast.LENGTH_LONG).show();
-
-            //writeToDB(place.getId(),place.getName(),String.valueOf(latLng.latitude),String.valueOf(latLng.longitude), placeType);
-           // showresult();
-
-
-//            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-//                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-//            }
-//            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-//
-//
-//                markerPoints.clear();
-//                mMap.clear();
-//
-//                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-//                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-//
-//                markerPoints.add(start);
-//                markerPoints.add(stop);
-//                MarkerOptions options = new MarkerOptions();
-//
-//                options.position(start);
-//                options.position(stop);
-//
-//
-//                if(markerPoints.size() >=2 ){
-//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//
-//                    mMap.addMarker(options);
-//
-//                    LatLng origin = markerPoints.get(0);
-//                    LatLng dest = markerPoints.get(1);
-//
-//                    // Getting URL to the Google Directions API
-//                    String url = getDirectionsUrl(origin, dest);
-//
-//                    DownloadTask downloadTask = new DownloadTask();
-//
-//                    // Start downloading json data from Google Directions API
-//                    downloadTask.execute(url);
-//
-//
-//                }
-//
-//            }
-
         }
 
         @Override
@@ -502,14 +454,15 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     private void enableMyLocation() {
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-            // Permission to access the location is missing.
-            PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-            onMapReady(mMap);
-        } else if (mMap != null) {
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+
+        }
+        else{
+
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
-
             LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
             String provider = locationManager.getBestProvider(criteria, true);
@@ -518,24 +471,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             LatLng coordinate = new LatLng(Double.parseDouble(userLocation.get("latitude")), Double.parseDouble(userLocation.get("longitude")));
             CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
             mMap.animateCamera(yourLocation);
-
-//            fusedLocationClient.getLastLocation()
-//                    .addOnSuccessListener(getActivity(), new OnSuccessListener<android.location.Location>() {
-//                        @Override
-//                        public void onSuccess(android.location.Location location) {
-//                            if (location != null) {
-//                                double latitude = location.getLatitude();
-//                                double longitude = location.getLongitude();
-//                                userLocation.clear();
-//                                userLocation.put("latitude", String.valueOf(latitude));
-//                                userLocation.put("longitude", String.valueOf(longitude));
-//                                getAddress(latitude, longitude);
-//                                LatLng coordinate = new LatLng(latitude, longitude);
-//                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
-//                                mMap.animateCamera(yourLocation);
-//                            }
-//                        }
-//                    });
         }
     }
 
@@ -605,19 +540,23 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if (requestCode != LOCATION_PERMISSION_REQUEST_CODE) {
-            return;
-        }
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    enableMyLocation();
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
 
-        if (PermissionUtils.isPermissionGranted(permissions, grantResults,
-                Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-            enableMyLocation();
-        } else {
-
-            mPermissionDenied = true;
+            // other 'case' lines to check for other
+            // permissions this app might request.
         }
     }
 
