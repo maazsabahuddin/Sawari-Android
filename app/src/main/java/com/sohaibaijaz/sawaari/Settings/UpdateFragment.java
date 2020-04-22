@@ -101,7 +101,8 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceClick(Preference preference) {
 
 //                    editTextPhoneNumber.setIntent(new Intent(getContext(), Login.class));
-                    Intent i = new Intent(getActivity(), VerifyPasswordChangePhoneNumber_Activity.class);
+                    Intent i = new Intent(getActivity(), Verifypassword.class);
+                    i.putExtra("coming_from", "phone_number_preference");
                     UpdateFragment.this.startActivity(i);
                     return true;
                 }
@@ -121,7 +122,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
             preferencePassword.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent i = new Intent(getActivity(), Verifypassword.class);
-                    i.putExtra("coming_from", "passwordpreference");
+                    i.putExtra("coming_from", "password_preference");
                     UpdateFragment.this.startActivity(i);
 
                     return true;

@@ -56,7 +56,8 @@ public class PrivacyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(PrivacyActivity.this, VerifyPasswordDeleteAccount_Activity.class);
+                Intent i = new Intent(PrivacyActivity.this, Verifypassword.class);
+                i.putExtra("coming_from", "privacy_activity");
                 PrivacyActivity.this.startActivity(i);
                // SettingsFragment.signout(PrivacyActivity.this);
                // finish();
