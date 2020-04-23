@@ -122,9 +122,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         realm = Realm.getDefaultInstance();
-        User userObject = User.getInstance();
+        final User userObject = User.getInstance();
 
-        phone_number = userObject.getPhoneNumber();
+       // phone_number = userObject.getPhoneNumber();
+        //Toast.makeText(getActivity(), phone_number, Toast.LENGTH_SHORT).show();
+
 
         TextView where_to_textView = fragmentView.findViewById(R.id.where_to_textview);
         where_to_textView.setOnClickListener(new View.OnClickListener() {
@@ -166,6 +168,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                             LOCATION_PERMISSION_REQUEST_CODE);
                 }
                 else{
+                    phone_number = userObject.getPhoneNumber();
                     placetype="Home";
                     dropoffLocation.clear();
                     dropoffLocation=helper.getPlace(placetype, phone_number);
@@ -209,6 +212,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                             LOCATION_PERMISSION_REQUEST_CODE);
                 }
                 else{
+                    phone_number = userObject.getPhoneNumber();
                     placetype="Work";
                     dropoffLocation.clear();
                     dropoffLocation=helper.getPlace(placetype, phone_number);

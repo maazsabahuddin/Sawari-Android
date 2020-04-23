@@ -36,11 +36,8 @@ public class RealmHelper {
     public HashMap<String, String> getPlace(final String placeType, final String phone){
 
         final HashMap<String, String> dropoffLocation = new HashMap<>();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
 
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
+                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
                 for(com.sohaibaijaz.sawaari.model.Location location : results){
                     dropoffLocation.put("latitude", location.getLatitude());
                     dropoffLocation.put("longitude", location.getLongitude());
@@ -48,9 +45,28 @@ public class RealmHelper {
                 }
                 // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
 
-            }
-        });
 
         return dropoffLocation;
     }
+
+//    public HashMap<String, String> getPlace(final String placeType, final String phone){
+//
+//        final HashMap<String, String> dropoffLocation = new HashMap<>();
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm bgRealm) {
+//
+//                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
+//                for(com.sohaibaijaz.sawaari.model.Location location : results){
+//                    dropoffLocation.put("latitude", location.getLatitude());
+//                    dropoffLocation.put("longitude", location.getLongitude());
+//                    dropoffLocation.put("name", location.getPlaceName());
+//                }
+//                // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        return dropoffLocation;
+//    }
 }
