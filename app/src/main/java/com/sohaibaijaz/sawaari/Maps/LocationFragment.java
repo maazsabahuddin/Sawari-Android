@@ -92,6 +92,7 @@ public class LocationFragment extends Fragment {
     private ArrayList<String> placeName;
     ListView placeName_lv;
     private String phone_number;
+    RequestQueue requestQueue;
 
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -116,6 +117,7 @@ public class LocationFragment extends Fragment {
 //        spinner_frame.setVisibility(View.GONE);
 
         User useroject = User.getInstance();
+        requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
         phone_number=useroject.getPhoneNumber();
         placeName_lv = fragmentView.findViewById(R.id.place_name_listview);
@@ -147,7 +149,7 @@ public class LocationFragment extends Fragment {
             public void onClick(View v) {
                 placetype="Home";
                 dropoffLocation.clear();
-                dropoffLocation=helper.getPlace(placetype);
+                dropoffLocation=helper.getPlace(placetype, phone_number);
                 if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                 {
                     Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -172,7 +174,7 @@ public class LocationFragment extends Fragment {
 
                 placetype="Work";
                 dropoffLocation.clear();
-                dropoffLocation=helper.getPlace(placetype);
+                dropoffLocation=helper.getPlace(placetype, phone_number);
                 if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                 {
                     Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -233,6 +235,8 @@ public class LocationFragment extends Fragment {
                 LatLng latLng = place.getLatLng();
                 dropoffLocation.put("latitude", String.valueOf(latLng.latitude));
                 dropoffLocation.put("longitude", String.valueOf(latLng.longitude));
+
+                Toast.makeText(getActivity(), dropoffLocation.get("latitude"), Toast.LENGTH_LONG).show();
 
                 BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
 //                Intent i = new Intent(getContext(), ShowRides.class);
@@ -469,7 +473,7 @@ public class LocationFragment extends Fragment {
             SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 
             final String token = sharedPreferences.getString("Token", "");
-            RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
+//            RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
             String URL = MainActivity.baseurl + "/bus/route/";
             JSONObject jsonBody = new JSONObject();

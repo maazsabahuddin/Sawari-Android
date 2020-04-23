@@ -25,7 +25,7 @@ public class RealmHelper {
 
     public ArrayList<String> getAllRecords(final String phone){
         ArrayList<String> placeName= new ArrayList<>();
-        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Extra").equalTo("phoneNumber", phone).findAll();
+        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","AddPlace").equalTo("phoneNumber", phone).findAll();
         for(com.sohaibaijaz.sawaari.model.Location location : results){
                 placeName.add(location.getPlaceName());
         }
@@ -33,14 +33,14 @@ public class RealmHelper {
         return placeName;
     }
 
-    public HashMap<String, String> getPlace(final String placeType){
+    public HashMap<String, String> getPlace(final String placeType, final String phone){
 
         final HashMap<String, String> dropoffLocation = new HashMap<>();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
 
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).findAll();
+                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
                 for(com.sohaibaijaz.sawaari.model.Location location : results){
                     dropoffLocation.put("latitude", location.getLatitude());
                     dropoffLocation.put("longitude", location.getLongitude());

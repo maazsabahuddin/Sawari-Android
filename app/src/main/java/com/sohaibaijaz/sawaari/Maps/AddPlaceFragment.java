@@ -130,7 +130,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
         Bundle b = this.getArguments();
         placeType = b.getString("value");
-
         fromwhere = b.getString("activity");
         if(b.getSerializable("currentLocation") != null)
             userLocation = (HashMap<String, String>)b.getSerializable("currentLocation");

@@ -163,7 +163,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 else{
                     placetype="Home";
                     dropoffLocation.clear();
-                    dropoffLocation=helper.getPlace(placetype);
+                    dropoffLocation=helper.getPlace(placetype, phone_number);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
                         Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -206,7 +206,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 else{
                     placetype="Work";
                     dropoffLocation.clear();
-                    dropoffLocation=helper.getPlace(placetype);
+                    dropoffLocation=helper.getPlace(placetype, phone_number);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
                         Intent i = new Intent(getActivity(), LocationActivity.class);

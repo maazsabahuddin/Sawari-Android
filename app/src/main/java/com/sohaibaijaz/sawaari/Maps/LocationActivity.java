@@ -65,6 +65,7 @@ public class LocationActivity extends AppCompatActivity {
             Fragment fragment = new AddPlaceFragment();
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
+            arguments.putString("value", value);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
@@ -72,6 +73,7 @@ public class LocationActivity extends AppCompatActivity {
             Fragment fragment = new AddPlaceFragment();
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
+            arguments.putString("value", value);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
@@ -79,6 +81,7 @@ public class LocationActivity extends AppCompatActivity {
             Fragment fragment = new AddPlaceFragment();
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
+            arguments.putString("value", value);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
@@ -86,6 +89,7 @@ public class LocationActivity extends AppCompatActivity {
             Fragment fragment = new AddPlaceFragment();
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
+            arguments.putString("value", value);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
@@ -93,6 +97,7 @@ public class LocationActivity extends AppCompatActivity {
             Fragment fragment = new AddPlaceFragment();
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
+            arguments.putString("value", value);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
