@@ -133,22 +133,40 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
 
-                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
-
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            LOCATION_PERMISSION_REQUEST_CODE);
-
-                }
-                else{
-                    Intent i = new Intent(getActivity(), LocationActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("value" , "Whereto");
-                    b.putString("activity" , "HomeFragment");
-                    b.putSerializable("currentLocation" , currentLocation);
-                    i.putExtras(b);
-                    HomeFragment.this.startActivity(i);
-                }
+                new AlertDialog.Builder(getActivity())
+                        .setTitle("Enable Location")
+                        .setMessage("Sawari can't go on without the device's Location!")
+                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                                dialog.cancel();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                                System.exit(0);
+                            }
+                        })
+                        .setIcon(R.mipmap.alert)
+                        .show();
+//                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+//                        != PackageManager.PERMISSION_GRANTED) {
+//
+//                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                            LOCATION_PERMISSION_REQUEST_CODE);
+//
+//                }
+//                else{
+//                    Intent i = new Intent(getActivity(), LocationActivity.class);
+//                    Bundle b = new Bundle();
+//                    b.putString("value" , "Whereto");
+//                    b.putString("activity" , "HomeFragment");
+//                    b.putSerializable("currentLocation" , currentLocation);
+//                    i.putExtras(b);
+//                    HomeFragment.this.startActivity(i);
+//                }
             }
         });
         final RealmHelper helper = new RealmHelper(realm);
@@ -549,7 +567,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     public void onClick(DialogInterface dialog, int which) {
                         getActivity().finish();
                         System.exit(0);
-
                     }
                 })
                 .setIcon(R.mipmap.alert)
