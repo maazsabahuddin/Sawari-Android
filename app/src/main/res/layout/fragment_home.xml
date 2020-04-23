@@ -25,7 +25,7 @@
             tools:context="example.com.mapexample.MapsActivity" />
 
         <FrameLayout
-            android:id="@+id/spinner_frame"
+            android:id="@+id/spinner_frameHF"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:foregroundGravity="center"
@@ -33,7 +33,7 @@
             android:backgroundTintMode="src_over">
 
             <ProgressBar
-                android:id="@+id/progressBar1"
+                android:id="@+id/progressBarHF"
                 style="?android:attr/progressBarStyleLarge"
                 android:theme="@style/PurpleAccent"
                 android:layout_width="wrap_content"

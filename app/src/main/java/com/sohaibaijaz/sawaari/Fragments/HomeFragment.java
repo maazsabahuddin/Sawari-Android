@@ -55,6 +55,7 @@ import com.google.android.libraries.places.api.Places;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
 import com.sohaibaijaz.sawaari.Maps.LocationActivity;
 import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.Maps.LocationFragment;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
@@ -79,6 +80,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.android.volley.VolleyLog.TAG;
+import static com.sohaibaijaz.sawaari.Maps.LocationFragment.BusRouteApi;
 
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
@@ -97,6 +99,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private View fragmentView;
     public static String placeType;
     private GoogleMap mMap;
+    private RequestQueue requestQueue;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
@@ -112,17 +115,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
+
+        requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         realm = Realm.getDefaultInstance();
+        User userObject = User.getInstance();
 
-        User useroject = User.getInstance();
+        phone_number = userObject.getPhoneNumber();
 
-        phone_number=useroject.getPhoneNumber();
-
-        TextView where_to_textview = fragmentView.findViewById(R.id.where_to_textview);
-        where_to_textview.setOnClickListener(new View.OnClickListener() {
+        TextView where_to_textView = fragmentView.findViewById(R.id.where_to_textview);
+        where_to_textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -219,7 +224,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     }
                     else {
                         Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                        showrides();
+                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
                     }
                 }
             }
@@ -298,9 +303,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 //        final String token = sharedPreferences.getString("Token", "");
 
-        spinner = (ProgressBar)fragmentView.findViewById(R.id.progressBar1);
+        spinner = fragmentView.findViewById(R.id.progressBarHF);
         spinner.setVisibility(View.GONE);
-        spinner_frame = fragmentView.findViewById(R.id.spinner_frame);
+        spinner_frame = fragmentView.findViewById(R.id.spinner_frameHF);
         spinner_frame.setVisibility(View.GONE);
 
         try{
@@ -547,194 +552,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .show();
     }
 
-//    private String getDirectionsUrl(LatLng origin, LatLng dest) {
-//
-//        // Origin of route
-//        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-//
-//        // Destination of route
-//        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-//
-//        // Sensor enabled
-//        String sensor = "sensor=false";
-//
-//        String api_key = "key="+MainActivity.MAP_VIEW_BUNDLE_KEY;
-//
-//        // Building the parameters to the web service
-//        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + api_key;
-//
-//        // Output format
-//        String output = "json";
-//
-//        // Building the url to the web service
-//        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-//
-//        return url;
-//    }
-
-
-//    private String downloadUrl(String strUrl) throws IOException {
-//        String data = "";
-//        InputStream iStream = null;
-//        HttpURLConnection urlConnection = null;
-//        try {
-//            URL url = new URL(strUrl);
-//
-//            // Creating an http connection to communicate with url
-//            urlConnection = (HttpURLConnection) url.openConnection();
-//
-//            // Connecting to url
-//            urlConnection.connect();
-//
-//            // Reading data from url
-//            iStream = urlConnection.getInputStream();
-//
-//            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
-//
-//            StringBuffer sb = new StringBuffer();
-//
-//            String line = "";
-//            while ((line = br.readLine()) != null) {
-//                sb.append(line);
-//            }
-//
-//            data = sb.toString();
-//
-//            br.close();
-//
-//        } catch (Exception e) {
-//            Log.d("Exception", e.toString());
-//        } finally {
-//            iStream.close();
-//            urlConnection.disconnect();
-//        }
-//        return data;
-//    }
-
-
-//    public class DownloadTask extends AsyncTask<String, Void, String> {
-//        @Override
-//        protected String doInBackground(String... url) {
-//
-//            // For storing data from web service
-//            String data = "";
-//
-//            try {
-//                // Fetching the data from web service
-//                data = downloadUrl(url[0]);
-//            } catch (Exception e) {
-//                Log.d("Background Task", e.toString());
-//            }
-//            return data;
-//        }
-//
-//        // Executes in UI thread, after the execution of
-//        // doInBackground()
-//        @Override
-//        protected void onPostExecute(String result) {
-//            super.onPostExecute(result);
-//
-//            ParserTask parserTask = new ParserTask();
-//
-//            // Invokes the thread for parsing the JSON data
-//            parserTask.execute(result);
-//        }
-//    }
-
-//    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String, String>>>> {
-//
-//        // Parsing the data in non-ui thread
-//        @Override
-//        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
-//
-//            JSONObject jObject;
-//            List<List<HashMap<String, String>>> routes = null;
-//
-//            try {
-//                jObject = new JSONObject(jsonData[0]);
-//                DirectionsJSONParser parser = new DirectionsJSONParser();
-//
-//                // Starts parsing data
-//                routes = parser.parse(jObject);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//            return routes;
-//        }
-
-//        // Executes in UI thread, after the parsing process
-//        @Override
-//        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
-//            ArrayList<LatLng> points = null;
-//            PolylineOptions lineOptions = null;
-//            MarkerOptions markerOptions = new MarkerOptions();
-//            String distance = "";
-//            String duration = "";
-//
-//            if (result.size() < 1) {
-//                Toast.makeText(getActivity().getBaseContext(), "No Points", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//
-//            // Traversing through all the routes
-//            for (int i = 0; i < result.size(); i++) {
-//                points = new ArrayList<LatLng>();
-//                lineOptions = new PolylineOptions();
-//
-//                // Fetching i-th route
-//                List<HashMap<String, String>> path = result.get(i);
-//
-//                // Fetching all the points in i-th route
-//                for (int j = 0; j < path.size(); j++) {
-//                    HashMap<String, String> point = path.get(j);
-//
-//                    if (j == 0) {    // Get distance from the list
-//                        distance = (String) point.get("distance");
-//                        continue;
-//                    } else if (j == 1) { // Get duration from the list
-//                        duration = (String) point.get("duration");
-//                        continue;
-//                    }
-//
-//                    double lat = Double.parseDouble(point.get("lat"));
-//                    double lng = Double.parseDouble(point.get("lng"));
-//                    LatLng position = new LatLng(lat, lng);
-//
-//                    points.add(position);
-//                }
-//
-//                // Adding all the points in the route to LineOptions
-//                lineOptions.addAll(points);
-//                lineOptions.width(10);
-//                lineOptions.color(Color.BLUE);
-//            }
-//
-//
-//            // Drawing polyline in the Google Map for the i-th route
-//            mMap.addPolyline(lineOptions);
-//        }
-
-
-//    }
-
     public void showrides(){
         try {
             SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 
             final String token = sharedPreferences.getString("Token", "");
-            RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
             String URL = MainActivity.baseurl + "/bus/route/";
             JSONObject jsonBody = new JSONObject();
-//                        spinner.setVisibility(View.VISIBLE);
-//                        spinner_frame.setVisibility(View.VISIBLE);
+
+            spinner.setVisibility(View.VISIBLE);
+            spinner_frame.setVisibility(View.VISIBLE);
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-                    Log.i("VOLLEY", response.toString());
+
+                    spinner.setVisibility(View.GONE);
+                    spinner_frame.setVisibility(View.GONE);
+
+                    Log.i("VOLLEY", response);
                     try {
                         JSONObject jsonObj = new JSONObject(response);
 
@@ -752,7 +589,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         else if(jsonObj.getString("status").equals("404")){
                             Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_LONG).show();
                             SettingsFragment.signout(getActivity());
-                            // flag = false;
                         }
 
                     } catch (JSONException e) {
@@ -762,8 +598,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
+                    spinner.setVisibility(View.GONE);
+                    spinner_frame.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                     Log.e("VOLLEY", error.toString());
                 }

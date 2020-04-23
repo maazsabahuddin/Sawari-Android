@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +50,7 @@ import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.model.Location;
 import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONException;
@@ -75,8 +77,6 @@ public class LocationFragment extends Fragment {
     private View fragmentView;
     Realm realm;
     private GoogleMap mMap;
-    private boolean mPermissionDenied = false;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private HashMap<String, String> dropoffLocation = new HashMap<>();
     private HashMap<String, String> currentLocation = new HashMap<>();
@@ -85,7 +85,6 @@ public class LocationFragment extends Fragment {
     private ProgressBar spinner;
     private String placetype;
 
-    private ArrayList<LatLng> markerPoints;
     private AutocompleteSupportFragment autocompleteFragment_pickUp;
     private AutocompleteSupportFragment autocompleteFragmentdropOff;
 
@@ -94,27 +93,16 @@ public class LocationFragment extends Fragment {
     private String phone_number;
     RequestQueue requestQueue;
 
-    private FusedLocationProviderClient fusedLocationClient;
-
-    public static LocationFragment newInstance() {
-
-        LocationFragment LF = new LocationFragment();
-        Bundle args = new Bundle();
-        LF.setArguments(args);
-
-        return LF;
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_location, container, false);
 
-//        spinner_frame = fragmentView.findViewById(R.id.spinner_frame_lf);
-//        spinner = fragmentView.findViewById(R.id.progressBar_lf);
-//        spinner.setVisibility(View.GONE);
-//        spinner_frame.setVisibility(View.GONE);
+        spinner_frame = fragmentView.findViewById(R.id.spinner_frame_lf);
+        spinner = fragmentView.findViewById(R.id.progressBar_lf);
+        spinner.setVisibility(View.GONE);
+        spinner_frame.setVisibility(View.GONE);
 
         User useroject = User.getInstance();
         requestQueue = Volley.newRequestQueue(fragmentView.getContext());
@@ -161,7 +149,7 @@ public class LocationFragment extends Fragment {
                     LocationFragment.this.startActivity(i);
                 }
                 else {
-                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
+                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
                 }
 
             }
@@ -186,7 +174,7 @@ public class LocationFragment extends Fragment {
                     LocationFragment.this.startActivity(i);
                 }
                 else {
-                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
+                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
                 }
             }
         });
@@ -238,7 +226,7 @@ public class LocationFragment extends Fragment {
 
                 Toast.makeText(getActivity(), dropoffLocation.get("latitude"), Toast.LENGTH_LONG).show();
 
-                BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner);
+                BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
 //                Intent i = new Intent(getContext(), ShowRides.class);
 //                i.putExtra("pick_up_location", currentLocation);
 //                i.putExtra("drop_off_location", dropoffLocation);
@@ -435,45 +423,19 @@ public class LocationFragment extends Fragment {
                 lineOptions.color(Color.BLUE);
             }
 
-
             // Drawing polyline in the Google Map for the i-th route
             mMap.addPolyline(lineOptions);
         }
 
     }
 
-    private String getDirectionsUrl(LatLng origin, LatLng dest) {
-
-        // Origin of route
-        String str_origin = "origin=" + origin.latitude + "," + origin.longitude;
-
-        // Destination of route
-        String str_dest = "destination=" + dest.latitude + "," + dest.longitude;
-
-        // Sensor enabled
-        String sensor = "sensor=false";
-
-        String api_key = "key=" + NavActivity.MAP_VIEW_BUNDLE_KEY;
-
-        // Building the parameters to the web service
-        String parameters = str_origin + "&" + str_dest + "&" + sensor + "&" + api_key;
-
-        // Output format
-        String output = "json";
-
-        // Building the url to the web service
-        String url = "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters;
-
-        return url;
-    }
-
-    public void BusRouteApi(final HashMap<String, String> currentLocation, final HashMap<String, String> dropoffLocation,
-                            final FrameLayout spinner_frame, final ProgressBar spinner){
+    public static void BusRouteApi(final HashMap<String, String> currentLocation, final HashMap<String, String> dropoffLocation,
+                                   final FrameLayout spinner_frame, final ProgressBar spinner, RequestQueue requestQueue, final Context context,
+                                   final Activity activity){
         try {
-            SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 
             final String token = sharedPreferences.getString("Token", "");
-//            RequestQueue requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
             String URL = MainActivity.baseurl + "/bus/route/";
             JSONObject jsonBody = new JSONObject();
@@ -491,21 +453,20 @@ public class LocationFragment extends Fragment {
 
                         if (jsonObj.getString("status").equals("200")) {
 
-                            Intent i = new Intent(getContext(), ShowRides.class);
+                            Intent i = new Intent(context, ShowRides.class);
                             i.putExtra("json", jsonObj.toString());
                             i.putExtra("pick_up_location", currentLocation);
                             i.putExtra("drop_off_location", dropoffLocation);
                             spinner.setVisibility(View.GONE);
                             spinner_frame.setVisibility(View.GONE);
-                            startActivity(i);
+                            context.startActivity(i);
 
                         } else if (jsonObj.getString("status").equals("400")) {
-                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
                         }
                         else if(jsonObj.getString("status").equals("404")){
-                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_LONG).show();
-                            SettingsFragment.signout(getActivity());
-                            // flag = false;
+                            Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_LONG).show();
+                            SettingsFragment.signout(activity);
                         }
 
                     } catch (JSONException e) {
@@ -517,7 +478,7 @@ public class LocationFragment extends Fragment {
                 public void onErrorResponse(VolleyError error) {
                     spinner.setVisibility(View.GONE);
                     spinner_frame.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
                     Log.e("VOLLEY", error.toString());
                 }
             }) {
@@ -525,15 +486,15 @@ public class LocationFragment extends Fragment {
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
 
-//                    params.put("start_lat", currentLocation.get("latitude"));
-//                    params.put("start_lon", currentLocation.get("longitude"));
-//                    params.put("stop_lat", dropoffLocation.get("latitude"));
-//                    params.put("stop_lon", dropoffLocation.get("longitude"));
+                    params.put("start_lat", currentLocation.get("latitude"));
+                    params.put("start_lon", currentLocation.get("longitude"));
+                    params.put("stop_lat", dropoffLocation.get("latitude"));
+                    params.put("stop_lon", dropoffLocation.get("longitude"));
 
-                    params.put("stop_lat", "24.913363");
-                    params.put("stop_lon", "67.124208");
-                    params.put("start_lat", "24.823343");
-                    params.put("start_lon", "67.029656");
+//                    params.put("stop_lat", "24.913363");
+//                    params.put("stop_lon", "67.124208");
+//                    params.put("start_lat", "24.823343");
+//                    params.put("start_lon", "67.029656");
 
                     return params;
                 }
@@ -549,12 +510,12 @@ public class LocationFragment extends Fragment {
             stringRequest.setRetryPolicy(new RetryPolicy() {
                 @Override
                 public int getCurrentTimeout() {
-                    return 500000;
+                    return 5000;
                 }
 
                 @Override
                 public int getCurrentRetryCount() {
-                    return 500000;
+                    return 5000;
                 }
 
                 @Override
@@ -565,7 +526,7 @@ public class LocationFragment extends Fragment {
 
             requestQueue.add(stringRequest);
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
         }
     }
 //    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude) {
