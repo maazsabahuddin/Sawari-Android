@@ -170,14 +170,15 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
                             Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
 //
-//                            Intent i = new Intent(getActivity(), LocationActivity.class);
-//                            Bundle b = new Bundle();
-//                            b.putString("value" , "Whereto");
-//                            b.putString("activity" , "HomeFragment");
-//                            b.putSerializable("currentLocation" , userLocation);
-//                            i.putExtras(b);
-//                            getActivity().finish();
-//                            AddPlaceFragment.this.startActivity(i);
+                            Intent i = new Intent(getActivity(), LocationActivity.class);
+                            Bundle b = new Bundle();
+                            b.putString("value" , "Whereto");
+                            b.putString("activity" , "HomeFragment");
+                            b.putSerializable("currentLocation" , userLocation);
+                            i.putExtras(b);
+                            i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            getActivity().finish();
+                            AddPlaceFragment.this.startActivity(i);
 //                        Fragment newFragment = new LocationFragment();
 ////                        Bundle arguments = new Bundle();
 ////                        newFragment.setArguments(arguments);

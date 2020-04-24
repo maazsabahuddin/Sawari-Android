@@ -147,6 +147,7 @@ public class LocationFragment extends Fragment {
                     b.putSerializable("currentLocation" , currentLocation);
                     i.putExtras(b);
                     LocationFragment.this.startActivity(i);
+                   // getActivity().finish();
                 }
                 else {
                     BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
@@ -172,6 +173,7 @@ public class LocationFragment extends Fragment {
                     b.putSerializable("currentLocation" , currentLocation);
                     i.putExtras(b);
                     LocationFragment.this.startActivity(i);
+                   // getActivity().finish();
                 }
                 else {
                     BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
