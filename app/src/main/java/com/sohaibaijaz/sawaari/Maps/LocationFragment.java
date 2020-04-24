@@ -2,14 +2,19 @@ package com.sohaibaijaz.sawaari.Maps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,11 +50,13 @@ import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
+import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
+import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 import com.sohaibaijaz.sawaari.model.Location;
 import com.sohaibaijaz.sawaari.model.User;
@@ -91,6 +98,7 @@ public class LocationFragment extends Fragment {
 
     private AutocompleteSupportFragment autocompleteFragment_pickUp;
     private AutocompleteSupportFragment autocompleteFragmentdropOff;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private ArrayList<String> placeName;
     ListView placeName_lv;
@@ -154,21 +162,29 @@ public class LocationFragment extends Fragment {
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 placetype="Home";
-                dropoffLocation.clear();
-                dropoffLocation=helper.getPlace(placetype, phone_number);
-                if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
-                {
-                    Intent i = new Intent(getActivity(), LocationActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("value" , "Home");
-                    b.putString("activity" , "LocationFragment");
-                    b.putSerializable("currentLocation" , currentLocation);
-                    i.putExtras(b);
-                    LocationFragment.this.startActivity(i);
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    showAlertLocationDisabled(getActivity());
                 }
-                else {
-                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                else{
+                    dropoffLocation.clear();
+                    dropoffLocation=helper.getPlace(placetype, phone_number);
+                    if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
+                    {
+                        Intent i = new Intent(getActivity(), LocationActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("value" , "Home");
+                        b.putString("activity" , "LocationFragment");
+                        b.putSerializable("currentLocation" , currentLocation);
+                        i.putExtras(b);
+                        LocationFragment.this.startActivity(i);
+                    }
+                    else {
+                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                    }
                 }
 
             }
@@ -178,22 +194,28 @@ public class LocationFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-
                 placetype="Work";
-                dropoffLocation.clear();
-                dropoffLocation=helper.getPlace(placetype, phone_number);
-                if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
-                {
-                    Intent i = new Intent(getActivity(), LocationActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("value" , "Work");
-                    b.putString("activity" , "LocationFragment");
-                    b.putSerializable("currentLocation" , currentLocation);
-                    i.putExtras(b);
-                    LocationFragment.this.startActivity(i);
+                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+                    showAlertLocationDisabled(getActivity());
                 }
-                else {
-                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                else{
+                    dropoffLocation.clear();
+                    dropoffLocation=helper.getPlace(placetype, phone_number);
+                    if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
+                    {
+                        Intent i = new Intent(getActivity(), LocationActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("value" , "Work");
+                        b.putString("activity" , "LocationFragment");
+                        b.putSerializable("currentLocation" , currentLocation);
+                        i.putExtras(b);
+                        LocationFragment.this.startActivity(i);
+                    }
+                    else {
+                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                    }
                 }
             }
         });
@@ -260,47 +282,6 @@ public class LocationFragment extends Fragment {
             finally {
                // realm.close();
             }
-
-
-//            if (dropoffLocation.get("latitude") == null || currentLocation.get("longitude") == null) {
-//                Toast.makeText(getContext(), "Select current and drop off location first!", Toast.LENGTH_SHORT).show();
-//            }
-//            else if(dropoffLocation.get("latitude") != null && currentLocation.get("longitude") != null){
-//
-//
-//                markerPoints.clear();
-//                mMap.clear();
-//
-//                LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-//                LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-//
-//                markerPoints.add(start);
-//                markerPoints.add(stop);
-//                MarkerOptions options = new MarkerOptions();
-//
-//                options.position(start);
-//                options.position(stop);
-//
-//
-//                if(markerPoints.size() >=2 ){
-//                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET));
-//
-//                    mMap.addMarker(options);
-//
-//                    LatLng origin = markerPoints.get(0);
-//                    LatLng dest = markerPoints.get(1);
-//
-//                    // Getting URL to the Google Directions API
-//                    String url = getDirectionsUrl(origin, dest);
-//
-//                    DownloadTask downloadTask = new DownloadTask();
-//
-//                    // Start downloading json data from Google Directions API
-//                    downloadTask.execute(url);
-//
-//                }
-//
-//            }
 
         }
 
@@ -450,6 +431,47 @@ public class LocationFragment extends Fragment {
         }
 
     }
+
+    public void showAlertLocationDisabled(Activity activity) {
+
+        new AlertDialog.Builder(activity)
+                .setTitle("Enable Location")
+                .setMessage("Sawari can't go on without the device's Location!")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                LOCATION_PERMISSION_REQUEST_CODE);
+                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                    }
+                })
+                .setIcon(R.mipmap.alert)
+                .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getActivity(), "Location Accessible", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getActivity(), NavActivity.class));
+                } else {
+                    Toast.makeText(getActivity(), "Location not Accessible", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+
+        }
+    }
+
 
     public static void BusRouteApi(final HashMap<String, String> currentLocation, final HashMap<String, String> dropoffLocation,
                                    final FrameLayout spinner_frame, final ProgressBar spinner, RequestQueue requestQueue, final Context context,

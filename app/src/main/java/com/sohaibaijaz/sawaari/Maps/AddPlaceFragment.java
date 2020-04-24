@@ -476,7 +476,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

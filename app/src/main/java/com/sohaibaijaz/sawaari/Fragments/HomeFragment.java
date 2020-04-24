@@ -1,6 +1,7 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -143,7 +144,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
        // phone_number = userObject.getPhoneNumber();
         //Toast.makeText(getActivity(), phone_number, Toast.LENGTH_SHORT).show();
 
-
         TextView where_to_textView = fragmentView.findViewById(R.id.where_to_textview);
         where_to_textView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    showAlertLocationDisabled();
+                    showAlertLocationDisabled(getActivity());
                 }
                 else{
                     phone_number = userObject.getPhoneNumber();
@@ -202,8 +202,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         HomeFragment.this.startActivity(i);
                     }
                     else {
-                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                        showrides();
+//                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
                     }
                 }
             }
@@ -216,7 +216,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    showAlertLocationDisabled();
+                    showAlertLocationDisabled(getActivity());
                 }
                 else{
                     phone_number = userObject.getPhoneNumber();
@@ -234,7 +234,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         HomeFragment.this.startActivity(i);
                     }
                     else {
-                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
                         BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
                     }
                 }
@@ -248,7 +248,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    showAlertLocationDisabled();
+                    showAlertLocationDisabled(getActivity());
                 }
                 else{
                     Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -424,7 +424,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            showAlertLocationDisabled();
+            showAlertLocationDisabled(getActivity());
         }
         else {
 
@@ -432,6 +432,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
             else{
+                mMap.setMyLocationEnabled(true);
                 fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                             @Override
@@ -483,6 +484,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
+                showAlertLocationDisabled(getActivity());
 //                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
 //                        LOCATION_PERMISSION_REQUEST_CODE);
 
@@ -574,9 +576,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .newInstance(true).show(getFragmentManager(), "dialog");
     }
 
-    private void showAlertLocationDisabled() {
+    public void showAlertLocationDisabled(Activity activity) {
 
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(activity)
                 .setTitle("Enable Location")
                 .setMessage("Sawari can't go on without the device's Location!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -600,105 +602,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .show();
     }
 
-    public void showrides(){
-        try {
-            SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
-
-            final String token = sharedPreferences.getString("Token", "");
-
-            String URL = MainActivity.baseurl + "/bus/route/";
-            JSONObject jsonBody = new JSONObject();
-
-            spinner.setVisibility(View.VISIBLE);
-            spinner_frame.setVisibility(View.VISIBLE);
-
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                    spinner.setVisibility(View.GONE);
-                    spinner_frame.setVisibility(View.GONE);
-
-                    Log.i("VOLLEY", response);
-                    try {
-                        JSONObject jsonObj = new JSONObject(response);
-
-                        if (jsonObj.getString("status").equals("200")) {
-
-                            Intent i = new Intent(getContext(), ShowRides.class);
-                            i.putExtra("json", jsonObj.toString());
-                            i.putExtra("pick_up_location", currentLocation);
-                            i.putExtra("drop_off_location", dropoffLocation);
-                            startActivity(i);
-
-                        } else if (jsonObj.getString("status").equals("400")) {
-                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
-                        }
-                        else if(jsonObj.getString("status").equals("404")){
-                            Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_LONG).show();
-                            SettingsFragment.signout(getActivity());
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e("VOLLEY", e.toString());
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    spinner.setVisibility(View.GONE);
-                    spinner_frame.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                    Log.e("VOLLEY", error.toString());
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-
-                    params.put("start_lat", currentLocation.get("latitude"));
-                    params.put("start_lon", currentLocation.get("longitude"));
-                    params.put("stop_lat", dropoffLocation.get("latitude"));
-                    params.put("stop_lon", dropoffLocation.get("longitude"));
-
-//                                params.put("stop_lat", "24.913363");
-//                                params.put("stop_lon", "67.124208");
-//                                params.put("start_lat", "24.823343");
-//                                params.put("start_lon", "67.029656");
-
-                    return params;
-                }
-
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", token);
-                    return headers;
-                }
-            };
-
-            stringRequest.setRetryPolicy(new RetryPolicy() {
-                @Override
-                public int getCurrentTimeout() {
-                    return 500000;
-                }
-
-                @Override
-                public int getCurrentRetryCount() {
-                    return 500000;
-                }
-
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
-
-                }
-            });
-
-            requestQueue.add(stringRequest);
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     public void getValueHome(final String placeType){
 
