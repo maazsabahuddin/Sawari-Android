@@ -164,6 +164,7 @@ public class LocationFragment extends Fragment {
             public void onClick(View v) {
 
                 placetype="Home";
+
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
@@ -188,36 +189,35 @@ public class LocationFragment extends Fragment {
                 }
 
             }
+
         });
 
         add_work.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                placetype="Work";
-                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+                placetype = "Work";
+                    if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+                            != PackageManager.PERMISSION_GRANTED) {
 
-                    showAlertLocationDisabled(getActivity());
-                }
-                else{
-                    dropoffLocation.clear();
-                    dropoffLocation=helper.getPlace(placetype, phone_number);
-                    if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
-                    {
-                        Intent i = new Intent(getActivity(), LocationActivity.class);
-                        Bundle b = new Bundle();
-                        b.putString("value" , "Work");
-                        b.putString("activity" , "LocationFragment");
-                        b.putSerializable("currentLocation" , currentLocation);
-                        i.putExtras(b);
-                        LocationFragment.this.startActivity(i);
-                    }
-                    else {
-                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        showAlertLocationDisabled(getActivity());
+                    } else {
+                        dropoffLocation.clear();
+                        dropoffLocation = helper.getPlace(placetype, phone_number);
+                        if (dropoffLocation.get("longitude") == null && dropoffLocation.get("latitude") == null) {
+                            Intent i = new Intent(getActivity(), LocationActivity.class);
+                            Bundle b = new Bundle();
+                            b.putString("value", "Work");
+                            b.putString("activity", "LocationFragment");
+                            b.putSerializable("currentLocation", currentLocation);
+                            i.putExtras(b);
+                            LocationFragment.this.startActivity(i);
+                        } else {
+                            BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        }
                     }
                 }
-            }
+
         });
 
        // RealmHelper helper = new RealmHelper(realm);
