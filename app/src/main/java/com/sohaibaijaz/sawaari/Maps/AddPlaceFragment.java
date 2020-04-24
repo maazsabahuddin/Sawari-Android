@@ -202,12 +202,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             }
         });
 
-<<<<<<< HEAD
-=======
-
-
-        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
->>>>>>> 3e862e38c18fbb8f9eb135e7471c8d69c7ef3ba8
         boolean gps_enabled = false;
         boolean network_enabled = false;
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
