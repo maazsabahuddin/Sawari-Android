@@ -66,6 +66,7 @@ public class LocationActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
             arguments.putString("value", value);
+            arguments.putString("activity", activity);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
@@ -82,6 +83,7 @@ public class LocationActivity extends AppCompatActivity {
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);
             arguments.putString("value", value);
+            arguments.putString("activity", activity);
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }

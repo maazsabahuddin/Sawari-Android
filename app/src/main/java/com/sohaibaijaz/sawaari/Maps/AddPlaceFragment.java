@@ -96,7 +96,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
     private Map<String, String> dropoffLocation = new HashMap<String, String>();
     private Map<String, String> currentLocation = new HashMap<String, String>();
-    private Map<String, String> userLocation = new HashMap<String, String>();
+    private HashMap<String, String> userLocation = new HashMap<String, String>();
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
@@ -105,7 +105,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     FrameLayout mapViewFrameLayout;
     SupportMapFragment mapFragment;
     Button add_place_btn;
-
+    Thread thread;
     public static AddPlaceFragment newInstance() {
 
         AddPlaceFragment LF = new AddPlaceFragment();
@@ -146,6 +146,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         }
 
         add_place_btn = fragmentView.findViewById(R.id.add_place_button);
+
+
         add_place_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,24 +158,41 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                     }
                     else {
                         writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType, phonenumber);
-                        if(fromwhere=="HomeF"){
-                            Fragment newFragment = new HomeFragment();
-                            Bundle arguments = new Bundle();
-                            newFragment.setArguments(arguments);
-                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.fragment_container, newFragment);
-                            transaction.addToBackStack(null);
-                            // placeType = "Home";
-                            transaction.commit();
-                        }
-                        else {
+                 //       Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
+
+                        if(fromwhere.equals("HomeFragment")){
                             Toast.makeText(getActivity(), "Place Added", Toast.LENGTH_SHORT).show();
+                            Objects.requireNonNull(getActivity()).onBackPressed();
+//                            Fragment newFragment = new HomeFragment();
+//                            Bundle arguments = new Bundle();
+//                            newFragment.setArguments(arguments);
+//                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                            transaction.replace(R.id.fragment_container, newFragment);
+//                            transaction.addToBackStack(null);
+//                            // placeType = "Home";
+//                            transaction.commit();
+                        }
+                        else if (fromwhere.equals("LocationFragment")){
+
+                           // getActivity().getSupportFragmentManager().popBackStackImmediate();
+
+                            Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
+//
+//                            Intent i = new Intent(getActivity(), LocationActivity.class);
+//                            Bundle b = new Bundle();
+//                            b.putString("value" , "Whereto");
+//                            b.putString("activity" , "HomeFragment");
+//                            b.putSerializable("currentLocation" , userLocation);
+//                            i.putExtras(b);
+//                            getActivity().finish();
+//                            AddPlaceFragment.this.startActivity(i);
 //                        Fragment newFragment = new LocationFragment();
-//                        Bundle arguments = new Bundle();
-//                        newFragment.setArguments(arguments);
-//                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                        transaction.add(R.id.place_fragment, newFragment);
+////                        Bundle arguments = new Bundle();
+////                        newFragment.setArguments(arguments);
+//                       FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//                        transaction.replace(R.id.place_fragment, newFragment);
 //                        transaction.commit();
+
                         }
                     }
                 }
@@ -183,6 +202,12 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             }
         });
 
+<<<<<<< HEAD
+=======
+
+
+        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
+>>>>>>> 3e862e38c18fbb8f9eb135e7471c8d69c7ef3ba8
         boolean gps_enabled = false;
         boolean network_enabled = false;
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -419,8 +444,9 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             @Override
             public void onSuccess() {
                 // Transaction was a success.
-                Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_LONG).show();
-               // Log.v("Database","Data inserted");
+              // Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_LONG).show();
+
+                // Log.v("Database","Data inserted");
             }
         }, new Realm.Transaction.OnError() {
             @Override
