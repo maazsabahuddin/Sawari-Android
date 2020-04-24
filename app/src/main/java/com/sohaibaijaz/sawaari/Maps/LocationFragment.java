@@ -230,7 +230,7 @@ public class LocationFragment extends Fragment {
     }
 
 
-    PlaceSelectionListener placeSelectionListenerFrom = new PlaceSelectionListener() {
+    PlaceSelectionListener  placeSelectionListenerFrom = new PlaceSelectionListener() {
         @Override
         public void onPlaceSelected(@NonNull Place place) {
             try {

@@ -96,7 +96,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
     private Map<String, String> dropoffLocation = new HashMap<String, String>();
     private Map<String, String> currentLocation = new HashMap<String, String>();
-    private HashMap<String, String> userLocation = new HashMap<String, String>();
+    private HashMap<String, String> userLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
@@ -105,15 +105,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     FrameLayout mapViewFrameLayout;
     SupportMapFragment mapFragment;
     Button add_place_btn;
-    Thread thread;
-    public static AddPlaceFragment newInstance() {
-
-        AddPlaceFragment LF = new AddPlaceFragment();
-        Bundle args = new Bundle();
-        LF.setArguments(args);
-
-        return LF;
-    }
 
     @Nullable
     @Override
