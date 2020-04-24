@@ -99,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1">
-
+                #ede9e8
 
                 <ImageView
                     android:id="@+id/add_home"
@@ -127,14 +127,39 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/add_work"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:src="@drawable/work"
-                    android:layout_gravity="center_horizontal"
-                    />
-                <!--                android:background="@drawable/circle_shape"-->
+                <!--     <de.hdodenhof.circleimageview.CircleImageView
+                      xmlns:app="http://schemas.android.com/apk/res-auto"
+                      android:id="@android:id/icon"
+                      android:layout_width="60dp"
+                      android:layout_height="60dp"
+                      android:layout_marginStart="30dp"
+                      android:layout_marginEnd="10dp"
+                      android:layout_marginTop="5dp"
+                      android:layout_marginBottom="18dp"
+                      app:civ_shadow="true"
+                      app:civ_shadow_radius="10dp"
+                      app:civ_shadow_color="#8BC34A"
+                      android:src="@drawable/work_circle" >
+
+
+                  </de.hdodenhof.circleimageview.CircleImageView> -->
+                <!--     <com.mikhaellopez.circularimageview.CircularImageView
+                       android:layout_width="100dp"
+                       android:layout_height="100dp"
+                       android:src="@drawable/work_circle"
+                       app:civ_border_width="4dp"
+                       app:civ_shadow="true"
+                       app:civ_shadow_radius="10dp"
+                       app:civ_shadow_color="#8BC34A"/>-->
+
+                       <ImageView
+                         android:id="@+id/add_work"
+                         android:layout_width="60dp"
+                         android:layout_height="60dp"
+                         android:src="@drawable/work"
+                         android:layout_gravity="center_horizontal"
+                         />
+                     <!--                android:background="@drawable/circle_shape"-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
