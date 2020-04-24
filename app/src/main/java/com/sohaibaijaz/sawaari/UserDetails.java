@@ -69,7 +69,7 @@ public class UserDetails {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
                         Log.e("VOLLEY", error.toString());
                     }
                 }) {
@@ -156,7 +156,7 @@ public class UserDetails {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(context, "No Internet Connection", Toast.LENGTH_SHORT).show();
                         Log.e("VOLLEY", error.toString());
                     }
                 }) {

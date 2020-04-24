@@ -26,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -79,6 +80,7 @@ import io.realm.RealmResults;
 
 import static android.view.View.GONE;
 import static com.android.volley.VolleyLog.TAG;
+import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
 
 public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMyLocationButtonClickListener,
         GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback{
@@ -134,8 +136,14 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         if(b.getSerializable("currentLocation") != null)
             userLocation = (HashMap<String, String>)b.getSerializable("currentLocation");
 
+        CardView card_viewPF = fragmentView.findViewById(R.id.card_viewPF);
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
-        autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListener);
+        if(!isNetworkAvailable(getActivity())){
+            card_viewPF.setVisibility(GONE);
+        }
+        else{
+            autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListener);
+        }
 
         add_place_btn = fragmentView.findViewById(R.id.add_place_button);
 
@@ -195,32 +203,39 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             }
         });
 
-
-
-        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        markerPoints = new ArrayList<LatLng>();
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
-
-        try {
-            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch(Exception ex) {}
-
-        if(!gps_enabled && !network_enabled) {
-            showAlertLocationDisabled();
+        LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if(!isNetworkAvailable(getActivity())){
+            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+        else{
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext(), NavActivity.MAP_VIEW_BUNDLE_KEY);
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            markerPoints = new ArrayList<LatLng>();
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch(Exception ex) {}
+
+            try {
+                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            } catch(Exception ex) { Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();}
+
+            if(!gps_enabled && !network_enabled) {
+//          showAlertLocationDisabled();
+            }
+
+            if (!Places.isInitialized()) {
+                Places.initialize(getContext(), NavActivity.MAP_VIEW_BUNDLE_KEY);
+            }
         }
 
         mapFragment =(SupportMapFragment)getChildFragmentManager()
                 .findFragmentById(R.id.mapViewAddPlaceFragment);
-        mapFragment.getMapAsync(this);
+        try{
+            mapFragment.getMapAsync(this);
+        }catch (Exception e){}
+
         mapViewFrameLayout = fragmentView.findViewById(R.id.mapViewFrameLayout);
         mapViewFrameLayout.setVisibility(GONE);
         add_place_btn.setVisibility(GONE);
@@ -229,9 +244,14 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         set_location_on_map.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mapViewFrameLayout.setVisibility(View.VISIBLE);
-                add_place_btn.setVisibility(View.VISIBLE);
-                try{ onMapReady(mMap); } catch (Exception e){}
+                if(!isNetworkAvailable(getActivity())){
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    mapViewFrameLayout.setVisibility(View.VISIBLE);
+                    add_place_btn.setVisibility(View.VISIBLE);
+                    try{ onMapReady(mMap); } catch (Exception e){}
+                }
             }
         });
 
@@ -477,7 +497,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -485,22 +504,28 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                    LOCATION_PERMISSION_REQUEST_CODE);
-
+//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                    LOCATION_PERMISSION_REQUEST_CODE);
+            showAlertLocationDisabled();
         }
         else{
 
-            // Access to the location has been granted to the app.
-            mMap.setMyLocationEnabled(true);
-            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, true);
-            android.location.Location location = locationManager.getLastKnownLocation(provider);
+            if(!isNetworkAvailable(getActivity())){
+                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                // Access to the location has been granted to the app.
+                mMap.setMyLocationEnabled(true);
+                LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+                Criteria criteria = new Criteria();
+                String provider = locationManager.getBestProvider(criteria, true);
+                android.location.Location location = locationManager.getLastKnownLocation(provider);
 
-            LatLng coordinate = new LatLng(Double.parseDouble(userLocation.get("latitude")), Double.parseDouble(userLocation.get("longitude")));
-            CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
-            mMap.animateCamera(yourLocation);
+                LatLng coordinate = new LatLng(Double.parseDouble(userLocation.get("latitude")), Double.parseDouble(userLocation.get("longitude")));
+                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
+                mMap.animateCamera(yourLocation);
+            }
+
         }
     }
 
@@ -625,7 +650,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
     private void showAlertLocationDisabled() {
 
-        new AlertDialog.Builder(this.getContext())
+        new AlertDialog.Builder(getActivity())
                 .setTitle("Enable Location")
                 .setMessage("Sawari can't go on without the device's Location!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
