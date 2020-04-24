@@ -2,6 +2,7 @@ package com.sohaibaijaz.sawaari.Fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,20 +38,13 @@ public class HelpActivity extends AppCompatActivity {
 
     }
 
-//    @Nullable
-//    @Override
-//    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//
-//        fragmentView = inflater.inflate(R.layout.helpfragment, container, false);
-//
-//        helpListView = fragmentView.findViewById(R.id.help_array);
-//        helpListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getActivity(), "Thank you! We will contact you soon.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//        return fragmentView;
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

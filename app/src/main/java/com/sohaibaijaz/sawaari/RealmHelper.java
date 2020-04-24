@@ -24,28 +24,34 @@ public class RealmHelper {
     }
 
     public ArrayList<String> getAllRecords(final String phone){
-        ArrayList<String> placeName= new ArrayList<>();
-        RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","AddPlace").equalTo("phoneNumber", phone).findAll();
-        for(com.sohaibaijaz.sawaari.model.Location location : results){
-                placeName.add(location.getPlaceName());
-        }
 
+        ArrayList<String> placeName= new ArrayList<>();
+        try{
+            RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","AddPlace").equalTo("phoneNumber", phone).findAll();
+            for(com.sohaibaijaz.sawaari.model.Location location : results){
+                placeName.add(location.getPlaceName());
+            }
+
+            return placeName;
+        }catch (Exception e){}
         return placeName;
     }
 
     public HashMap<String, String> getPlace(final String placeType, final String phone){
 
         final HashMap<String, String> dropoffLocation = new HashMap<>();
+        try{
+            RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
+            for(com.sohaibaijaz.sawaari.model.Location location : results){
+                dropoffLocation.put("latitude", location.getLatitude());
+                dropoffLocation.put("longitude", location.getLongitude());
+                dropoffLocation.put("name", location.getPlaceName());
+            }
+            // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
 
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
-                for(com.sohaibaijaz.sawaari.model.Location location : results){
-                    dropoffLocation.put("latitude", location.getLatitude());
-                    dropoffLocation.put("longitude", location.getLongitude());
-                    dropoffLocation.put("name", location.getPlaceName());
-                }
-                // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
-
-
+            return dropoffLocation;
+        }
+        catch (Exception e){}
         return dropoffLocation;
     }
 

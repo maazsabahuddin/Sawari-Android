@@ -12,6 +12,8 @@ import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -68,6 +70,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,6 +85,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 import static com.android.volley.VolleyLog.TAG;
+import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
 import static com.sohaibaijaz.sawaari.Maps.LocationFragment.BusRouteApi;
 
 
@@ -110,6 +116,16 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private FusedLocationProviderClient fusedLocationClient;
     private  String phone_number;
 
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -133,40 +149,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             @Override
             public void onClick(View v) {
 
-                new AlertDialog.Builder(getActivity())
-                        .setTitle("Enable Location")
-                        .setMessage("Sawari can't go on without the device's Location!")
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(callGPSSettingIntent);
-                                dialog.cancel();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                getActivity().finish();
-                                System.exit(0);
-                            }
-                        })
-                        .setIcon(R.mipmap.alert)
-                        .show();
-//                if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
-//                        != PackageManager.PERMISSION_GRANTED) {
+                if(isNetworkAvailable(getActivity())){
+//                    if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
+//                            != PackageManager.PERMISSION_GRANTED) {
 //
-//                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                            LOCATION_PERMISSION_REQUEST_CODE);
-//
-//                }
-//                else{
-//                    Intent i = new Intent(getActivity(), LocationActivity.class);
-//                    Bundle b = new Bundle();
-//                    b.putString("value" , "Whereto");
-//                    b.putString("activity" , "HomeFragment");
-//                    b.putSerializable("currentLocation" , currentLocation);
-//                    i.putExtras(b);
-//                    HomeFragment.this.startActivity(i);
-//                }
+//                        showAlertLocationDisabled();
+//                    }
+//                    else{
+                        Intent i = new Intent(getActivity(), LocationActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("value" , "Whereto");
+                        b.putString("activity" , "HomeFragment");
+                        b.putSerializable("currentLocation" , currentLocation);
+                        i.putExtras(b);
+                        HomeFragment.this.startActivity(i);
+//                    }
+                }
+                else{
+                    Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         final RealmHelper helper = new RealmHelper(realm);
@@ -182,8 +184,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            LOCATION_PERMISSION_REQUEST_CODE);
+                    showAlertLocationDisabled();
                 }
                 else{
                     phone_number = userObject.getPhoneNumber();
@@ -199,17 +200,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         b.putSerializable("currentLocation" , currentLocation);
                         i.putExtras(b);
                         HomeFragment.this.startActivity(i);
-//                        Fragment newFragment = new AddPlaceFragment();
-//                        Bundle arguments = new Bundle();
-//                        arguments.putString("value" , "Home");
-//                        arguments.putString("activity" , "homeFragment");
-//                        arguments.putSerializable("currentLocation" , currentLocation);
-//                        newFragment.setArguments(arguments);
-//                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.fragment_container, newFragment);
-//                        transaction.addToBackStack(null);
-//                        transaction.commit();
-
                     }
                     else {
                         Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
@@ -226,8 +216,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            LOCATION_PERMISSION_REQUEST_CODE);
+                    showAlertLocationDisabled();
                 }
                 else{
                     phone_number = userObject.getPhoneNumber();
@@ -259,8 +248,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
 
-                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                            LOCATION_PERMISSION_REQUEST_CODE);
+                    showAlertLocationDisabled();
                 }
                 else{
                     Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -299,31 +287,35 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             }
         });
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
-        markerPoints = new ArrayList<LatLng>();
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
-
-        try {
-            network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-        } catch(Exception ex) {}
-
-        if(!gps_enabled && !network_enabled) {
-          showAlertLocationDisabled();
+        if(!isNetworkAvailable(getActivity())){
+            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+        else{
 
-        if (!Places.isInitialized()) {
-            Places.initialize(getContext(), NavActivity.MAP_VIEW_BUNDLE_KEY);
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(getContext());
+            markerPoints = new ArrayList<LatLng>();
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch(Exception ex) {}
+
+            try {
+                network_enabled = lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            } catch(Exception ex) { Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();}
+
+            if(!gps_enabled && !network_enabled) {
+//          showAlertLocationDisabled();
+            }
+
+            if (!Places.isInitialized()) {
+                Places.initialize(getContext(), NavActivity.MAP_VIEW_BUNDLE_KEY);
+            }
         }
-
 
         SupportMapFragment mapFragment =(SupportMapFragment)getChildFragmentManager()
                 .findFragmentById(R.id.mapView);
-        mapFragment.getMapAsync(this);
-
-        final SharedPreferences sharedPreferences= Objects.requireNonNull(this.getActivity()).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
-//        final String token = sharedPreferences.getString("Token", "");
+        try{
+            mapFragment.getMapAsync(this);
+        }catch (Exception e){}
 
         spinner = fragmentView.findViewById(R.id.progressBarHF);
         spinner.setVisibility(View.GONE);
@@ -339,6 +331,43 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }catch (Exception e){}
 
         return fragmentView;
+    }
+
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivity =(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivity == null) {
+            return false;
+        } else {
+            NetworkInfo[] info = connectivity.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasActiveInternetConnection(Context context) {
+        if (isNetworkAvailable(context)) {
+            try {
+                HttpURLConnection urlc = (HttpURLConnection) (new URL("http://www.google.com").openConnection());
+                urlc.setRequestProperty("User-Agent", "Test");
+                urlc.setRequestProperty("Connection", "close");
+                urlc.setConnectTimeout(1500);
+                urlc.connect();
+                return (urlc.getResponseCode() == 200);
+            } catch (IOException e) {
+//                Log.e(LOG_TAG, "Error checking internet connection", e);
+            }
+        } else {
+//            Log.d(LOG_TAG, "No network available!");
+        }
+        return false;
     }
 
     @Override
@@ -387,7 +416,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -395,36 +424,32 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        LOCATION_PERMISSION_REQUEST_CODE);
-
+            showAlertLocationDisabled();
         }
         else {
-            // Access to the location has been granted to the app.
-            mMap.setMyLocationEnabled(true);
 
-            LocationManager locationManager = (LocationManager)getActivity().getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            String provider = locationManager.getBestProvider(criteria, true);
-            Location location = locationManager.getLastKnownLocation(provider);
-
-            fusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                        @Override
-                        public void onSuccess(Location location) {
-                            if (location != null) {
-                                double latitude = location.getLatitude();
-                                double longitude = location.getLongitude();
-                                currentLocation.clear();
-                                currentLocation.put("latitude", String.valueOf(latitude));
-                                currentLocation.put("longitude", String.valueOf(longitude));
-                                getAddress(latitude, longitude);
-                                LatLng coordinate = new LatLng(latitude, longitude);
-                                CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
-                                mMap.animateCamera(yourLocation);
+            if(!isNetworkAvailable(getActivity())){
+                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                fusedLocationClient.getLastLocation()
+                        .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                            @Override
+                            public void onSuccess(Location location) {
+                                if (location != null) {
+                                    double latitude = location.getLatitude();
+                                    double longitude = location.getLongitude();
+                                    currentLocation.clear();
+                                    currentLocation.put("latitude", String.valueOf(latitude));
+                                    currentLocation.put("longitude", String.valueOf(longitude));
+                                    getAddress(latitude, longitude);
+                                    LatLng coordinate = new LatLng(latitude, longitude);
+                                    CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
+                                    mMap.animateCamera(yourLocation);
+                                }
                             }
-                        }
-                    });
+                        });
+            }
         }
     }
 
@@ -458,8 +483,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             if (ContextCompat.checkSelfPermission(Objects.requireNonNull(getActivity()), Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                        LOCATION_PERMISSION_REQUEST_CODE);
+//                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+//                        LOCATION_PERMISSION_REQUEST_CODE);
 
                 // Permission to access the location is missing.
 //                PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
@@ -490,8 +515,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
         return false;
     }
-
-
 
     @Override
     public void onMyLocationClick(@NonNull Location location) {
@@ -541,7 +564,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         } catch(Exception ex) {}
 
         if(!gps_enabled && !network_enabled) {
-            showAlertLocationDisabled();
+//            showAlertLocationDisabled();
         }
     }
 
@@ -553,20 +576,24 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     private void showAlertLocationDisabled() {
 
-        new AlertDialog.Builder(this.getContext())
+        new AlertDialog.Builder(getActivity())
                 .setTitle("Enable Location")
                 .setMessage("Sawari can't go on without the device's Location!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(callGPSSettingIntent);
+//                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+//                        startActivity(callGPSSettingIntent);
+//                        dialog.cancel();
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                LOCATION_PERMISSION_REQUEST_CODE);
                         dialog.cancel();
                     }
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        getActivity().finish();
-                        System.exit(0);
+//                        getActivity().finish();
+//                        System.exit(0);
+                        dialog.cancel();
                     }
                 })
                 .setIcon(R.mipmap.alert)

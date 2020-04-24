@@ -3,6 +3,7 @@ package com.sohaibaijaz.sawaari.Settings;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,28 +26,48 @@ public class PrivacyActivity extends AppCompatActivity {
         button_location=findViewById(R.id.location);
         button_delete=findViewById(R.id.delete_account);
 
-        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-        builder1.setTitle("Turn Off Location Sharing");
-        builder1.setMessage("Go to your device settings for Sawaari, tap Permissions, then turn off location access.");
-        builder1.setCancelable(true);
+//        final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//        builder1.setTitle("Turn Off Location Sharing");
+//        builder1.setMessage("Go to your device settings for Sawaari, tap Permissions, then turn off location access.");
+//        builder1.setCancelable(true);
+//
+//        builder1.setPositiveButton(
+//                "OK",
+//                new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int id) {
+//                        dialog.cancel();
+//                    }
+//                });
+//
+//        final AlertDialog alert11 = builder1.create();
 
-        builder1.setPositiveButton(
-                "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-
-        final AlertDialog alert11 = builder1.create();
-
+        final Context context = this;
         button_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-
-                alert11.show();
-
+//                alert11.show();
+                try{
+                    new AlertDialog.Builder(context)
+                            .setTitle("Turn off Location")
+                            .setMessage("Sawari can't go on without the device's Location!")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                    startActivity(callGPSSettingIntent);
+                                    dialog.cancel();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+//                                PrivacyActivity.this.finish();
+//                                System.exit(0);
+                                }
+                            })
+                            .setIcon(R.mipmap.alert)
+                            .show();
+                }
+                catch(Exception e){}
                // Toast.makeText(PrivacyActivity.this, "Nothing", Toast.LENGTH_LONG).show();
 
             }

@@ -2,6 +2,7 @@ package com.sohaibaijaz.sawaari.Maps;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -71,6 +72,9 @@ import java.util.Objects;
 
 import io.realm.Realm;
 
+import static android.view.View.GONE;
+import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
+
 public class LocationFragment extends Fragment {
 
 
@@ -112,9 +116,13 @@ public class LocationFragment extends Fragment {
         realm = Realm.getDefaultInstance();
         final RealmHelper helper = new RealmHelper(realm);
 
+        Bundle b = this.getArguments();
+        if (b.getSerializable("currentLocation") != null) {
+            currentLocation = (HashMap<String, String>) b.getSerializable("currentLocation");
+        }
+
         autocompleteFragment_pickUp = (AutocompleteSupportFragment) getChildFragmentManager().findFragmentById(R.id.autocomplete_fragment_from_location);
         autocompleteFragment_pickUp.setCountry("PK");
-        autocompleteFragment_pickUp.setText("Your location");
         autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragment_pickUp.setOnPlaceSelectedListener(placeSelectionListenerFrom);
 
@@ -124,9 +132,20 @@ public class LocationFragment extends Fragment {
         autocompleteFragmentdropOff.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
         autocompleteFragmentdropOff.setOnPlaceSelectedListener(placeSelectionListenerTo);
 
-        Bundle b = this.getArguments();
-        if (b.getSerializable("currentLocation") != null) {
-            currentLocation = (HashMap<String, String>) b.getSerializable("currentLocation");
+        if(currentLocation.size()==0){
+            autocompleteFragment_pickUp.setHint("From?");
+        }
+        else{
+            autocompleteFragment_pickUp.setText("Your location");
+        }
+
+        CardView card_viewFrom = fragmentView.findViewById(R.id.card_viewFrom);
+        CardView card_viewTo = fragmentView.findViewById(R.id.card_viewTo);
+
+        if(!isNetworkAvailable(getActivity())){
+            card_viewFrom.setVisibility(GONE);
+            card_viewTo.setVisibility(GONE);
+            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
 
         LinearLayout add_home = fragmentView.findViewById(R.id.add_home_place);
@@ -200,6 +219,9 @@ public class LocationFragment extends Fragment {
                 currentLocation.put("latitude", String.valueOf(latLng.latitude));
                 currentLocation.put("longitude", String.valueOf(latLng.longitude));
 
+                if(dropoffLocation.size()!=0){
+                    BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                }
             } catch (Exception e) {
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
             }
@@ -433,98 +455,103 @@ public class LocationFragment extends Fragment {
                                    final FrameLayout spinner_frame, final ProgressBar spinner, RequestQueue requestQueue, final Context context,
                                    final Activity activity){
         try {
-            SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+            if(currentLocation.size()!=0){
+                SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
 
-            final String token = sharedPreferences.getString("Token", "");
+                final String token = sharedPreferences.getString("Token", "");
 
-            String URL = MainActivity.baseurl + "/bus/route/";
-            JSONObject jsonBody = new JSONObject();
+                String URL = MainActivity.baseurl + "/bus/route/";
+                JSONObject jsonBody = new JSONObject();
 
-            spinner.setVisibility(View.VISIBLE);
-            spinner_frame.setVisibility(View.VISIBLE);
+                spinner.setVisibility(View.VISIBLE);
+                spinner_frame.setVisibility(View.VISIBLE);
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
 
-                    Log.i("VOLLEY", response);
-                    try {
-                        JSONObject jsonObj = new JSONObject(response);
+                        Log.i("VOLLEY", response);
+                        try {
+                            JSONObject jsonObj = new JSONObject(response);
 
-                        if (jsonObj.getString("status").equals("200")) {
+                            if (jsonObj.getString("status").equals("200")) {
 
-                            Intent i = new Intent(context, ShowRides.class);
-                            i.putExtra("json", jsonObj.toString());
-                            i.putExtra("pick_up_location", currentLocation);
-                            i.putExtra("drop_off_location", dropoffLocation);
-                            spinner.setVisibility(View.GONE);
-                            spinner_frame.setVisibility(View.GONE);
-                            context.startActivity(i);
+                                Intent i = new Intent(context, ShowRides.class);
+                                i.putExtra("json", jsonObj.toString());
+                                i.putExtra("pick_up_location", currentLocation);
+                                i.putExtra("drop_off_location", dropoffLocation);
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
+                                context.startActivity(i);
 
-                        } else if (jsonObj.getString("status").equals("400")) {
-                            Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                            } else if (jsonObj.getString("status").equals("400")) {
+                                Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            else if(jsonObj.getString("status").equals("404")){
+                                Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_LONG).show();
+                                SettingsFragment.signout(activity);
+                            }
+
+                        } catch (JSONException e) {
+                            Log.e("VOLLEY", e.toString());
                         }
-                        else if(jsonObj.getString("status").equals("404")){
-                            Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_LONG).show();
-                            SettingsFragment.signout(activity);
-                        }
-
-                    } catch (JSONException e) {
-                        Log.e("VOLLEY", e.toString());
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    spinner.setVisibility(View.GONE);
-                    spinner_frame.setVisibility(View.GONE);
-                    Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
-                    Log.e("VOLLEY", error.toString());
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        spinner.setVisibility(View.GONE);
+                        spinner_frame.setVisibility(View.GONE);
+                        Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                        Log.e("VOLLEY", error.toString());
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
 
-                    params.put("start_lat", currentLocation.get("latitude"));
-                    params.put("start_lon", currentLocation.get("longitude"));
-                    params.put("stop_lat", dropoffLocation.get("latitude"));
-                    params.put("stop_lon", dropoffLocation.get("longitude"));
+                        params.put("start_lat", currentLocation.get("latitude"));
+                        params.put("start_lon", currentLocation.get("longitude"));
+                        params.put("stop_lat", dropoffLocation.get("latitude"));
+                        params.put("stop_lon", dropoffLocation.get("longitude"));
 
 //                    params.put("stop_lat", "24.913363");
 //                    params.put("stop_lon", "67.124208");
 //                    params.put("start_lat", "24.823343");
 //                    params.put("start_lon", "67.029656");
 
-                    return params;
-                }
+                        return params;
+                    }
 
-                @Override
-                public Map<String, String> getHeaders() {
-                    Map<String, String> headers = new HashMap<>();
-                    headers.put("Authorization", token);
-                    return headers;
-                }
-            };
+                    @Override
+                    public Map<String, String> getHeaders() {
+                        Map<String, String> headers = new HashMap<>();
+                        headers.put("Authorization", token);
+                        return headers;
+                    }
+                };
 
-            stringRequest.setRetryPolicy(new RetryPolicy() {
-                @Override
-                public int getCurrentTimeout() {
-                    return 5000;
-                }
+                stringRequest.setRetryPolicy(new RetryPolicy() {
+                    @Override
+                    public int getCurrentTimeout() {
+                        return 5000;
+                    }
 
-                @Override
-                public int getCurrentRetryCount() {
-                    return 5000;
-                }
+                    @Override
+                    public int getCurrentRetryCount() {
+                        return 5000;
+                    }
 
-                @Override
-                public void retry(VolleyError error) throws VolleyError {
+                    @Override
+                    public void retry(VolleyError error) throws VolleyError {
 
-                }
-            });
+                    }
+                });
 
-            requestQueue.add(stringRequest);
+                requestQueue.add(stringRequest);
+            }
+            else{
+                Toast.makeText(context, "Please select current location.", Toast.LENGTH_SHORT).show();
+            }
         } catch (Exception e) {
             Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
         }
