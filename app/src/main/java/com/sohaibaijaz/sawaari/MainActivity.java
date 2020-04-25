@@ -34,6 +34,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+
+import io.realm.Realm;
 
 import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
 
@@ -50,8 +53,9 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     private TextView tv_forget_password;
-
+    Realm realm;
     Context context;
+    RealmHelper helper;
     public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
 
     private int backpress = 0;
@@ -64,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
             this.finish();
         }
     }
+
+    private HashMap<String, String> userdetails = new HashMap<>();
 
 
     @Override
@@ -81,6 +87,9 @@ public class MainActivity extends AppCompatActivity {
         tv_forget_password = findViewById(R.id.tv_forget_password);
         spinner_frame = findViewById(R.id.spinner_frame);
         spinner_frame.setVisibility(View.GONE);
+
+        realm= Realm.getDefaultInstance();
+        helper = new RealmHelper(realm);
 
         if(!isNetworkAvailable(getApplicationContext())){
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -191,11 +200,22 @@ public class MainActivity extends AppCompatActivity {
                                             editor.putString("Token", token);
                                             editor.apply();
 
-                                            UserDetails.getUserDetails(MainActivity.this);
-                                            UserDetails.getUserRides(MainActivity.this);
-                                            Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
-                                            finish();
-                                            MainActivity.this.startActivity(myIntent);
+                                            userdetails=helper.getUserDetailsDB();
+
+                                            if(Objects.equals(userdetails.get("phonenumber"), email_phone) || Objects.equals(userdetails.get("email"), email_phone))
+                                            {
+                                                Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                                finish();
+                                                MainActivity.this.startActivity(myIntent);
+                                            }
+                                            else {
+                                                helper.DeleteUserDetails(MainActivity.this);
+                                                UserDetails.getUserDetails(MainActivity.this);
+                                                UserDetails.getUserRides(MainActivity.this);
+                                                Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
+                                                finish();
+                                                MainActivity.this.startActivity(myIntent);
+                                            }
                                         }
 
                                     }

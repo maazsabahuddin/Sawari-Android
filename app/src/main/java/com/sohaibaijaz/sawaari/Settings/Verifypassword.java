@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,18 +47,18 @@ public class Verifypassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Password");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setContentView(R.layout.activity_verify_password_change_phone_number);
+        setContentView(R.layout.activity_verify_password);
 
         sharedPreferences = Verifypassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        editText_password= findViewById(R.id.verify_password4);
-        button_verify_pass= findViewById(R.id.verifypassword4);
-        error_message=findViewById(R.id.errormessage4);
-        password_message=findViewById(R.id.securitytext4);
+        editText_password= findViewById(R.id.verify_password);
+        button_verify_pass= findViewById(R.id.verifypassword);
+        error_message=findViewById(R.id.errormessage);
+        password_message=findViewById(R.id.securitytext);
 
 //        Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
 
-        editText_password= findViewById(R.id.verify_password4);
-        button_verify_pass= findViewById(R.id.verifypassword4);
+       // editText_password= findViewById(R.id.verify_password);
+        //button_verify_pass= findViewById(R.id.verifypassword);
         error_message.setVisibility(View.GONE);
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {

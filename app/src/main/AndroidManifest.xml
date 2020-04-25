@@ -30,18 +30,9 @@
         <activity
             android:name=".Settings.ChangePhoneNumberActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Settings.VerifyPasswordChangePhoneNumber_Activity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name=".Settings.VerifyPasswordTwoStepVerification_Activity"
-            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Settings.TwoStepVerificationActivity" />
         <activity android:name=".Settings.SecurityActivity" />
         <activity android:name=".Settings.DeleteAccount_Activity" />
-        <activity
-            android:name=".Settings.VerifyPasswordDeleteAccount_Activity"
-            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".Settings.PrivacyActivity" />
         <activity android:name=".Maps.LocationFragment" />
         <activity android:name=".Maps.LocationActivity" />
