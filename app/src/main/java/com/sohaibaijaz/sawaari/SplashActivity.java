@@ -17,7 +17,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.sohaibaijaz.sawaari.model.User;
 
+import java.util.HashMap;
 import java.util.Objects;
+
+import io.realm.Realm;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
@@ -28,6 +31,9 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
     // Animation
     Animation animFadein;
 
+    Realm realm;
+    private HashMap<String, String> userdetails = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -37,6 +43,9 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         String isToken = sharedPreferences.getString("Token",  "");
+
+
+
 
         final TextView splashText = findViewById(R.id.splashText);
 //        splashText.setVisibility(View.GONE);
@@ -49,7 +58,17 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
         animFadein.setAnimationListener(this);
 
         if(!isToken.equals("")) {
-            UserDetails.getUserDetails(SplashActivity.this);
+           // UserDetails.getUserDetails(SplashActivity.this);
+            realm=Realm.getDefaultInstance();
+            RealmHelper helper= new RealmHelper(realm);
+            userdetails=helper.getUserDetailsDB();
+
+            User user = User.getInstance();
+            user.setFirstName(userdetails.get("firstname"));
+            user.setLastName(userdetails.get("lastname"));
+            user.setPhoneNumber(userdetails.get("phonenumber"));
+            user.setEmail(userdetails.get("email"));
+
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

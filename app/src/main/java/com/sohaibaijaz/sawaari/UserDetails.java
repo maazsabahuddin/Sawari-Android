@@ -26,6 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import io.realm.Realm;
+
 public class UserDetails {
 
 
@@ -33,7 +35,7 @@ public class UserDetails {
         final SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
         final String token = sharedPreferences.getString("Token", "");
-
+        final Realm  realm = Realm.getDefaultInstance();
         if(!token.equals("")) {
 
            //Getting user details
@@ -50,13 +52,23 @@ public class UserDetails {
 
                             if (json.getString("status").equals("200")) {
 
+
+                                final RealmHelper helper = new RealmHelper(realm);
+
                                 User user = User.getInstance();
                                 user.setFirstName(json.getString("first_name"));
                                 user.setLastName(json.getString("last_name"));
                                 user.setPhoneNumber(json.getString("phone_number"));
                                 user.setEmail(json.getString("email"));
 
-//                                Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+                                String phonenumber=json.getString("phone_number");
+                                String firstname=json.getString("first_name");
+                                String lastname= json.getString("last_name");
+                                String email= json.getString("email");
+
+                                helper.InsertUserDetails(context,phonenumber,firstname,lastname,email);
+
+                               // Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
 
                             } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
