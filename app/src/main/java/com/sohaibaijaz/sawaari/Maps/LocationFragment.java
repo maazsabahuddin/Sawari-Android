@@ -184,7 +184,12 @@ public class LocationFragment extends Fragment {
                         LocationFragment.this.startActivity(i);
                     }
                     else {
-                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        if(!isNetworkAvailable(getActivity())){
+                            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        }
                     }
                 }
 
@@ -213,7 +218,12 @@ public class LocationFragment extends Fragment {
                             i.putExtras(b);
                             LocationFragment.this.startActivity(i);
                         } else {
-                            BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                            if(!isNetworkAvailable(getActivity())){
+                                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                            }
                         }
                     }
                 }
@@ -245,6 +255,7 @@ public class LocationFragment extends Fragment {
                     BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
                 }
             } catch (Exception e) {
+
                 Toast.makeText(getActivity(), "Please select any place.", Toast.LENGTH_LONG).show();
             }
         }

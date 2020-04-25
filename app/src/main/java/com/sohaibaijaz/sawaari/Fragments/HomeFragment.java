@@ -202,8 +202,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         HomeFragment.this.startActivity(i);
                     }
                     else {
-//                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        if(!isNetworkAvailable(getActivity())){
+                            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        }
                     }
                 }
             }
@@ -234,8 +238,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                         HomeFragment.this.startActivity(i);
                     }
                     else {
-//                        Toast.makeText(getActivity(), dropoffLocation.get("longitude")+" "+dropoffLocation.get("name"), Toast.LENGTH_SHORT).show();
-                        BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        if(!isNetworkAvailable(getActivity())){
+                            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            BusRouteApi(currentLocation, dropoffLocation, spinner_frame, spinner, requestQueue, getContext(), getActivity());
+                        }
                     }
                 }
             }
