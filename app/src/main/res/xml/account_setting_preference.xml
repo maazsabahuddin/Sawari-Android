@@ -7,7 +7,7 @@
         android:title="Maaz Sabahuddin"
         android:summary="maazsabahuddin@gmail.com\n+923442713545"
         android:layout="@layout/image_preference"
-        android:icon="@drawable/maaz" />
+        android:icon="@drawable/profilefinal" />
 
     <PreferenceCategory
         android:key="safety_category"
