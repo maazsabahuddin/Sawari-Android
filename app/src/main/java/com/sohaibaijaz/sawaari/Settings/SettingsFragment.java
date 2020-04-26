@@ -41,8 +41,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
     private SharedPreferences sharedPreferences;
     private RequestQueue requestQueue;
-    public static String firstName;
-    public static String lastName;
+    private String firstName;
+    private String lastName;
     private String phoneNumber;
     private String email;
     private String token;
@@ -50,36 +50,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     private ProgressBar spinner;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         try{
-
-            User user= User.getInstance();
-            phoneNumber = user.getPhoneNumber();
-            email = user.getEmail();
-
-            firstName= user.getFirstName() ;
-            lastName=user.getLastName();
+            super.onCreate(savedInstanceState);
 
             addPreferencesFromResource(R.xml.account_setting_preference);
 
-            firstName = firstName + " " + lastName;
             Preference preference_privacy = findPreference("privacy");
             Preference preference_profile = findPreference("name");
             Preference preference_security = findPreference("security");
             Preference preference_signOut = findPreference("signOutPreference");
             Preference preference_updateHomeWork = findPreference("updateHomeWork");
-
-            assert preference_profile != null;
-            preference_profile.setTitle(firstName);
-            
-            if(email.equals("")) {
-                preference_profile.setSummary(phoneNumber);
-            }
-            else{
-                preference_profile.setSummary(email + "\n" + phoneNumber);
-
-            }
 
             preference_updateHomeWork.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -91,15 +72,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }
             });
 
-            preference_profile.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent i = new Intent(getActivity(), UpdateActivity.class);
-                    SettingsFragment.this.startActivity(i);
 
-                    return true;
-                }
-            });
-            preference_privacy.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+
+            Objects.requireNonNull(preference_privacy).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 public boolean onPreferenceClick(Preference preference) {
                     Intent i = new Intent(getActivity(), PrivacyActivity.class);
                     SettingsFragment.this.startActivity(i);
@@ -122,7 +97,66 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 public boolean onPreferenceClick(Preference preference) {
 
                     signout(getActivity());
-//                    requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
+
+                    return true;
+                }
+            });
+
+            User user= User.getInstance();
+
+            if(!user.getPhoneNumber().equals("")) {
+                phoneNumber = user.getPhoneNumber();
+            }
+            if(!user.getEmail().equals("")) {
+                email = user.getEmail();
+            }
+
+            if(!user.getFirstName().equals("")) {
+                firstName = user.getFirstName();
+            }
+            if(!user.getLastName().equals("")) {
+                lastName = user.getLastName();
+            }
+
+            firstName = firstName + " " + lastName;
+
+
+           // assert preference_profile != null;
+            if(!(firstName.equals(""))) {
+                Objects.requireNonNull(preference_profile).setTitle(firstName);
+            }
+
+            if(!(phoneNumber.equals(""))) {
+
+                if (email.equals("")) {
+                    Objects.requireNonNull(preference_profile).setSummary(phoneNumber);
+                } else {
+                    Objects.requireNonNull(preference_profile).setSummary(email + "\n" + phoneNumber);
+
+                }
+            }
+
+            Objects.requireNonNull(preference_profile).setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                public boolean onPreferenceClick(Preference preference) {
+                    Intent i = new Intent(getActivity(), UpdateActivity.class);
+                    SettingsFragment.this.startActivity(i);
+
+                    return true;
+                }
+            });
+
+
+
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+
+    //                    requestQueue = Volley.newRequestQueue(Objects.requireNonNull(getActivity()));
 //                    try {
 //                        String URL = MainActivity.baseurl + "/logout/";
 ////                        spinner.setVisibility(View.VISIBLE);
@@ -203,16 +237,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 //                    } catch (Exception e) {
 //                        e.printStackTrace();
 //                    }
-                    return true;
-                }
-            });
-
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
