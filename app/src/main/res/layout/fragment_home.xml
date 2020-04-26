@@ -49,23 +49,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="500dp"
-        android:background="#ede9e8"
+        android:background="#f0efef"
         android:alpha="0.8">
-
+        #ede9e8
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view2"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginRight="15dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="1dp"
             android:foregroundGravity="center"
+            app:cardElevation="10dp"
+            android:elevation="17dp"
             app:cardCornerRadius="10dp" >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:elevation="17dp"
+                >
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -92,29 +96,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="80dp">
+            android:layout_marginTop="74dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_weight="1">
-                #ede9e8
 
+                <LinearLayout
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="0dp"
+                    android:orientation="vertical"
+                    android:elevation="17dp"
+                    android:background="@drawable/circle_work"
+
+                    >
                 <ImageView
                     android:id="@+id/add_home"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     android:src="@drawable/home"
+                    android:layout_marginTop="18dp"
                     android:layout_gravity="center_horizontal"
-                    android:elevation="10dp"
                     />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:text="Home"
+                    android:layout_marginLeft="33dp"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="16sp"
                     android:typeface="monospace"/>
@@ -151,19 +165,30 @@
                        app:civ_shadow="true"
                        app:civ_shadow_radius="10dp"
                        app:civ_shadow_color="#8BC34A"/>-->
+                <LinearLayout
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="0dp"
+                    android:orientation="vertical"
+                    android:elevation="17dp"
+                    android:background="@drawable/circle_work"
 
+                    >
                        <ImageView
                          android:id="@+id/add_work"
-                         android:layout_width="60dp"
-                         android:layout_height="60dp"
+                         android:layout_width="27dp"
+                         android:layout_height="27dp"
                          android:src="@drawable/work"
+                           android:layout_marginTop="18dp"
                          android:layout_gravity="center_horizontal"
                          />
+                </LinearLayout>
                      <!--                android:background="@drawable/circle_shape"-->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="35dp"
                     android:text="Work"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="16sp"
@@ -177,17 +202,29 @@
                 android:orientation="vertical"
                 android:layout_weight="1">
 
+                <LinearLayout
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="0dp"
+                    android:orientation="vertical"
+                    android:elevation="17dp"
+                    android:background="@drawable/circle_work"
+
+                    >
                 <ImageView
                     android:id="@+id/add_place"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
+                    android:layout_width="27dp"
+                    android:layout_height="27dp"
                     android:src="@drawable/plus_icon"
+                    android:layout_marginTop="18dp"
                     android:layout_gravity="center_horizontal" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="36dp"
                     android:text="Add "
                     android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                     android:textSize="16sp"
