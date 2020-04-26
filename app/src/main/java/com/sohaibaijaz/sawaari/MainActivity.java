@@ -44,6 +44,7 @@ import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
 public class MainActivity extends AppCompatActivity {
 
     public static final String AppPreferences = "AppPreferences";
+    public static final String app = "Customer";
     SharedPreferences sharedPreferences;
 
     private String token;
@@ -217,9 +218,8 @@ public class MainActivity extends AppCompatActivity {
                                                 MainActivity.this.startActivity(myIntent);
                                             }
                                         }
-
                                     }
-                                    else if (json.getString("status").equals("401")||json.getString("status").equals("404")) {
+                                    else if (json.getString("status").equals("401")) {
                                         Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                     }
                                     else if(json.getString("status").equals("404")){
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                                 Map<String,String> params = new HashMap<String, String>();
                                 params.put("email_or_phone",email_phone);
                                 params.put("password",password);
-//                                params.put(KEY_EMAIL, email);
+                                params.put("app", app);
                                 return params;
                             }
 

@@ -42,7 +42,7 @@ import java.util.Objects;
 public class CustomAdapterUserRides extends BaseAdapter {
 
 
-    Context context;
+    Activity context;
     ArrayList<HashMap> rides;
     SharedPreferences sharedPreferences;
     RequestQueue requestQueue;
@@ -177,7 +177,7 @@ public class CustomAdapterUserRides extends BaseAdapter {
                         @Override
                         public void onResponse(String response){
 
-                            Log.i("VOLLEY", response.toString());
+                            Log.i("VOLLEY", response);
                             try {
                                 JSONObject json = new JSONObject(response);
 

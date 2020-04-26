@@ -52,6 +52,7 @@
     <string name="skip">SKIP</string>
     <string name="update">UPDATE</string>
     <string name="rate">Rated 4.5</string>
+    <string name="phone_number">3442713545</string>
 
     <string-array name="help_array">
         <item>Complaints and Refunds</item>

@@ -124,7 +124,7 @@ public class Verifypassword extends AppCompatActivity {
             password_message.setVisibility(View.GONE);
             error_message.setText("Field cannot be empty");
             error_message.setVisibility(View.VISIBLE);
-           editText_password.addTextChangedListener(new TextWatcher() {
+            editText_password.addTextChangedListener(new TextWatcher() {
                @Override
                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -144,8 +144,6 @@ public class Verifypassword extends AppCompatActivity {
 
                }
            });
-
-          //  Toast.makeText(Verifypassword.this, "Field cannot be empty", Toast.LENGTH_LONG).show();
         }
         else {
 

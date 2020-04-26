@@ -1,9 +1,12 @@
 package com.sohaibaijaz.sawaari;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -31,7 +34,7 @@ import io.realm.Realm;
 public class UserDetails {
 
 
-    public static void getUserDetails(final Context context){
+    public static void getUserDetails(final Activity context){
         final SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
         final String token = sharedPreferences.getString("Token", "");
@@ -40,7 +43,7 @@ public class UserDetails {
 
            //Getting user details
             try {
-                final String URL = MainActivity.baseurl + "/my_details/";
+                final String URL = MainActivity.baseurl + "/user/details/";
                 JSONObject jsonBody = new JSONObject();
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
@@ -61,16 +64,22 @@ public class UserDetails {
                                 user.setPhoneNumber(json.getString("phone_number"));
                                 user.setEmail(json.getString("email"));
 
-                                String phonenumber=json.getString("phone_number");
-                                String firstname=json.getString("first_name");
-                                String lastname= json.getString("last_name");
+                                String phoneNumber = json.getString("phone_number");
+                                String firstName = json.getString("first_name");
+                                String lastName = json.getString("last_name");
                                 String email= json.getString("email");
 
-                                helper.InsertUserDetails(context,phonenumber,firstname,lastname,email);
+                                helper.InsertUserDetails(context, phoneNumber, firstName, lastName, email);
 
-                               // Toast.makeText(context, user.getPhoneNumber(), Toast.LENGTH_SHORT).show();
-
-                            } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
+                            }
+                            else if (json.getString("status").equals("404")) {
+                                Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                SettingsFragment.signout(context);
+                            }
+                            else if(json.getString("status").equals("401")){
+                                Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            else{
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 
@@ -133,7 +142,7 @@ public class UserDetails {
     }
 
 
-    public static void getUserRides(final Context context){
+    public static void getUserRides(final Activity context){
         final SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
         final String token = sharedPreferences.getString("Token", "");
@@ -142,13 +151,13 @@ public class UserDetails {
 
             //Getting user rides
             try {
-                String URL = MainActivity.baseurl + "/user_rides/";
+                String URL = MainActivity.baseurl + "/user/rides/";
                 JSONObject jsonBody = new JSONObject();
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
-                        Log.i("VOLLEY", response.toString());
+                        Log.i("VOLLEY", response);
                         try {
                             JSONObject json = new JSONObject(response);
 
@@ -157,7 +166,15 @@ public class UserDetails {
                                 edit.remove("user_rides");
                                 edit.putString("user_rides", json.getJSONArray("reservations").toString());
                                 edit.apply();
-                            } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {
+                            }
+                            else if (json.getString("status").equals("404")) {
+                                Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                SettingsFragment.signout(context);
+                            }
+                            else if(json.getString("status").equals("401")){
+                                Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+                            else{
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
                             }
 

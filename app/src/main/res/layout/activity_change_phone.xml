@@ -1,92 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
-
+<RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
-
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Phone"
-        android:textSize="15sp"
-        android:textAlignment="center"
-        android:layout_marginStart="30dp"
-        android:fontFamily="sans-serif-condensed-medium"
-        android:layout_marginTop="100dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="30dp">
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginBottom="3dp"
-            android:src="@drawable/pickistan_flag" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:id="@+id/numcode"
-            android:text="+92"
-            android:textSize="18sp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:layout_marginBottom="3dp"
-            android:textColor="@android:color/black"
-            android:fontFamily="sans-serif-condensed-medium" />
-
-        <EditText
-            android:id="@+id/phonenumber"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="80"
-            android:backgroundTint="#1F3A93"
-            android:inputType="phone"
-            android:textSize="18sp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/errormessagep"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="15sp"
-            android:textColor="#DC1324"
-            android:fontFamily="sans-serif-condensed-medium" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phone"
+                android:textSize="15sp"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/pickistan_flag" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/numcode"
+                android:text="+92"
+                android:textSize="18sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:textColor="@android:color/black"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+            <EditText
+                android:id="@+id/phonenumber"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="80"
+                android:backgroundTint="#1F3A93"
+                android:inputType="phone"
+                android:textSize="18sp"
+                android:hint="@string/phone_number"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="3dp">
+
+            <TextView
+                android:id="@+id/errormessagep"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="15sp"
+                android:textColor="#DC1324"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/savephone"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:text="SAVE"
-        android:textSize="20sp"
-        android:id="@+id/savephone"
-        android:background="#1F3A93"
-        android:layout_gravity="center"
+        android:textSize="18sp"
+        android:background="@drawable/button_background"
         android:textColor="@android:color/white"
-        android:layout_marginTop="50dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
 
-
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+</RelativeLayout>
