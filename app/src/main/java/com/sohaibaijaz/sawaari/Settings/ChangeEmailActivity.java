@@ -51,7 +51,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
         User user = User.getInstance();
 
         textViewerror=findViewById(R.id.errormessage4);
-        button_updatemail=findViewById(R.id.changeemail);
+        button_updatemail=findViewById(R.id.changeEmail);
         text_email= findViewById(R.id.update_email);
         textViewerror.setVisibility(View.GONE);
         text_email.setText(user.getEmail());

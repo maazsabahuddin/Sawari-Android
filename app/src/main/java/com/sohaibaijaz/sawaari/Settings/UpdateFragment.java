@@ -79,7 +79,6 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                     name_update(firstNameEditValue, "");
                     return false;
 
-
                 }
             });
 

@@ -517,16 +517,19 @@ public class LocationFragment extends Fragment {
                                 spinner_frame.setVisibility(View.GONE);
                                 context.startActivity(i);
 
-                            } else if (jsonObj.getString("status").equals("400")) {
-                                Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
                             }
-                            else if(jsonObj.getString("status").equals("404")){
+                            else if(jsonObj.getString("status").equals("404") ||
+                                    jsonObj.getString("status").equals("401")){
                                 Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_LONG).show();
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
                                 SettingsFragment.signout(activity);
                             }
 
                         } catch (JSONException e) {
                             Log.e("VOLLEY", e.toString());
+                            spinner.setVisibility(View.GONE);
+                            spinner_frame.setVisibility(View.GONE);
                         }
                     }
                 }, new Response.ErrorListener() {

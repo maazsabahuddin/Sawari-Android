@@ -38,7 +38,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
 
     EditText editText_PhoneNumber;
     SharedPreferences sharedPreferences;
-    Button button_savephonenumber;
+    Button sendOtp_button;
     TextView error_message;
     TextView textView_number_code;
 
@@ -61,10 +61,11 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
         editText_PhoneNumber.setText(number_after_split);
 
         textView_number_code=findViewById(R.id.numcode);
-        error_message=findViewById(R.id.errormessagep);
-        button_savephonenumber=findViewById(R.id.savephone);
+        error_message=findViewById(R.id.error_message_phone_number);
+        error_message.setVisibility(View.GONE);
+        sendOtp_button=findViewById(R.id.sendOtpButton);
 
-        button_savephonenumber.setOnClickListener(new View.OnClickListener() {
+        sendOtp_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editText_PhoneNumber.setCursorVisible(false);
