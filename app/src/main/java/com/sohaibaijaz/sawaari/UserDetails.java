@@ -40,7 +40,7 @@ public class UserDetails {
 
            //Getting user details
             try {
-                final String URL = MainActivity.baseurl + "/my_details/";
+                final String URL = MainActivity.baseurl + "/user/details/";
                 JSONObject jsonBody = new JSONObject();
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
@@ -142,7 +142,7 @@ public class UserDetails {
 
             //Getting user rides
             try {
-                String URL = MainActivity.baseurl + "/user_rides/";
+                String URL = MainActivity.baseurl + "/user/rides/";
                 JSONObject jsonBody = new JSONObject();
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
                     @Override
