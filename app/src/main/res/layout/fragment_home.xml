@@ -51,7 +51,7 @@
         android:layout_marginTop="500dp"
         android:background="#f0efef"
         android:alpha="0.8">
-        #ede9e8
+
         <androidx.cardview.widget.CardView
             android:id="@+id/card_view2"
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/drop_off_icon"
+                    android:src="@drawable/marker"
                     android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
                     />
@@ -95,142 +95,153 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="74dp">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:layout_marginTop="75dp">
 
-                <LinearLayout
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="0dp"
-                    android:orientation="vertical"
-                    android:elevation="17dp"
-                    android:background="@drawable/circle_work"
-
-                    >
-                <ImageView
-                    android:id="@+id/add_home"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:src="@drawable/home"
-                    android:layout_marginTop="18dp"
-                    android:layout_gravity="center_horizontal"
-                    />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Home"
-                    android:layout_marginLeft="33dp"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="16sp"
-                    android:typeface="monospace"/>
+                    android:orientation="vertical"
+                    android:layout_weight="1">
 
+                    <LinearLayout
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:orientation="vertical"
+                        android:elevation="20dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="10dp"
+                        android:background="@drawable/circle_work">
+
+                        <ImageView
+                            android:id="@+id/add_home"
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/home"
+                            android:layout_marginTop="18dp"
+                            android:layout_gravity="center_horizontal" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:orientation="vertical"
+                        android:elevation="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@drawable/circle_work">
+
+                        <ImageView
+                            android:id="@+id/add_work"
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/work"
+                            android:layout_marginTop="18dp"
+                            android:layout_gravity="center_horizontal" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <LinearLayout
+                        android:layout_width="65dp"
+                        android:layout_height="65dp"
+                        android:orientation="vertical"
+                        android:elevation="20dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/circle_work">
+
+                        <ImageView
+                            android:id="@+id/add_place"
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/plus_icon"
+                            android:layout_marginTop="18dp"
+                            android:layout_gravity="center_horizontal" />
+
+                    </LinearLayout>
+
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:orientation="horizontal"
+                android:layout_marginTop="5dp">
 
-                <!--     <de.hdodenhof.circleimageview.CircleImageView
-                      xmlns:app="http://schemas.android.com/apk/res-auto"
-                      android:id="@android:id/icon"
-                      android:layout_width="60dp"
-                      android:layout_height="60dp"
-                      android:layout_marginStart="30dp"
-                      android:layout_marginEnd="10dp"
-                      android:layout_marginTop="5dp"
-                      android:layout_marginBottom="18dp"
-                      app:civ_shadow="true"
-                      app:civ_shadow_radius="10dp"
-                      app:civ_shadow_color="#8BC34A"
-                      android:src="@drawable/work_circle" >
-
-
-                  </de.hdodenhof.circleimageview.CircleImageView> -->
-                <!--     <com.mikhaellopez.circularimageview.CircularImageView
-                       android:layout_width="100dp"
-                       android:layout_height="100dp"
-                       android:src="@drawable/work_circle"
-                       app:civ_border_width="4dp"
-                       app:civ_shadow="true"
-                       app:civ_shadow_radius="10dp"
-                       app:civ_shadow_color="#8BC34A"/>-->
-                <LinearLayout
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="0dp"
-                    android:orientation="vertical"
-                    android:elevation="17dp"
-                    android:background="@drawable/circle_work"
-
-                    >
-                       <ImageView
-                         android:id="@+id/add_work"
-                         android:layout_width="27dp"
-                         android:layout_height="27dp"
-                         android:src="@drawable/work"
-                           android:layout_marginTop="18dp"
-                         android:layout_gravity="center_horizontal"
-                         />
-                </LinearLayout>
-                     <!--                android:background="@drawable/circle_shape"-->
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="35dp"
-                    android:text="Work"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="16sp"
-                    android:typeface="monospace"/>
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:text="Home"
+                        android:layout_marginEnd="20dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textSize="16sp"
+                        android:typeface="monospace"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Work"
+                        android:layout_centerInParent="true"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textSize="16sp"
+                        android:typeface="monospace"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Add "
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="25dp"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:textSize="16sp"
+                        android:typeface="monospace"/>
+
+                </RelativeLayout>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
-
-                <LinearLayout
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="0dp"
-                    android:orientation="vertical"
-                    android:elevation="17dp"
-                    android:background="@drawable/circle_work"
-
-                    >
-                <ImageView
-                    android:id="@+id/add_place"
-                    android:layout_width="27dp"
-                    android:layout_height="27dp"
-                    android:src="@drawable/plus_icon"
-                    android:layout_marginTop="18dp"
-                    android:layout_gravity="center_horizontal" />
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="36dp"
-                    android:text="Add "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    android:textSize="16sp"
-                    android:typeface="monospace"/>
-
-            </LinearLayout>
         </LinearLayout>
 
     </RelativeLayout>
