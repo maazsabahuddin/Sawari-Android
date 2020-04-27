@@ -5,23 +5,13 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:id="@+id/BackLA"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="10dp"
-        android:drawableStart="@drawable/back_arror_icon"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_below="@+id/BackLA"
-        android:layout_marginTop="20dp">
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,9 +57,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="80"
-                android:backgroundTint="#1F3A93"
+                android:backgroundTint="#5e5e5e"
                 android:inputType="phone"
                 android:textSize="18sp"
+                android:textColorHint="#5e5e5e"
                 android:hint="@string/phone_number"
                 android:fontFamily="sans-serif-condensed-medium" />
 
@@ -94,15 +85,16 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/verifypassword"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+    <Button
+        android:id="@+id/sendOtpButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Send OTP"
+        android:textSize="18sp"
+        android:background="@drawable/button_background"
+        android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/next_icon"
-        android:enabled="false"
-        android:alpha="1.0"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
+
 </RelativeLayout>

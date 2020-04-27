@@ -3,7 +3,6 @@ package com.sohaibaijaz.sawaari;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -27,7 +26,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
-import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
 
         final Button btn_login = findViewById(R.id.btn_login);
         requestQueue = Volley.newRequestQueue(this);
