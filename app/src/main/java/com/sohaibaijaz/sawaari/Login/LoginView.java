@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,8 +20,7 @@ public class LoginView extends AppCompatActivity {
         setContentView(R.layout.activity_login_view);
         getSupportActionBar().hide();
 
-        EditText phone_number_tv = findViewById(R.id.phone_number_tv);
-        phone_number_tv.setCursorVisible(false);
+        TextView phone_number_tv = findViewById(R.id.phone_number_tv);
         phone_number_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

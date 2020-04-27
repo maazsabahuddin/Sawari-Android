@@ -69,6 +69,7 @@ public class LoginPhone extends AppCompatActivity {
         verifyPhoneLoginButton.setAlpha(0.5f);
         error_message_phone_login.setVisibility(View.GONE);
 
+        phone_number_login_tv.requestFocus();
         if(!isNetworkAvailable(getApplicationContext())){
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
@@ -128,7 +129,6 @@ public class LoginPhone extends AppCompatActivity {
                 {
                     error_message_phone_login.setVisibility(View.GONE);
                     phone_number_login_tv.setCursorVisible(true);
-                    verifyPhoneLoginButton.setAlpha(1.0f);
                 }
             }
         });

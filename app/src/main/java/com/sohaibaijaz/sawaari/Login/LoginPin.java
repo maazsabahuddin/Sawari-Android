@@ -62,6 +62,7 @@ public class LoginPin extends AppCompatActivity {
     private TextView tv_forget_password;
     private TextView error_message_pin_login;
     private ImageView verifyPinLoginButton;
+    private TextView BackLoginPin;
     Realm realm;
     RealmHelper helper;
     public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
@@ -91,6 +92,19 @@ public class LoginPin extends AppCompatActivity {
         txt_password = findViewById(R.id.phone_number_login_tv);
         error_message_pin_login = findViewById(R.id.error_message_pin_login);
         tv_forget_password = findViewById(R.id.forgot_password_button);
+        BackLoginPin = findViewById(R.id.BackLoginPin);
+
+        txt_password.requestFocus();
+        BackLoginPin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        if(!isNetworkAvailable(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
 
         error_message_pin_login.setVisibility(View.GONE);
         verifyPinLoginButton.setAlpha(0.5f);
@@ -104,8 +118,11 @@ public class LoginPin extends AppCompatActivity {
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt_password.setCursorVisible(true);
-                error_message_pin_login.setVisibility(View.GONE);
+                if (v.getId() == txt_password.getId())
+                {
+                    error_message_pin_login.setVisibility(View.GONE);
+                    txt_password.setCursorVisible(true);
+                }
             }
         });
 
@@ -135,10 +152,6 @@ public class LoginPin extends AppCompatActivity {
             }
         });
 
-        if(!isNetworkAvailable(getApplicationContext())){
-            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-        }
-
         tv_forget_password.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -164,16 +177,6 @@ public class LoginPin extends AppCompatActivity {
         });
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-        txt_password.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (v.getId() == txt_password.getId())
-                {
-                    txt_password.setCursorVisible(true);
-                }
-            }
-        });
-
         verifyPinLoginButton.setOnClickListener(btnLoginListener);
 
     }
@@ -234,7 +237,9 @@ public class LoginPin extends AppCompatActivity {
                                             }
                                             else {
                                                 helper.DeleteUserDetails(LoginPin.this);
+                                                helper.DeleteUserPlaces(LoginPin.this);
                                                 UserDetails.getUserDetails(LoginPin.this);
+                                                UserDetails.getUserPlaces(LoginPin.this);
                                                 UserDetails.getUserRides(LoginPin.this);
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
                                                 finish();
@@ -244,6 +249,7 @@ public class LoginPin extends AppCompatActivity {
                                     }
                                     else if (json.getString("status").equals("401") || json.getString("status").equals("400")) {
                                         error_message_pin_login.setVisibility(View.VISIBLE);
+                                        txt_password.setCursorVisible(false);
                                         error_message_pin_login.setText(json.getString("message"));
                                     }
                                     else if(json.getString("status").equals("404")){
