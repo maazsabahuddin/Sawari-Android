@@ -28,11 +28,11 @@ public class RealmHelper {
         this.realm = realm;
     }
 
-    public ArrayList<String> getAllRecords(final String phone){
+    public ArrayList<String> getAllRecords(){
 
         ArrayList<String> placeName= new ArrayList<>();
         try{
-            RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","AddPlace").equalTo("phoneNumber", phone).findAll();
+            RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","AddPlace").findAll();
             for(com.sohaibaijaz.sawaari.model.Location location : results){
                 placeName.add(location.getPlaceName());
             }
@@ -42,11 +42,11 @@ public class RealmHelper {
         return placeName;
     }
 
-    public HashMap<String, String> getPlace(final String placeType, final String phone){
+    public HashMap<String, String> getPlace(final String placeType){
 
         final HashMap<String, String> dropoffLocation = new HashMap<>();
         try{
-            RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).equalTo("phoneNumber", phone).findAll();
+            RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).findAll();
             for(com.sohaibaijaz.sawaari.model.Location location : results){
                 dropoffLocation.put("latitude", location.getLatitude());
                 dropoffLocation.put("longitude", location.getLongitude());
@@ -133,6 +133,67 @@ public class RealmHelper {
         });
     }
 
+    public void insertUserPlaces( final Context context,final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                Location user = bgRealm.createObject(Location.class);
+                user.setPlaceID(placeID);
+                user.setPlaceName(placeName);
+                user.setLatitude(latitude);
+                user.setLongitude(longitude);
+                user.setPlaceType(placeType);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
+                //Toast.makeText(context, "Place Saved", Toast.LENGTH_LONG).show();
+
+                // Log.v("Database","Data inserted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+               // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Log.e("Database", error.getMessage());
+            }
+        });
+    }
+
+//    public void insertUserPlaces( final Context context,final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+//        realm.executeTransactionAsync(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm bgRealm) {
+//                Location user = bgRealm.createObject(Location.class, placeID.toString());
+//                // user.setPlaceID(placeID);
+//                user.setPlaceName(placeName);
+//                user.setLatitude(latitude);
+//                user.setLongitude(longitude);
+//                user.setPlaceType(placeType);
+//            }
+//        }, new Realm.Transaction.OnSuccess() {
+//            @Override
+//            public void onSuccess() {
+//                // Transaction was a success.
+//                //Toast.makeText(context, "Place Saved", Toast.LENGTH_LONG).show();
+//
+//                // Log.v("Database","Data inserted");
+//            }
+//        }, new Realm.Transaction.OnError() {
+//            @Override
+//            public void onError(Throwable error) {
+//                // Transaction failed and was automatically canceled.
+//                // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                Log.e("Database", error.getMessage());
+//            }
+//        });
+//    }
+
+
 public void DeleteUserDetails( final Context context) {
 
        try {
@@ -150,4 +211,56 @@ public void DeleteUserDetails( final Context context) {
        }
          catch (Exception e){}
    }
+
+    public void DeleteUserPlaces( final Context context) {
+
+        try {
+            final RealmResults<Location> results = realm.where(Location.class).findAll();
+
+            // All changes to data must happen in a transaction
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    results.deleteAllFromRealm();
+                    // Toast.makeText(context, "Details Deleted", Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
+        catch (Exception e){}
+    }
+
+    public void check(final HashMap<String,String> abcd, final String phonenumber, final  Context context) {
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+                Location userdetails = bgRealm.createObject(Location.class, phonenumber);
+                // user.setPlaceID(placeID);
+                // userdetails.setPhoneNumber(phonenumber);
+                userdetails.setPlaceID(abcd.get("place_id"));
+                userdetails.setPlaceType(abcd.get("place_type"));
+                userdetails.setPlaceName(abcd.get("place_name"));
+                userdetails.setLongitude(abcd.get("longitude"));
+                userdetails.setLatitude(abcd.get("latitude"));
+
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
+                //   Toast.makeText(context, "Details Saved", Toast.LENGTH_LONG).show();
+
+                // Log.v("Database","Data inserted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Log.e("Database", error.getMessage());
+            }
+        });
+    }
 }

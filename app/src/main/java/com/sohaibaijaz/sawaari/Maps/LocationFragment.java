@@ -172,7 +172,7 @@ public class LocationFragment extends Fragment {
                 }
                 else{
                     dropoffLocation.clear();
-                    dropoffLocation=helper.getPlace(placetype, phone_number);
+                    dropoffLocation=helper.getPlace(placetype);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
                         Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -208,7 +208,7 @@ public class LocationFragment extends Fragment {
                         showAlertLocationDisabled(getActivity());
                     } else {
                         dropoffLocation.clear();
-                        dropoffLocation = helper.getPlace(placetype, phone_number);
+                        dropoffLocation = helper.getPlace(placetype);
                         if (dropoffLocation.get("longitude") == null && dropoffLocation.get("latitude") == null) {
                             Intent i = new Intent(getActivity(), LocationActivity.class);
                             Bundle b = new Bundle();
@@ -231,7 +231,7 @@ public class LocationFragment extends Fragment {
         });
 
        // RealmHelper helper = new RealmHelper(realm);
-        placeName=helper.getAllRecords(phone_number);
+        placeName=helper.getAllRecords();
 
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView,placeName);
         placeName_lv.setAdapter(adapter);
