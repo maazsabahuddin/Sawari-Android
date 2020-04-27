@@ -184,7 +184,7 @@ public class Verifypassword extends AppCompatActivity {
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                         password_message.setVisibility(View.GONE);
+                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);

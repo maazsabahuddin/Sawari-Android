@@ -2,12 +2,11 @@
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
         android:id="@+id/BackLoginPhone"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
@@ -20,8 +19,22 @@
         android:orientation="vertical"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_below="@+id/BackLoginPhone"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/BackLoginPhone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Enter you Phone"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -37,7 +50,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:id="@+id/numcode"
+                android:id="@+id/countryCode"
                 android:text="+92"
                 android:textSize="18sp"
                 android:layout_marginStart="5dp"
@@ -47,23 +60,17 @@
                 android:textColor="@android:color/black"
                 android:fontFamily="sans-serif-condensed-medium" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/phone_number_login_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="80"
-                android:layout_marginBottom="15dp"
-                android:theme="@style/EditTextTheme" >
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/phone_number_login_tv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter your Phone"
-                    android:selectAllOnFocus="true"
-                    android:singleLine="true"
-                    android:theme="@style/EditTextTheme" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:backgroundTint="#5e5e5e"
+                android:inputType="phone"
+                android:textSize="18sp"
+                android:textColorHint="#5e5e5e"
+                android:hint="@string/phone_number"
+                android:fontFamily="sans-serif-condensed-medium" />
 
         </LinearLayout>
 
@@ -79,7 +86,7 @@
                 android:layout_height="match_parent"
                 android:textSize="15sp"
                 android:textColor="#DC1324"
-                android:text="Invalid phone number"
+                android:text="Incorrect phonenumber"
                 android:fontFamily="sans-serif-condensed-medium" />
 
         </LinearLayout>
@@ -97,4 +104,5 @@
         android:src="@drawable/next_icon"
         android:enabled="false"
         android:alpha="1.0"/>
+
 </RelativeLayout>

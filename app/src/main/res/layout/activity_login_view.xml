@@ -5,7 +5,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/Llayout"
         android:src="@drawable/swvl_crop"
@@ -41,7 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Phone"
-                android:selectAllOnFocus="true"
+                android:text="3000000000"
+                android:textColor="#787878"
                 android:singleLine="true"
                 android:theme="@style/EditTextTheme" />
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -58,6 +60,8 @@ public class LoginPin extends AppCompatActivity {
     private RequestQueue requestQueue;
     private EditText txt_password;
     private TextView tv_forget_password;
+    private TextView error_message_pin_login;
+    private ImageView verifyPinLoginButton;
     Realm realm;
     RealmHelper helper;
     public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
@@ -74,7 +78,7 @@ public class LoginPin extends AppCompatActivity {
     }
 
     private HashMap<String, String> userdetails = new HashMap<>();
-
+    private String phone_number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +86,54 @@ public class LoginPin extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login_pin);
 
-        final ImageView btn_login = findViewById(R.id.verifyPinLoginButton);
+        verifyPinLoginButton = findViewById(R.id.verifyPinLoginButton);
         requestQueue = Volley.newRequestQueue(this);
         txt_password = findViewById(R.id.phone_number_login_tv);
+        error_message_pin_login = findViewById(R.id.error_message_pin_login);
         tv_forget_password = findViewById(R.id.forgot_password_button);
+
+        error_message_pin_login.setVisibility(View.GONE);
+        verifyPinLoginButton.setAlpha(0.5f);
 
         realm= Realm.getDefaultInstance();
         helper = new RealmHelper(realm);
+
+        Bundle b = getIntent().getExtras();
+        phone_number = b.getString("phone_number");
+
+        txt_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                txt_password.setCursorVisible(true);
+                error_message_pin_login.setVisibility(View.GONE);
+            }
+        });
+
+        txt_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                verifyPinLoginButton.setEnabled(false);
+                verifyPinLoginButton.setAlpha(0.5f);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                verifyPinLoginButton.setEnabled(true);
+                verifyPinLoginButton.setAlpha(1.0f);
+
+                if((txt_password.getText().toString()).equals(""))
+                {
+                    verifyPinLoginButton.setEnabled(false);
+                    verifyPinLoginButton.setAlpha(0.5f);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         if(!isNetworkAvailable(getApplicationContext())){
             Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
@@ -108,9 +153,9 @@ public class LoginPin extends AppCompatActivity {
             @Override
             public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
                 if (i == EditorInfo.IME_ACTION_DONE) {
-                    btn_login.performClick();
+                    verifyPinLoginButton.performClick();
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(btn_login.getWindowToken(),
+                    imm.hideSoftInputFromWindow(verifyPinLoginButton.getWindowToken(),
                             InputMethodManager.RESULT_UNCHANGED_SHOWN);
                     return true;
                 }
@@ -119,7 +164,6 @@ public class LoginPin extends AppCompatActivity {
         });
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-
         txt_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,18 +174,8 @@ public class LoginPin extends AppCompatActivity {
             }
         });
 
-        btn_login.setOnClickListener(btnLoginListener);
+        verifyPinLoginButton.setOnClickListener(btnLoginListener);
 
-        TextView txt_signup = findViewById(R.id.txt_signup);
-        txt_signup.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                Intent myIntent = new Intent(LoginPin.this, SignupActivity.class);//Optional parameters
-                finish();
-                LoginPin.this.startActivity(myIntent);
-            }
-        });
     }
 
 
@@ -154,7 +188,6 @@ public class LoginPin extends AppCompatActivity {
             }
             else{
                 final String password = txt_password.getText().toString();
-
                 txt_password.setCursorVisible(false);
 
                 if (password.equals("")){
@@ -179,7 +212,7 @@ public class LoginPin extends AppCompatActivity {
                                             Intent myIntent = new Intent(LoginPin.this, VerifyActivity.class);//Optional parameters
                                             Bundle b = new Bundle();
                                             b.putString("Token", token);
-                                            b.putString("email_phone", email_phone);
+                                            b.putString("email_phone", phone_number);
                                             myIntent.putExtras(b);
                                             finish();
                                             LoginPin.this.startActivity(myIntent);
@@ -193,7 +226,7 @@ public class LoginPin extends AppCompatActivity {
 
                                             userdetails=helper.getUserDetailsDB();
 
-                                            if(Objects.equals(userdetails.get("phonenumber"), email_phone) || Objects.equals(userdetails.get("email"), email_phone))
+                                            if(Objects.equals(userdetails.get("phonenumber"), phone_number))
                                             {
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
                                                 finish();
@@ -209,14 +242,14 @@ public class LoginPin extends AppCompatActivity {
                                             }
                                         }
                                     }
-                                    else if (json.getString("status").equals("401")) {
-                                        Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    else if (json.getString("status").equals("401") || json.getString("status").equals("400")) {
+                                        error_message_pin_login.setVisibility(View.VISIBLE);
+                                        error_message_pin_login.setText(json.getString("message"));
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(LoginPin.this);
-                                        // flag = false;
                                     }
+
                                 } catch (JSONException e) {
                                     Log.e("VOLLEY", e.toString());
 
@@ -225,22 +258,18 @@ public class LoginPin extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
-//                            Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                                 Log.e("VOLLEY", error.toString());
                             }
-                        }){
+                        })
+                        {
                             @Override
                             protected Map<String,String> getParams(){
                                 Map<String,String> params = new HashMap<>();
-                                params.put("email_or_phone",email_phone);
-                                params.put("password",password);
+                                params.put("email_or_phone", phone_number);
+                                params.put("password", password);
                                 params.put("app", app);
                                 return params;
                             }
-
-
                         };
 
                         stringRequest.setRetryPolicy(new RetryPolicy() {
@@ -262,7 +291,7 @@ public class LoginPin extends AppCompatActivity {
                         requestQueue.add(stringRequest);
 
 
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
