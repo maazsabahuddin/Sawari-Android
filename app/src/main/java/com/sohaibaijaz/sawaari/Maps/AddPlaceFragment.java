@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -32,6 +33,12 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -56,9 +63,11 @@ import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 import com.sohaibaijaz.sawaari.model.Location;
 import com.sohaibaijaz.sawaari.model.User;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -105,6 +114,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     FrameLayout mapViewFrameLayout;
     SupportMapFragment mapFragment;
     Button add_place_btn;
+    SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -113,6 +123,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         fragmentView = inflater.inflate(R.layout.add_place_fragment, container, false);
         realm = Realm.getDefaultInstance();
         AutocompleteSupportFragment autocompleteFragment_pickUp = (AutocompleteSupportFragment)getChildFragmentManager().findFragmentById(R.id.add_location);
+
+        sharedPreferences = this.getActivity().getSharedPreferences("AppPreferences", Context.MODE_PRIVATE);
 
         autocompleteFragment_pickUp.setCountry("PK");
         autocompleteFragment_pickUp.setHint("Add Place");
@@ -148,11 +160,14 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                         Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
                     }
                     else {
-                        writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType, phonenumber);
+
+                          addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType);
+
+                        //  writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType, phonenumber);
                  //       Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
 
                         if(fromwhere.equals("HomeFragment")){
-                            Toast.makeText(getActivity(), "Place Added", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(getActivity(), "Place Added", Toast.LENGTH_SHORT).show();
                             Objects.requireNonNull(getActivity()).onBackPressed();
 //                            Fragment newFragment = new HomeFragment();
 //                            Bundle arguments = new Bundle();
@@ -414,23 +429,22 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
 
-    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType, final String phonenumber) {
+    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
-                Location user = bgRealm.createObject(Location.class, placeID.toString());
-                // user.setPlaceID(placeID);
+                Location user = bgRealm.createObject(Location.class);
+                user.setPlaceID(placeID);
                 user.setPlaceName(placeName);
                 user.setLatitude(latitude);
                 user.setLongitude(longitude);
                 user.setPlaceType(placeType);
-                user.setPhoneNumber(phonenumber);
             }
         }, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
                 // Transaction was a success.
-              // Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), "Place Saved", Toast.LENGTH_LONG).show();
 
                 // Log.v("Database","Data inserted");
             }
@@ -660,6 +674,80 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 })
                 .setIcon(R.mipmap.alert)
                 .show();
+    }
+
+
+    public void addplace(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+
+        String url = MainActivity.baseurl+"/update/user/place/";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+                            JSONObject json = new JSONObject(response);
+                            if (json.getString("status").equals("200")) {
+
+                                writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+                                Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                //  check1 =1;
+                                // flag = true;
+
+                            }
+                            else if(json.getString("status").equals("400")){
+                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+
+                                // flag = false;
+                            }
+                            else if(json.getString("status").equals("404")){
+                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
+                                SettingsFragment.signout(getActivity());
+                                // flag = false;
+                            }
+
+
+                        }
+                        catch (JSONException e) {
+                            //  flag = false;
+                            e.printStackTrace();
+                        }
+                    }},
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+                        //  flag = false;
+                    }
+                })
+
+        {
+            @Override
+            protected Map<String,String> getParams(){
+                Map<String,String> params = new HashMap<>();
+                params.put("place_id", placeID);
+                params.put("place_name", placeName);
+                params.put("longitude", longitude);
+                params.put("latitude", latitude);
+                params.put("place_type", placeType);
+
+
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", sharedPreferences.getString("Token", ""));
+                return headers;
+            }
+
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        requestQueue.add(stringRequest);
+        //return check1;
     }
 
 

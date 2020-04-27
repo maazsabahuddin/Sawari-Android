@@ -173,9 +173,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
         final RealmHelper helper = new RealmHelper(realm);
 
+        dropoffLocation=helper.getPlace(placetype);
+
+
+
         ImageView add_home = fragmentView.findViewById(R.id.add_home);
         ImageView add_work = fragmentView.findViewById(R.id.add_work);
         ImageView add_place = fragmentView.findViewById(R.id.add_place);
+
+//        add_home.setImageResource(R.drawable.addedhome);
 
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +196,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     phone_number = userObject.getPhoneNumber();
                     placetype="Home";
                     dropoffLocation.clear();
-                    dropoffLocation=helper.getPlace(placetype, phone_number);
+                    dropoffLocation=helper.getPlace(placetype);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
                         Intent i = new Intent(getActivity(), LocationActivity.class);
@@ -226,7 +232,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     phone_number = userObject.getPhoneNumber();
                     placetype="Work";
                     dropoffLocation.clear();
-                    dropoffLocation=helper.getPlace(placetype, phone_number);
+                    dropoffLocation=helper.getPlace(placetype);
                     if(dropoffLocation.get("longitude")== null && dropoffLocation.get("latitude")== null)
                     {
                         Intent i = new Intent(getActivity(), LocationActivity.class);

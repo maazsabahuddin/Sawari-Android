@@ -6,7 +6,7 @@ import io.realm.annotations.Required;
 
 public class Location extends RealmObject {
 
-    @PrimaryKey
+
     @Required
     private String placeID;
 
@@ -17,8 +17,7 @@ public class Location extends RealmObject {
 
 
 
-    @Required
-    private String phoneNumber;
+
 
     public String getPlaceID() {
         return placeID;
@@ -52,13 +51,6 @@ public class Location extends RealmObject {
         this.longitude = longitude;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     @Required
     private String longitude;
