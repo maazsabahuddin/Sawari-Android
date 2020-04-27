@@ -40,7 +40,7 @@
                 android:id="@+id/txt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email your Phone"
+                android:hint="Enter your Phone"
                 android:selectAllOnFocus="true"
                 android:singleLine="true"
                 android:theme="@style/EditTextTheme" />
