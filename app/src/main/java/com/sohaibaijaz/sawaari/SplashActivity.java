@@ -44,9 +44,6 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         String isToken = sharedPreferences.getString("Token",  "");
 
-
-
-
         final TextView splashText = findViewById(R.id.splashText);
 //        splashText.setVisibility(View.GONE);
 

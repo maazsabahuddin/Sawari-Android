@@ -37,7 +37,7 @@
             android:theme="@style/EditTextTheme" >
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_email"
+                android:id="@+id/phone_number_tv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Enter your Phone"

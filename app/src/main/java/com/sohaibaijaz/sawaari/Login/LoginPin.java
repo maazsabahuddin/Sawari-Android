@@ -1,0 +1,272 @@
+package com.sohaibaijaz.sawaari.Login;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.ForgetPasswordActivity;
+import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.NavActivity;
+import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.RealmHelper;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+import com.sohaibaijaz.sawaari.SignupActivity;
+import com.sohaibaijaz.sawaari.UserDetails;
+import com.sohaibaijaz.sawaari.VerifyActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
+import io.realm.Realm;
+
+import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
+
+public class LoginPin extends AppCompatActivity {
+
+    public static final String AppPreferences = "AppPreferences";
+    public static final String app = "Customer";
+    SharedPreferences sharedPreferences;
+
+    private String token;
+    private RequestQueue requestQueue;
+    private EditText txt_password;
+    private TextView tv_forget_password;
+    Realm realm;
+    RealmHelper helper;
+    public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
+
+    private int backpress = 0;
+    @Override
+    public void onBackPressed(){
+        backpress = (backpress + 1);
+        Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+
+        if (backpress>1) {
+            this.finish();
+        }
+    }
+
+    private HashMap<String, String> userdetails = new HashMap<>();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+        setContentView(R.layout.activity_login_pin);
+
+        final ImageView btn_login = findViewById(R.id.verifyPinLoginButton);
+        requestQueue = Volley.newRequestQueue(this);
+        txt_password = findViewById(R.id.phone_number_login_tv);
+        tv_forget_password = findViewById(R.id.forgot_password_button);
+
+        realm= Realm.getDefaultInstance();
+        helper = new RealmHelper(realm);
+
+        if(!isNetworkAvailable(getApplicationContext())){
+            Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+        tv_forget_password.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginPin.this, ForgetPasswordActivity.class);
+                LoginPin.this.startActivity(i);
+            }
+        });
+
+        txt_password.setOnEditorActionListener(new EditText.OnEditorActionListener(){
+
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    btn_login.performClick();
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(btn_login.getWindowToken(),
+                            InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+
+        txt_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == txt_password.getId())
+                {
+                    txt_password.setCursorVisible(true);
+                }
+            }
+        });
+
+        btn_login.setOnClickListener(btnLoginListener);
+
+        TextView txt_signup = findViewById(R.id.txt_signup);
+        txt_signup.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+
+                Intent myIntent = new Intent(LoginPin.this, SignupActivity.class);//Optional parameters
+                finish();
+                LoginPin.this.startActivity(myIntent);
+            }
+        });
+    }
+
+
+    public View.OnClickListener btnLoginListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            if(!isNetworkAvailable(getApplicationContext())){
+                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                final String password = txt_password.getText().toString();
+
+                txt_password.setCursorVisible(false);
+
+                if (password.equals("")){
+                    Toast.makeText(LoginPin.this, "Password field cannot be empty", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    try {
+                        String URL = baseurl+"/login/";
+                        JSONObject jsonBody = new JSONObject();
+                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+                            @Override
+                            public void onResponse(String response) {
+
+                                Log.i("VOLLEY", response);
+                                try {
+                                    JSONObject json = new JSONObject(response);
+                                    if (json.getString("status").equals("200")) {
+                                        token = json.getString("token");
+                                        if(json.getString("message").equals("User not authenticated. Please verify first.")){
+                                            Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                            Intent myIntent = new Intent(LoginPin.this, VerifyActivity.class);//Optional parameters
+                                            Bundle b = new Bundle();
+                                            b.putString("Token", token);
+                                            b.putString("email_phone", email_phone);
+                                            myIntent.putExtras(b);
+                                            finish();
+                                            LoginPin.this.startActivity(myIntent);
+                                        }
+
+                                        else {
+                                            //Shared Preferences
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("Token", token);
+                                            editor.apply();
+
+                                            userdetails=helper.getUserDetailsDB();
+
+                                            if(Objects.equals(userdetails.get("phonenumber"), email_phone) || Objects.equals(userdetails.get("email"), email_phone))
+                                            {
+                                                Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
+                                                finish();
+                                                LoginPin.this.startActivity(myIntent);
+                                            }
+                                            else {
+                                                helper.DeleteUserDetails(LoginPin.this);
+                                                UserDetails.getUserDetails(LoginPin.this);
+                                                UserDetails.getUserRides(LoginPin.this);
+                                                Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
+                                                finish();
+                                                LoginPin.this.startActivity(myIntent);
+                                            }
+                                        }
+                                    }
+                                    else if (json.getString("status").equals("401")) {
+                                        Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else if(json.getString("status").equals("404")){
+                                        Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_LONG).show();
+                                        SettingsFragment.signout(LoginPin.this);
+                                        // flag = false;
+                                    }
+                                } catch (JSONException e) {
+                                    Log.e("VOLLEY", e.toString());
+
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+//                                spinner.setVisibility(View.GONE);
+//                                spinner_frame.setVisibility(View.GONE);
+//                            Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                                Log.e("VOLLEY", error.toString());
+                            }
+                        }){
+                            @Override
+                            protected Map<String,String> getParams(){
+                                Map<String,String> params = new HashMap<>();
+                                params.put("email_or_phone",email_phone);
+                                params.put("password",password);
+                                params.put("app", app);
+                                return params;
+                            }
+
+
+                        };
+
+                        stringRequest.setRetryPolicy(new RetryPolicy() {
+                            @Override
+                            public int getCurrentTimeout() {
+                                return 5000;
+                            }
+
+                            @Override
+                            public int getCurrentRetryCount() {
+                                return 5000;
+                            }
+
+                            @Override
+                            public void retry(VolleyError error) throws VolleyError {
+
+                            }
+                        });
+                        requestQueue.add(stringRequest);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    };
+}
