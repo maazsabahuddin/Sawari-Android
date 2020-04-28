@@ -195,9 +195,10 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
             drawer.closeDrawer(GravityCompat.START);
         } else {
             backpress += 1;
-            Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), " Press Back again to Exi ", Toast.LENGTH_SHORT).show();
             if (backpress > 1) {
-                this.finish();
+               // this.finish();
+                //finishAffinity();
             }
 
 

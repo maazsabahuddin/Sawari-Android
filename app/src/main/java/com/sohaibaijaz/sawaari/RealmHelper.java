@@ -60,6 +60,24 @@ public class RealmHelper {
         return dropoffLocation;
     }
 
+    public String checkPlace(final String placeType){
+        String place="";
+        try{
+
+
+            RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).findAll();
+            for(com.sohaibaijaz.sawaari.model.Location location : results){
+            place = location.getPlaceType();
+            }
+            // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
+
+           // return place;
+        }
+        catch (Exception e){}
+        return place;
+    }
+
+
 //    public HashMap<String, String> getPlace(final String placeType, final String phone){
 //
 //        final HashMap<String, String> dropoffLocation = new HashMap<>();

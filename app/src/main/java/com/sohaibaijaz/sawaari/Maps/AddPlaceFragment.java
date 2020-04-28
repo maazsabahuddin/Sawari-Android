@@ -669,6 +669,10 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             if (json.getString("status").equals("200")) {
 
                                 writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+
+                              // Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
+                                //  check1 =1;
+                                // flag = true;
                                 Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                             else if(json.getString("status").equals("400")){

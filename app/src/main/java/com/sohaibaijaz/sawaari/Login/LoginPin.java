@@ -68,15 +68,16 @@ public class LoginPin extends AppCompatActivity {
     public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
 
     private int backpress = 0;
-    @Override
-    public void onBackPressed(){
-        backpress = (backpress + 1);
-        Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
-
-        if (backpress>1) {
-            this.finish();
-        }
-    }
+    //@Override
+//    public void onBackPressed(){
+//        backpress = (backpress + 1);
+//        Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
+//
+//        if (backpress>1) {
+//          //  this.finish();
+//            finishAffinity();
+//        }
+//    }
 
     private HashMap<String, String> userdetails = new HashMap<>();
     private String phone_number;
@@ -231,6 +232,7 @@ public class LoginPin extends AppCompatActivity {
 
                                             if(Objects.equals(userdetails.get("phonenumber"), phone_number))
                                             {
+                                                UserDetails.getUserRides(LoginPin.this);
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
                                                 finish();
                                                 LoginPin.this.startActivity(myIntent);
