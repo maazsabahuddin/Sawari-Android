@@ -20,6 +20,7 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Login.LoginView;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.model.User;
@@ -249,15 +250,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       final RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(context));
         try {
             String URL = MainActivity.baseurl + "/logout/";
-      //      spinner=context.spinner;
-//            spinner_frame=SettingsActivity.spnner_frame;
-//            spinner.setVisibility(View.VISIBLE);
-//            spinner_frame.setVisibility(View.VISIBLE);
+
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-//                                spinner.setVisibility(View.GONE);
-//                                spinner_frame.setVisibility(View.GONE);
+
                     Log.i("VOLLEY", response.toString());
                     try {
                         JSONObject json = new JSONObject(response);
@@ -268,12 +265,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                             editor.remove("user_rides");
                             editor.apply();
                             editor.clear();
-                            Intent intent = new Intent(context, MainActivity.class);
+                            Intent intent = new Intent(context, LoginView.class);
 
                             context.finishAffinity();
-                           context.startActivity(intent);
-
-                            // getActivity().finish();
+                            context.startActivity(intent);
 
                         }
                         else if (json.getString("status").equals("400")||json.getString("status").equals("404")) {

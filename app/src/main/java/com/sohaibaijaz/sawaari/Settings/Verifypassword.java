@@ -41,7 +41,6 @@ public class Verifypassword extends AppCompatActivity {
     TextView error_message;
     TextView password_message;
 
-    private String comingFrom;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,10 +54,6 @@ public class Verifypassword extends AppCompatActivity {
         error_message=findViewById(R.id.errormessage);
         password_message=findViewById(R.id.securitytext);
 
-//        Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
-
-       // editText_password= findViewById(R.id.verify_password);
-        //button_verify_pass= findViewById(R.id.verifypassword);
         error_message.setVisibility(View.GONE);
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +179,7 @@ public class Verifypassword extends AppCompatActivity {
 
                                     } else if (json.getString("status").equals("401")) {
 
-                                         password_message.setVisibility(View.GONE);
+                                        password_message.setVisibility(View.GONE);
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);

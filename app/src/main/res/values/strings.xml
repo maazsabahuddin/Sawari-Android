@@ -53,6 +53,7 @@
     <string name="update">UPDATE</string>
     <string name="rate">Rated 4.5</string>
     <string name="phone_number">3442713545</string>
+    <string name="login_message">Nice to see you again, Login to continue</string>
 
     <string-array name="help_array">
         <item>Complaints and Refunds</item>

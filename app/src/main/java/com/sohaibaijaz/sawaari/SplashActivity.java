@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.sohaibaijaz.sawaari.Login.LoginView;
 import com.sohaibaijaz.sawaari.model.User;
 
 import java.util.HashMap;
@@ -43,9 +44,6 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
 
         sharedPreferences = getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         String isToken = sharedPreferences.getString("Token",  "");
-
-
-
 
         final TextView splashText = findViewById(R.id.splashText);
 //        splashText.setVisibility(View.GONE);
@@ -81,7 +79,7 @@ public class SplashActivity extends AppCompatActivity implements Animation.Anima
             }, SPLASH_TIMEOUT);
         }
         else{
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LoginView.class);
             SplashActivity.this.startActivity(intent);
             finish();
         }

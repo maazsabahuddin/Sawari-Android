@@ -17,6 +17,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Login.LoginView"/>
+        <activity
+            android:name=".Login.LoginPhone"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".Login.LoginPin"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".Settings.UpdateHomeAndWorkActivity"/>
         <activity android:name=".Fragments.HelpActivity"/>
         <activity
