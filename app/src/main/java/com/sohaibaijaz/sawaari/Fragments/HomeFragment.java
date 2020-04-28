@@ -354,6 +354,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);rlp.setMargins(0,0,30,30);
         }catch (Exception e){}
 
+        showAlertScheduledRide(getActivity());
         return fragmentView;
     }
 
@@ -456,11 +457,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
             else{
-                mMap.setMyLocationEnabled(true);
-
-//                LatLng sydney = new LatLng(-33.852, 151.211);
-//                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+                try{ mMap.setMyLocationEnabled(true); }catch(Exception e){}
                 fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                             @Override
@@ -599,5 +596,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .show();
     }
 
+    public void showAlertScheduledRide(final Activity activity) {
+
+        new AlertDialog.Builder(activity)
+                .setTitle("Scheduled Ride")
+                .setMessage("2 rides are scheduled. Check it now!")
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                1);
+                        startActivity(new Intent(activity, RideFragmentN.class));
+//                        dialog.cancel();
+                    }
+                })
+                .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                })
+                .setIcon(R.mipmap.ic_sawaari)
+                .show();
+    }
 
 }
