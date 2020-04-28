@@ -1,6 +1,7 @@
 package com.sohaibaijaz.sawaari.Maps;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -103,8 +104,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private Map<String, String> dropoffLocation = new HashMap<String, String>();
-    private Map<String, String> currentLocation = new HashMap<String, String>();
+    private Map<String, String> dropoffLocation = new HashMap<>();
+    private Map<String, String> currentLocation = new HashMap<>();
     private HashMap<String, String> userLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
@@ -161,29 +162,16 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                     }
                     else {
 
-                          addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType);
-
-                        //  writeToDB(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"), userLocation.get("longitude"), placeType, phonenumber);
-                 //       Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
+                        addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"),
+                                userLocation.get("longitude"), placeType, getActivity());
 
                         if(fromwhere.equals("HomeFragment")){
-                            //Toast.makeText(getActivity(), "Place Added", Toast.LENGTH_SHORT).show();
                             Objects.requireNonNull(getActivity()).onBackPressed();
-//                            Fragment newFragment = new HomeFragment();
-//                            Bundle arguments = new Bundle();
-//                            newFragment.setArguments(arguments);
-//                            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                            transaction.replace(R.id.fragment_container, newFragment);
-//                            transaction.addToBackStack(null);
-//                            // placeType = "Home";
-//                            transaction.commit();
                         }
                         else if (fromwhere.equals("LocationFragment")){
 
-                           // getActivity().getSupportFragmentManager().popBackStackImmediate();
-
                             Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
-//
+
                             Intent i = new Intent(getActivity(), LocationActivity.class);
                             Bundle b = new Bundle();
                             b.putString("value" , "Whereto");
@@ -193,12 +181,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             getActivity().finish();
                             AddPlaceFragment.this.startActivity(i);
-//                        Fragment newFragment = new LocationFragment();
-////                        Bundle arguments = new Bundle();
-////                        newFragment.setArguments(arguments);
-//                       FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.place_fragment, newFragment);
-//                        transaction.commit();
 
                         }
                     }
@@ -677,7 +659,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
 
-    public void addplace(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+    public void addplace(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType,
+                         final Activity activity) {
 
         String url = MainActivity.baseurl+"/update/user/place/";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -691,26 +674,18 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             if (json.getString("status").equals("200")) {
 
                                 writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
-                                Toast.makeText(getContext(), json.getString("message"), Toast.LENGTH_LONG).show();
-                                //  check1 =1;
-                                // flag = true;
+                                Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
 
                             }
                             else if(json.getString("status").equals("400")){
-                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
-
-                                // flag = false;
+                                Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                             else if(json.getString("status").equals("404")){
-                                Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
-                                SettingsFragment.signout(getActivity());
-                                // flag = false;
+                                Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                SettingsFragment.signout(activity);
                             }
-
-
                         }
                         catch (JSONException e) {
-                            //  flag = false;
                             e.printStackTrace();
                         }
                     }},
