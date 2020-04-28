@@ -302,7 +302,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     Toast.makeText(getContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
 
                     if (backpress > 2) {
-                        getActivity().finish();
+                        getActivity().finishAffinity();
+
                         System.exit(0);
                     }
                     return true;
