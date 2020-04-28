@@ -17,15 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login.LoginView"/>
+        <activity android:name=".Fragments.SavePlacesFragment"></activity>
+        <activity android:name=".Login.LoginView" />
         <activity
             android:name=".Login.LoginPhone"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".Login.LoginPin"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".Settings.UpdateHomeAndWorkActivity"/>
-        <activity android:name=".Fragments.HelpActivity"/>
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".Settings.UpdateHomeAndWorkActivity" />
+        <activity android:name=".Fragments.HelpActivity" />
         <activity
             android:name=".Settings.ChangeEmailActivity"
             android:windowSoftInputMode="adjustResize" />
@@ -102,14 +103,14 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/AppTheme.Maaz"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Maaz">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
