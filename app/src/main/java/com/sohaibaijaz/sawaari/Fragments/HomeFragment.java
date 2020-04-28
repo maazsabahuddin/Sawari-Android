@@ -116,7 +116,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
     private  String phone_number;
-
+ private  String checkplace;
     @Override
     public void onPause() {
         super.onPause();
@@ -125,6 +125,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+        Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+
     }
 
     @Nullable
@@ -173,15 +175,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
         final RealmHelper helper = new RealmHelper(realm);
 
-        dropoffLocation=helper.getPlace(placetype);
-
-
+        checkplace=helper.checkPlace("Work");
 
         ImageView add_home = fragmentView.findViewById(R.id.add_home);
         ImageView add_work = fragmentView.findViewById(R.id.add_work);
-        ImageView add_place = fragmentView.findViewById(R.id.add_place);
+        //Toast.makeText(getActivity(), checkplace, Toast.LENGTH_SHORT).show();
+        if(checkplace.equals("Work")) {
+            add_home.setImageResource(R.drawable.addedhome);
+        }
+       // else if
+       // add_home.setImageResource(R.drawable.addedhome);
 
-//        add_home.setImageResource(R.drawable.addedhome);
+
+
+
+        ImageView add_place = fragmentView.findViewById(R.id.add_place);
+      //  Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
 
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
