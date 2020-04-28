@@ -65,19 +65,10 @@ public class RideFragmentN extends AppCompatActivity {
         getSupportActionBar().setTitle("My Rides");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
-       // Button back_btn_my_ride = findViewById(R.id.back_btn_my_ride);
+        ViewPager vpPager = findViewById(R.id.vpPager);
         adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
         vpPager.setAdapter(adapterViewPager);
 
-
-//        back_btn_my_ride.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                onBackPressed();
-//                startActivity(new Intent(getApplicationContext(), NavActivity.class));
-//            }
-//        });
     }
 
     @Override

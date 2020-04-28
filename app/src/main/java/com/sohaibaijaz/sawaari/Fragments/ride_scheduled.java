@@ -1,25 +1,40 @@
 package com.sohaibaijaz.sawaari.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.CustomPreviewUserRidesHistory;
+import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
@@ -28,6 +43,7 @@ public class ride_scheduled extends Fragment {
 
     private String title;
     private int page;
+//    private static String user_rides;
 
     // newInstance constructor for creating fragment with arguments
     public static ride_scheduled newInstance(int page, String title) {
@@ -58,6 +74,7 @@ public class ride_scheduled extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.scheduled_ride, container, false);
 
+//        getUserRides(getActivity());
         sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
         String user_rides = sharedPreferences.getString("user_rides", "");
 
@@ -112,12 +129,8 @@ public class ride_scheduled extends Fragment {
                 }
 
             }
-            catch (Exception e){
-                e.printStackTrace();
-            }
+            catch (Exception e){ e.printStackTrace(); }
         }
-
         return view;
     }
-
 }

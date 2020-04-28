@@ -56,10 +56,10 @@ public class LocationActivity extends AppCompatActivity {
 
         if (value.equals("Whereto")) {
             Fragment fragment = new LocationFragment();
-               Bundle arguments = new Bundle();
+                Bundle arguments = new Bundle();
                 arguments.putSerializable("currentLocation" , currentLocation);
                 fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
         else if (value.equals("Home")) {
             Fragment fragment = new AddPlaceFragment();
