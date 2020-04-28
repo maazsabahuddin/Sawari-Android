@@ -464,7 +464,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     currentLocation.put("longitude", String.valueOf(longitude));
                                     getAddress(latitude, longitude);
                                     LatLng coordinate = new LatLng(latitude, longitude);
-                                    mMap.addMarker(new MarkerOptions().position(coordinate));
+//                                    mMap.addMarker(new MarkerOptions().position(coordinate));
                                     CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
                                     mMap.animateCamera(yourLocation);
                                 }
