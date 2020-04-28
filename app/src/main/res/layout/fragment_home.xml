@@ -22,7 +22,7 @@
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context="example.com.mapexample.MapsActivity" />
+            tools:context="com.example.mapwithmarker.MapsMarkerActivity" />
 
         <FrameLayout
             android:id="@+id/spinner_frameHF"

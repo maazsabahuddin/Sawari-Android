@@ -54,6 +54,7 @@ public class Verifypassword extends AppCompatActivity {
         error_message=findViewById(R.id.errormessage);
         password_message=findViewById(R.id.securitytext);
 
+        editText_password.requestFocus();
         error_message.setVisibility(View.GONE);
 
         button_verify_pass.setOnClickListener(new View.OnClickListener() {

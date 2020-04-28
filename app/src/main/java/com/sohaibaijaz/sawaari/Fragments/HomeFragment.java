@@ -53,6 +53,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
@@ -447,6 +448,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             }
             else{
                 mMap.setMyLocationEnabled(true);
+
+//                LatLng sydney = new LatLng(-33.852, 151.211);
+//                mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
                 fusedLocationClient.getLastLocation()
                         .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                             @Override
@@ -459,6 +464,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                                     currentLocation.put("longitude", String.valueOf(longitude));
                                     getAddress(latitude, longitude);
                                     LatLng coordinate = new LatLng(latitude, longitude);
+                                    mMap.addMarker(new MarkerOptions().position(coordinate));
                                     CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
                                     mMap.animateCamera(yourLocation);
                                 }
@@ -467,28 +473,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             }
         }
     }
-
-//    public void setBoundsLocation(){
-//        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//            // Permission to access the location is missing.
-//            PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-//                    Manifest.permission.ACCESS_FINE_LOCATION, true);
-//        } else if (mMap != null) {
-//            // Access to the location has been granted to the app.
-//            mMap.setMyLocationEnabled(true);
-//
-//            LatLng start = new LatLng(Double.parseDouble(currentLocation.get("latitude")), Double.parseDouble(currentLocation.get("longitude")));
-//            LatLng stop = new LatLng(Double.parseDouble(dropoffLocation.get("latitude")), Double.parseDouble(dropoffLocation.get("longitude")));
-//
-//            LatLngBounds.Builder builder = new LatLngBounds.Builder();
-//            builder.include(start).include(stop);
-//            mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 10));
-//
-//
-//        }
-//    }
-
 
     @Override
     public boolean onMyLocationButtonClick() {
@@ -499,12 +483,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                     != PackageManager.PERMISSION_GRANTED) {
 
                 showAlertLocationDisabled(getActivity());
-//                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-//                        LOCATION_PERMISSION_REQUEST_CODE);
 
-                // Permission to access the location is missing.
-//                PermissionUtils.requestPermission((AppCompatActivity)this.getActivity(), LOCATION_PERMISSION_REQUEST_CODE,
-//                        Manifest.permission.ACCESS_FINE_LOCATION, true);
             }
             else{
 
@@ -597,9 +576,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .setMessage("Sawari can't go on without the device's Location!")
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-//                        Intent callGPSSettingIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-//                        startActivity(callGPSSettingIntent);
-//                        dialog.cancel();
                         requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                                 LOCATION_PERMISSION_REQUEST_CODE);
                         dialog.cancel();
@@ -607,8 +583,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-//                        getActivity().finish();
-//                        System.exit(0);
                         dialog.cancel();
                     }
                 })
@@ -616,42 +590,5 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 .show();
     }
 
-
-    public void getValueHome(final String placeType){
-
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType).findAll();
-                for(com.sohaibaijaz.sawaari.model.Location location : results){
-                    longitudeDB=location.getLongitude();
-                    latitudeDB=location.getLatitude();
-                    placeNameDB=location.getPlaceName();
-                }
-               // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-    public void getValueWork(final String placeType){
-
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-
-                RealmResults<com.sohaibaijaz.sawaari.model.Location> results = bgRealm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType).findAll();
-                for(com.sohaibaijaz.sawaari.model.Location location : results){
-                    longitudeWDB=location.getLongitude();
-                    latitudeWDB=location.getLatitude();
-                    placeNameWDB=location.getPlaceName();
-                }
-                // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
 
 }

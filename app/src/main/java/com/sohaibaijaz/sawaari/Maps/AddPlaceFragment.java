@@ -97,25 +97,19 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
     private View fragmentView;
     Realm realm;
-    private String longitude;
-    private String latitude;
     private String fromwhere;
     private GoogleMap mMap;
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
-    private Map<String, String> dropoffLocation = new HashMap<>();
-    private Map<String, String> currentLocation = new HashMap<>();
     private HashMap<String, String> userLocation = new HashMap<>();
-
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
     private String placeType;
-    private  String phonenumber;
-    FrameLayout mapViewFrameLayout;
-    SupportMapFragment mapFragment;
-    Button add_place_btn;
-    SharedPreferences sharedPreferences;
+    private String phonenumber;
+    private FrameLayout mapViewFrameLayout;
+    private SupportMapFragment mapFragment;
+    private Button add_place_btn;
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -150,8 +144,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         }
 
         add_place_btn = fragmentView.findViewById(R.id.add_place_button);
-
-
         add_place_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,9 +153,12 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                         Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
                     }
                     else {
-
                         addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"),
                                 userLocation.get("longitude"), placeType, getActivity());
+
+//                        if(!result){
+//                            Toast.makeText(getActivity(), "Error Updating Place", Toast.LENGTH_SHORT).show();
+//                        }
 
                         if(fromwhere.equals("HomeFragment")){
                             Objects.requireNonNull(getActivity()).onBackPressed();
@@ -675,7 +670,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
                                 writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
                                 Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
-
                             }
                             else if(json.getString("status").equals("400")){
                                 Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
@@ -692,7 +686,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActivity(), error.toString(), Toast.LENGTH_LONG).show();
                         //  flag = false;
                     }
                 })
@@ -707,7 +701,6 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 params.put("latitude", latitude);
                 params.put("place_type", placeType);
 
-
                 return params;
             }
 
@@ -720,9 +713,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+        RequestQueue requestQueue = Volley.newRequestQueue(activity);
         requestQueue.add(stringRequest);
-        //return check1;
     }
 
 
