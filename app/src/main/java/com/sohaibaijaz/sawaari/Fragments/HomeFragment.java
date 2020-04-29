@@ -79,15 +79,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
-
 import static com.android.volley.VolleyLog.TAG;
-import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
 import static com.sohaibaijaz.sawaari.Maps.LocationFragment.BusRouteApi;
 
 
@@ -97,15 +93,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
     Realm realm;
-    private String longitudeDB;
-    private String latitudeDB;
-    private String placeNameDB;
-    private String longitudeWDB;
-    private String latitudeWDB;
-    private String placeNameWDB;
     private String placetype;
     private View fragmentView;
-    public static String placeType;
     private GoogleMap mMap;
     private RequestQueue requestQueue;
     private boolean mPermissionDenied = false;
@@ -117,7 +106,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private ArrayList<LatLng> markerPoints;
     private FusedLocationProviderClient fusedLocationClient;
     private  String phone_number;
- private  String checkplace;
+    private  String checkplace;
+
     @Override
     public void onPause() {
         super.onPause();
@@ -126,8 +116,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
-        Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-
     }
 
     @Nullable
@@ -143,9 +131,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         requestQueue = Volley.newRequestQueue(fragmentView.getContext());
         realm = Realm.getDefaultInstance();
         final User userObject = User.getInstance();
-
-       // phone_number = userObject.getPhoneNumber();
-        //Toast.makeText(getActivity(), phone_number, Toast.LENGTH_SHORT).show();
 
         TextView where_to_textView = fragmentView.findViewById(R.id.where_to_textview);
         where_to_textView.setOnClickListener(new View.OnClickListener() {
@@ -180,18 +165,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
         ImageView add_home = fragmentView.findViewById(R.id.add_home);
         ImageView add_work = fragmentView.findViewById(R.id.add_work);
-        //Toast.makeText(getActivity(), checkplace, Toast.LENGTH_SHORT).show();
         if(checkplace.equals("Work")) {
             add_home.setImageResource(R.drawable.addedhome);
         }
-       // else if
-       // add_home.setImageResource(R.drawable.addedhome);
-
-
-
 
         ImageView add_place = fragmentView.findViewById(R.id.add_place);
-      //  Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
 
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -355,7 +333,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);rlp.setMargins(0,0,30,30);
         }catch (Exception e){}
 
-//        showAlertScheduledRide(getActivity());
         return fragmentView;
     }
 

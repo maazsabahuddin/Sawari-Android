@@ -290,7 +290,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
 //
 //            };
 //
-//            RequestQueue requestQueue = Volley.newRequestQueue(this.getActivity());
+//            RequestQueueSingleton requestQueue = Volley.newRequestQueue(this.getActivity());
 //            requestQueue.add(stringRequest);
 //            return flag;
 //    }
