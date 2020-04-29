@@ -355,7 +355,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
             rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);rlp.setMargins(0,0,30,30);
         }catch (Exception e){}
 
-        showAlertScheduledRide(getActivity());
+        //showAlertScheduledRide(getActivity());
         return fragmentView;
     }
 

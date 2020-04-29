@@ -25,6 +25,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.model.RequestQueueSingleton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -184,8 +185,12 @@ public class Verifypassword extends AppCompatActivity {
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
+                                      //  SettingsFragment.signout(Verifypassword.this);
 
-                                        Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
+
+
+
+                                       // Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
 
 
                                         editText_password.addTextChangedListener(new TextWatcher() {
@@ -212,7 +217,7 @@ public class Verifypassword extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(Verifypassword.this);
+                                        //SettingsFragment.signout(Verifypassword.this);
                                         // flag = false;
                                     }
                                 } catch (JSONException e) {
@@ -243,11 +248,23 @@ public class Verifypassword extends AppCompatActivity {
 
                 };
 
-                RequestQueue requestQueue = Volley.newRequestQueue(this);
-                requestQueue.add(stringRequest);
+               // RequestQueue requestQueue = Volley.newRequestQueue(this);
+
+                RequestQueue queue = RequestQueueSingleton.getInstance(this.getApplicationContext()).getRequestQueue();
+
+                RequestQueueSingleton.getInstance(this).addToRequestQueue(stringRequest);
+               // requestQueue.add(stringRequest);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
+
+
+
+// ...
+
+// Add a request (in this example, called stringRequest) to your RequestQueue.
 }
