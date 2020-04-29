@@ -232,7 +232,7 @@ public class LoginPin extends AppCompatActivity {
 
                                             if(Objects.equals(userdetails.get("phonenumber"), phone_number))
                                             {
-                                                UserDetails.getUserRides(LoginPin.this);
+//                                                UserDetails.getUserRides(LoginPin.this);
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
                                                 finish();
                                                 LoginPin.this.startActivity(myIntent);
@@ -242,7 +242,7 @@ public class LoginPin extends AppCompatActivity {
                                                 helper.DeleteUserPlaces(LoginPin.this);
                                                 UserDetails.getUserDetails(LoginPin.this);
                                                 UserDetails.getUserPlaces(LoginPin.this);
-                                                UserDetails.getUserRides(LoginPin.this);
+//                                                UserDetails.getUserRides(LoginPin.this);
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
                                                 finish();
                                                 LoginPin.this.startActivity(myIntent);

@@ -245,17 +245,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     public static void signout(final Activity context){
-       final SharedPreferences sharedPreferences = Objects.requireNonNull(context).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
-       final String token = sharedPreferences.getString("Token", "");
-      final RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(context));
+        final SharedPreferences sharedPreferences = Objects.requireNonNull(context).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("Token", "");
+        final RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(context));
         try {
-            String URL = MainActivity.baseurl + "/logout/";
+                String URL = MainActivity.baseurl + "/logout/";
 
             StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
 
-                    Log.i("VOLLEY", response.toString());
+                    Log.i("VOLLEY", response);
                     try {
                         JSONObject json = new JSONObject(response);
                         if (json.getString("status").equals("200")) {
