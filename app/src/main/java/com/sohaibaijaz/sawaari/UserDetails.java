@@ -160,7 +160,10 @@ public class UserDetails {
                             JSONObject json = new JSONObject(response);
 
                             if (json.getString("status").equals("200")) {
-                                callBack.onSuccess(json);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("user_rides", json.getJSONArray("reservations").toString());
+                                editor.apply();
+                                callBack.onSuccess();
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
