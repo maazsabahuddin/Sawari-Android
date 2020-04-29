@@ -183,7 +183,7 @@ public class CustomAdapterUserRides extends BaseAdapter {
 
                                 if (json.getString("status").equals("200")) {
                                     Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    UserDetails.getUserRides(context);
+//                                    UserDetails.getUserRides(context);
                                     RidesFragment ridesFragment = new RidesFragment();
                                     ((AppCompatActivity) context).getSupportFragmentManager().beginTransaction().remove(ridesFragment).commit();
                                 } else if (json.getString("status").equals("400") || json.getString("status").equals("404") || json.getString("status").equals("405")) {

@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
                                                // Log.i("Abcs","aajaoooo");
                                                 UserDetails.getUserDetails(MainActivity.this);
                                                 UserDetails.getUserPlaces(MainActivity.this);
-                                                UserDetails.getUserRides(MainActivity.this);
+//                                                UserDetails.getUserRides(MainActivity.this);
                                                 Intent myIntent = new Intent(MainActivity.this, NavActivity.class);//Optional parameters
                                                 finish();
                                                 MainActivity.this.startActivity(myIntent);

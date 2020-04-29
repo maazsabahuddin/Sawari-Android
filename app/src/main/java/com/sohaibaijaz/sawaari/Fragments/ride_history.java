@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.sohaibaijaz.sawaari.CustomAdapterUserRides;
 import com.sohaibaijaz.sawaari.CustomPreviewUserRidesHistory;
 import com.sohaibaijaz.sawaari.MainActivity;
@@ -20,6 +22,7 @@ import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.UserDetails;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -70,7 +73,6 @@ public class ride_history extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.history_ride, container, false);
 
-//        UserDetails.getUserRides(getActivity());
         lv_rides = view.findViewById(R.id.history_rides_listView);
         history_no_trips_tv = view.findViewById(R.id.past_trips_textview);
         history_book_ride_btn = view.findViewById(R.id.book_trip_button);

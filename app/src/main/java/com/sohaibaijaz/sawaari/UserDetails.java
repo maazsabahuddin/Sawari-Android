@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,19 +14,14 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
+import com.sohaibaijaz.sawaari.Fragments.CallBack;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
-import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 import com.sohaibaijaz.sawaari.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -36,8 +29,6 @@ import java.util.Objects;
 import io.realm.Realm;
 
 public class UserDetails {
-
-    //String phoneNumber;
 
     public static void getUserDetails(final Activity context){
         final SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
@@ -149,7 +140,7 @@ public class UserDetails {
     }
 
 
-    public static void getUserRides(final Activity context){
+    public static void getUserRides(final Activity context, final CallBack callBack){
         final SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
         final RequestQueue requestQueue = Volley.newRequestQueue(context);
         final String token = sharedPreferences.getString("Token", "");
@@ -169,19 +160,14 @@ public class UserDetails {
                             JSONObject json = new JSONObject(response);
 
                             if (json.getString("status").equals("200")) {
-                             //   Log.i("Abcs","aajaorides");
-
-                                SharedPreferences.Editor edit = sharedPreferences.edit();
-                                edit.remove("user_rides");
-                                edit.putString("user_rides", json.getJSONArray("reservations").toString());
-                                edit.apply();
+                                callBack.onSuccess(json);
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
                                 SettingsFragment.signout(context);
                             }
                             else if(json.getString("status").equals("401")){
-                                Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                SettingsFragment.signout(context);
                             }
                             else{
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
@@ -233,7 +219,6 @@ public class UserDetails {
             } catch (Exception e) {
                 Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
             }
-
 
         }
         else{

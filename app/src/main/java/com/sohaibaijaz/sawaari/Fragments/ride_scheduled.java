@@ -13,6 +13,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
@@ -84,11 +86,29 @@ public class ride_scheduled extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.scheduled_ride, container, false);
 
-//        UserDetails.getUserRides(getActivity());
+        sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
+        UserDetails.getUserRides(getActivity(), new CallBack() {
+            @Override
+            public void onSuccess(JSONObject json) {
+                try{
+                    SharedPreferences.Editor edit = sharedPreferences.edit();
+                    edit.putString("user_rides", json.getJSONArray("reservations").toString());
+                    edit.apply();
+                }
+                catch (JSONException e){ }
+            }
+        });
+
         lv_rides = view.findViewById(R.id.scheduled_rides_listview);
         scheduled_no_trips_tv = view.findViewById(R.id.schedule_trips_tv);
         scheduled_book_ride_btn = view.findViewById(R.id.schedule_book_btn);
@@ -99,9 +119,7 @@ public class ride_scheduled extends Fragment {
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
         else{
-            sharedPreferences = Objects.requireNonNull(getActivity()).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE );
             String user_rides = sharedPreferences.getString("user_rides", "");
-
             scheduled_no_trips_tv.setVisibility(View.GONE);
             scheduled_book_ride_btn.setVisibility(View.GONE);
 
@@ -146,9 +164,6 @@ public class ride_scheduled extends Fragment {
                     if(flag){
                         CustomPreviewUserRidesHistory adapterUserRides = new CustomPreviewUserRidesHistory(getActivity(), rides);
                         lv_rides.setAdapter(adapterUserRides);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.remove("user_rides");
-                        editor.apply();
                     }
                     else{
                         scheduled_no_trips_tv.setVisibility(View.VISIBLE);
@@ -161,4 +176,5 @@ public class ride_scheduled extends Fragment {
         }
         return view;
     }
+
 }
