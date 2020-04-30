@@ -104,6 +104,7 @@ public class LocationFragment extends Fragment {
     ListView placeName_lv;
     private String phone_number;
     RequestQueue requestQueue;
+    TextView check;
 
     @Nullable
     @Override
@@ -115,6 +116,8 @@ public class LocationFragment extends Fragment {
         spinner = fragmentView.findViewById(R.id.progressBar_lf);
         spinner.setVisibility(View.GONE);
         spinner_frame.setVisibility(View.GONE);
+        check=fragmentView.findViewById(R.id.textView);
+
 
         User useroject = User.getInstance();
         requestQueue = Volley.newRequestQueue(fragmentView.getContext());

@@ -11,5 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:padding="@dimen/activity_horizontal_margin"
+        android:drawableStart="@drawable/home"
      />
 </LinearLayout>
