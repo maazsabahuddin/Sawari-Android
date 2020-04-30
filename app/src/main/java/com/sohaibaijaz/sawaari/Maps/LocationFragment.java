@@ -518,12 +518,17 @@ public class LocationFragment extends Fragment {
                                 context.startActivity(i);
 
                             }
-                            else if(jsonObj.getString("status").equals("404") ||
-                                    jsonObj.getString("status").equals("401")){
-                                Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_LONG).show();
+                            else if (jsonObj.getString("status").equals("404")) {
                                 spinner.setVisibility(View.GONE);
                                 spinner_frame.setVisibility(View.GONE);
-                                SettingsFragment.signout(activity);
+                                Toast.makeText(context, jsonObj.getString("message"), Toast.LENGTH_SHORT).show();
+                                SettingsFragment.forcedLogout(activity);
+                            }
+                            else if (jsonObj.getString("status").equals("400")) {
+                                spinner.setVisibility(View.GONE);
+                                spinner_frame.setVisibility(View.GONE);
+                                Toast.makeText(context, "Server is temporarily down", Toast.LENGTH_SHORT).show();
+                                SettingsFragment.forcedLogout(activity);
                             }
 
                         } catch (JSONException e) {

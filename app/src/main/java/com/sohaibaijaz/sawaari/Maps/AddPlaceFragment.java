@@ -696,7 +696,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             }
                             else if(json.getString("status").equals("404")){
                                 Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                SettingsFragment.signout(activity);
+                                SettingsFragment.forcedLogout(activity);
                             }
                         }
                         catch (JSONException e) {

@@ -181,7 +181,7 @@ public class SignupActivity extends AppCompatActivity {
                                        }
                                        else if(json.getString("status").equals("404")){
                                            Toast.makeText(SignupActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                           SettingsFragment.signout(SignupActivity.this);
+                                           SettingsFragment.forcedLogout(SignupActivity.this);
                                            // flag = false;
                                        }
                                    } catch (JSONException e) {

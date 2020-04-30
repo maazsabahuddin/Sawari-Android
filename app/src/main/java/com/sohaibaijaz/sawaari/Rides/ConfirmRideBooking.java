@@ -220,7 +220,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(ConfirmRideBooking.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(ConfirmRideBooking.this);
+                                        SettingsFragment.forcedLogout(ConfirmRideBooking.this);
                                         // flag = false;
                                     }
                                 } catch (JSONException e) {

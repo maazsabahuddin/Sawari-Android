@@ -196,7 +196,7 @@ public class LoginPhone extends AppCompatActivity {
                                         error_message_phone_login.setVisibility(View.VISIBLE);
                                         error_message_phone_login.setText(json.getString("message"));
                                         Toast.makeText(LoginPhone.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(LoginPhone.this);
+                                        SettingsFragment.forcedLogout(LoginPhone.this);
                                     }
                                 } catch (JSONException e) {
                                     Log.e("VOLLEY", e.toString());

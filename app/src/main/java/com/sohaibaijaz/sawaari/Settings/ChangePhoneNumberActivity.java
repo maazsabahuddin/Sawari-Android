@@ -173,7 +173,7 @@ public class ChangePhoneNumberActivity extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(ChangePhoneNumberActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(ChangePhoneNumberActivity.this);
+                                        SettingsFragment.forcedLogout(ChangePhoneNumberActivity.this);
                                         // flag = false;
                                     }
                                     else{

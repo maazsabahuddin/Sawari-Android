@@ -165,7 +165,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(ChangeEmailActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(ChangeEmailActivity.this);
+                                        SettingsFragment.forcedLogout(ChangeEmailActivity.this);
                                         // flag = false;
                                     }
                                     else{
