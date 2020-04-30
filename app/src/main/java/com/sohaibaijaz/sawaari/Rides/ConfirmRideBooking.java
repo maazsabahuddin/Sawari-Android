@@ -414,7 +414,7 @@ public class ConfirmRideBooking extends AppCompatActivity {
                                 final JSONObject json = new JSONObject(response);
                                 if (json.getString("status").equals("200")) {
 
-                                    UserDetails.getUserRides(ConfirmRideBooking.this);
+//                                    UserDetails.getUserRides(ConfirmRideBooking.this);
                                     Toast.makeText(ConfirmRideBooking.this,"Your ride is confirmed.", Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(ConfirmRideBooking.this, UserRidesDetailActivity.class);
 
