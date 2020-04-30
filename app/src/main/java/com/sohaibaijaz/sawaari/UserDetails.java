@@ -258,15 +258,6 @@ public class UserDetails {
 
                                 JSONArray places = json.getJSONArray("places");
 
-                               // String finalname= name.getString("place_name");
-                               // String abc= places.substring("place_name")
-                              //  JSONObject jsonO = new JSONObject(places);
-                             //   Log.i("Abcs",);
-                                //String placeid=places.getString(0);
-                               // Log.i("Abcs",placeid);
-
-                               // HashMap<String, String> ride_hashMap = new HashMap<>();
-
                                 for(int i=0; i < places.length(); i++)
                                 {
                                     JSONObject placedetails= places.getJSONObject(i);
@@ -275,29 +266,10 @@ public class UserDetails {
                                     String longitude= placedetails.getString("longitude");
                                     String latitude= placedetails.getString("latitude");
                                     String placetype= placedetails.getString("place_type");
-                                   // Log.i("Abcs",finalname);
 
-                                    //ride_hashMap.put("abc",places.getString(i));
-                                   // ride.getRides().get(i).getVehicleNoPlate());
-                                  // String placename = ("place_name");
-//                                    String placetype= jsonO.getString("place_type");
-//                                    String longitude= jsonO.getString("longitude");
-//                                    String latitude= jsonO.getString("latitude");
                                     helper.insertUserPlaces(context, placeid, placename, latitude, longitude,placetype);
 
                                 }
-
-                               // User user1= User.getInstance();
-                              //  ArrayList placeid = json.getJSONArray("places");
-
-
-                              //  String phone= user1.getPhoneNumber();
-
-                               // Log.i("Abcs","aajaoplace");
-                              // Toast.makeText(context, "kiun nhi?", Toast.LENGTH_SHORT).show();
-
-                               // helper.insertUserPlaces(context, placeid, placename, latitude, longitude,placetype,"+923363343632");
-
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
