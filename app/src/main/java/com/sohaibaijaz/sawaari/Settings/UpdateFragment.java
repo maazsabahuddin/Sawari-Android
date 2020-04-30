@@ -185,7 +185,7 @@ public class UpdateFragment extends PreferenceFragmentCompat {
                             }
                             else if(json.getString("status").equals("404")){
                                 Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_LONG).show();
-                                SettingsFragment.signout(getActivity());
+                                SettingsFragment.forcedLogout(getActivity());
                                 // flag = false;
                             }
 

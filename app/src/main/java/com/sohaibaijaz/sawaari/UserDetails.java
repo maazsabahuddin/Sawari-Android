@@ -72,7 +72,7 @@ public class UserDetails {
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                SettingsFragment.signout(context);
+                                SettingsFragment.forcedLogout(context);
                             }
                             else if(json.getString("status").equals("401")){
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
@@ -167,10 +167,10 @@ public class UserDetails {
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                SettingsFragment.signout(context);
+                                SettingsFragment.forcedLogout(context);
                             }
                             else if(json.getString("status").equals("401")){
-                                SettingsFragment.signout(context);
+                                SettingsFragment.forcedLogout(context);
                             }
                             else{
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
@@ -301,7 +301,7 @@ public class UserDetails {
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
-                                SettingsFragment.signout(context);
+                                SettingsFragment.forcedLogout(context);
                             }
                             else if(json.getString("status").equals("401")){
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();

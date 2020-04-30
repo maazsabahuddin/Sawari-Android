@@ -186,7 +186,7 @@ public class TodayRides extends Fragment {
                         }
                         else if(jsonObj.getString("status").equals("404")){
                             Toast.makeText(getActivity(), jsonObj.getString("message"), Toast.LENGTH_LONG).show();
-                            SettingsFragment.signout(getActivity());
+                            SettingsFragment.forcedLogout(getActivity());
                             // flag = false;
                         }
 

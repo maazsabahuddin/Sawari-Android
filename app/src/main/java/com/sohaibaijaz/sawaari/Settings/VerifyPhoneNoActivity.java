@@ -263,7 +263,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(VerifyPhoneNoActivity.this);
+                                        SettingsFragment.forcedLogout(VerifyPhoneNoActivity.this);
                                         // flag = false;
                                     }
                                     else{
@@ -341,7 +341,7 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
                                 }
                                 else if(json.getString("status").equals("404")){
                                     Toast.makeText(VerifyPhoneNoActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                    SettingsFragment.signout(VerifyPhoneNoActivity.this);
+                                    SettingsFragment.forcedLogout(VerifyPhoneNoActivity.this);
                                     // flag = false;
                                 }
                                 else{

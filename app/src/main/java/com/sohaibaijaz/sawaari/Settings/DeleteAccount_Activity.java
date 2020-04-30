@@ -99,7 +99,7 @@ public class DeleteAccount_Activity extends AppCompatActivity {
                                 }
                                 else if(jsonObject.getString("status").equals("404")){
                                     Toast.makeText(DeleteAccount_Activity.this, jsonObject.getString("message"), Toast.LENGTH_LONG).show();
-                                    SettingsFragment.signout(DeleteAccount_Activity.this);
+                                    SettingsFragment.forcedLogout(DeleteAccount_Activity.this);
                                     // flag = false;
                                 }
                                 else {

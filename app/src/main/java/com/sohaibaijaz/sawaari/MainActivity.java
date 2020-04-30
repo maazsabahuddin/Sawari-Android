@@ -220,13 +220,13 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
-                                    else if (json.getString("status").equals("401")) {
-                                        Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                    else if (json.getString("status").equals("404")) {
+                                        Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                                        SettingsFragment.forcedLogout(MainActivity.this);
                                     }
-                                    else if(json.getString("status").equals("404")){
-                                        Toast.makeText(MainActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(MainActivity.this);
-                                        // flag = false;
+                                    else if (json.getString("status").equals("400")) {
+                                        Toast.makeText(context, "Server is temporarily down", Toast.LENGTH_SHORT).show();
+                                        SettingsFragment.forcedLogout(MainActivity.this);
                                     }
                                 } catch (JSONException e) {
                                     Log.e("VOLLEY", e.toString());

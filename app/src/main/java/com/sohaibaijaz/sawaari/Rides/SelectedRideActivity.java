@@ -297,7 +297,7 @@ public class SelectedRideActivity extends AppCompatActivity {
                                 }
                                 else if(json.getString("status").equals("404")){
                                     Toast.makeText(SelectedRideActivity.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                    SettingsFragment.signout(SelectedRideActivity.this);
+                                    SettingsFragment.forcedLogout(SelectedRideActivity.this);
                                     // flag = false;
                                 }
                             } catch (JSONException e) {

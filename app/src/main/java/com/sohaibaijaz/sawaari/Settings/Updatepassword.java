@@ -213,7 +213,7 @@ public class Updatepassword extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(Updatepassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.signout(Updatepassword.this);
+                                        SettingsFragment.forcedLogout(Updatepassword.this);
                                         // flag = false;
                                     }
                                     else{
