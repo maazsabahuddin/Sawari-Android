@@ -66,7 +66,7 @@ public class LoginPin extends AppCompatActivity {
     Realm realm;
     RealmHelper helper;
     public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
-
+    private  String checkplace;
     private int backpress = 0;
     //@Override
 //    public void onBackPressed(){
@@ -211,6 +211,39 @@ public class LoginPin extends AppCompatActivity {
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
                                         token = json.getString("token");
+//
+                                        //Shared Preferences
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("Token", token);
+                                            editor.apply();
+
+                                            userdetails=helper.getUserDetailsDB();
+                                           // checkplace= helper.checkPlace("Home");
+                                            if(Objects.equals(userdetails.get("phonenumber"), phone_number))
+                                            {
+//                                                UserDetails.getUserRides(LoginPin.this);
+                                                Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
+                                               // myIntent.putExtra("place",checkplace);
+                                                finish();
+                                                LoginPin.this.startActivity(myIntent);
+                                            }
+                                            else {
+                                                helper.DeleteUserDetails(LoginPin.this);
+                                                helper.DeleteUserPlaces(LoginPin.this);
+                                                UserDetails.getUserDetails(LoginPin.this);
+                                                UserDetails.getUserPlaces(LoginPin.this);
+                                               // checkplace= helper.checkPlace("Home");
+
+//                                                UserDetails.getUserRides(LoginPin.this);
+                                                Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
+                                              //  myIntent.putExtra("place",checkplace);
+                                                finish();
+                                                LoginPin.this.startActivity(myIntent);
+                                            }
+
+                                    }
+                                    else if (json.getString("status").equals("401")) {
+
                                         if(json.getString("message").equals("User not authenticated. Please verify first.")){
                                             Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                             Intent myIntent = new Intent(LoginPin.this, VerifyActivity.class);//Optional parameters
@@ -221,38 +254,16 @@ public class LoginPin extends AppCompatActivity {
                                             finish();
                                             LoginPin.this.startActivity(myIntent);
                                         }
-
                                         else {
-                                            //Shared Preferences
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("Token", token);
-                                            editor.apply();
-
-                                            userdetails=helper.getUserDetailsDB();
-
-                                            if(Objects.equals(userdetails.get("phonenumber"), phone_number))
-                                            {
-//                                                UserDetails.getUserRides(LoginPin.this);
-                                                Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
-                                                finish();
-                                                LoginPin.this.startActivity(myIntent);
-                                            }
-                                            else {
-                                                helper.DeleteUserDetails(LoginPin.this);
-                                                helper.DeleteUserPlaces(LoginPin.this);
-                                                UserDetails.getUserDetails(LoginPin.this);
-                                                UserDetails.getUserPlaces(LoginPin.this);
-//                                                UserDetails.getUserRides(LoginPin.this);
-                                                Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
-                                                finish();
-                                                LoginPin.this.startActivity(myIntent);
-                                            }
+                                            error_message_pin_login.setVisibility(View.VISIBLE);
+                                            txt_password.setCursorVisible(false);
+                                            error_message_pin_login.setText(json.getString("message"));
                                         }
                                     }
-                                    else if (json.getString("status").equals("401") || json.getString("status").equals("400")) {
-                                        error_message_pin_login.setVisibility(View.VISIBLE);
-                                        txt_password.setCursorVisible(false);
-                                        error_message_pin_login.setText(json.getString("message"));
+                                    else if(json.getString("status").equals("400")) {
+
+                                        Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_LONG).show();
+
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_LONG).show();

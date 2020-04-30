@@ -64,6 +64,7 @@ import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.PermissionUtils;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 import com.sohaibaijaz.sawaari.model.Location;
 import com.sohaibaijaz.sawaari.model.User;
@@ -154,7 +155,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                     }
                     else {
                         addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"),
-                                userLocation.get("longitude"), placeType, getActivity());
+                                userLocation.get("longitude"), placeType, getActivity(), fromwhere);
 
 //                        if(!result){
 //                            Toast.makeText(getActivity(), "Error Updating Place", Toast.LENGTH_SHORT).show();
@@ -165,7 +166,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                         }
                         else if (fromwhere.equals("LocationFragment")){
 
-                            Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
 
                             Intent i = new Intent(getActivity(), LocationActivity.class);
                             Bundle b = new Bundle();
@@ -174,8 +175,14 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             b.putSerializable("currentLocation" , userLocation);
                             i.putExtras(b);
                             i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            getActivity().finish();
+                            Objects.requireNonNull(getActivity()).finish();
                             AddPlaceFragment.this.startActivity(i);
+
+                        }
+
+                        else if (fromwhere.equals("UpdateLocationFragment")){
+
+                            Objects.requireNonNull(getActivity()).onBackPressed();
 
                         }
                     }
@@ -655,7 +662,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
 
     public void addplace(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType,
-                         final Activity activity) {
+                         final Activity activity, final String fromwhere) {
 
         String url = MainActivity.baseurl+"/update/user/place/";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -668,12 +675,21 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             JSONObject json = new JSONObject(response);
                             if (json.getString("status").equals("200")) {
 
-                                writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+                                if(fromwhere.equals("UpdateLocationFragment")) {
+                                    final RealmHelper helper = new RealmHelper(realm);
+                                    helper.UpdateUserPlaces(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+                                    Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
+
+                                }
+                                else{
+                                     writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+                                    Toast.makeText(activity, "Place Saved", Toast.LENGTH_SHORT).show();
+
+                                }
 
                               // Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                 //  check1 =1;
                                 // flag = true;
-                                Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
                             }
                             else if(json.getString("status").equals("400")){
                                 Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();

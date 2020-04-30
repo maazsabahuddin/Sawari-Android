@@ -85,12 +85,14 @@ public class UpdateHomeWorkFragment extends Fragment {
         Button update_button = fragmentView.findViewById(R.id.update_button);
         Button skip_button = fragmentView.findViewById(R.id.skip_button);
 
+        currentLocation= HomeFragment.currentLocation;
+
         HomeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LocationActivity.class);
                 Bundle b = new Bundle();
-                b.putString("value" , "UpdateHome");
+                b.putString("value" , "Home");
                 b.putString("activity" , "UpdateLocationFragment");
                 b.putSerializable("currentLocation" , currentLocation);
                 i.putExtras(b);
@@ -103,7 +105,7 @@ public class UpdateHomeWorkFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LocationActivity.class);
                 Bundle b = new Bundle();
-                b.putString("value" , "UpdateWork");
+                b.putString("value" , "Work");
                 b.putString("activity" , "UpdateLocationFragment");
                 b.putSerializable("currentLocation" , currentLocation);
                 i.putExtras(b);
@@ -121,7 +123,8 @@ public class UpdateHomeWorkFragment extends Fragment {
         skip_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
+                //startActivity(new Intent(getActivity(), SettingsActivity.class));
+                getActivity().onBackPressed();
             }
         });
 

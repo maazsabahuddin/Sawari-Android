@@ -100,7 +100,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
     private boolean mPermissionDenied = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
-    private HashMap<String, String> currentLocation = new HashMap<>();
+    public static HashMap<String, String> currentLocation = new HashMap<>();
+
+   // public static HashMap<String, String> currentLocation = new HashMap<>();
     private HashMap<String, String> dropoffLocation = new HashMap<>();
 
     private ArrayList<LatLng> markerPoints;
@@ -110,19 +112,28 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
 
     @Override
     public void onPause() {
+
+      //  Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         super.onPause();
     }
+
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
     }
 
+    public void onStart(){
+        super.onStart();
+//        Toast.makeText(getActivity(), "No Internet", Toast.LENGTH_SHORT).show();
+
+    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         fragmentView = inflater.inflate(R.layout.fragment_home, container, false);
+
 
         LocationManager lm = (LocationManager)this.getActivity().getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
@@ -161,13 +172,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         });
         final RealmHelper helper = new RealmHelper(realm);
 
-        checkplace=helper.checkPlace("Work");
+     //  checkplace=helper.checkPlace("Home");
+
+       // Bundle b= this.getArguments();
+       // checkplace=b.getString("place");
 
         ImageView add_home = fragmentView.findViewById(R.id.add_home);
         ImageView add_work = fragmentView.findViewById(R.id.add_work);
-        if(checkplace.equals("Work")) {
-            add_home.setImageResource(R.drawable.addedhome);
-        }
+       // add_home.setImageResource(R.drawable.addedhome);
+       // if(checkplace.equals("Home")) {
+         //   add_home.setImageResource(R.drawable.addedhome);
+      //  }
+
+       // Toast.makeText(getActivity(), checkplace, Toast.LENGTH_SHORT).show();
 
         ImageView add_place = fragmentView.findViewById(R.id.add_place);
 
@@ -521,9 +538,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         }
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
+
         if (mPermissionDenied) {
             // Permission was not granted, display error dialog.
             showMissingPermissionError();

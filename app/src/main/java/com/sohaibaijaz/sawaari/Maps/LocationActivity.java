@@ -114,8 +114,10 @@ public class LocationActivity extends AppCompatActivity {
                     LocationActivity.this.startActivity(i);
                 }
                 else if(activity.equals("UpdateLocationFragment")){
-                    Intent i = new Intent(getApplicationContext(), UpdateHomeAndWorkActivity.class);
-                    LocationActivity.this.startActivity(i);
+//                    Intent i = new Intent(getApplicationContext(), UpdateHomeAndWorkActivity.class);
+//                    LocationActivity.this.startActivity(i);
+                    onBackPressed();
+                   // finish();
                 }
                 else{
                     onBackPressed();

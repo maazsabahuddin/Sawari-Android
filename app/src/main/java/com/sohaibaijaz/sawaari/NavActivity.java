@@ -24,12 +24,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.google.android.material.navigation.NavigationView;
 import com.sohaibaijaz.sawaari.Fragments.HelpActivity;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.RideFragmentN;
+import com.sohaibaijaz.sawaari.Maps.AddPlaceFragment;
 import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsActivity;
 import com.sohaibaijaz.sawaari.Settings.UpdateActivity;
@@ -48,12 +50,19 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
     //public  String check;
     public static String MAP_VIEW_BUNDLE_KEY;
     TextView textViewN;
-
+private String  checkplace;
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onResume() {
         super.onResume();
+
+    }
+
+    public  void  onStart(){
+       // getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+        super.onStart();
+
     }
 
     @Override
@@ -103,6 +112,8 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
 ;
         final NavigationView navigationView = findViewById(R.id.nav_view);
 
+      //  Bundle b = getIntent().getExtras();
+       // checkplace=b.getString("place");
         navigationView.setNavigationItemSelectedListener(this);
 
         textViewN= navigationView.getHeaderView(0).findViewById(R.id.titleN);
@@ -141,6 +152,10 @@ public class NavActivity extends AppCompatActivity implements NavigationView.OnN
         toggle.syncState();
 
         if (savedInstanceState == null) {
+           // Fragment fragment = new HomeFragment();
+            //Bundle arguments = new Bundle();
+            //arguments.putString("place", checkplace);
+            //fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }

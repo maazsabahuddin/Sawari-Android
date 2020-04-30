@@ -181,6 +181,43 @@ public class RealmHelper {
         });
     }
 
+
+
+    public void UpdateUserPlaces(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+
+
+
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm bgRealm) {
+
+                RealmResults<Location> place = bgRealm.where(Location.class).equalTo("placeType", placeType).findAll();
+
+                place.setString("placeID",placeID);
+                place.setString("placeName",placeName);
+                place.setString("longitude",longitude);
+                place.setString("latitude",latitude);
+                place.setString("placeType",placeType);
+            }
+        }, new Realm.Transaction.OnSuccess() {
+            @Override
+            public void onSuccess() {
+                // Transaction was a success.
+                //Toast.makeText(context, "Place Saved", Toast.LENGTH_LONG).show();
+
+                // Log.v("Database","Data inserted");
+            }
+        }, new Realm.Transaction.OnError() {
+            @Override
+            public void onError(Throwable error) {
+                // Transaction failed and was automatically canceled.
+                // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Log.e("Database", error.getMessage());
+            }
+        });
+    }
+
 //    public void insertUserPlaces( final Context context,final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
 //        realm.executeTransactionAsync(new Realm.Transaction() {
 //            @Override
