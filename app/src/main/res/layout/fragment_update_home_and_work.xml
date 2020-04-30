@@ -133,8 +133,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="80dp"
-        android:background="@drawable/button_background"
+        android:layout_marginBottom="110dp"
+        android:background="@drawable/button_background_update"
         android:text="@string/update"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/colorWhite"
@@ -148,11 +148,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/button_background"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/button_background_skip"
         android:text="@string/skip"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="@color/colorWhite"
+        android:textColor="#000000"
         android:textSize="14sp" />
 
 </RelativeLayout>
