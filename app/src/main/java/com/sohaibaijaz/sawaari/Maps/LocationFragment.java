@@ -51,6 +51,7 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
+import com.sohaibaijaz.sawaari.Fragments.SavePlacesFragment;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
@@ -104,8 +105,11 @@ public class LocationFragment extends Fragment {
     ListView placeName_lv;
     private String phone_number;
     RequestQueue requestQueue;
-    TextView check;
+    private String checkhome;
+    private  String checkwork;
 
+    TextView textViewhome;
+    TextView textViewwork;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -116,9 +120,11 @@ public class LocationFragment extends Fragment {
         spinner = fragmentView.findViewById(R.id.progressBar_lf);
         spinner.setVisibility(View.GONE);
         spinner_frame.setVisibility(View.GONE);
-        check=fragmentView.findViewById(R.id.textView);
+       // check=fragmentView.findViewById(R.id.textView);
 
 
+        textViewhome= fragmentView.findViewById(R.id.add_home_place_name);
+        textViewwork= fragmentView.findViewById(R.id.add_work_place_name);
         User useroject = User.getInstance();
         requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
@@ -161,6 +167,8 @@ public class LocationFragment extends Fragment {
 
         LinearLayout add_home = fragmentView.findViewById(R.id.add_home_place);
         LinearLayout add_work = fragmentView.findViewById(R.id.add_work_place);
+
+        LinearLayout saved_place= fragmentView.findViewById(R.id.saved_place);
 
         add_home.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,10 +241,35 @@ public class LocationFragment extends Fragment {
 
         });
 
+        saved_place.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), SavedPlace.class);
+                Bundle b = new Bundle();
+                b.putString("value" , "SavePlace");
+                b.putString("activity" , "HomeFragment");
+                b.putSerializable("currentLocation" , currentLocation);
+                i.putExtras(b);
+                LocationFragment.this.startActivity(i);
+
+            }
+        });
+
        // RealmHelper helper = new RealmHelper(realm);
         placeName=helper.getAllRecords();
 
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView,placeName);
+        checkhome= helper.checkPlace("Home");
+        checkwork= helper.checkPlace("Work");
+        if(!checkhome.equals(""))
+        {
+            textViewhome.setText(checkhome);
+        }
+        if(!checkwork.equals(""))
+        {
+            textViewwork.setText(checkwork);
+        }
+        placeName_lv.setEnabled(false);
+        ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView_lv,placeName);
         placeName_lv.setAdapter(adapter);
 
         return fragmentView;

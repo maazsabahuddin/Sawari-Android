@@ -4,7 +4,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,11 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.RealmHelper;
+
+import java.util.ArrayList;
+
+import io.realm.Realm;
 
 public class SavedPlace extends AppCompatActivity {
 
@@ -30,6 +37,12 @@ public class SavedPlace extends AppCompatActivity {
         fragmentTransaction.addToBackStack(null).commit(); // save the changes
     }
 
+    Realm realm;
+   // RealmHelper realmHelper;
+    private ArrayList<String> savedplaceName;
+    ListView savedplace_lv;
+    private String checkhome;
+    private  String checkwork;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +55,26 @@ public class SavedPlace extends AppCompatActivity {
         TextView add_work = findViewById(R.id.add_work_saved_place);
         TextView add_place = findViewById(R.id.add_saved_place);
         ImageView back_saved_places_button = findViewById(R.id.back_saved_places_button);
+        savedplace_lv= findViewById(R.id.saved_place_name_listview);
 
+        realm = Realm.getDefaultInstance();
+        final RealmHelper helper = new RealmHelper(realm);
+
+
+        savedplaceName=helper.getAllRecords();
+
+        checkhome=helper.checkPlace("Home");
+        checkwork=helper.checkPlace("Work");
+
+        if(!checkhome.equals("")){
+            add_home.setText(checkhome);
+        }
+        if(!checkwork.equals("")){
+            add_work.setText(checkwork);
+        }
+        savedplace_lv.setEnabled(false);
+        ArrayAdapter adapter = new ArrayAdapter(SavedPlace.this, R.layout.listview_savedplaces,R.id.textView_lv,savedplaceName);
+        savedplace_lv.setAdapter(adapter);
         back_saved_places_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,7 +97,7 @@ public class SavedPlace extends AppCompatActivity {
 //                getSupportFragmentManager().beginTransaction()
 //                        .replace(R.id.fragment_container, fragment, fragment.getClass().getSimpleName()).addToBackStack(null).commit();
 
-                loadFragment(new AddPlaceFragment());
+             //   loadFragment(new AddPlaceFragment());
 
 //                AddPlaceFragment fragment = new AddPlaceFragment();
 //                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
