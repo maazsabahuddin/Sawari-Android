@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify your number"
+            android:textSize="22sp"
+            android:textAlignment="center"
+            android:textColor="@color/quantum_black_text"
+            android:fontFamily="sans-serif-condensed-medium" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter the 6 digit code sent to 3442713545"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-condensed-medium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/otp1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:maxLength="1"
+                android:padding="10dp"
+                android:layout_marginStart="40dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/minus_sign"
+                android:inputType="number"
+                android:backgroundTint="#1F3A93" />
+
+            <EditText
+                android:id="@+id/otp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:maxLength="1"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/minus_sign"
+                android:inputType="number"
+                android:backgroundTint="#1F3A93" />
+
+            <EditText
+                android:id="@+id/otp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:maxLength="1"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/minus_sign"
+                android:inputType="number"
+                android:backgroundTint="#1F3A93" />
+
+            <EditText
+                android:id="@+id/otp4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:maxLength="1"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/minus_sign"
+                android:inputType="number"
+                android:backgroundTint="#1F3A93" />
+
+            <EditText
+                android:id="@+id/otp5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:maxLength="1"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/minus_sign"
+                android:inputType="number"
+                android:backgroundTint="#1F3A93" />
+
+            <EditText
+                android:id="@+id/otp6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30sp"
+                android:maxLength="1"
+                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:hint="@string/minus_sign"
+                android:inputType="number"
+                android:backgroundTint="#1F3A93" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/seconds"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="The code will be sent in 60"
+            android:textAlignment="center"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/otp_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="OTP not matched"
+            android:textColor="#DC1324"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/resendOtp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="Resend Code"
+            android:textColor="@color/colorJacksonPurple"
+            android:enabled="false"
+            android:fontFamily="sans-serif-condensed-medium"
+            android:layout_marginBottom="10dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>
+

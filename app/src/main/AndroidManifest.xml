@@ -17,7 +17,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Fragments.SavePlacesFragment"></activity>
+        <activity android:name=".Login.LoginVerify"></activity>
+        <activity android:name=".Fragments.SavePlacesFragment" />
         <activity android:name=".Login.LoginView" />
         <activity
             android:name=".Login.LoginPhone"
