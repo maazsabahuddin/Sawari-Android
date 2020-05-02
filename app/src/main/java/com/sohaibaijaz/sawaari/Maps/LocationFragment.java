@@ -268,6 +268,10 @@ public class LocationFragment extends Fragment {
         {
             textViewwork.setText(checkwork);
         }
+
+
+
+
         placeName_lv.setEnabled(false);
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView_lv,placeName);
         placeName_lv.setAdapter(adapter);

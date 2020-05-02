@@ -14,10 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
+import com.sohaibaijaz.sawaari.SavedPlaceAdapter;
 
 import java.util.ArrayList;
 
@@ -43,6 +46,9 @@ public class SavedPlace extends AppCompatActivity {
     ListView savedplace_lv;
     private String checkhome;
     private  String checkwork;
+    RecyclerView recyclerView_savedplace;
+    SavedPlaceAdapter mAdapter;
+    RecyclerView.LayoutManager layoutManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +61,9 @@ public class SavedPlace extends AppCompatActivity {
         TextView add_work = findViewById(R.id.add_work_saved_place);
         TextView add_place = findViewById(R.id.add_saved_place);
         ImageView back_saved_places_button = findViewById(R.id.back_saved_places_button);
-        savedplace_lv= findViewById(R.id.saved_place_name_listview);
+
+        recyclerView_savedplace= findViewById(R.id.savedplace_recycler_view);
+       // savedplace_lv= findViewById(R.id.saved_place_name_listview);
 
         realm = Realm.getDefaultInstance();
         final RealmHelper helper = new RealmHelper(realm);
@@ -72,9 +80,20 @@ public class SavedPlace extends AppCompatActivity {
         if(!checkwork.equals("")){
             add_work.setText(checkwork);
         }
-        savedplace_lv.setEnabled(false);
-        ArrayAdapter adapter = new ArrayAdapter(SavedPlace.this, R.layout.listview_savedplaces,R.id.textView_lv,savedplaceName);
-        savedplace_lv.setAdapter(adapter);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView_savedplace.setHasFixedSize(true);
+
+        layoutManager = new LinearLayoutManager(this);
+        recyclerView_savedplace.setLayoutManager(layoutManager);
+
+        mAdapter = new SavedPlaceAdapter(savedplaceName);
+        recyclerView_savedplace.setAdapter(mAdapter);
+
+       // savedplace_lv.setEnabled(false);
+       // ArrayAdapter adapter = new ArrayAdapter(SavedPlace.this, R.layout.listview_savedplaces,R.id.textView_lv,savedplaceName);
+       // savedplace_lv.setAdapter(adapter);
         back_saved_places_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

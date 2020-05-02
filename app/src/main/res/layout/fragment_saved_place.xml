@@ -258,10 +258,11 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp">
 
-            <ListView
-                android:id="@+id/saved_place_name_listview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/savedplace_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                />
 
 
         </LinearLayout>
