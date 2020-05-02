@@ -12,44 +12,65 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="40dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Update Email Address"
-            android:textSize="20sp"
-            android:fontFamily="sans-serif-condensed-medium" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Update Email address"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
 
         <EditText
             android:id="@+id/update_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:inputType="textEmailAddress"
             android:hint="Enter Email"
             android:backgroundTint="@color/colorJacksonPurple" />
 
-        <TextView
-            android:id="@+id/errormessage4"
+    </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="Invalid email address."
-            android:layout_marginBottom="10dp"
-            android:textColor="#DC1324"
-            android:fontFamily="sans-serif-condensed-medium" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="3dp">
+
+            <TextView
+                android:id="@+id/error_message_email"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="15sp"
+                android:textColor="#DC1324"
+                android:text="Incorrect email address"
+                android:fontFamily="sans-serif-condensed-medium" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-    <Button
+    <ImageView
         android:id="@+id/changeEmail"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="Update"
-        android:textSize="18sp"
-        android:background="@drawable/button_background"
-        android:textColor="@android:color/white"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"/>
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/next_icon"
+        android:enabled="false"
+        android:alpha="1.0"/>
 
 </RelativeLayout>

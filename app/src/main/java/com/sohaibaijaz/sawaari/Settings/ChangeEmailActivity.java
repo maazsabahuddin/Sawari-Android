@@ -50,7 +50,7 @@ public class ChangeEmailActivity extends AppCompatActivity {
         sharedPreferences = ChangeEmailActivity.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
         User user = User.getInstance();
 
-        textViewerror=findViewById(R.id.errormessage4);
+        textViewerror=findViewById(R.id.error_message_email);
         button_updatemail=findViewById(R.id.changeEmail);
         text_email= findViewById(R.id.update_email);
         textViewerror.setVisibility(View.GONE);
