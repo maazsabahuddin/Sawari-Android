@@ -67,7 +67,7 @@ public class RealmHelper {
 
             RealmResults<com.sohaibaijaz.sawaari.model.Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType",placeType ).findAll();
             for(com.sohaibaijaz.sawaari.model.Location location : results){
-            place = location.getPlaceType();
+            place = location.getPlaceName();
             }
             // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
 
