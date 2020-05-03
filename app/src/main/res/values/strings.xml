@@ -55,7 +55,7 @@
     <string name="phone_number">3442713545</string>
     <string name="login_message">Nice to see you again, Login to continue</string>
     <string name="minus_sign">-</string>
-    <string name="pin">xxxx</string>
+    <string name="pin">Create a secure pin</string>
 
     <string-array name="help_array">
         <item>Complaints and Refunds</item>

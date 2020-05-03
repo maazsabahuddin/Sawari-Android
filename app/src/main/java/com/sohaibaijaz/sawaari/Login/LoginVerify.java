@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -74,11 +75,68 @@ public class LoginVerify extends AppCompatActivity {
         realm= Realm.getDefaultInstance();
         helper = new RealmHelper(realm);
 
-//        Bundle b = getIntent().getExtras();
-//        phone_number = b.getString("phone_number");
+        editText_otp1.requestFocus();
         final String phone_number = getIntent().getStringExtra("phone_number");
         phonenumber_message.setText("Enter the 6 digit code sent to " + phone_number);
         otp_message.setVisibility(View.GONE);
+
+        editText_otp2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_DEL){
+                    editText_otp1.setText("");
+                    editText_otp1.requestFocus();
+                }
+                return true;
+            }
+        });
+        editText_otp3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_DEL){
+                    editText_otp2.setText("");
+                    editText_otp2.requestFocus();
+                }
+                return true;
+            }
+        });
+        editText_otp4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_DEL){
+                    editText_otp3.setText("");
+                    editText_otp3.requestFocus();
+                }
+                return true;
+            }
+        });
+        editText_otp5.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_DEL){
+                    editText_otp4.setText("");
+                    editText_otp4.requestFocus();
+                }
+                return true;
+            }
+        });
+        editText_otp6.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode==KeyEvent.KEYCODE_DEL){
+                    if(!editText_otp6.getText().toString().equals("")){
+                        editText_otp6.setText("");
+                        otp_message.setVisibility(View.GONE);
+                    }
+                    else{
+                        editText_otp5.setText("");
+                        editText_otp5.requestFocus();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
 
         editText_otp1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -107,9 +165,6 @@ public class LoginVerify extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 editText_otp3.requestFocus();
-                if(count<1){
-                    editText_otp1.requestFocus();
-                }
             }
 
             @Override
@@ -126,10 +181,6 @@ public class LoginVerify extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 editText_otp4.requestFocus();
-                if(count<1){
-                    editText_otp2.requestFocus();
-                }
-
             }
 
             @Override
@@ -146,10 +197,6 @@ public class LoginVerify extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 editText_otp5.requestFocus();
-                if(count<1){
-                    editText_otp3.requestFocus();
-                }
-
             }
 
             @Override
@@ -164,9 +211,6 @@ public class LoginVerify extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 editText_otp6.requestFocus();
-                if(count<1){
-                    editText_otp4.requestFocus();
-                }
             }
 
             @Override
@@ -179,10 +223,7 @@ public class LoginVerify extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // editText_otp2.requestFocus();
-                if(count<1){
-                    editText_otp5.requestFocus();
-                }
+
                 if(!editText_otp1.getText().toString().equals("") && !editText_otp2.getText().toString().equals("") && !editText_otp3.getText().toString().equals("") && !editText_otp5.getText().toString().equals("") && !editText_otp6.getText().toString().equals("")){
                     final String otp = editText_otp1.getText().toString() +
                             editText_otp2.getText().toString()+
@@ -219,5 +260,11 @@ public class LoginVerify extends AppCompatActivity {
             }
         });
 
+        BackLoginVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

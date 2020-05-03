@@ -41,98 +41,102 @@
             android:layout_marginTop="5dp"
             android:fontFamily="sans-serif-condensed-medium" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp">
+            android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/otp1"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:maxLength="1"
-                android:padding="10dp"
-                android:layout_marginStart="40dp"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/minus_sign"
-                android:inputType="number"
-                android:backgroundTint="#1F3A93" />
+                android:orientation="horizontal"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="15dp">
 
-            <EditText
-                android:id="@+id/otp2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:maxLength="1"
-                android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/minus_sign"
-                android:inputType="number"
-                android:backgroundTint="#1F3A93" />
+                <EditText
+                    android:id="@+id/otp1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:maxLength="1"
+                    android:padding="10dp"
+                    android:hint="@string/minus_sign"
+                    android:inputType="number"
+                    android:backgroundTint="#1F3A93" />
 
-            <EditText
-                android:id="@+id/otp3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:maxLength="1"
-                android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/minus_sign"
-                android:inputType="number"
-                android:backgroundTint="#1F3A93" />
+                <EditText
+                    android:id="@+id/otp2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:maxLength="1"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/minus_sign"
+                    android:inputType="number"
+                    android:backgroundTint="#1F3A93" />
 
-            <EditText
-                android:id="@+id/otp4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:maxLength="1"
-                android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/minus_sign"
-                android:inputType="number"
-                android:backgroundTint="#1F3A93" />
+                <EditText
+                    android:id="@+id/otp3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:maxLength="1"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/minus_sign"
+                    android:inputType="number"
+                    android:backgroundTint="#1F3A93" />
 
-            <EditText
-                android:id="@+id/otp5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:maxLength="1"
-                android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/minus_sign"
-                android:inputType="number"
-                android:backgroundTint="#1F3A93" />
+                <EditText
+                    android:id="@+id/otp4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:maxLength="1"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/minus_sign"
+                    android:inputType="number"
+                    android:backgroundTint="#1F3A93" />
 
-            <EditText
-                android:id="@+id/otp6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:textSize="30sp"
-                android:maxLength="1"
-                android:padding="10dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:hint="@string/minus_sign"
-                android:inputType="number"
-                android:backgroundTint="#1F3A93" />
+                <EditText
+                    android:id="@+id/otp5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:maxLength="1"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/minus_sign"
+                    android:inputType="number"
+                    android:backgroundTint="#1F3A93" />
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/otp6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textSize="30sp"
+                    android:maxLength="1"
+                    android:padding="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:hint="@string/minus_sign"
+                    android:inputType="number"
+                    android:backgroundTint="#1F3A93" />
 
+            </LinearLayout>
+
+        </RelativeLayout>
         <TextView
             android:id="@+id/seconds"
             android:layout_width="match_parent"
@@ -140,8 +144,7 @@
             android:textSize="15sp"
             android:text="The code will be sent in 60"
             android:textAlignment="center"
-            android:fontFamily="sans-serif-condensed-medium"
-            android:layout_marginTop="10dp" />
+            android:fontFamily="sans-serif-condensed-medium" />
 
         <TextView
             android:id="@+id/otp_message"
