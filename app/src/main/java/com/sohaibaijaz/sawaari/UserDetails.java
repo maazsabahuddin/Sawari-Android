@@ -163,7 +163,7 @@ public class UserDetails {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("user_rides", json.getJSONArray("reservations").toString());
                                 editor.apply();
-                                callBack.onSuccess();
+                                callBack.onSuccess(json.getString("status"), json.getString("message"));
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
@@ -296,8 +296,6 @@ public class UserDetails {
                     @Override
                     protected Map<String, String> getParams() {
                         Map<String, String> params = new HashMap<String, String>();
-
-
                         return params;
                     }
 
@@ -330,14 +328,87 @@ public class UserDetails {
             } catch (Exception e) {
                 Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
             }
-
-
-
-
         }
         else{
             Toast.makeText(context, "There was problem connecting to the server", Toast.LENGTH_SHORT).show();
         }
     }
 
+    public static void verifyUser(final Activity context, final String phone_number, final String otp, final CallBack callBack){
+
+        final SharedPreferences sharedPreferences= Objects.requireNonNull(context).getSharedPreferences(MainActivity.AppPreferences, Context.MODE_PRIVATE);
+        final RequestQueue requestQueue = Volley.newRequestQueue(context);
+        final String token = sharedPreferences.getString("Token", "");
+
+        if(!token.equals("")) {
+
+            try {
+                final String URL = MainActivity.baseurl + "/verify/user/";
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Log.i("VOLLEY", response);
+                        try {
+                            JSONObject json = new JSONObject(response);
+
+                            if (json.getString("status").equals("200")) {
+                                callBack.onSuccess(json.getString("status"), json.getString("message"));
+                            }
+                            else{
+                                callBack.onFailure(json.getString("status"), json.getString("message"));
+                            }
+
+                        } catch (JSONException e) {
+                            Log.e("VOLLEY", e.toString());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("VOLLEY", error.toString());
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("email_or_phone", phone_number);
+                        params.put("otp", otp);
+                        return params;
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<String, String>();
+                        headers.put("Authorization", token);
+                        return headers;
+                    }
+                };
+
+                stringRequest.setRetryPolicy(new RetryPolicy() {
+                    @Override
+                    public int getCurrentTimeout() {
+                        return 50000;
+                    }
+
+                    @Override
+                    public int getCurrentRetryCount() {
+                        return 50000;
+                    }
+
+                    @Override
+                    public void retry(VolleyError error) throws VolleyError {
+
+                    }
+                });
+
+                requestQueue.add(stringRequest);
+            } catch (Exception e) {
+                Toast.makeText(context, "Slow Internet Connection.", Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            Toast.makeText(context, "There was problem connecting to the server", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

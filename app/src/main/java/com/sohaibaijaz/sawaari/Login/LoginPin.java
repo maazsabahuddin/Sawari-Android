@@ -232,11 +232,8 @@ public class LoginPin extends AppCompatActivity {
                                                 helper.DeleteUserPlaces(LoginPin.this);
                                                 UserDetails.getUserDetails(LoginPin.this);
                                                 UserDetails.getUserPlaces(LoginPin.this);
-                                               // checkplace= helper.checkPlace("Home");
 
-//                                                UserDetails.getUserRides(LoginPin.this);
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
-                                              //  myIntent.putExtra("place",checkplace);
                                                 finish();
                                                 LoginPin.this.startActivity(myIntent);
                                             }

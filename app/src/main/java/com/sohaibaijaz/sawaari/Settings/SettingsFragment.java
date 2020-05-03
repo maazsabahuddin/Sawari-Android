@@ -100,22 +100,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
 
             User user= User.getInstance();
-
-            if(!user.getPhoneNumber().equals("")) {
-                phoneNumber = user.getPhoneNumber();
-            }
-            if(!user.getEmail().equals("")) {
-                email = user.getEmail();
-            }
-
-            if(!user.getFirstName().equals("")) {
-                firstName = user.getFirstName();
-            }
-            if(!user.getLastName().equals("")) {
-                lastName = user.getLastName();
-            }
+            phoneNumber = user.getPhoneNumber();
+            email = user.getEmail();
+            firstName = user.getFirstName();
+            lastName = user.getLastName();
 
             firstName = firstName + " " + lastName;
+
             if(!(firstName.equals(""))) {
                 Objects.requireNonNull(preference_profile).setTitle(firstName);
             }

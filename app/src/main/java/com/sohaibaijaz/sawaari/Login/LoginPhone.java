@@ -27,8 +27,10 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Fragments.CallBack;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
+import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Settings.ChangePhoneNumberActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 import com.sohaibaijaz.sawaari.UserDetails;
@@ -41,9 +43,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import io.realm.Realm;
+
 import static com.sohaibaijaz.sawaari.Fragments.HomeFragment.isNetworkAvailable;
 import static com.sohaibaijaz.sawaari.Login.LoginPin.app;
 import static com.sohaibaijaz.sawaari.Login.LoginPin.baseurl;
+import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
 public class LoginPhone extends AppCompatActivity {
 
@@ -52,6 +57,10 @@ public class LoginPhone extends AppCompatActivity {
     private ImageView verifyPhoneLoginButton;
     private TextView error_message_phone_login;
     private TextView countryCode;
+    SharedPreferences sharedPreferences;
+    Realm realm;
+    RealmHelper helper;
+    private HashMap<String, String> userdetails = new HashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +77,9 @@ public class LoginPhone extends AppCompatActivity {
         final TextView BackLoginPhone = findViewById(R.id.BackLoginPhone);
         verifyPhoneLoginButton.setAlpha(0.5f);
         error_message_phone_login.setVisibility(View.GONE);
+
+        realm= Realm.getDefaultInstance();
+        helper = new RealmHelper(realm);
 
         phone_number_login_tv.requestFocus();
         if(!isNetworkAvailable(getApplicationContext())){
@@ -153,92 +165,85 @@ public class LoginPhone extends AppCompatActivity {
                     error_message_phone_login.setText("Please enter phonenumber");
                 }
                 else{
-                    try {
-                        String URL = baseurl+"/check/user/";
-                        JSONObject jsonBody = new JSONObject();
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                    LoginAPI.loginUser(LoginPhone.this, phone_number, new LoginCallBack() {
+                        @Override
+                        public void onSuccess(String status_code, String message, String token) {
+                            if(message.equals("User successfully registered.") || message.equals("User verified and login successfully.")){
 
-                            @Override
-                            public void onResponse(String response) {
+                                sharedPreferences = LoginPhone.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Token", token);
+                                editor.apply();
 
-                                Log.i("VOLLEY", response);
-                                try {
-                                    JSONObject json = new JSONObject(response);
-                                    if (json.getString("status").equals("200")) {
-                                        Intent intent = new Intent(LoginPhone.this, LoginPin.class);
-                                        intent.putExtra("phone_number", phone_number);
-                                        LoginPhone.this.startActivity(intent);
-                                    }
-                                    else if (json.getString("status").equals("401") || json.getString("status").equals("400")) {
-                                        error_message_phone_login.setVisibility(View.VISIBLE);
-                                        error_message_phone_login.setText(json.getString("message"));
+                                userdetails=helper.getUserDetailsDB();
+                                if(Objects.equals(userdetails.get("phonenumber"), phone_number))
+                                {
+                                    Intent myIntent = new Intent(LoginPhone.this, NavActivity.class);
+                                    finish();
+                                    LoginPhone.this.startActivity(myIntent);
+                                }
+                                else {
+                                    helper.DeleteUserDetails(LoginPhone.this);
+                                    helper.DeleteUserPlaces(LoginPhone.this);
+                                    UserDetails.getUserDetails(LoginPhone.this);
+                                    UserDetails.getUserPlaces(LoginPhone.this);
 
-                                        phone_number_login_tv.addTextChangedListener(new TextWatcher() {
-                                            @Override
-                                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                                            }
-
-                                            @Override
-                                            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                                phone_number_login_tv.setCursorVisible(true);
-                                                error_message_phone_login.setVisibility(View.GONE);
-                                            }
-
-                                            @Override
-                                            public void afterTextChanged(Editable s) {
-
-                                            }
-                                        });
-
-                                    }
-                                    else if(json.getString("status").equals("404")){
-                                        error_message_phone_login.setVisibility(View.VISIBLE);
-                                        error_message_phone_login.setText(json.getString("message"));
-                                        Toast.makeText(LoginPhone.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        SettingsFragment.forcedLogout(LoginPhone.this);
-                                    }
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
+                                    Intent myIntent = new Intent(LoginPhone.this, NavActivity.class);
+                                    finish();
+                                    LoginPhone.this.startActivity(myIntent);
                                 }
                             }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("VOLLEY", error.toString());
-                            }
-                        }){
-                            @Override
-                            protected Map<String,String> getParams(){
-                                Map<String,String> params = new HashMap<>();
-                                params.put("phone_number", phone_number);
-                                params.put("app", app);
-                                return params;
+                            else if(message.equals("OTP has been successfully sent.")){
+                                sharedPreferences = LoginPhone.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString("Token", token);
+                                editor.apply();
+
+                                Intent intent = new Intent(LoginPhone.this, LoginVerify.class);
+                                intent.putExtra("phone_number", phone_number);
+                                LoginPhone.this.startActivity(intent);
                             }
 
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 5000;
+                            else if(message.equals("User Exist.")){
+                                Intent intent = new Intent(LoginPhone.this, LoginPin.class);
+                                intent.putExtra("phone_number", phone_number);
+                                LoginPhone.this.startActivity(intent);
                             }
+                        }
 
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 5000;
+                        @Override
+                        public void onFailure(String status_code, String message) {
+                            if (status_code.equals("401") || status_code.equals("400")) {
+                                error_message_phone_login.setVisibility(View.VISIBLE);
+                                error_message_phone_login.setText(message);
+
+                                phone_number_login_tv.addTextChangedListener(new TextWatcher() {
+                                    @Override
+                                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                    }
+
+                                    @Override
+                                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                                        phone_number_login_tv.setCursorVisible(true);
+                                        error_message_phone_login.setVisibility(View.GONE);
+                                    }
+
+                                    @Override
+                                    public void afterTextChanged(Editable s) {
+
+                                    }
+                                });
+
                             }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
+                            else if(status_code.equals("404")){
+                                error_message_phone_login.setVisibility(View.VISIBLE);
+                                error_message_phone_login.setText(message);
+                                Toast.makeText(LoginPhone.this, message, Toast.LENGTH_LONG).show();
+                                SettingsFragment.forcedLogout(LoginPhone.this);
                             }
-                        });
-                        requestQueue.add(stringRequest);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        }
+                    });
                 }
             }
         }

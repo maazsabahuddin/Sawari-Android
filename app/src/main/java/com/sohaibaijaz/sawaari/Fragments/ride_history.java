@@ -98,7 +98,7 @@ public class ride_history extends Fragment {
         else{
             UserDetails.getUserRides(getActivity(), new CallBack() {
                 @Override
-                public void onSuccess() {
+                public void onSuccess(String status_code, String message) {
                     spinner_frame_my_rides_history.setVisibility(View.GONE);
                     progressBar_my_rides_history.setVisibility(View.GONE);
 
@@ -159,6 +159,11 @@ public class ride_history extends Fragment {
                             e.printStackTrace();
                         }
                     }
+                }
+
+                @Override
+                public void onFailure(String status_code, String message) {
+
                 }
             });
 

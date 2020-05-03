@@ -115,8 +115,9 @@ public class ride_scheduled extends Fragment {
         }
         else{
             UserDetails.getUserRides(getActivity(), new CallBack() {
+
                 @Override
-                public void onSuccess() {
+                public void onSuccess(String status_code, String message) {
                     try{
                         spinner_frame_my_rides.setVisibility(View.GONE);
                         progressBar_my_rides.setVisibility(View.GONE);
@@ -181,6 +182,12 @@ public class ride_scheduled extends Fragment {
                     }
                     catch (Exception e){ }
                 }
+
+                @Override
+                public void onFailure(String status_code, String message) {
+
+                }
+
             });
         }
         return view;
