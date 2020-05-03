@@ -161,6 +161,7 @@ public class Verifypassword extends AppCompatActivity {
 
                                        if( getIntent().getStringExtra("coming_from").equals("password_preference")){
                                            Intent i = new Intent(Verifypassword.this, Updatepassword.class);
+                                           i.putExtra("coming_from", "verify_password");
                                            Verifypassword.this.startActivity(i);
                                        }
                                         else if( getIntent().getStringExtra("coming_from").equals("phone_number_preference")){

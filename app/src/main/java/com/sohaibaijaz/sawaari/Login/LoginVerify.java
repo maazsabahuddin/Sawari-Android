@@ -18,6 +18,7 @@ import com.sohaibaijaz.sawaari.Fragments.CallBack;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
+import com.sohaibaijaz.sawaari.Settings.Updatepassword;
 import com.sohaibaijaz.sawaari.Settings.VerifyPhoneNoActivity;
 import com.sohaibaijaz.sawaari.UserDetails;
 
@@ -198,8 +199,8 @@ public class LoginVerify extends AppCompatActivity {
                             UserDetails.getUserDetails(LoginVerify.this);
                             UserDetails.getUserPlaces(LoginVerify.this);
 
-                            Intent myIntent = new Intent(LoginVerify.this, NavActivity.class);//Optional parameters
-                            finish();
+                            Intent myIntent = new Intent(LoginVerify.this, Updatepassword.class);//Optional parameters
+                            myIntent.putExtra("coming_from", "set_password");
                             LoginVerify.this.startActivity(myIntent);
                         }
 

@@ -15,27 +15,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.sohaibaijaz.sawaari.Fragments.CallBack;
 import com.sohaibaijaz.sawaari.Login.LoginAPI;
-import com.sohaibaijaz.sawaari.MainActivity;
+import com.sohaibaijaz.sawaari.Login.LoginVerify;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
@@ -49,10 +35,18 @@ public class Updatepassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
-//        getSupportActionBar().setTitle("Password");
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_updatepassword);
+        TextView back_button = findViewById(R.id.BackUpdatePassword);
+        final String coming_from = getIntent().getStringExtra("coming_from");
+        assert coming_from != null;
+        if(coming_from.equals("verify_password")){
+            back_button.setVisibility(View.GONE);
+            getSupportActionBar().setTitle("Password");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        else{
+            getSupportActionBar().hide();
+        }
 
         sharedPreferences = Updatepassword.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
@@ -60,7 +54,6 @@ public class Updatepassword extends AppCompatActivity {
         editText_new_password = findViewById(R.id.pin);
         error_message = findViewById(R.id.error_message_pin);
 
-        editText_new_password.requestFocus();
         error_message.setVisibility(View.GONE);
         editText_new_password.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,9 +78,16 @@ public class Updatepassword extends AppCompatActivity {
                     LoginAPI.updatePassword(Updatepassword.this, password_new, new CallBack() {
                         @Override
                         public void onSuccess(String status_code, String message) {
-                            Toast.makeText(Updatepassword.this, message, Toast.LENGTH_LONG).show();
-                            Intent i = new Intent(Updatepassword.this, NavActivity.class);
-                            Updatepassword.this.startActivity(i);
+                            if(coming_from.equals("verify_password")){
+                                Toast.makeText(Updatepassword.this, message, Toast.LENGTH_LONG).show();
+                                Intent i = new Intent(Updatepassword.this, NavActivity.class);
+                                Updatepassword.this.startActivity(i);
+                            }
+                            else{
+                                Intent myIntent = new Intent(Updatepassword.this, NavActivity.class);//Optional parameters
+                                finish();
+                                Updatepassword.this.startActivity(myIntent);
+                            }
                         }
 
                         @Override
