@@ -163,7 +163,7 @@ public class UserDetails {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("user_rides", json.getJSONArray("reservations").toString());
                                 editor.apply();
-                                callBack.onSuccess(json.getString("status"), json.getString("message"));
+                                callBack.onSuccess(json.getString("status"), "");
                             }
                             else if (json.getString("status").equals("404")) {
                                 Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();

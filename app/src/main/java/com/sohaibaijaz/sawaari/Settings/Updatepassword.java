@@ -36,11 +36,11 @@ public class Updatepassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_updatepassword);
-        TextView back_button = findViewById(R.id.BackUpdatePassword);
+//        TextView back_button = findViewById(R.id.BackUpdatePassword);
         final String coming_from = getIntent().getStringExtra("coming_from");
         assert coming_from != null;
         if(coming_from.equals("verify_password")){
-            back_button.setVisibility(View.GONE);
+//            back_button.setVisibility(View.GONE);
             getSupportActionBar().setTitle("Password");
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }

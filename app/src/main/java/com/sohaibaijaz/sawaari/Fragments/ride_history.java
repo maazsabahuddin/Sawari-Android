@@ -163,7 +163,8 @@ public class ride_history extends Fragment {
 
                 @Override
                 public void onFailure(String status_code, String message) {
-
+                    spinner_frame_my_rides_history.setVisibility(View.GONE);
+                    progressBar_my_rides_history.setVisibility(View.GONE);
                 }
             });
 

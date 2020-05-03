@@ -185,7 +185,8 @@ public class ride_scheduled extends Fragment {
 
                 @Override
                 public void onFailure(String status_code, String message) {
-
+                    spinner_frame_my_rides.setVisibility(View.GONE);
+                    progressBar_my_rides.setVisibility(View.GONE);
                 }
 
             });
