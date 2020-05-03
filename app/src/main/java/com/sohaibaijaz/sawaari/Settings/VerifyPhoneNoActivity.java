@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -77,6 +78,79 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
         phonenumber.setText(getIntent().getStringExtra("change_number"));
         otp_message.setVisibility(View.GONE);
 
+
+
+        editText_otp2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL){
+                    if(editText_otp2.getText().toString().equals("")) {
+                        editText_otp1.setText("");
+                        editText_otp1.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+        editText_otp3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL){
+                    if(editText_otp3.getText().toString().equals("")) {
+                        editText_otp2.setText("");
+                        editText_otp2.requestFocus();
+                    }
+
+                }
+                return false;
+            }
+        });
+        editText_otp4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL){
+
+                    if(editText_otp4.getText().toString().equals("")){
+                    editText_otp3.setText("");
+                    editText_otp3.requestFocus();
+                        }
+                }
+                return false;
+            }
+        });
+        editText_otp5.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL){
+                    if(editText_otp5.getText().toString().equals("")) {
+                        editText_otp4.setText("");
+                        editText_otp4.requestFocus();
+                    }
+                }
+                return false;
+            }
+        });
+
+        editText_otp6.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL){
+                    if(!editText_otp6.getText().toString().equals("")){
+                        editText_otp6.setText("");
+                        otp_message.setVisibility(View.GONE);
+                    }
+                    else{
+                        editText_otp5.setText("");
+                        editText_otp5.requestFocus();
+                    }
+                    return false;
+                }
+                return false;
+            }
+        });
+
+      //  event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL
         editText_otp1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,9 +179,13 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText_otp3.requestFocus();
+
+                if(count==1){
+                    editText_otp3.requestFocus();
+                }
+               // editText_otp3.requestFocus();
                 if(count<1){
-                    editText_otp1.requestFocus();
+                 //   editText_otp1.requestFocus();
                 }
             }
 
@@ -124,9 +202,13 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText_otp4.requestFocus();
+
+                if(count==1){
+                    editText_otp4.requestFocus();
+                }
+               // editText_otp4.requestFocus();
                 if(count<1){
-                    editText_otp2.requestFocus();
+                    //editText_otp2.requestFocus();
                 }
 
             }
@@ -144,9 +226,13 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText_otp5.requestFocus();
+
+                if(count==1){
+                    editText_otp5.requestFocus();
+                }
+               // editText_otp5.requestFocus();
                 if(count<1){
-                    editText_otp3.requestFocus();
+                   // editText_otp3.requestFocus();
                 }
 
             }
@@ -165,9 +251,13 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                editText_otp6.requestFocus();
+
+                if(count==1){
+                    editText_otp6.requestFocus();
+                }
+               // editText_otp6.requestFocus();
                 if(count<1){
-                    editText_otp4.requestFocus();
+                  //  editText_otp4.requestFocus();
                 }
 
 
@@ -188,7 +278,8 @@ public class VerifyPhoneNoActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                // editText_otp2.requestFocus();
               if(count<1){
-                  editText_otp5.requestFocus();
+                  otp_message.setVisibility(View.GONE);
+                //  editText_otp5.requestFocus();
               }
               if(!editText_otp1.getText().toString().equals("")  && !editText_otp2.getText().toString().equals("") && !editText_otp3.getText().toString().equals("") && !editText_otp5.getText().toString().equals("") && !editText_otp6.getText().toString().equals("")){
                   verify_phonenumber();

@@ -96,6 +96,7 @@ public class LoginVerify extends AppCompatActivity {
                 if(keyCode==KeyEvent.KEYCODE_DEL){
                     editText_otp2.setText("");
                     editText_otp2.requestFocus();
+
                 }
                 return true;
             }
