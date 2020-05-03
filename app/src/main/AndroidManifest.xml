@@ -56,7 +56,9 @@
         <activity
             android:name=".Settings.Verifypassword"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".Settings.Updatepassword" />
+        <activity
+            android:name=".Settings.Updatepassword"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />

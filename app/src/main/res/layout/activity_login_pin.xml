@@ -104,4 +104,5 @@
         android:src="@drawable/next_icon"
         android:enabled="false"
         android:alpha="1.0"/>
+
 </RelativeLayout>
