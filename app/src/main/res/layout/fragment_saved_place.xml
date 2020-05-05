@@ -11,42 +11,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp">
-
-            <ImageView
-                android:id="@+id/back_saved_places_button"
-                android:layout_width="10dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/blue_back_icon"
-                android:layout_marginStart="15dp"
-                android:layout_weight="2"
-                android:layout_marginEnd="10dp"
-                android:layout_gravity="center_horizontal|center_vertical"/>
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="15dp"
-                android:layout_weight="15"
-                android:text="Saved Places"
-                android:gravity="center_vertical"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="20sp"
-                android:typeface="monospace" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/add_home_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="60dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="7dp">

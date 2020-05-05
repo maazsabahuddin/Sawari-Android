@@ -12,10 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class SavedPlaceAdapter extends RecyclerView.Adapter<SavedPlaceAdapter.MyViewHolder> {
 
-private ArrayList<String> Placename;
+private ArrayList<HashMap<String,String>> Placedetails;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -31,8 +32,8 @@ private ArrayList<String> Placename;
     }
 
 
-    public SavedPlaceAdapter(ArrayList<String> placename) {
-        Placename = placename;
+    public SavedPlaceAdapter(ArrayList<HashMap<String, String>> placedetails) {
+        Placedetails = placedetails;
     }
     @NonNull
     @Override
@@ -55,14 +56,14 @@ private ArrayList<String> Placename;
     public void onBindViewHolder(@NonNull SavedPlaceAdapter.MyViewHolder holder, int position) {
 
       // TextView textView= holder.textViewplace;
-        holder.textViewplace.setText("   "+Placename.get(position));
+        holder.textViewplace.setText("   "+Placedetails.get(position).get("name"));
        holder.imageView.setImageResource(R.drawable.deleteicon);
 
     }
 
     @Override
     public int getItemCount() {
-        return Placename.size();
+        return Placedetails.size();
     }
 
 

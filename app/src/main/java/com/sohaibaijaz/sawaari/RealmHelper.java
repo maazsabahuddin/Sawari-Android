@@ -5,7 +5,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.sohaibaijaz.sawaari.model.Location;
-import com.sohaibaijaz.sawaari.model.User;
 import com.sohaibaijaz.sawaari.model.UserDetailsTable;
 
 import java.util.ArrayList;
@@ -28,18 +27,24 @@ public class RealmHelper {
         this.realm = realm;
     }
 
-    public ArrayList<String> getAllRecords(){
+    public ArrayList<HashMap<String, String>> getAllRecords(){
 
-        ArrayList<String> placeName= new ArrayList<>();
+        ArrayList<HashMap<String, String>> place= new ArrayList<>();
         try{
-            RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","AddPlace").findAll();
+            RealmResults<Location> results = realm.where(com.sohaibaijaz.sawaari.model.Location.class).equalTo("placeType","Other").findAll();
             for(com.sohaibaijaz.sawaari.model.Location location : results){
-                placeName.add(location.getPlaceName());
-            }
+                final HashMap<String, String> places = new HashMap<>();
 
-            return placeName;
+                places.put("place_id", location.getPlaceID());
+                places.put("place_type", location.getPlaceType());
+                places.put("name", location.getPlaceName());
+
+                place.add(places);
+                //place.add(location.getPlaceName());
+            }
+            return place;
         }catch (Exception e){}
-        return placeName;
+        return place;
     }
 
     public HashMap<String, String> getPlace(final String placeType){

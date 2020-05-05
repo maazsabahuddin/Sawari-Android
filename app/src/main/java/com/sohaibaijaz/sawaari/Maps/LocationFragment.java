@@ -247,7 +247,7 @@ public class LocationFragment extends Fragment {
                 Intent i = new Intent(getActivity(), SavedPlace.class);
                 Bundle b = new Bundle();
                 b.putString("value" , "SavePlace");
-                b.putString("activity" , "HomeFragment");
+                b.putString("activity" , "SavedPlace");
                 b.putSerializable("currentLocation" , currentLocation);
                 i.putExtras(b);
                 LocationFragment.this.startActivity(i);
@@ -256,7 +256,7 @@ public class LocationFragment extends Fragment {
         });
 
        // RealmHelper helper = new RealmHelper(realm);
-        placeName=helper.getAllRecords();
+        //placeName=helper.getAllRecords();
 
         checkhome= helper.checkPlace("Home");
         checkwork= helper.checkPlace("Work");
@@ -272,9 +272,9 @@ public class LocationFragment extends Fragment {
 
 
 
-        placeName_lv.setEnabled(false);
-        ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView_lv,placeName);
-        placeName_lv.setAdapter(adapter);
+       // placeName_lv.setEnabled(false);
+        //ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView_lv,placeName);
+        //placeName_lv.setAdapter(adapter);
 
         return fragmentView;
     }

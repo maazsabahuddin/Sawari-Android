@@ -95,7 +95,7 @@ public class LocationActivity extends AppCompatActivity {
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction().replace(R.id.place_fragment, fragment).commit();
         }
-        else if (value.equals("AddPlace")) {
+        else if (value.equals("Other")) {
             Fragment fragment = new AddPlaceFragment();
             Bundle arguments = new Bundle();
             arguments.putSerializable("currentLocation" , currentLocation);

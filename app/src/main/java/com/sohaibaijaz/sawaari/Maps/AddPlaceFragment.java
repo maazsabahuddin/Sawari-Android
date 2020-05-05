@@ -185,6 +185,24 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             Objects.requireNonNull(getActivity()).onBackPressed();
 
                         }
+
+//                        else if (fromwhere.equals("SavedPlace")){
+//
+//                            // Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
+//
+//                            Objects.requireNonNull(getActivity()).finish();
+////                            Intent i = new Intent(getActivity(), SavedPlace.class);
+////                            Bundle b = new Bundle();
+////                            b.putString("value" , "Whereto");
+////                            b.putString("activity" , "HomeFragment");
+////                            b.putSerializable("currentLocation" , userLocation);
+////                            i.putExtras(b);
+////                           // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+////                            AddPlaceFragment.this.startActivity(i);
+//
+//                        }
+
+
                     }
                 }
                 catch (Exception e){
@@ -686,6 +704,21 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                                     Toast.makeText(activity, "Place Saved", Toast.LENGTH_SHORT).show();
 
                                 }
+                                if (fromwhere.equals("SavedPlace")){
+//
+//                            // Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
+//
+                            Objects.requireNonNull(getActivity()).finish();
+                            Intent i = new Intent(getActivity(), SavedPlace.class);
+                            Bundle b = new Bundle();
+                            b.putString("value" , "Whereto");
+                            b.putString("activity" , "HomeFragment");
+                            b.putSerializable("currentLocation" , userLocation);
+                            i.putExtras(b);
+////                           // i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            AddPlaceFragment.this.startActivity(i);
+//
+                        }
 
                               // Toast.makeText(getActivity(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                 //  check1 =1;

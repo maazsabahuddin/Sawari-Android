@@ -272,7 +272,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
                 else{
                     Intent i = new Intent(getActivity(), LocationActivity.class);
                     Bundle b = new Bundle();
-                    b.putString("value" , "AddPlace");
+                    b.putString("value" , "Other");
                     b.putString("activity" , "HomeFragment");
                     b.putSerializable("currentLocation" , currentLocation);
                     i.putExtras(b);
