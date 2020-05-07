@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     Realm realm;
     Context context;
     RealmHelper helper;
-    public static String baseurl= "http://ec2-18-216-187-158.us-east-2.compute.amazonaws.com";
+    public static String baseurl= "http://ec2-18-191-165-120.us-east-2.compute.amazonaws.com";
 
     private int backpress = 0;
     @Override
