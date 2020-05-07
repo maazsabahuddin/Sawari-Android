@@ -96,7 +96,7 @@ public class SavedPlaceFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView_savedplace.setLayoutManager(layoutManager);
 
-        mAdapter = new SavedPlaceAdapter(savedplacedetails);
+        mAdapter = new SavedPlaceAdapter(savedplacedetails, getContext());
         recyclerView_savedplace.setAdapter(mAdapter);
 
         add_home.setOnClickListener(new View.OnClickListener() {
