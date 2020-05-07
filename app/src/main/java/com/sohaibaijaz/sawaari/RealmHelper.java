@@ -253,7 +253,23 @@ public class RealmHelper {
 //        });
 //    }
 
+    public void DeletePlace( final Context context,final  String placeid, final String placetype) {
 
+        try {
+            final RealmResults<Location> results = realm.where(Location.class).equalTo("placeType", placetype).equalTo("placeID", placeid).findAll();
+
+            // All changes to data must happen in a transaction
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    results.deleteAllFromRealm();
+                    Toast.makeText(context, "Details Deleted", Toast.LENGTH_LONG).show();
+
+                }
+            });
+        }
+        catch (Exception e){}
+    }
 public void DeleteUserDetails( final Context context) {
 
        try {
