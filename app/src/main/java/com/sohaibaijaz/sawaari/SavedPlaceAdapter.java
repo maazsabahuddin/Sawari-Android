@@ -1,6 +1,9 @@
 package com.sohaibaijaz.sawaari;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +14,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 import io.realm.Realm;
+
+import static com.sohaibaijaz.sawaari.MainActivity.AppPreferences;
 
 public class SavedPlaceAdapter extends RecyclerView.Adapter<SavedPlaceAdapter.MyViewHolder> {
 
@@ -73,6 +93,7 @@ Realm realm;
                 String placetype = Placedetails.get(position).get("place_type");
                 String placeid = Placedetails.get(position).get("place_id");
 
+                deleteUserPlace(context1,placeid,placetype);
                 realm = Realm.getDefaultInstance();
                 final RealmHelper helper = new RealmHelper(realm);
                 // Remove the item on remove/button click
@@ -122,5 +143,82 @@ Realm realm;
         return Placedetails.size();
     }
 
+
+    public static void deleteUserPlace(final Context context, final String placeid, final  String placetype){
+        final SharedPreferences sharedPreferences = Objects.requireNonNull(context).getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
+        final String token = sharedPreferences.getString("Token", "");
+        final RequestQueue requestQueue = Volley.newRequestQueue(Objects.requireNonNull(context));
+        try {
+            String URL = MainActivity.baseurl + "/delete/user/place/";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    Log.i("VOLLEY", response);
+                    try {
+                        JSONObject json = new JSONObject(response);
+                        if (json.getString("status").equals("200")) {
+                            Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                            // SettingsFragment.forcedLogout(context);
+                        }
+                        else if (json.getString("status").equals("404")) {
+                            Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                            //SettingsFragment.forcedLogout(context);
+                        }
+                        else if (json.getString("status").equals("400")) {
+                            Toast.makeText(context, json.getString("message"), Toast.LENGTH_SHORT).show();
+                          //  SettingsFragment.forcedLogout(context);
+                        }
+                    } catch (JSONException e) {
+                        Log.e("VOLLEY", e.toString());
+
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(context, "Server is temporarily down, sorry for your inconvenience", Toast.LENGTH_SHORT).show();
+                    Log.e("VOLLEY", error.toString());
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<String, String>();
+
+                    params.put("place_id", placeid);
+                    params.put("place_type", placetype);
+                    return params;
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("Authorization", token);
+                    return params;
+                }
+            };
+
+            stringRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 50000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+            requestQueue.add(stringRequest);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 }
