@@ -85,6 +85,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -489,17 +490,9 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             Address obj = addresses.get(0);
-            String add = obj.getAddressLine(0);
-            add = add + "\n" + obj.getCountryName();
-            add = add + "\n" + obj.getCountryCode();
-            add = add + "\n" + obj.getAdminArea();
-            add = add + "\n" + obj.getPostalCode();
-            add = add + "\n" + obj.getSubAdminArea();
-            add = add + "\n" + obj.getLocality();
-            add = add + "\n" + obj.getSubThoroughfare();
 
-            userLocation.put("name", obj.getAddressLine(0));
-            Log.v("IGA", "Address" + add);
+            String address = obj.getAddressLine(0);
+            userLocation.put("address", address);
 
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -529,6 +522,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 android.location.Location location = locationManager.getLastKnownLocation(provider);
 
                 LatLng coordinate = new LatLng(Double.parseDouble(userLocation.get("latitude")), Double.parseDouble(userLocation.get("longitude")));
+                getAddress(Double.parseDouble(Objects.requireNonNull(userLocation.get("latitude"))),
+                        Double.parseDouble(Objects.requireNonNull(userLocation.get("longitude"))));
                 CameraUpdate yourLocation = CameraUpdateFactory.newLatLngZoom(coordinate, 15.0f);
                 mMap.animateCamera(yourLocation);
             }

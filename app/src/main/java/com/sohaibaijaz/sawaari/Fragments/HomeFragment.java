@@ -418,25 +418,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, Google
         try {
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
             Address obj = addresses.get(0);
-            String add = obj.getAddressLine(0);
-            add = add + "\n" + obj.getCountryName();
-            add = add + "\n" + obj.getCountryCode();
-            add = add + "\n" + obj.getAdminArea();
-            add = add + "\n" + obj.getPostalCode();
-            add = add + "\n" + obj.getSubAdminArea();
-            add = add + "\n" + obj.getLocality();
-            add = add + "\n" + obj.getSubThoroughfare();
 
-            currentLocation.put("name", obj.getAddressLine(0));
+            String feature_name = obj.getFeatureName();
+            String locality = obj.getSubLocality();
+            String address = obj.getAddressLine(0);
+
+            currentLocation.put("name", feature_name + " " + locality);
             UUID uuid = UUID.randomUUID();
             String placeID = uuid.toString();
             currentLocation.put("id", placeID);
+            currentLocation.put("address", address);
 
-            Log.v("IGA", "Address" + add);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-//            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
