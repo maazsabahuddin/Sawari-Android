@@ -156,7 +156,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                     }
                     else {
                         addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"),
-                                userLocation.get("longitude"), placeType, getActivity(), fromwhere);
+                                userLocation.get("longitude"), placeType, userLocation.get("address"), getActivity(), fromwhere);
 
 //                        if(!result){
 //                            Toast.makeText(getActivity(), "Error Updating Place", Toast.LENGTH_SHORT).show();
@@ -675,7 +675,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
 
 
     public void addplace(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType,
-                         final Activity activity, final String fromwhere) {
+                         final String placeAddress, final Activity activity, final String fromwhere) {
 
         String url = MainActivity.baseurl+"/update/user/place/";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
@@ -748,6 +748,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 params.put("longitude", longitude);
                 params.put("latitude", latitude);
                 params.put("place_type", placeType);
+                params.put("address", placeAddress);
 
                 return params;
             }
