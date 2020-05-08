@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,9 @@ public class SavedPlaceFragment extends Fragment {
         TextView add_home = fragmentView.findViewById(R.id.add_home_saved_place);
         TextView add_work =fragmentView.findViewById(R.id.add_work_saved_place);
         TextView add_place = fragmentView.findViewById(R.id.add_saved_place);
+
+        LinearLayout add_home_LL = fragmentView.findViewById(R.id.add_home_place);
+        LinearLayout add_work_LL =fragmentView.findViewById(R.id.add_work_place);
 
         recyclerView_savedplace= fragmentView.findViewById(R.id.savedplace_recycler_view);
         // savedplace_lv= findViewById(R.id.saved_place_name_listview);

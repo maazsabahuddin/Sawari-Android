@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Maps.LocationFragment">
 
     <LinearLayout
@@ -11,13 +10,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:id="@+id/add_home_place"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="7dp">
@@ -232,13 +230,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/savedplace_recycler_view"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                />
-
+                android:layout_height="match_parent" />
 
         </LinearLayout>
-
-
 
     </LinearLayout>
 
@@ -246,11 +240,8 @@
             android:id="@+id/saved_place_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-
             android:backgroundTintMode="src_over" >
 
         </FrameLayout>
-
 
 </RelativeLayout>
