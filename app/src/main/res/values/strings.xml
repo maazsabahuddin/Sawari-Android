@@ -56,6 +56,7 @@
     <string name="login_message">Nice to see you again, Login to continue</string>
     <string name="minus_sign">-</string>
     <string name="pin">Create a secure pin</string>
+    <string name="forgot_message">We are here for you! Lets get back to your account.</string>
 
     <string-array name="help_array">
         <item>Complaints and Refunds</item>
