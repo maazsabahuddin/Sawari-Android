@@ -158,6 +158,7 @@ public class LoginPin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(LoginPin.this, ForgetPasswordActivity.class);
+                finish();
                 LoginPin.this.startActivity(i);
             }
         });

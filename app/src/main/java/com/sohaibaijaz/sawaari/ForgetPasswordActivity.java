@@ -30,6 +30,10 @@ import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.sohaibaijaz.sawaari.Fragments.CallBack;
+import com.sohaibaijaz.sawaari.Login.LoginAPI;
+import com.sohaibaijaz.sawaari.Login.LoginCallBack;
+import com.sohaibaijaz.sawaari.Login.LoginView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,6 +47,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     private ImageView sendEmailButton;
     private TextView resend_email;
     private TextView error_message_forgot_password, BackForgotPassword;
+    private ProgressBar forgetPasswordSpinner;
 
 //    private FrameLayout spinner_frame;
 //    private ProgressBar spinner;
@@ -52,6 +57,9 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget_password);
         getSupportActionBar().hide();
+
+        forgetPasswordSpinner = findViewById(R.id.forgetPasswordSpinner);
+        forgetPasswordSpinner.setVisibility(View.GONE);
 
         error_message_forgot_password = findViewById(R.id.error_message_forgot_password);
         error_message_forgot_password.setVisibility(View.GONE);
@@ -66,8 +74,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         email_or_phone.requestFocus();
 
         sendEmailButton = findViewById(R.id.sendEmailButton);
-
-        final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        sendEmailButton.setAlpha(0.5f);
 
         email_or_phone.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +116,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         BackForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(ForgetPasswordActivity.this, LoginView.class);
+                ForgetPasswordActivity.this.startActivity(intent);
             }
         });
 
@@ -132,79 +140,31 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please enter email or phone number", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    forgetPasswordSpinner.setVisibility(View.VISIBLE);
                     email_or_phone.setCursorVisible(false);
-                    try {
-                        String URL = MainActivity.baseurl + "/forgot/password/";
-                        JSONObject jsonBody = new JSONObject();
-//                        jsonBody.put("email_or_phone", email_phone);
-//                        final String requestBody = jsonBody.toString();
+                    LoginAPI.forgotPassword(ForgetPasswordActivity.this, email_phone, new LoginCallBack() {
+                        @Override
+                        public void onSuccess(String status_code, String message, String token) {
+                            forgetPasswordSpinner.setVisibility(View.GONE);
+                            error_message_forgot_password.setVisibility(View.VISIBLE);
+                            error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                            error_message_forgot_password.setText(message);
+                        }
 
-                        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-
-                                Log.i("VOLLEY", response);
-                                try {
-                                    JSONObject json = new JSONObject(response);
-                                    if (json.getString("status").equals("200")) {
-
-                                        error_message_forgot_password.setVisibility(View.VISIBLE);
-                                        error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
-                                        error_message_forgot_password.setText(json.getString("message"));
-
-                                    } else if (json.getString("status").equals("400")) {
-                                        resend_email.setAlpha(1.0f);
-                                        resend_email.setEnabled(true);
-                                        error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
-                                        error_message_forgot_password.setVisibility(View.VISIBLE);
-                                        error_message_forgot_password.setText(json.getString("message"));
-//                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-                                    }
-                                } catch (JSONException e) {
-                                    Log.e("VOLLEY", e.toString());
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("VOLLEY", error.toString());
-                                Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                Map<String, String> params = new HashMap<String, String>();
-                                params.put("email_or_phone", email_phone);
-                                return params;
-                            }
-                        };
-
-                        stringRequest.setRetryPolicy(new RetryPolicy() {
-                            @Override
-                            public int getCurrentTimeout() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public int getCurrentRetryCount() {
-                                return 50000;
-                            }
-
-                            @Override
-                            public void retry(VolleyError error) throws VolleyError {
-
-                            }
-                        });
-
-                        requestQueue.add(stringRequest);
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                        @Override
+                        public void onFailure(String status_code, String message) {
+                            forgetPasswordSpinner.setVisibility(View.GONE);
+                            resend_email.setAlpha(1.0f);
+                            resend_email.setEnabled(true);
+                            error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                            error_message_forgot_password.setVisibility(View.VISIBLE);
+                            error_message_forgot_password.setText(message);
+                        }
+                    });
                 }
 
             }
         });
     }
-    }
+}
 

@@ -176,6 +176,66 @@ public class LoginAPI {
         else{
             Toast.makeText(context, "There was problem connecting to the server", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    public static void forgotPassword(final Activity context, final String email_or_phone, final LoginCallBack callBack){
+        try {
+            final RequestQueue requestQueue = Volley.newRequestQueue(context);
+            String URL = baseurl+"/forgot/password/";
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+
+                    Log.i("VOLLEY", response);
+                    try {
+                        JSONObject json = new JSONObject(response);
+                        if (json.getString("status").equals("200")) {
+                            callBack.onSuccess(json.getString("status"), json.getString("message"), "");
+                        }
+                        else{
+                            callBack.onFailure(json.getString("status"), json.getString("message"));
+                        }
+
+                    } catch (JSONException e) {
+                        Log.e("VOLLEY", e.toString());
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("VOLLEY", error.toString());
+                }
+            }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params = new HashMap<>();
+                    params.put("email_or_phone", email_or_phone);
+                    return params;
+                }
+
+            };
+
+            stringRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 5000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 5000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+
+                }
+            });
+            requestQueue.add(stringRequest);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
