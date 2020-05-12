@@ -1,8 +1,12 @@
 package com.sohaibaijaz.sawaari;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,7 +42,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     private EditText email_or_phone;
     private ImageView sendEmailButton;
     private TextView resend_email;
-    private TextView error_message_forgot_password;
+    private TextView error_message_forgot_password, BackForgotPassword;
 
 //    private FrameLayout spinner_frame;
 //    private ProgressBar spinner;
@@ -51,14 +56,71 @@ public class ForgetPasswordActivity extends AppCompatActivity {
         error_message_forgot_password = findViewById(R.id.error_message_forgot_password);
         error_message_forgot_password.setVisibility(View.GONE);
 
+        BackForgotPassword = findViewById(R.id.BackForgotPassword);
+
         resend_email = findViewById(R.id.resend_email);
         resend_email.setAlpha(0.5f);
         resend_email.setEnabled(false);
 
         email_or_phone = findViewById(R.id.email_or_phone);
+        email_or_phone.requestFocus();
+
         sendEmailButton = findViewById(R.id.sendEmailButton);
 
         final RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+        email_or_phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (v.getId() == email_or_phone.getId())
+                {
+                    error_message_forgot_password.setVisibility(View.GONE);
+                    email_or_phone.setCursorVisible(true);
+                }
+            }
+        });
+
+        email_or_phone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                sendEmailButton.setEnabled(false);
+                sendEmailButton.setAlpha(0.5f);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                sendEmailButton.setEnabled(true);
+                sendEmailButton.setAlpha(1.0f);
+
+                if((email_or_phone.getText().toString()).equals(""))
+                {
+                    sendEmailButton.setEnabled(false);
+                    sendEmailButton.setAlpha(0.5f);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        BackForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        resend_email.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onClick(View v) {
+                error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
+                error_message_forgot_password.setText("Reset your password from the link resent to your email.");
+            }
+        });
 
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +132,7 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please enter email or phone number", Toast.LENGTH_SHORT).show();
                 }
                 else{
+                    email_or_phone.setCursorVisible(false);
                     try {
                         String URL = MainActivity.baseurl + "/forgot/password/";
                         JSONObject jsonBody = new JSONObject();
@@ -85,16 +148,15 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                                     JSONObject json = new JSONObject(response);
                                     if (json.getString("status").equals("200")) {
 
+                                        error_message_forgot_password.setVisibility(View.VISIBLE);
+                                        error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
                                         error_message_forgot_password.setText(json.getString("message"));
-//                                        String token_uuid = json.getString("token_uuid");
-//                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
-//                                        Intent myIntent = new Intent(getApplicationContext(), ForgetPasswordVerify.class);
-//                                        myIntent.putExtra("token_uuid", token_uuid);
-//                                        myIntent.putExtra("email_or_phone", email_phone);
-//
-//                                        startActivity(myIntent);
 
                                     } else if (json.getString("status").equals("400")) {
+                                        resend_email.setAlpha(1.0f);
+                                        resend_email.setEnabled(true);
+                                        error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorRed));
+                                        error_message_forgot_password.setVisibility(View.VISIBLE);
                                         error_message_forgot_password.setText(json.getString("message"));
 //                                        Toast.makeText(getApplicationContext(), json.getString("message"), Toast.LENGTH_SHORT).show();
                                     }

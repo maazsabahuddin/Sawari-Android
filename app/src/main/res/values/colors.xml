@@ -19,5 +19,7 @@
     <color name="colorMediumRedVoiletPurple">#963694</color>
     <color name="colorJacksonPurple">#1F3A93</color>
     <color name="colorWhiteSmoke">#ececec</color>
+    <color name="colorRed">#DC1324</color>
+    <color name="colorGreen">#4c8f2f</color>
 
 </resources>

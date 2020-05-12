@@ -89,9 +89,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ForgetPasswordVerify"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ForgetPasswordActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Fragments.RideFragmentN"
