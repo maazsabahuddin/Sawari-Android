@@ -186,13 +186,6 @@ public class Verifypassword extends AppCompatActivity {
                                         error_message.setText(json.getString("message"));
                                         error_message.setVisibility(View.VISIBLE);
                                         editText_password.getBackground().mutate().setColorFilter(getResources().getColor(android.R.color.holo_red_light), PorterDuff.Mode.SRC_ATOP);
-                                      //  SettingsFragment.signout(Verifypassword.this);
-
-
-
-
-                                       // Toast.makeText(Verifypassword.this, getIntent().getStringExtra("coming_from"), Toast.LENGTH_LONG).show();
-
 
                                         editText_password.addTextChangedListener(new TextWatcher() {
                                             @Override
@@ -218,8 +211,7 @@ public class Verifypassword extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("404")){
                                         Toast.makeText(Verifypassword.this, json.getString("message"), Toast.LENGTH_LONG).show();
-                                        //SettingsFragment.signout(Verifypassword.this);
-                                        // flag = false;
+                                        SettingsFragment.forcedLogout(Verifypassword.this);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();
