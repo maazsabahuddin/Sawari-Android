@@ -145,6 +145,8 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                     LoginAPI.forgotPassword(ForgetPasswordActivity.this, email_phone, new LoginCallBack() {
                         @Override
                         public void onSuccess(String status_code, String message, String token) {
+                            resend_email.setAlpha(1.0f);
+                            resend_email.setEnabled(true);
                             forgetPasswordSpinner.setVisibility(View.GONE);
                             error_message_forgot_password.setVisibility(View.VISIBLE);
                             error_message_forgot_password.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorGreen));
