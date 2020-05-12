@@ -137,7 +137,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             userLocation = (HashMap<String, String>)b.getSerializable("currentLocation");
 
         CardView card_viewPF = fragmentView.findViewById(R.id.card_viewPF);
-        autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+        autocompleteFragment_pickUp.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME,Place.Field.ADDRESS, Place.Field.LAT_LNG));
         if(!isNetworkAvailable(getActivity())){
             card_viewPF.setVisibility(GONE);
         }
@@ -155,6 +155,9 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                         Toast.makeText(getContext(), "Please select a place first" , Toast.LENGTH_LONG).show();
                     }
                     else {
+
+                        //Toast.makeText(getActivity(), userLocation.get("address"), Toast.LENGTH_SHORT).show();
+
                         addplace(userLocation.get("id"), userLocation.get("name"), userLocation.get("latitude"),
                                 userLocation.get("longitude"), placeType, userLocation.get("address"), getActivity(), fromwhere);
 
@@ -277,6 +280,8 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
             LatLng latLng = place.getLatLng();
             userLocation.put("latitude", String.valueOf(latLng.latitude));
             userLocation.put("longitude", String.valueOf(latLng.longitude));
+            userLocation.put("address", place.getAddress());
+          //  Toast.makeText(getActivity(), place.getAddress(), Toast.LENGTH_SHORT).show();
 
             mapViewFrameLayout.setVisibility(View.VISIBLE);
             add_place_btn.setVisibility(View.VISIBLE);
@@ -432,7 +437,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
     }
 
 
-    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+    public void writeToDB(final String placeID, final String placeName, final String latitude, final String longitude, final String placeAddress, final String placeType) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -441,6 +446,7 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                 user.setPlaceName(placeName);
                 user.setLatitude(latitude);
                 user.setLongitude(longitude);
+                user.setPlaceAddress(placeAddress);
                 user.setPlaceType(placeType);
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -688,21 +694,24 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                             JSONObject json = new JSONObject(response);
                             if (json.getString("status").equals("200")) {
 
+
+                              //  Toast.makeText(activity, json.getString("address"), Toast.LENGTH_SHORT).show();
+                             //   writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"),json.getString("address"), json.getString("place_type"));
+
                                 if(fromwhere.equals("UpdateLocationFragment")) {
                                     final RealmHelper helper = new RealmHelper(realm);
-                                    helper.UpdateUserPlaces(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+                                    helper.UpdateUserPlaces(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"),json.getString("place_address") ,json.getString("place_type"));
                                     Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
 
                                 }
                                 else{
-                                     writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"), json.getString("place_type"));
+                                    writeToDB(json.getString("place_id"),json.getString("place_name"), json.getString("latitude"),json.getString("longitude"),json.getString("place_address"), json.getString("place_type"));
                                     Toast.makeText(activity, "Place Saved", Toast.LENGTH_SHORT).show();
 
                                 }
                                 if (fromwhere.equals("SavedPlace")){
-//
+
 //                            // Toast.makeText(getActivity(), fromwhere, Toast.LENGTH_SHORT).show();
-//
                             Objects.requireNonNull(getActivity()).finish();
                             Intent i = new Intent(getActivity(), SavedPlace.class);
                             Bundle b = new Bundle();
@@ -726,6 +735,10 @@ public class AddPlaceFragment extends Fragment implements OnMapReadyCallback, Go
                                 Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
                                 SettingsFragment.forcedLogout(activity);
                             }
+                            else{
+                                Toast.makeText(activity, json.getString("message"), Toast.LENGTH_SHORT).show();
+                            }
+
                         }
                         catch (JSONException e) {
                             e.printStackTrace();

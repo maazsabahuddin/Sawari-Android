@@ -2,27 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="5dp"
     >
 
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/location_icon"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="8dp"
+        >
     <TextView
         android:id="@+id/textView_rv"
-        android:layout_width="300dp"
+        android:layout_width="230dp"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:drawableStart="@drawable/location_icon"
         android:textSize="16sp"
         android:typeface="monospace"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         />
+        <TextView
+        android:id="@+id/textview_address"
+        android:layout_width="230dp"
+        android:layout_height="wrap_content"
+        android:text="ABCDEFGGGkds;ksd;lkdl;dkl;dk;dlfkjfkjf;ksd;lksdl;dk;ldkj;lfkjds;lkfl"
+        android:maxLines="1"
+        android:textSize="14sp"
+            android:layout_gravity="left"
+        android:typeface="monospace" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imagehome"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginTop="23dp"
         />
 
 

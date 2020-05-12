@@ -266,8 +266,9 @@ public class UserDetails {
                                     String longitude= placedetails.getString("longitude");
                                     String latitude= placedetails.getString("latitude");
                                     String placetype= placedetails.getString("place_type");
+                                    String placeaddress= placedetails.getString("place_address");
 
-                                    helper.insertUserPlaces(context, placeid, placename, latitude, longitude,placetype);
+                                    helper.insertUserPlaces(context, placeid, placename, latitude, longitude,placeaddress,placetype);
 
                                 }
                             }

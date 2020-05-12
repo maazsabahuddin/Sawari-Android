@@ -51,6 +51,16 @@ public class Location extends RealmObject {
         this.longitude = longitude;
     }
 
+    public String getPlaceAddress() {
+        return placeAddress;
+    }
+
+    public void setPlaceAddress(String placeAddress) {
+        this.placeAddress = placeAddress;
+    }
+
+    @Required
+    private String placeAddress;
 
     @Required
     private String longitude;

@@ -106,7 +106,7 @@
                     android:id="@+id/add_work_saved_place"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="Tap to add Work place"
                     android:textAlignment="textStart"
                     android:maxLines="1"
                     android:maxLength="40"
