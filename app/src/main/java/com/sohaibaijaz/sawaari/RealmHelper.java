@@ -38,6 +38,8 @@ public class RealmHelper {
                 places.put("place_id", location.getPlaceID());
                 places.put("place_type", location.getPlaceType());
                 places.put("name", location.getPlaceName());
+                places.put("address", location.getPlaceAddress());
+
 
                 place.add(places);
                 //place.add(location.getPlaceName());
@@ -56,6 +58,8 @@ public class RealmHelper {
                 dropoffLocation.put("latitude", location.getLatitude());
                 dropoffLocation.put("longitude", location.getLongitude());
                 dropoffLocation.put("name", location.getPlaceName());
+                dropoffLocation.put("address", location.getPlaceAddress());
+
             }
             // Toast.makeText(getActivity(), longitude+" "+latitude, Toast.LENGTH_SHORT).show();
 
@@ -156,7 +160,7 @@ public class RealmHelper {
         });
     }
 
-    public void insertUserPlaces( final Context context,final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+    public void insertUserPlaces( final Context context,final String placeID, final String placeName, final String latitude, final String longitude,final String placeAddress, final String placeType) {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm bgRealm) {
@@ -165,6 +169,7 @@ public class RealmHelper {
                 user.setPlaceName(placeName);
                 user.setLatitude(latitude);
                 user.setLongitude(longitude);
+                user.setPlaceAddress(placeAddress);
                 user.setPlaceType(placeType);
             }
         }, new Realm.Transaction.OnSuccess() {
@@ -188,7 +193,7 @@ public class RealmHelper {
 
 
 
-    public void UpdateUserPlaces(final String placeID, final String placeName, final String latitude, final String longitude, final String placeType) {
+    public void UpdateUserPlaces(final String placeID, final String placeName, final String latitude, final String longitude,final String placeAddress, final String placeType) {
 
 
 
@@ -202,6 +207,7 @@ public class RealmHelper {
                 place.setString("placeName",placeName);
                 place.setString("longitude",longitude);
                 place.setString("latitude",latitude);
+                place.setString("placeAddress",placeAddress);
                 place.setString("placeType",placeType);
             }
         }, new Realm.Transaction.OnSuccess() {

@@ -46,11 +46,13 @@ Realm realm;
         // each data item is just a string in this case
         public TextView textViewplace;
          public ImageView imageView;
+         public TextView textViewAddress;
         public MyViewHolder(View v) {
 
             super(v);
             textViewplace = v.findViewById(R.id.textView_rv);
              imageView = v.findViewById(R.id.imagehome);
+             textViewAddress=v.findViewById(R.id.textview_address);
 
         }
     }
@@ -81,8 +83,9 @@ Realm realm;
     public void onBindViewHolder(@NonNull SavedPlaceAdapter.MyViewHolder holder, final int position) {
 
       // TextView textView= holder.textViewplace;
-        holder.textViewplace.setText("   "+Placedetails.get(position).get("name"));
-       holder.imageView.setImageResource(R.drawable.deleteicon);
+        holder.textViewplace.setText(Placedetails.get(position).get("name"));
+        holder.textViewAddress.setText(Placedetails.get(position).get("address"));
+        holder.imageView.setImageResource(R.drawable.deleteicon);
 
 
 
