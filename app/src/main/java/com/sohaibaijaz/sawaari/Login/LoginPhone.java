@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +58,8 @@ public class LoginPhone extends AppCompatActivity {
     private ImageView verifyPhoneLoginButton;
     private TextView error_message_phone_login;
     private TextView countryCode;
+    private ProgressBar LoginPhoneSpinner;
+
     SharedPreferences sharedPreferences;
     Realm realm;
     RealmHelper helper;
@@ -69,6 +72,9 @@ public class LoginPhone extends AppCompatActivity {
         getSupportActionBar().hide();
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         requestQueue = Volley.newRequestQueue(this);
+
+        LoginPhoneSpinner = findViewById(R.id.LoginPhoneSpinner);
+        LoginPhoneSpinner.setVisibility(View.GONE);
 
         countryCode = findViewById(R.id.countryCode);
         phone_number_login_tv = findViewById(R.id.phone_number_login_tv);
@@ -157,6 +163,7 @@ public class LoginPhone extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_SHORT).show();
             }
             else{
+                LoginPhoneSpinner.setVisibility(View.VISIBLE);
                 final String phone_number = countryCode.getText().toString() + phone_number_login_tv.getText().toString();
                 phone_number_login_tv.setCursorVisible(false);
 
@@ -175,6 +182,7 @@ public class LoginPhone extends AppCompatActivity {
                                 editor.putString("Token", token);
                                 editor.apply();
 
+                                LoginPhoneSpinner.setVisibility(View.GONE);
                                 userdetails=helper.getUserDetailsDB();
                                 if(Objects.equals(userdetails.get("phonenumber"), phone_number))
                                 {
@@ -194,6 +202,7 @@ public class LoginPhone extends AppCompatActivity {
                                 }
                             }
                             else if(message.equals("OTP has been successfully sent.")){
+                                LoginPhoneSpinner.setVisibility(View.GONE);
                                 sharedPreferences = LoginPhone.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putString("Token", token);
@@ -205,6 +214,7 @@ public class LoginPhone extends AppCompatActivity {
                             }
 
                             else if(message.equals("User Exist.")){
+                                LoginPhoneSpinner.setVisibility(View.GONE);
                                 Intent intent = new Intent(LoginPhone.this, LoginPin.class);
                                 intent.putExtra("phone_number", phone_number);
                                 LoginPhone.this.startActivity(intent);
@@ -213,6 +223,7 @@ public class LoginPhone extends AppCompatActivity {
 
                         @Override
                         public void onFailure(String status_code, String message) {
+                            LoginPhoneSpinner.setVisibility(View.GONE);
                             if (status_code.equals("401") || status_code.equals("400")) {
                                 error_message_phone_login.setVisibility(View.VISIBLE);
                                 error_message_phone_login.setText(message);

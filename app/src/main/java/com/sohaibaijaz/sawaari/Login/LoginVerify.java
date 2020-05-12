@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sohaibaijaz.sawaari.Fragments.CallBack;
@@ -40,6 +41,7 @@ public class LoginVerify extends AppCompatActivity {
     TextView BackLoginVerify;
     SharedPreferences sharedPreferences;
     TextView otp_message;
+    private ProgressBar LoginVerifySpinner;
 
     Realm realm;
     RealmHelper helper;
@@ -51,6 +53,8 @@ public class LoginVerify extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login_verify);
 
+        LoginVerifySpinner = findViewById(R.id.LoginVerifySpinner);
+        LoginVerifySpinner.setVisibility(View.GONE);
         sharedPreferences = LoginVerify.this.getSharedPreferences(AppPreferences, Context.MODE_PRIVATE);
 
         editText_otp1=findViewById(R.id.otp1);
@@ -225,6 +229,7 @@ public class LoginVerify extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
+                LoginVerifySpinner.setVisibility(View.VISIBLE);
                 if(!editText_otp1.getText().toString().equals("") && !editText_otp2.getText().toString().equals("") && !editText_otp3.getText().toString().equals("") && !editText_otp5.getText().toString().equals("") && !editText_otp6.getText().toString().equals("")){
                     final String otp = editText_otp1.getText().toString() +
                             editText_otp2.getText().toString()+
@@ -241,6 +246,7 @@ public class LoginVerify extends AppCompatActivity {
                             UserDetails.getUserDetails(LoginVerify.this);
                             UserDetails.getUserPlaces(LoginVerify.this);
 
+                            LoginVerifySpinner.setVisibility(View.GONE);
                             Intent myIntent = new Intent(LoginVerify.this, Updatepassword.class);//Optional parameters
                             myIntent.putExtra("coming_from", "set_password");
                             LoginVerify.this.startActivity(myIntent);
@@ -248,6 +254,7 @@ public class LoginVerify extends AppCompatActivity {
 
                         @Override
                         public void onFailure(String status_code, String message) {
+                            LoginVerifySpinner.setVisibility(View.GONE);
                             otp_message.setVisibility(View.VISIBLE);
                             otp_message.setText(message);
                         }

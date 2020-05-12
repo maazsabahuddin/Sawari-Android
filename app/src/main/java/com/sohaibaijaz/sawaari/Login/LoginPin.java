@@ -68,16 +68,7 @@ public class LoginPin extends AppCompatActivity {
     public static String baseurl= "http://ec2-18-191-165-120.us-east-2.compute.amazonaws.com";
     private  String checkplace;
     private int backpress = 0;
-    //@Override
-//    public void onBackPressed(){
-//        backpress = (backpress + 1);
-//        Toast.makeText(getApplicationContext(), " Press Back again to Exit ", Toast.LENGTH_SHORT).show();
-//
-//        if (backpress>1) {
-//          //  this.finish();
-//            finishAffinity();
-//        }
-//    }
+    private ProgressBar LoginPinSpinner;
 
     private HashMap<String, String> userdetails = new HashMap<>();
     private String phone_number;
@@ -87,6 +78,9 @@ public class LoginPin extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_login_pin);
+
+        LoginPinSpinner = findViewById(R.id.LoginPinSpinner);
+        LoginPinSpinner.setVisibility(View.GONE);
 
         verifyPinLoginButton = findViewById(R.id.verifyPinLoginButton);
         requestQueue = Volley.newRequestQueue(this);
@@ -199,6 +193,7 @@ public class LoginPin extends AppCompatActivity {
                     Toast.makeText(LoginPin.this, "Password field cannot be empty", Toast.LENGTH_LONG).show();
                 }
                 else{
+                    LoginPinSpinner.setVisibility(View.VISIBLE);
                     try {
                         String URL = baseurl+"/login/";
                         JSONObject jsonBody = new JSONObject();
@@ -234,6 +229,7 @@ public class LoginPin extends AppCompatActivity {
                                                 UserDetails.getUserDetails(LoginPin.this);
                                                 UserDetails.getUserPlaces(LoginPin.this);
 
+                                                LoginPinSpinner.setVisibility(View.GONE);
                                                 Intent myIntent = new Intent(LoginPin.this, NavActivity.class);//Optional parameters
                                                 finish();
                                                 LoginPin.this.startActivity(myIntent);
@@ -242,6 +238,7 @@ public class LoginPin extends AppCompatActivity {
                                     }
                                     else if (json.getString("status").equals("401")) {
 
+                                        LoginPinSpinner.setVisibility(View.GONE);
                                         if(json.getString("message").equals("User not authenticated. Please verify first.")){
                                             Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_SHORT).show();
                                             Intent myIntent = new Intent(LoginPin.this, VerifyActivity.class);//Optional parameters
@@ -260,10 +257,13 @@ public class LoginPin extends AppCompatActivity {
                                     }
                                     else if(json.getString("status").equals("400")) {
 
+                                        LoginPinSpinner.setVisibility(View.GONE);
                                         Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_LONG).show();
 
                                     }
                                     else if(json.getString("status").equals("404")){
+
+                                        LoginPinSpinner.setVisibility(View.GONE);
                                         Toast.makeText(LoginPin.this, json.getString("message"), Toast.LENGTH_LONG).show();
                                     }
 
@@ -275,6 +275,7 @@ public class LoginPin extends AppCompatActivity {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                LoginPinSpinner.setVisibility(View.GONE);
                                 Log.e("VOLLEY", error.toString());
                             }
                         })

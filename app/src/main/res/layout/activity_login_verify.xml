@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ProgressBar
+        android:id="@+id/LoginVerifySpinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:theme="@style/PurpleAccent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
     <TextView
         android:id="@+id/BackLoginVerify"
         android:layout_width="wrap_content"
