@@ -7,6 +7,8 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -52,11 +54,13 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.sohaibaijaz.sawaari.DirectionsJSONParser;
 import com.sohaibaijaz.sawaari.Fragments.HomeFragment;
 import com.sohaibaijaz.sawaari.Fragments.SavePlacesFragment;
+import com.sohaibaijaz.sawaari.LocationFragmentAdapter;
 import com.sohaibaijaz.sawaari.MainActivity;
 import com.sohaibaijaz.sawaari.NavActivity;
 import com.sohaibaijaz.sawaari.R;
 import com.sohaibaijaz.sawaari.RealmHelper;
 import com.sohaibaijaz.sawaari.Rides.ShowRides;
+import com.sohaibaijaz.sawaari.SavedPlaceAdapter;
 import com.sohaibaijaz.sawaari.Settings.NotificationsActivity;
 import com.sohaibaijaz.sawaari.Settings.SettingsFragment;
 import com.sohaibaijaz.sawaari.model.Location;
@@ -92,6 +96,8 @@ public class LocationFragment extends Fragment {
 
     private HashMap<String, String> dropoffLocation = new HashMap<>();
     private HashMap<String, String> currentLocation = new HashMap<>();
+    private ArrayList<HashMap<String, String>> otherplaces= new ArrayList<>();
+
 
     private FrameLayout spinner_frame;
     private ProgressBar spinner;
@@ -102,12 +108,13 @@ public class LocationFragment extends Fragment {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
     private ArrayList<String> placeName;
-    ListView placeName_lv;
+    RecyclerView otherplace_rv;
+    RecyclerView.LayoutManager layoutManager;
     private String phone_number;
     RequestQueue requestQueue;
     private String checkhome;
     private  String checkwork;
-
+    LocationFragmentAdapter mAdapter;
     TextView textViewhome;
     TextView textViewwork;
     @Nullable
@@ -129,7 +136,7 @@ public class LocationFragment extends Fragment {
         requestQueue = Volley.newRequestQueue(fragmentView.getContext());
 
         phone_number=useroject.getPhoneNumber();
-        placeName_lv = fragmentView.findViewById(R.id.place_name_listview);
+        otherplace_rv = fragmentView.findViewById(R.id.otherplace_recycler_view);
         realm = Realm.getDefaultInstance();
         final RealmHelper helper = new RealmHelper(realm);
 
@@ -271,7 +278,14 @@ public class LocationFragment extends Fragment {
 
 
 
+        otherplace_rv.setHasFixedSize(true);
 
+        layoutManager = new LinearLayoutManager(getActivity());
+        otherplace_rv.setLayoutManager(layoutManager);
+
+        otherplaces=helper.getAllRecords();
+        mAdapter = new LocationFragmentAdapter(otherplaces, getContext());
+        otherplace_rv.setAdapter(mAdapter);
        // placeName_lv.setEnabled(false);
         //ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.activity_listview_savedplaces,R.id.textView_lv,placeName);
         //placeName_lv.setAdapter(adapter);

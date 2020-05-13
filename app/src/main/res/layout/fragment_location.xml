@@ -108,7 +108,7 @@
                     android:id="@+id/add_home_place_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Block-17, Gulistan-e-Jauhar, Karachi."
+                    android:text="Tap to add Home place"
                     android:textAlignment="textStart"
                     android:maxLines="1"
                     android:textSize="14sp"
@@ -165,7 +165,7 @@
                     android:id="@+id/add_work_place_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Block-05, Emerald Tower, Do Talwar, Clifton, Karachi."
+                    android:text="Tap to add Work place"
                     android:textAlignment="textStart"
                     android:maxLines="1"
                     android:maxLength="40"
@@ -224,23 +224,20 @@
             android:layout_height="5dp"
             android:background="?android:attr/listDivider" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp">
 
-        <ListView
-            android:id="@+id/place_name_listview"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusableInTouchMode="false"
-            />
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/otherplace_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
 
-    </LinearLayout>
-
+        </LinearLayout>
     </LinearLayout>
 
 
